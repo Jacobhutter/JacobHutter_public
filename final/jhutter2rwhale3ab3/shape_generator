@@ -1,0 +1,85 @@
+module shape_generator(input Clk, Reset, at_bottom,
+                       input [9:0] square1_x, input [9:0] square1_y,
+                       input [9:0] square2_x, input [9:0] square2_y, // end positions from prior shape
+                       input [9:0] square3_x, input [9:0] square3_y,
+                       input [9:0] square4_x, input [9:0] square4_y,
+
+                       output logic [9:0] new_square_1x, output logic [9:0] new_square_1y,
+                       output logic [9:0] new_square_2x, output logic [9:0] new_square_2y,
+                       output logic [9:0] new_square_3x, output logic [9:0] new_square_3y,
+                       output logic [9:0] new_square_4x, output logic [9:0] new_square_4y );
+
+
+
+                       enum logic [3:0] {WAIT, square, square_wait, r_s, r_s_wait, l_s, l_s_wait, R_L, R_L_wait, L_L, L_L_wait, short_T, short_T_wait} State, next_state;
+
+           						always_ff @ (posedge Reset or posedge Clk )
+           						begin : Assign_Next_State
+           							if (Reset)
+           								State <= WAIT;
+           							else
+           								State <= next_state;
+           					   end
+
+                       always_comb begin
+                       unique case(State)
+
+                       Wait : begin
+                        next_state <= square;
+                       end
+
+                       square : begin
+                        next_state <= square_wait;
+                       end
+
+                       square_wait : begin
+                       if(at_bottom)
+                        next_state <= r_s;
+                       end
+
+                       r_s : begin
+                        next_state <= r_s_wait;
+                       end
+
+                       r_s_wait : begin
+                        if(at_bottom)
+                          next_state <= l_s;
+                       end
+
+                       l_s : begin
+                        next_state <= l_s_wait;
+                       end
+
+                       l_s_wait : begin
+                        if(at_bottom)
+                          next_state <= R_L;
+                       end
+
+                       R_L : begin
+                        next_state <= R_L_wait;
+                       end
+
+                       R_L_wait : begin
+                        if(at_bottom)
+                          next_state <= L_L;
+                       end
+
+                       L_L : begin
+                        next_state <= L_L_wait;
+                       end
+
+                       L_L_wait : begin
+                        if(at_bottom)
+                          next_state <= short_T;
+                       end
+
+                       short_T : begin
+                        next_state <= short_T_wait;
+                       end
+
+                       short_T_wait : begin
+                        if(at_bottom)
+                          next_state <= Wait;
+                       end
+                      endcase
+                    end

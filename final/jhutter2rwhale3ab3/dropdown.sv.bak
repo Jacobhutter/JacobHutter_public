@@ -1,0 +1,48 @@
+module dropdown(input Clk, Reset,
+                output drop_enable);
+                enum logic [2:0] {wait,count} State, next_state;
+                logic [6:0] counter;
+                always_ff @ (posedge Reset or posedge Clk )
+    						begin : Assign_Next_State
+    							if (Reset)
+    								State <= wait;
+    							else
+    								State <= next_state;
+    					   end
+                 always_comb begin
+                 unique case(State)
+                 wait :
+                  begin
+                  next_state <= count
+                  end
+                count :
+                  begin
+                  if(counter >= 7'd100)
+                    next_state <= wait;
+                  end
+                default :
+                  begin
+                  next_state <= wait;
+                  end
+                 endcase
+                end
+                always_comb begin
+                drop_enable = 1'b0;
+                case(State)
+                wait :
+                begin
+                  counter = 7'd0;
+                end
+                counter :
+                begin
+                  if(counter < 7'd100)
+                    counter = counter + 1'd1;
+                  else
+                    drop_enable = 1'b1;
+                end
+                default :
+                begin
+                end
+              endcase
+            end
+  endmodule

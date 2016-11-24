@@ -1,0 +1,23 @@
+module reg6(input  logic Clk, Reset,
+              input  logic [5:0]  D,
+              output logic [5:0]  Data_Out,
+              output logic s_flag);
+
+				  logic [5:0] q;
+				  assign Data_Out = q;
+          assign s_flag = r;
+always_ff @ (posedge Clk or posedge Reset)
+    begin
+
+	 	 if (Reset) begin
+			  q <= 6'h0;
+        r <= 1'b0;
+      end
+		 else
+			  q <= D + 1'b1;
+
+		 if(q == 6'b111100)
+      s_flag <= 1'b1;
+    end
+
+endmodule
