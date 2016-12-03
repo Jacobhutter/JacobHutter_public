@@ -1,0 +1,129 @@
+/**
+ * @file kdtree.cpp
+ * Implementation of KDTree class.
+ */
+
+template <int Dim>
+bool KDTree<Dim>::smallerDimVal(const Point<Dim>& first,
+                                const Point<Dim>& second, int curDim) const
+{
+    /**
+     * @todo Implement this function!
+     */
+     int lhs = first[curDim];
+     int rhs = second[curDim];
+     if(lhs == rhs )
+      return point::operator<(first,second);
+     else
+      return lhs < rhs;
+}
+
+template <int Dim>
+bool KDTree<Dim>::shouldReplace(const Point<Dim>& target,
+                                const Point<Dim>& currentBest,
+                                const Point<Dim>& potential) const
+{
+    /**
+     * @todo Implement this function!
+     */
+     int potential_dist = 0;
+     int currentBest_dist = 0;
+     for ( int i = 0; i < target.size(); i++){
+        currentBest_dist += pow(target[i] - currentBest[i] , 2);
+        potential_dist += pow(target[i] - potential[i] , 2);
+     }
+    currentBest_dist = sqrt(currentBest_dist);
+    potential_dist = sqrt(potential_dist);
+    if(potential_dist == currentBest_dist)
+      return potential < currentBest;
+    if (potential_dist < currentBest_dist)
+      return true;
+    else
+      return false;
+}
+
+template <int Dim>
+KDTree<Dim>::KDTree(const vector<Point<Dim>>& newPoints)
+{
+
+    if(newPoints.empty())
+      return;
+    points =  newPoints;
+    rec_KDTree(0,newPoints.size() - 1 ,0);
+
+
+}
+
+template <int Dim>
+void KDTree<Dim>::rec_KDTree(int left, int right, int dimension)
+{
+  if(left == right) // base case
+    return;
+  int median = (left + right)/2; // integer truncation assumes flr function
+  Point<Dim> midpoint  = select(left,right,median,dimension);
+  if(left <= median -1 ){
+    // alternate dimesions to be tested on
+    dimension += 1;
+    dimension = dimension % Dim;
+    rec_KDTree(left, median - 1, dimension);
+  }
+  else if(left >= median + 1){
+    dimension += 1;
+    dimension = dimension % Dim;
+    rec_KDTree(left, median + 1, dimension);
+  }
+
+
+
+
+
+}
+
+
+
+template <int Dim>
+int KDTree<Dim>::partition(int left, int right, int pivotIndex, int dimension) // partition subfunction for quickselect
+{
+    Point<Dim> pivotValue = points[pivotIndex];
+    Point<Dim> temp = points[right];
+    // swap
+    points[right] = pivotValue;
+    points[pivotIndex] = temp;
+    int storeIndex = left;
+    for(int i = left; i < right; i++){
+      if(smallerDimVal(points[i], pivotValue, dimension) || points[i] == pivotValue ){ // swap
+        temp = points[i];
+        points[i] = points[storeIndex];
+        points[storeIndex] = temp;
+        storeIndex++;
+      }
+    }
+    temp = points[right];
+    points[right] = points[storeIndex];
+    points[storeIndex] = temp;
+    return storeIndex;
+}
+
+template <int Dim>
+Point<Dim> KDTree<Dim>::select(int left, int right, int n, int dimension)
+{
+  if(left == right)
+    return points[left];
+  int pivotIndex = partition(left,right,n,dimension);
+  if(n == pivotIndex)
+    return points[n];
+  else if (n < pivotIndex)
+    return select(left, pivotIndex - 1,n,dimension);
+  else
+    return select(pivotIndex + 1, right, n, dimension);
+
+}
+
+template <int Dim>
+Point<Dim> KDTree<Dim>::findNearestNeighbor(const Point<Dim>& query) const
+{
+    /**
+     * @todo Implement this function!
+     */
+    return Point<Dim>();
+}

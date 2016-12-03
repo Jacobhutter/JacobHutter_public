@@ -1,0 +1,12 @@
+#include "maze.h"
+using namespace std;
+
+SquareMaze::SquareMaze(){} // nothing
+void SquareMaze::makeMaze(int width, int height){
+  maze.addelements(width*height);
+}
+bool SquareMaze::canTravel(int x, int y, int dir) const{}
+void SquareMaze::setWall(int x, int y, int dir, bool exists){}
+vector<int> SquareMaze::solveMaze(){}
+PNG * SquareMaze::drawMaze() const{}
+PNG * SquareMaze::drawMazeWithSolution(){}
