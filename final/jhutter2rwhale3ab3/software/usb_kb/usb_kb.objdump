@@ -866,34 +866,22 @@ alt_after_alt_main:
  80001f8:	003fff06 	br	80001f8 <__alt_data_end+0xfc0001f8>
 
 080001fc <IO_init>:
-#define otg_hpi_cs			(volatile char*)	OTG_HPI_CS_BASE //FOR SOME REASON CS BASE BEHAVES WEIRDLY MIGHT HAVE TO SET MANUALLY
-#define otg_hpi_w			(volatile char*)	OTG_HPI_W_BASE
-
-
-void IO_init(void)
-{
  80001fc:	deffff04 	addi	sp,sp,-4
  8000200:	df000015 	stw	fp,0(sp)
  8000204:	d839883a 	mov	fp,sp
-	*otg_hpi_cs = 1;
  8000208:	00801804 	movi	r2,96
  800020c:	00c00044 	movi	r3,1
  8000210:	10c00005 	stb	r3,0(r2)
-	*otg_hpi_r = 1;
  8000214:	00800c04 	movi	r2,48
  8000218:	00c00044 	movi	r3,1
  800021c:	10c00005 	stb	r3,0(r2)
-	*otg_hpi_w = 1;
  8000220:	00800804 	movi	r2,32
  8000224:	00c00044 	movi	r3,1
  8000228:	10c00005 	stb	r3,0(r2)
-	*otg_hpi_address = 0;
  800022c:	00801404 	movi	r2,80
  8000230:	10000015 	stw	zero,0(r2)
-	*otg_hpi_data = 0;
  8000234:	00801004 	movi	r2,64
  8000238:	10000015 	stw	zero,0(r2)
-}
  800023c:	0001883a 	nop
  8000240:	e037883a 	mov	sp,fp
  8000244:	df000017 	ldw	fp,0(sp)
@@ -901,9 +889,6 @@ void IO_init(void)
  800024c:	f800283a 	ret
 
 08000250 <IO_write>:
-
-void IO_write(alt_u8 Address, alt_u16 Data)
-{
  8000250:	defffd04 	addi	sp,sp,-12
  8000254:	df000215 	stw	fp,8(sp)
  8000258:	df000204 	addi	fp,sp,8
@@ -911,35 +896,22 @@ void IO_write(alt_u8 Address, alt_u16 Data)
  8000260:	2805883a 	mov	r2,r5
  8000264:	e0fffe05 	stb	r3,-8(fp)
  8000268:	e0bfff0d 	sth	r2,-4(fp)
-
-	*otg_hpi_cs = 0; // active low
  800026c:	00801804 	movi	r2,96
  8000270:	10000005 	stb	zero,0(r2)
-	*otg_hpi_address = Address; // set up address
  8000274:	00801404 	movi	r2,80
  8000278:	e0fffe03 	ldbu	r3,-8(fp)
  800027c:	10c00015 	stw	r3,0(r2)
-	*otg_hpi_data = Data;
  8000280:	00801004 	movi	r2,64
  8000284:	e0ffff0b 	ldhu	r3,-4(fp)
  8000288:	10c00015 	stw	r3,0(r2)
-	*otg_hpi_w = 0;
  800028c:	00800804 	movi	r2,32
  8000290:	10000005 	stb	zero,0(r2)
-	*otg_hpi_cs = 1; // reset chip to default state
  8000294:	00801804 	movi	r2,96
  8000298:	00c00044 	movi	r3,1
  800029c:	10c00005 	stb	r3,0(r2)
-	*otg_hpi_w = 1;
  80002a0:	00800804 	movi	r2,32
  80002a4:	00c00044 	movi	r3,1
  80002a8:	10c00005 	stb	r3,0(r2)
-//*************************************************************************//
-//									TASK								   //
-//*************************************************************************//
-//							Write this function							   //
-//*************************************************************************//
-}
  80002ac:	0001883a 	nop
  80002b0:	e037883a 	mov	sp,fp
  80002b4:	df000017 	ldw	fp,0(sp)
@@ -947,208 +919,124 @@ void IO_write(alt_u8 Address, alt_u16 Data)
  80002bc:	f800283a 	ret
 
 080002c0 <IO_read>:
-
-alt_u16 IO_read(alt_u8 Address)
-{
  80002c0:	defffd04 	addi	sp,sp,-12
  80002c4:	df000215 	stw	fp,8(sp)
  80002c8:	df000204 	addi	fp,sp,8
  80002cc:	2005883a 	mov	r2,r4
  80002d0:	e0bfff05 	stb	r2,-4(fp)
-alt_u16 temp;
-*otg_hpi_w = 1;
  80002d4:	00800804 	movi	r2,32
  80002d8:	00c00044 	movi	r3,1
  80002dc:	10c00005 	stb	r3,0(r2)
-*otg_hpi_cs = 0; // active low
  80002e0:	00801804 	movi	r2,96
  80002e4:	10000005 	stb	zero,0(r2)
-*otg_hpi_address = Address; // specify address
  80002e8:	00801404 	movi	r2,80
  80002ec:	e0ffff03 	ldbu	r3,-4(fp)
  80002f0:	10c00015 	stw	r3,0(r2)
-
-*otg_hpi_r = 0;
  80002f4:	00800c04 	movi	r2,48
  80002f8:	10000005 	stb	zero,0(r2)
-temp  = *otg_hpi_data;
  80002fc:	00801004 	movi	r2,64
  8000300:	10800017 	ldw	r2,0(r2)
  8000304:	e0bffe0d 	sth	r2,-8(fp)
-*otg_hpi_cs = 1;
  8000308:	00801804 	movi	r2,96
  800030c:	00c00044 	movi	r3,1
  8000310:	10c00005 	stb	r3,0(r2)
-*otg_hpi_r = 1;
  8000314:	00800c04 	movi	r2,48
  8000318:	00c00044 	movi	r3,1
  800031c:	10c00005 	stb	r3,0(r2)
-
-//printf("%x\n",temp);
-return temp;
  8000320:	e0bffe0b 	ldhu	r2,-8(fp)
-//									TASK								   //
-//*************************************************************************//
-//							Write this function							   //
-//*************************************************************************//
-
-}
  8000324:	e037883a 	mov	sp,fp
  8000328:	df000017 	ldw	fp,0(sp)
  800032c:	dec00104 	addi	sp,sp,4
  8000330:	f800283a 	ret
 
 08000334 <main>:
-//
-//                                Main function
-//
-//----------------------------------------------------------------------------------------//
-int main(void)
-{
  8000334:	defff904 	addi	sp,sp,-28
  8000338:	dfc00615 	stw	ra,24(sp)
  800033c:	df000515 	stw	fp,20(sp)
  8000340:	df000504 	addi	fp,sp,20
-	IO_init();
  8000344:	80001fc0 	call	80001fc <IO_init>
-
-	alt_u16 intStat;
-	alt_u16 usb_ctl_val;
-	static alt_u16 ctl_reg = 0;
-	static alt_u16 no_device = 0;
-	alt_u16 fs_device = 0;
  8000348:	e03ffc0d 	sth	zero,-16(fp)
-	int keycode = 0;
  800034c:	e03ffd15 	stw	zero,-12(fp)
-	alt_u8 toggle = 0;
  8000350:	e03ffb85 	stb	zero,-18(fp)
-	alt_u8 data_size;
-	alt_u8 hot_plug_count;
-	alt_u16 code;
-
-	printf("USB keyboard setup...\n\n");
  8000354:	01020074 	movhi	r4,2049
  8000358:	21067704 	addi	r4,r4,6620
  800035c:	80023280 	call	8002328 <puts>
-
-	//----------------------------------------SIE1 initial---------------------------------------------------//
-	USB_HOT_PLUG:
-	UsbSoftReset();
  8000360:	80011240 	call	8001124 <UsbSoftReset>
-
-	// STEP 1a:
-	UsbWrite (HPI_SIE1_MSG_ADR, 0);
  8000364:	000b883a 	mov	r5,zero
  8000368:	01005104 	movi	r4,324
  800036c:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite (HOST1_STAT_REG, 0xFFFF);
  8000370:	017fffd4 	movui	r5,65535
  8000374:	01302414 	movui	r4,49296
  8000378:	80010880 	call	8001088 <UsbWrite>
-
-	/* Set HUSB_pEOT time */
-	UsbWrite(HUSB_pEOT, 600); // adjust the according to your USB device speed
  800037c:	01409604 	movi	r5,600
  8000380:	01006d04 	movi	r4,436
  8000384:	80010880 	call	8001088 <UsbWrite>
-
-	usb_ctl_val = SOFEOP1_TO_CPU_EN | RESUME1_TO_HPI_EN;// | SOFEOP1_TO_HPI_EN;
  8000388:	00811004 	movi	r2,1088
  800038c:	e0bffb0d 	sth	r2,-20(fp)
-	UsbWrite(HPI_IRQ_ROUTING_REG, usb_ctl_val);
  8000390:	e0bffb0b 	ldhu	r2,-20(fp)
  8000394:	100b883a 	mov	r5,r2
  8000398:	01005084 	movi	r4,322
  800039c:	80010880 	call	8001088 <UsbWrite>
-
-	intStat = A_CHG_IRQ_EN | SOF_EOP_IRQ_EN ;
  80003a0:	00808404 	movi	r2,528
  80003a4:	e0bffe0d 	sth	r2,-8(fp)
-	UsbWrite(HOST1_IRQ_EN_REG, intStat);
  80003a8:	e0bffe0b 	ldhu	r2,-8(fp)
  80003ac:	100b883a 	mov	r5,r2
  80003b0:	01302314 	movui	r4,49292
  80003b4:	80010880 	call	8001088 <UsbWrite>
-	// STEP 1a end
-
-	// STEP 1b begin
-	UsbWrite(COMM_R0,0x0000);//reset time
  80003b8:	000b883a 	mov	r5,zero
  80003bc:	01007104 	movi	r4,452
  80003c0:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R1,0x0000);  //port number
  80003c4:	000b883a 	mov	r5,zero
  80003c8:	01007184 	movi	r4,454
  80003cc:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R2,0x0000);  //r1
  80003d0:	000b883a 	mov	r5,zero
  80003d4:	01007204 	movi	r4,456
  80003d8:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R3,0x0000);  //r1
  80003dc:	000b883a 	mov	r5,zero
  80003e0:	01007284 	movi	r4,458
  80003e4:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R4,0x0000);  //r1
  80003e8:	000b883a 	mov	r5,zero
  80003ec:	01007304 	movi	r4,460
  80003f0:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R5,0x0000);  //r1
  80003f4:	000b883a 	mov	r5,zero
  80003f8:	01007384 	movi	r4,462
  80003fc:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R6,0x0000);  //r1
  8000400:	000b883a 	mov	r5,zero
  8000404:	01007404 	movi	r4,464
  8000408:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R7,0x0000);  //r1
  800040c:	000b883a 	mov	r5,zero
  8000410:	01007484 	movi	r4,466
  8000414:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R8,0x0000);  //r1
  8000418:	000b883a 	mov	r5,zero
  800041c:	01007504 	movi	r4,468
  8000420:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R9,0x0000);  //r1
  8000424:	000b883a 	mov	r5,zero
  8000428:	01007584 	movi	r4,470
  800042c:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R10,0x0000);  //r1
  8000430:	000b883a 	mov	r5,zero
  8000434:	01007604 	movi	r4,472
  8000438:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R11,0x0000);  //r1
  800043c:	000b883a 	mov	r5,zero
  8000440:	01007684 	movi	r4,474
  8000444:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R12,0x0000);  //r1
  8000448:	000b883a 	mov	r5,zero
  800044c:	01007704 	movi	r4,476
  8000450:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R13,0x0000);  //r1
  8000454:	000b883a 	mov	r5,zero
  8000458:	01007784 	movi	r4,478
  800045c:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_INT_NUM,HUSB_SIE1_INIT_INT); //HUSB_SIE1_INIT_INT
  8000460:	01401c84 	movi	r5,114
  8000464:	01007084 	movi	r4,450
  8000468:	80010880 	call	8001088 <UsbWrite>
-	IO_write(HPI_MAILBOX,COMM_EXEC_INT);
  800046c:	01738054 	movui	r5,52737
  8000470:	01000044 	movi	r4,1
  8000474:	80002500 	call	8000250 <IO_write>
-
-	while (!(IO_read(HPI_STATUS) & 0xFFFF) )  //read sie1 msg register
  8000478:	0001883a 	nop
  800047c:	010000c4 	movi	r4,3
  8000480:	80002c00 	call	80002c0 <IO_read>
  8000484:	10bfffcc 	andi	r2,r2,65535
  8000488:	103ffc26 	beq	r2,zero,800047c <__alt_data_end+0xfc00047c>
-	{
-	}
-	while (IO_read(HPI_MAILBOX) != COMM_ACK)
  800048c:	00000806 	br	80004b0 <main+0x17c>
-	{
-		printf("[ERROR]:routine mailbox data is %x\n",IO_read(HPI_MAILBOX));
  8000490:	01000044 	movi	r4,1
  8000494:	80002c00 	call	80002c0 <IO_read>
  8000498:	10bfffcc 	andi	r2,r2,65535
@@ -1156,104 +1044,69 @@ int main(void)
  80004a0:	01020074 	movhi	r4,2049
  80004a4:	21067d04 	addi	r4,r4,6644
  80004a8:	800222c0 	call	800222c <printf>
-		goto USB_HOT_PLUG;
  80004ac:	003fac06 	br	8000360 <__alt_data_end+0xfc000360>
-	IO_write(HPI_MAILBOX,COMM_EXEC_INT);
-
-	while (!(IO_read(HPI_STATUS) & 0xFFFF) )  //read sie1 msg register
-	{
-	}
-	while (IO_read(HPI_MAILBOX) != COMM_ACK)
  80004b0:	01000044 	movi	r4,1
  80004b4:	80002c00 	call	80002c0 <IO_read>
  80004b8:	10bfffcc 	andi	r2,r2,65535
  80004bc:	1083fb58 	cmpnei	r2,r2,4077
  80004c0:	103ff31e 	bne	r2,zero,8000490 <__alt_data_end+0xfc000490>
-		printf("[ERROR]:routine mailbox data is %x\n",IO_read(HPI_MAILBOX));
-		goto USB_HOT_PLUG;
-	}
-	// STEP 1b end
-
-	printf("STEP 1 Complete");
  80004c4:	01020074 	movhi	r4,2049
  80004c8:	21068604 	addi	r4,r4,6680
  80004cc:	800222c0 	call	800222c <printf>
-	// STEP 2 begin
-	UsbWrite(COMM_INT_NUM,HUSB_RESET_INT); //husb reset
  80004d0:	01401d04 	movi	r5,116
  80004d4:	01007084 	movi	r4,450
  80004d8:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R0,0x003c);//reset time
  80004dc:	01400f04 	movi	r5,60
  80004e0:	01007104 	movi	r4,452
  80004e4:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R1,0x0000);  //port number
  80004e8:	000b883a 	mov	r5,zero
  80004ec:	01007184 	movi	r4,454
  80004f0:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R2,0x0000);  //r1
  80004f4:	000b883a 	mov	r5,zero
  80004f8:	01007204 	movi	r4,456
  80004fc:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R3,0x0000);  //r1
  8000500:	000b883a 	mov	r5,zero
  8000504:	01007284 	movi	r4,458
  8000508:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R4,0x0000);  //r1
  800050c:	000b883a 	mov	r5,zero
  8000510:	01007304 	movi	r4,460
  8000514:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R5,0x0000);  //r1
  8000518:	000b883a 	mov	r5,zero
  800051c:	01007384 	movi	r4,462
  8000520:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R6,0x0000);  //r1
  8000524:	000b883a 	mov	r5,zero
  8000528:	01007404 	movi	r4,464
  800052c:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R7,0x0000);  //r1
  8000530:	000b883a 	mov	r5,zero
  8000534:	01007484 	movi	r4,466
  8000538:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R8,0x0000);  //r1
  800053c:	000b883a 	mov	r5,zero
  8000540:	01007504 	movi	r4,468
  8000544:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R9,0x0000);  //r1
  8000548:	000b883a 	mov	r5,zero
  800054c:	01007584 	movi	r4,470
  8000550:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R10,0x0000);  //r1
  8000554:	000b883a 	mov	r5,zero
  8000558:	01007604 	movi	r4,472
  800055c:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R11,0x0000);  //r1
  8000560:	000b883a 	mov	r5,zero
  8000564:	01007684 	movi	r4,474
  8000568:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R12,0x0000);  //r1
  800056c:	000b883a 	mov	r5,zero
  8000570:	01007704 	movi	r4,476
  8000574:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite(COMM_R13,0x0000);  //r1
  8000578:	000b883a 	mov	r5,zero
  800057c:	01007784 	movi	r4,478
  8000580:	80010880 	call	8001088 <UsbWrite>
-
-	IO_write(HPI_MAILBOX,COMM_EXEC_INT);
  8000584:	01738054 	movui	r5,52737
  8000588:	01000044 	movi	r4,1
  800058c:	80002500 	call	8000250 <IO_write>
-
-	while (IO_read(HPI_MAILBOX) != COMM_ACK)
  8000590:	0001883a 	nop
  8000594:	01000044 	movi	r4,1
  8000598:	80002c00 	call	80002c0 <IO_read>
  800059c:	10bfffcc 	andi	r2,r2,65535
  80005a0:	1083fb58 	cmpnei	r2,r2,4077
  80005a4:	10000826 	beq	r2,zero,80005c8 <main+0x294>
-	{
-		printf("[ERROR]:routine mailbox data is %x\n",IO_read(HPI_MAILBOX));
  80005a8:	01000044 	movi	r4,1
  80005ac:	80002c00 	call	80002c0 <IO_read>
  80005b0:	10bfffcc 	andi	r2,r2,65535
@@ -1261,59 +1114,37 @@ int main(void)
  80005b8:	01020074 	movhi	r4,2049
  80005bc:	21067d04 	addi	r4,r4,6644
  80005c0:	800222c0 	call	800222c <printf>
-		goto USB_HOT_PLUG;
  80005c4:	003f6606 	br	8000360 <__alt_data_end+0xfc000360>
-	}
-	// STEP 2 end
-
-	ctl_reg = USB1_CTL_REG;
  80005c8:	00b02284 	movi	r2,-16246
  80005cc:	d0a6cb0d 	sth	r2,-25812(gp)
-	no_device = (A_DP_STAT | A_DM_STAT);
  80005d0:	008c0004 	movi	r2,12288
  80005d4:	d0a6cb8d 	sth	r2,-25810(gp)
-	fs_device = A_DP_STAT;
  80005d8:	00880004 	movi	r2,8192
  80005dc:	e0bffc0d 	sth	r2,-16(fp)
-	usb_ctl_val = UsbRead(ctl_reg);
  80005e0:	d0a6cb0b 	ldhu	r2,-25812(gp)
  80005e4:	10bfffcc 	andi	r2,r2,65535
  80005e8:	1009883a 	mov	r4,r2
  80005ec:	80010e00 	call	80010e0 <UsbRead>
  80005f0:	e0bffb0d 	sth	r2,-20(fp)
-
-	if (!(usb_ctl_val & no_device))
  80005f4:	d0a6cb8b 	ldhu	r2,-25810(gp)
  80005f8:	e0fffb0b 	ldhu	r3,-20(fp)
  80005fc:	1884703a 	and	r2,r3,r2
  8000600:	10bfffcc 	andi	r2,r2,65535
  8000604:	1000351e 	bne	r2,zero,80006dc <main+0x3a8>
-	{
-		for(hot_plug_count = 0 ; hot_plug_count < 5 ; hot_plug_count++)
  8000608:	e03ffbc5 	stb	zero,-17(fp)
  800060c:	00000f06 	br	800064c <main+0x318>
-		{
-			usleep(5*1000);
  8000610:	0104e204 	movi	r4,5000
  8000614:	800f9f40 	call	800f9f4 <usleep>
-			usb_ctl_val = UsbRead(ctl_reg);
  8000618:	d0a6cb0b 	ldhu	r2,-25812(gp)
  800061c:	10bfffcc 	andi	r2,r2,65535
  8000620:	1009883a 	mov	r4,r2
  8000624:	80010e00 	call	80010e0 <UsbRead>
  8000628:	e0bffb0d 	sth	r2,-20(fp)
-			if(usb_ctl_val & no_device) break;
  800062c:	d0a6cb8b 	ldhu	r2,-25810(gp)
  8000630:	e0fffb0b 	ldhu	r3,-20(fp)
  8000634:	1884703a 	and	r2,r3,r2
  8000638:	10bfffcc 	andi	r2,r2,65535
  800063c:	1000071e 	bne	r2,zero,800065c <main+0x328>
-	fs_device = A_DP_STAT;
-	usb_ctl_val = UsbRead(ctl_reg);
-
-	if (!(usb_ctl_val & no_device))
-	{
-		for(hot_plug_count = 0 ; hot_plug_count < 5 ; hot_plug_count++)
  8000640:	e0bffbc3 	ldbu	r2,-17(fp)
  8000644:	10800044 	addi	r2,r2,1
  8000648:	e0bffbc5 	stb	r2,-17(fp)
@@ -1321,124 +1152,64 @@ int main(void)
  8000650:	10800170 	cmpltui	r2,r2,5
  8000654:	103fee1e 	bne	r2,zero,8000610 <__alt_data_end+0xfc000610>
  8000658:	00000106 	br	8000660 <main+0x32c>
-		{
-			usleep(5*1000);
-			usb_ctl_val = UsbRead(ctl_reg);
-			if(usb_ctl_val & no_device) break;
  800065c:	0001883a 	nop
-		}
-		if(!(usb_ctl_val & no_device))
  8000660:	d0a6cb8b 	ldhu	r2,-25810(gp)
  8000664:	e0fffb0b 	ldhu	r3,-20(fp)
  8000668:	1884703a 	and	r2,r3,r2
  800066c:	10bfffcc 	andi	r2,r2,65535
  8000670:	1000261e 	bne	r2,zero,800070c <main+0x3d8>
-		{
-			printf("\n[INFO]: no device is present in SIE1!\n");
  8000674:	01020074 	movhi	r4,2049
  8000678:	21068a04 	addi	r4,r4,6696
  800067c:	80023280 	call	8002328 <puts>
-			printf("[INFO]: please insert a USB keyboard in SIE1!\n");
  8000680:	01020074 	movhi	r4,2049
  8000684:	21069404 	addi	r4,r4,6736
  8000688:	80023280 	call	8002328 <puts>
-			while (!(usb_ctl_val & no_device))
  800068c:	00000d06 	br	80006c4 <main+0x390>
-			{
-				usb_ctl_val = UsbRead(ctl_reg);
  8000690:	d0a6cb0b 	ldhu	r2,-25812(gp)
  8000694:	10bfffcc 	andi	r2,r2,65535
  8000698:	1009883a 	mov	r4,r2
  800069c:	80010e00 	call	80010e0 <UsbRead>
  80006a0:	e0bffb0d 	sth	r2,-20(fp)
-				if(usb_ctl_val & no_device)
  80006a4:	d0a6cb8b 	ldhu	r2,-25810(gp)
  80006a8:	e0fffb0b 	ldhu	r3,-20(fp)
  80006ac:	1884703a 	and	r2,r3,r2
  80006b0:	10bfffcc 	andi	r2,r2,65535
  80006b4:	10000126 	beq	r2,zero,80006bc <main+0x388>
-					goto USB_HOT_PLUG;
  80006b8:	003f2906 	br	8000360 <__alt_data_end+0xfc000360>
-
-				usleep(2000);
  80006bc:	0101f404 	movi	r4,2000
  80006c0:	800f9f40 	call	800f9f4 <usleep>
-		}
-		if(!(usb_ctl_val & no_device))
-		{
-			printf("\n[INFO]: no device is present in SIE1!\n");
-			printf("[INFO]: please insert a USB keyboard in SIE1!\n");
-			while (!(usb_ctl_val & no_device))
  80006c4:	d0a6cb8b 	ldhu	r2,-25810(gp)
  80006c8:	e0fffb0b 	ldhu	r3,-20(fp)
  80006cc:	1884703a 	and	r2,r3,r2
  80006d0:	10bfffcc 	andi	r2,r2,65535
  80006d4:	103fee26 	beq	r2,zero,8000690 <__alt_data_end+0xfc000690>
  80006d8:	00000c06 	br	800070c <main+0x3d8>
-		}
-	}
-	else
-	{
-		/* check for low speed or full speed by reading D+ and D- lines */
-		if (usb_ctl_val & fs_device)
  80006dc:	e0fffb0b 	ldhu	r3,-20(fp)
  80006e0:	e0bffc0b 	ldhu	r2,-16(fp)
  80006e4:	1884703a 	and	r2,r3,r2
  80006e8:	10bfffcc 	andi	r2,r2,65535
  80006ec:	10000426 	beq	r2,zero,8000700 <main+0x3cc>
-		{
-			printf("[INFO]: full speed device\n");
  80006f0:	01020074 	movhi	r4,2049
  80006f4:	2106a004 	addi	r4,r4,6784
  80006f8:	80023280 	call	8002328 <puts>
  80006fc:	00000306 	br	800070c <main+0x3d8>
-		}
-		else
-		{
-			printf("[INFO]: low speed device\n");
  8000700:	01020074 	movhi	r4,2049
  8000704:	2106a704 	addi	r4,r4,6812
  8000708:	80023280 	call	8002328 <puts>
-
-
-
-	// STEP 3 begin
-	//------------------------------------------------------set address -----------------------------------------------------------------
-	UsbSetAddress();
  800070c:	80011d80 	call	80011d8 <UsbSetAddress>
-
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000710:	00000306 	br	8000720 <main+0x3ec>
-	{
-		UsbSetAddress();
  8000714:	80011d80 	call	80011d8 <UsbSetAddress>
-		usleep(10*1000);
  8000718:	0109c404 	movi	r4,10000
  800071c:	800f9f40 	call	800f9f4 <usleep>
-
-	// STEP 3 begin
-	//------------------------------------------------------set address -----------------------------------------------------------------
-	UsbSetAddress();
-
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000720:	010000c4 	movi	r4,3
  8000724:	80002c00 	call	80002c0 <IO_read>
  8000728:	10bfffcc 	andi	r2,r2,65535
  800072c:	1080040c 	andi	r2,r2,16
  8000730:	103ff826 	beq	r2,zero,8000714 <__alt_data_end+0xfc000714>
-	{
-		UsbSetAddress();
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  8000734:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506); // i
  8000738:	01414184 	movi	r5,1286
  800073c:	01000084 	movi	r4,2
  8000740:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]:step 3 TD Status Byte is %x\n",IO_read(HPI_DATA));
  8000744:	0009883a 	mov	r4,zero
  8000748:	80002c00 	call	80002c0 <IO_read>
  800074c:	10bfffcc 	andi	r2,r2,65535
@@ -1446,79 +1217,40 @@ int main(void)
  8000754:	01020074 	movhi	r4,2049
  8000758:	2106ae04 	addi	r4,r4,6840
  800075c:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508); // n
  8000760:	01414204 	movi	r5,1288
  8000764:	01000084 	movi	r4,2
  8000768:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  800076c:	0009883a 	mov	r4,zero
  8000770:	80002c00 	call	80002c0 <IO_read>
  8000774:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 3 TD Control Byte is %x\n",usb_ctl_val);
  8000778:	e0bffb0b 	ldhu	r2,-20(fp)
  800077c:	100b883a 	mov	r5,r2
  8000780:	01020074 	movhi	r4,2049
  8000784:	2106b904 	addi	r4,r4,6884
  8000788:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03) // retries occurred
  800078c:	e0bffb0b 	ldhu	r2,-20(fp)
  8000790:	108000e0 	cmpeqi	r2,r2,3
  8000794:	1000031e 	bne	r2,zero,80007a4 <main+0x470>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  8000798:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  800079c:	e0bffb0d 	sth	r2,-20(fp)
-
-		goto USB_HOT_PLUG;
  80007a0:	003eef06 	br	8000360 <__alt_data_end+0xfc000360>
-	}
-
-	printf("------------[ENUM PROCESS]:set address done!---------------\n");
  80007a4:	01020074 	movhi	r4,2049
  80007a8:	2106c504 	addi	r4,r4,6932
  80007ac:	80023280 	call	8002328 <puts>
-
-	// STEP 4 begin
-	//-------------------------------get device descriptor-1 -----------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbGetDeviceDesc1(); 	// Get Device Descriptor -1
  80007b0:	80012d80 	call	80012d8 <UsbGetDeviceDesc1>
-
-	//usleep(10*1000);
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  80007b4:	00000306 	br	80007c4 <main+0x490>
-	{
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetDeviceDesc1();
  80007b8:	80012d80 	call	80012d8 <UsbGetDeviceDesc1>
-		usleep(10*1000);
  80007bc:	0109c404 	movi	r4,10000
  80007c0:	800f9f40 	call	800f9f4 <usleep>
-	//-------------------------------get device descriptor-1 -----------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbGetDeviceDesc1(); 	// Get Device Descriptor -1
-
-	//usleep(10*1000);
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  80007c4:	010000c4 	movi	r4,3
  80007c8:	80002c00 	call	80002c0 <IO_read>
  80007cc:	10bfffcc 	andi	r2,r2,65535
  80007d0:	1080040c 	andi	r2,r2,16
  80007d4:	103ff826 	beq	r2,zero,80007b8 <__alt_data_end+0xfc0007b8>
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetDeviceDesc1();
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  80007d8:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506);
  80007dc:	01414184 	movi	r5,1286
  80007e0:	01000084 	movi	r4,2
  80007e4:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]:step 4 TD Status Byte is %x\n",IO_read(HPI_DATA));
  80007e8:	0009883a 	mov	r4,zero
  80007ec:	80002c00 	call	80002c0 <IO_read>
  80007f0:	10bfffcc 	andi	r2,r2,65535
@@ -1526,88 +1258,40 @@ int main(void)
  80007f8:	01020074 	movhi	r4,2049
  80007fc:	2106d404 	addi	r4,r4,6992
  8000800:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508);
  8000804:	01414204 	movi	r5,1288
  8000808:	01000084 	movi	r4,2
  800080c:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  8000810:	0009883a 	mov	r4,zero
  8000814:	80002c00 	call	80002c0 <IO_read>
  8000818:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 4 TD Control Byte is %x\n",usb_ctl_val);
  800081c:	e0bffb0b 	ldhu	r2,-20(fp)
  8000820:	100b883a 	mov	r5,r2
  8000824:	01020074 	movhi	r4,2049
  8000828:	2106df04 	addi	r4,r4,7036
  800082c:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03)
  8000830:	00000206 	br	800083c <main+0x508>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  8000834:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  8000838:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 4 TD Status Byte is %x\n",IO_read(HPI_DATA));
-
-	IO_write(HPI_ADDR,0x0508);
-	usb_ctl_val = IO_read(HPI_DATA);
-	printf("[ENUM PROCESS]:step 4 TD Control Byte is %x\n",usb_ctl_val);
-	while (usb_ctl_val != 0x03)
  800083c:	e0bffb0b 	ldhu	r2,-20(fp)
  8000840:	108000d8 	cmpnei	r2,r2,3
  8000844:	103ffb1e 	bne	r2,zero,8000834 <__alt_data_end+0xfc000834>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
-	}
-
-	printf("---------------[ENUM PROCESS]:get device descriptor-1 done!-----------------\n");
  8000848:	01020074 	movhi	r4,2049
  800084c:	2106eb04 	addi	r4,r4,7084
  8000850:	80023280 	call	8002328 <puts>
-
-
-	//--------------------------------get device descriptor-2---------------------------------------------//
-	//get device descriptor
-	// TASK: Call the appropriate function for this step.
-	UsbGetDeviceDesc2(); 	// Get Device Descriptor -2
  8000854:	80014200 	call	8001420 <UsbGetDeviceDesc2>
-
-	//if no message
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000858:	00000306 	br	8000868 <main+0x534>
-	{
-		//resend the get device descriptor
-		//get device descriptor
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetDeviceDesc2();
  800085c:	80014200 	call	8001420 <UsbGetDeviceDesc2>
-		usleep(10*1000);
  8000860:	0109c404 	movi	r4,10000
  8000864:	800f9f40 	call	800f9f4 <usleep>
-	//get device descriptor
-	// TASK: Call the appropriate function for this step.
-	UsbGetDeviceDesc2(); 	// Get Device Descriptor -2
-
-	//if no message
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000868:	010000c4 	movi	r4,3
  800086c:	80002c00 	call	80002c0 <IO_read>
  8000870:	10bfffcc 	andi	r2,r2,65535
  8000874:	1080040c 	andi	r2,r2,16
  8000878:	103ff826 	beq	r2,zero,800085c <__alt_data_end+0xfc00085c>
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetDeviceDesc2();
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  800087c:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506);
  8000880:	01414184 	movi	r5,1286
  8000884:	01000084 	movi	r4,2
  8000888:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]:step 4 TD Status Byte is %x\n",IO_read(HPI_DATA));
  800088c:	0009883a 	mov	r4,zero
  8000890:	80002c00 	call	80002c0 <IO_read>
  8000894:	10bfffcc 	andi	r2,r2,65535
@@ -1615,89 +1299,40 @@ int main(void)
  800089c:	01020074 	movhi	r4,2049
  80008a0:	2106d404 	addi	r4,r4,6992
  80008a4:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508);
  80008a8:	01414204 	movi	r5,1288
  80008ac:	01000084 	movi	r4,2
  80008b0:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  80008b4:	0009883a 	mov	r4,zero
  80008b8:	80002c00 	call	80002c0 <IO_read>
  80008bc:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 4 TD Control Byte is %x\n",usb_ctl_val);
  80008c0:	e0bffb0b 	ldhu	r2,-20(fp)
  80008c4:	100b883a 	mov	r5,r2
  80008c8:	01020074 	movhi	r4,2049
  80008cc:	2106df04 	addi	r4,r4,7036
  80008d0:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03)
  80008d4:	00000206 	br	80008e0 <main+0x5ac>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  80008d8:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  80008dc:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 4 TD Status Byte is %x\n",IO_read(HPI_DATA));
-
-	IO_write(HPI_ADDR,0x0508);
-	usb_ctl_val = IO_read(HPI_DATA);
-	printf("[ENUM PROCESS]:step 4 TD Control Byte is %x\n",usb_ctl_val);
-	while (usb_ctl_val != 0x03)
  80008e0:	e0bffb0b 	ldhu	r2,-20(fp)
  80008e4:	108000d8 	cmpnei	r2,r2,3
  80008e8:	103ffb1e 	bne	r2,zero,80008d8 <__alt_data_end+0xfc0008d8>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
-	}
-
-	printf("------------[ENUM PROCESS]:get device descriptor-2 done!--------------\n");
  80008ec:	01020074 	movhi	r4,2049
  80008f0:	2106ff04 	addi	r4,r4,7164
  80008f4:	80023280 	call	8002328 <puts>
-
-
-	// STEP 5 begin
-	//-----------------------------------get configuration descriptor -1 ----------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbGetConfigDesc1(); 	// Get Configuration Descriptor -1
  80008f8:	80015f80 	call	80015f8 <UsbGetConfigDesc1>
-
-	//if no message
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  80008fc:	00000306 	br	800090c <main+0x5d8>
-	{
-		//resend the get device descriptor
-		//get device descriptor
-
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetConfigDesc1();
  8000900:	80015f80 	call	80015f8 <UsbGetConfigDesc1>
-		usleep(10*1000);
  8000904:	0109c404 	movi	r4,10000
  8000908:	800f9f40 	call	800f9f4 <usleep>
-	//-----------------------------------get configuration descriptor -1 ----------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbGetConfigDesc1(); 	// Get Configuration Descriptor -1
-
-	//if no message
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  800090c:	010000c4 	movi	r4,3
  8000910:	80002c00 	call	80002c0 <IO_read>
  8000914:	10bfffcc 	andi	r2,r2,65535
  8000918:	1080040c 	andi	r2,r2,16
  800091c:	103ff826 	beq	r2,zero,8000900 <__alt_data_end+0xfc000900>
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetConfigDesc1();
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  8000920:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506);
  8000924:	01414184 	movi	r5,1286
  8000928:	01000084 	movi	r4,2
  800092c:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]:step 5 TD Status Byte is %x\n",IO_read(HPI_DATA));
  8000930:	0009883a 	mov	r4,zero
  8000934:	80002c00 	call	80002c0 <IO_read>
  8000938:	10bfffcc 	andi	r2,r2,65535
@@ -1705,89 +1340,43 @@ int main(void)
  8000940:	01020074 	movhi	r4,2049
  8000944:	21071104 	addi	r4,r4,7236
  8000948:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508);
  800094c:	01414204 	movi	r5,1288
  8000950:	01000084 	movi	r4,2
  8000954:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  8000958:	0009883a 	mov	r4,zero
  800095c:	80002c00 	call	80002c0 <IO_read>
  8000960:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 5 TD Control Byte is %x\n",usb_ctl_val);
  8000964:	e0bffb0b 	ldhu	r2,-20(fp)
  8000968:	100b883a 	mov	r5,r2
  800096c:	01020074 	movhi	r4,2049
  8000970:	21071c04 	addi	r4,r4,7280
  8000974:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03)
  8000978:	00000206 	br	8000984 <main+0x650>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  800097c:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  8000980:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 5 TD Status Byte is %x\n",IO_read(HPI_DATA));
-
-	IO_write(HPI_ADDR,0x0508);
-	usb_ctl_val = IO_read(HPI_DATA);
-	printf("[ENUM PROCESS]:step 5 TD Control Byte is %x\n",usb_ctl_val);
-	while (usb_ctl_val != 0x03)
  8000984:	e0bffb0b 	ldhu	r2,-20(fp)
  8000988:	108000d8 	cmpnei	r2,r2,3
  800098c:	103ffb1e 	bne	r2,zero,800097c <__alt_data_end+0xfc00097c>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
-	}
-	printf("------------[ENUM PROCESS]:get configuration descriptor-1 pass------------\n");
  8000990:	01020074 	movhi	r4,2049
  8000994:	21072804 	addi	r4,r4,7328
  8000998:	80023280 	call	8002328 <puts>
-
-	// STEP 6 begin
-	//-----------------------------------get configuration descriptor-2------------------------------------//
-	//get device descriptor
-	// TASK: Call the appropriate function for this step.
-	UsbGetConfigDesc2(); 	// Get Configuration Descriptor -2
  800099c:	80017880 	call	8001788 <UsbGetConfigDesc2>
-
-	usleep(100*1000);
  80009a0:	010000b4 	movhi	r4,2
  80009a4:	2121a804 	addi	r4,r4,-31072
  80009a8:	800f9f40 	call	800f9f4 <usleep>
-	//if no message
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  80009ac:	00000306 	br	80009bc <main+0x688>
-	{
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetConfigDesc2();
  80009b0:	80017880 	call	8001788 <UsbGetConfigDesc2>
-		usleep(10*1000);
  80009b4:	0109c404 	movi	r4,10000
  80009b8:	800f9f40 	call	800f9f4 <usleep>
-	// TASK: Call the appropriate function for this step.
-	UsbGetConfigDesc2(); 	// Get Configuration Descriptor -2
-
-	usleep(100*1000);
-	//if no message
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  80009bc:	010000c4 	movi	r4,3
  80009c0:	80002c00 	call	80002c0 <IO_read>
  80009c4:	10bfffcc 	andi	r2,r2,65535
  80009c8:	1080040c 	andi	r2,r2,16
  80009cc:	103ff826 	beq	r2,zero,80009b0 <__alt_data_end+0xfc0009b0>
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetConfigDesc2();
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  80009d0:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506);
  80009d4:	01414184 	movi	r5,1286
  80009d8:	01000084 	movi	r4,2
  80009dc:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]:step 6 TD Status Byte is %x\n",IO_read(HPI_DATA));
  80009e0:	0009883a 	mov	r4,zero
  80009e4:	80002c00 	call	80002c0 <IO_read>
  80009e8:	10bfffcc 	andi	r2,r2,65535
@@ -1795,175 +1384,96 @@ int main(void)
  80009f0:	01020074 	movhi	r4,2049
  80009f4:	21073b04 	addi	r4,r4,7404
  80009f8:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508);
  80009fc:	01414204 	movi	r5,1288
  8000a00:	01000084 	movi	r4,2
  8000a04:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  8000a08:	0009883a 	mov	r4,zero
  8000a0c:	80002c00 	call	80002c0 <IO_read>
  8000a10:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 6 TD Control Byte is %x\n",usb_ctl_val);
  8000a14:	e0bffb0b 	ldhu	r2,-20(fp)
  8000a18:	100b883a 	mov	r5,r2
  8000a1c:	01020074 	movhi	r4,2049
  8000a20:	21074604 	addi	r4,r4,7448
  8000a24:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03)
  8000a28:	00000206 	br	8000a34 <main+0x700>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  8000a2c:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  8000a30:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 6 TD Status Byte is %x\n",IO_read(HPI_DATA));
-
-	IO_write(HPI_ADDR,0x0508);
-	usb_ctl_val = IO_read(HPI_DATA);
-	printf("[ENUM PROCESS]:step 6 TD Control Byte is %x\n",usb_ctl_val);
-	while (usb_ctl_val != 0x03)
  8000a34:	e0bffb0b 	ldhu	r2,-20(fp)
  8000a38:	108000d8 	cmpnei	r2,r2,3
  8000a3c:	103ffb1e 	bne	r2,zero,8000a2c <__alt_data_end+0xfc000a2c>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
-	}
-
-
-	printf("-----------[ENUM PROCESS]:get configuration descriptor-2 done!------------\n");
  8000a40:	01020074 	movhi	r4,2049
  8000a44:	21075204 	addi	r4,r4,7496
  8000a48:	80023280 	call	8002328 <puts>
-
-
-	// ---------------------------------get device info---------------------------------------------//
-
-	// TASK: Write the address to read from the memory for byte 7 of the interface descriptor to HPI_ADDR.
-	IO_write(HPI_ADDR,0x056c);
  8000a4c:	01415b04 	movi	r5,1388
  8000a50:	01000084 	movi	r4,2
  8000a54:	80002500 	call	8000250 <IO_write>
-	code = IO_read(HPI_DATA);
  8000a58:	0009883a 	mov	r4,zero
  8000a5c:	80002c00 	call	80002c0 <IO_read>
  8000a60:	e0bffe8d 	sth	r2,-6(fp)
-	code = code & 0x003;
  8000a64:	e0bffe8b 	ldhu	r2,-6(fp)
  8000a68:	108000cc 	andi	r2,r2,3
  8000a6c:	e0bffe8d 	sth	r2,-6(fp)
-	printf("\ncode = %x\n", code);
  8000a70:	e0bffe8b 	ldhu	r2,-6(fp)
  8000a74:	100b883a 	mov	r5,r2
  8000a78:	01020074 	movhi	r4,2049
  8000a7c:	21076504 	addi	r4,r4,7572
  8000a80:	800222c0 	call	800222c <printf>
-
-	if (code == 0x01)
  8000a84:	e0bffe8b 	ldhu	r2,-6(fp)
  8000a88:	10800058 	cmpnei	r2,r2,1
  8000a8c:	1000041e 	bne	r2,zero,8000aa0 <main+0x76c>
-	{
-		printf("\n[INFO]:check TD rec data7 \n[INFO]:Keyboard Detected!!!\n\n");
  8000a90:	01020074 	movhi	r4,2049
  8000a94:	21076804 	addi	r4,r4,7584
  8000a98:	80023280 	call	8002328 <puts>
  8000a9c:	00000306 	br	8000aac <main+0x778>
-	}
-	else
-	{
-		printf("\n[INFO]:Keyboard Not Detected!!! \n\n");
  8000aa0:	01020074 	movhi	r4,2049
  8000aa4:	21077704 	addi	r4,r4,7644
  8000aa8:	80023280 	call	8002328 <puts>
-	}
-
-	// TASK: Write the address to read from the memory for the endpoint descriptor to HPI_ADDR.
-
-	IO_write(HPI_ADDR,0x0576);
  8000aac:	01415d84 	movi	r5,1398
  8000ab0:	01000084 	movi	r4,2
  8000ab4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x073F);
  8000ab8:	0141cfc4 	movi	r5,1855
  8000abc:	0009883a 	mov	r4,zero
  8000ac0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x8105);
  8000ac4:	01604154 	movui	r5,33029
  8000ac8:	0009883a 	mov	r4,zero
  8000acc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0003);
  8000ad0:	014000c4 	movi	r5,3
  8000ad4:	0009883a 	mov	r4,zero
  8000ad8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);
  8000adc:	01400204 	movi	r5,8
  8000ae0:	0009883a 	mov	r4,zero
  8000ae4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0xAC0A);
  8000ae8:	016b0294 	movui	r5,44042
  8000aec:	0009883a 	mov	r4,zero
  8000af0:	80002500 	call	8000250 <IO_write>
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0576); //HUSB_SIE1_pCurrentTDPtr
  8000af4:	01415d84 	movi	r5,1398
  8000af8:	01006c04 	movi	r4,432
  8000afc:	80010880 	call	8001088 <UsbWrite>
-
-	//data_size = (IO_read(HPI_DATA)>>8)&0x0ff;
-	//data_size = 0x08;//(IO_read(HPI_DATA))&0x0ff;
-	//UsbPrintMem();
-	IO_write(HPI_ADDR,0x057c);
  8000b00:	01415f04 	movi	r5,1404
  8000b04:	01000084 	movi	r4,2
  8000b08:	80002500 	call	8000250 <IO_write>
-	data_size = (IO_read(HPI_DATA))&0x0ff;
  8000b0c:	0009883a 	mov	r4,zero
  8000b10:	80002c00 	call	80002c0 <IO_read>
  8000b14:	e0bfff05 	stb	r2,-4(fp)
-	printf("[ENUM PROCESS]:data packet size is %d\n",data_size);
  8000b18:	e0bfff03 	ldbu	r2,-4(fp)
  8000b1c:	100b883a 	mov	r5,r2
  8000b20:	01020074 	movhi	r4,2049
  8000b24:	21078004 	addi	r4,r4,7680
  8000b28:	800222c0 	call	800222c <printf>
-	// STEP 7 begin
-	//------------------------------------set configuration -----------------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbSetConfig();		// Set Configuration
  8000b2c:	80019f00 	call	80019f0 <UsbSetConfig>
-
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000b30:	00000306 	br	8000b40 <main+0x80c>
-	{
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbSetConfig();		// Set Configuration
  8000b34:	80019f00 	call	80019f0 <UsbSetConfig>
-		usleep(10*1000);
  8000b38:	0109c404 	movi	r4,10000
  8000b3c:	800f9f40 	call	800f9f4 <usleep>
-	// STEP 7 begin
-	//------------------------------------set configuration -----------------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbSetConfig();		// Set Configuration
-
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000b40:	010000c4 	movi	r4,3
  8000b44:	80002c00 	call	80002c0 <IO_read>
  8000b48:	10bfffcc 	andi	r2,r2,65535
  8000b4c:	1080040c 	andi	r2,r2,16
  8000b50:	103ff826 	beq	r2,zero,8000b34 <__alt_data_end+0xfc000b34>
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbSetConfig();		// Set Configuration
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  8000b54:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506);
  8000b58:	01414184 	movi	r5,1286
  8000b5c:	01000084 	movi	r4,2
  8000b60:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]:step 7 TD Status Byte is %x\n",IO_read(HPI_DATA));
  8000b64:	0009883a 	mov	r4,zero
  8000b68:	80002c00 	call	80002c0 <IO_read>
  8000b6c:	10bfffcc 	andi	r2,r2,65535
@@ -1971,83 +1481,40 @@ int main(void)
  8000b74:	01020074 	movhi	r4,2049
  8000b78:	21078a04 	addi	r4,r4,7720
  8000b7c:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508);
  8000b80:	01414204 	movi	r5,1288
  8000b84:	01000084 	movi	r4,2
  8000b88:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  8000b8c:	0009883a 	mov	r4,zero
  8000b90:	80002c00 	call	80002c0 <IO_read>
  8000b94:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 7 TD Control Byte is %x\n",usb_ctl_val);
  8000b98:	e0bffb0b 	ldhu	r2,-20(fp)
  8000b9c:	100b883a 	mov	r5,r2
  8000ba0:	01020074 	movhi	r4,2049
  8000ba4:	21079504 	addi	r4,r4,7764
  8000ba8:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03)
  8000bac:	00000206 	br	8000bb8 <main+0x884>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  8000bb0:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  8000bb4:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 7 TD Status Byte is %x\n",IO_read(HPI_DATA));
-
-	IO_write(HPI_ADDR,0x0508);
-	usb_ctl_val = IO_read(HPI_DATA);
-	printf("[ENUM PROCESS]:step 7 TD Control Byte is %x\n",usb_ctl_val);
-	while (usb_ctl_val != 0x03)
  8000bb8:	e0bffb0b 	ldhu	r2,-20(fp)
  8000bbc:	108000d8 	cmpnei	r2,r2,3
  8000bc0:	103ffb1e 	bne	r2,zero,8000bb0 <__alt_data_end+0xfc000bb0>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
-	}
-
-	printf("------------[ENUM PROCESS]:set configuration done!-------------------\n");
  8000bc4:	01020074 	movhi	r4,2049
  8000bc8:	2107a104 	addi	r4,r4,7812
  8000bcc:	80023280 	call	8002328 <puts>
-
-	//----------------------------------------------class request out ------------------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbClassRequest();
  8000bd0:	8001af00 	call	8001af0 <UsbClassRequest>
-
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000bd4:	00000306 	br	8000be4 <main+0x8b0>
-	{
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbClassRequest();
  8000bd8:	8001af00 	call	8001af0 <UsbClassRequest>
-		usleep(10*1000);
  8000bdc:	0109c404 	movi	r4,10000
  8000be0:	800f9f40 	call	800f9f4 <usleep>
-
-	//----------------------------------------------class request out ------------------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbClassRequest();
-
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000be4:	010000c4 	movi	r4,3
  8000be8:	80002c00 	call	80002c0 <IO_read>
  8000bec:	10bfffcc 	andi	r2,r2,65535
  8000bf0:	1080040c 	andi	r2,r2,16
  8000bf4:	103ff826 	beq	r2,zero,8000bd8 <__alt_data_end+0xfc000bd8>
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbClassRequest();
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  8000bf8:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506);
  8000bfc:	01414184 	movi	r5,1286
  8000c00:	01000084 	movi	r4,2
  8000c04:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]:step 8 TD Status Byte is %x\n",IO_read(HPI_DATA));
  8000c08:	0009883a 	mov	r4,zero
  8000c0c:	80002c00 	call	80002c0 <IO_read>
  8000c10:	10bfffcc 	andi	r2,r2,65535
@@ -2055,85 +1522,40 @@ int main(void)
  8000c18:	01020074 	movhi	r4,2049
  8000c1c:	2107b304 	addi	r4,r4,7884
  8000c20:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508);
  8000c24:	01414204 	movi	r5,1288
  8000c28:	01000084 	movi	r4,2
  8000c2c:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  8000c30:	0009883a 	mov	r4,zero
  8000c34:	80002c00 	call	80002c0 <IO_read>
  8000c38:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 8 TD Control Byte is %x\n",usb_ctl_val);
  8000c3c:	e0bffb0b 	ldhu	r2,-20(fp)
  8000c40:	100b883a 	mov	r5,r2
  8000c44:	01020074 	movhi	r4,2049
  8000c48:	2107be04 	addi	r4,r4,7928
  8000c4c:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03)
  8000c50:	00000206 	br	8000c5c <main+0x928>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  8000c54:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  8000c58:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 8 TD Status Byte is %x\n",IO_read(HPI_DATA));
-
-	IO_write(HPI_ADDR,0x0508);
-	usb_ctl_val = IO_read(HPI_DATA);
-	printf("[ENUM PROCESS]:step 8 TD Control Byte is %x\n",usb_ctl_val);
-	while (usb_ctl_val != 0x03)
  8000c5c:	e0bffb0b 	ldhu	r2,-20(fp)
  8000c60:	108000d8 	cmpnei	r2,r2,3
  8000c64:	103ffb1e 	bne	r2,zero,8000c54 <__alt_data_end+0xfc000c54>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
-	}
-
-
-	printf("------------[ENUM PROCESS]:class request out done!-------------------\n");
  8000c68:	01020074 	movhi	r4,2049
  8000c6c:	2107ca04 	addi	r4,r4,7976
  8000c70:	80023280 	call	8002328 <puts>
-
-	// STEP 8 begin
-	//----------------------------------get descriptor(class 0x21 = HID) request out --------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbGetHidDesc();
  8000c74:	8001bf00 	call	8001bf0 <UsbGetHidDesc>
-
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000c78:	00000306 	br	8000c88 <main+0x954>
-	{
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetHidDesc();
  8000c7c:	8001bf00 	call	8001bf0 <UsbGetHidDesc>
-		usleep(10*1000);
  8000c80:	0109c404 	movi	r4,10000
  8000c84:	800f9f40 	call	800f9f4 <usleep>
-	// STEP 8 begin
-	//----------------------------------get descriptor(class 0x21 = HID) request out --------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbGetHidDesc();
-
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000c88:	010000c4 	movi	r4,3
  8000c8c:	80002c00 	call	80002c0 <IO_read>
  8000c90:	10bfffcc 	andi	r2,r2,65535
  8000c94:	1080040c 	andi	r2,r2,16
  8000c98:	103ff826 	beq	r2,zero,8000c7c <__alt_data_end+0xfc000c7c>
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetHidDesc();
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  8000c9c:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506);
  8000ca0:	01414184 	movi	r5,1286
  8000ca4:	01000084 	movi	r4,2
  8000ca8:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]:step 8 TD Status Byte is %x\n",IO_read(HPI_DATA));
  8000cac:	0009883a 	mov	r4,zero
  8000cb0:	80002c00 	call	80002c0 <IO_read>
  8000cb4:	10bfffcc 	andi	r2,r2,65535
@@ -2141,84 +1563,40 @@ int main(void)
  8000cbc:	01020074 	movhi	r4,2049
  8000cc0:	2107b304 	addi	r4,r4,7884
  8000cc4:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508);
  8000cc8:	01414204 	movi	r5,1288
  8000ccc:	01000084 	movi	r4,2
  8000cd0:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  8000cd4:	0009883a 	mov	r4,zero
  8000cd8:	80002c00 	call	80002c0 <IO_read>
  8000cdc:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 8 TD Control Byte is %x\n",usb_ctl_val);
  8000ce0:	e0bffb0b 	ldhu	r2,-20(fp)
  8000ce4:	100b883a 	mov	r5,r2
  8000ce8:	01020074 	movhi	r4,2049
  8000cec:	2107be04 	addi	r4,r4,7928
  8000cf0:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03)
  8000cf4:	00000206 	br	8000d00 <main+0x9cc>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  8000cf8:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  8000cfc:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]:step 8 TD Status Byte is %x\n",IO_read(HPI_DATA));
-
-	IO_write(HPI_ADDR,0x0508);
-	usb_ctl_val = IO_read(HPI_DATA);
-	printf("[ENUM PROCESS]:step 8 TD Control Byte is %x\n",usb_ctl_val);
-	while (usb_ctl_val != 0x03)
  8000d00:	e0bffb0b 	ldhu	r2,-20(fp)
  8000d04:	108000d8 	cmpnei	r2,r2,3
  8000d08:	103ffb1e 	bne	r2,zero,8000cf8 <__alt_data_end+0xfc000cf8>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
-	}
-
-	printf("------------[ENUM PROCESS]:get descriptor (class 0x21) done!-------------------\n");
  8000d0c:	01020074 	movhi	r4,2049
  8000d10:	2107dc04 	addi	r4,r4,8048
  8000d14:	80023280 	call	8002328 <puts>
-
-	// STEP 9 begin
-	//-------------------------------get descriptor (class 0x22 = report)-------------------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbGetReportDesc();
  8000d18:	8001d380 	call	8001d38 <UsbGetReportDesc>
-	//if no message
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000d1c:	00000306 	br	8000d2c <main+0x9f8>
-	{
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetReportDesc();
  8000d20:	8001d380 	call	8001d38 <UsbGetReportDesc>
-		usleep(10*1000);
  8000d24:	0109c404 	movi	r4,10000
  8000d28:	800f9f40 	call	800f9f4 <usleep>
-	// STEP 9 begin
-	//-------------------------------get descriptor (class 0x22 = report)-------------------------------------------//
-	// TASK: Call the appropriate function for this step.
-	UsbGetReportDesc();
-	//if no message
-	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000d2c:	010000c4 	movi	r4,3
  8000d30:	80002c00 	call	80002c0 <IO_read>
  8000d34:	10bfffcc 	andi	r2,r2,65535
  8000d38:	1080040c 	andi	r2,r2,16
  8000d3c:	103ff826 	beq	r2,zero,8000d20 <__alt_data_end+0xfc000d20>
-		// TASK: Call the appropriate function again if it wasn't processed successfully.
-		UsbGetReportDesc();
-		usleep(10*1000);
-	}
-
-	UsbWaitTDListDone();
  8000d40:	80020780 	call	8002078 <UsbWaitTDListDone>
-
-	IO_write(HPI_ADDR,0x0506);
  8000d44:	01414184 	movi	r5,1286
  8000d48:	01000084 	movi	r4,2
  8000d4c:	80002500 	call	8000250 <IO_write>
-	printf("[ENUM PROCESS]: step 9 TD Status Byte is %x\n",IO_read(HPI_DATA));
  8000d50:	0009883a 	mov	r4,zero
  8000d54:	80002c00 	call	80002c0 <IO_read>
  8000d58:	10bfffcc 	andi	r2,r2,65535
@@ -2226,254 +1604,150 @@ int main(void)
  8000d60:	01020074 	movhi	r4,2049
  8000d64:	2107f004 	addi	r4,r4,8128
  8000d68:	800222c0 	call	800222c <printf>
-
-	IO_write(HPI_ADDR,0x0508);
  8000d6c:	01414204 	movi	r5,1288
  8000d70:	01000084 	movi	r4,2
  8000d74:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  8000d78:	0009883a 	mov	r4,zero
  8000d7c:	80002c00 	call	80002c0 <IO_read>
  8000d80:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]: step 9 TD Control Byte is %x\n",usb_ctl_val);
  8000d84:	e0bffb0b 	ldhu	r2,-20(fp)
  8000d88:	100b883a 	mov	r5,r2
  8000d8c:	01020074 	movhi	r4,2049
  8000d90:	2107fc04 	addi	r4,r4,8176
  8000d94:	800222c0 	call	800222c <printf>
-	while (usb_ctl_val != 0x03)
  8000d98:	00000206 	br	8000da4 <main+0xa70>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
  8000d9c:	80020fc0 	call	80020fc <UsbGetRetryCnt>
  8000da0:	e0bffb0d 	sth	r2,-20(fp)
-	printf("[ENUM PROCESS]: step 9 TD Status Byte is %x\n",IO_read(HPI_DATA));
-
-	IO_write(HPI_ADDR,0x0508);
-	usb_ctl_val = IO_read(HPI_DATA);
-	printf("[ENUM PROCESS]: step 9 TD Control Byte is %x\n",usb_ctl_val);
-	while (usb_ctl_val != 0x03)
  8000da4:	e0bffb0b 	ldhu	r2,-20(fp)
  8000da8:	108000d8 	cmpnei	r2,r2,3
  8000dac:	103ffb1e 	bne	r2,zero,8000d9c <__alt_data_end+0xfc000d9c>
-	{
-		usb_ctl_val = UsbGetRetryCnt();
-	}
-
-	printf("---------------[ENUM PROCESS]:get descriptor (class 0x22) done!----------------\n");
  8000db0:	01020074 	movhi	r4,2049
  8000db4:	21080804 	addi	r4,r4,8224
  8000db8:	80023280 	call	8002328 <puts>
-
-
-
-	//-----------------------------------get keycode value------------------------------------------------//
-	usleep(10000);
  8000dbc:	0109c404 	movi	r4,10000
  8000dc0:	800f9f40 	call	800f9f4 <usleep>
-	while(1)
-	{
-		toggle++;
  8000dc4:	e0bffb83 	ldbu	r2,-18(fp)
  8000dc8:	10800044 	addi	r2,r2,1
  8000dcc:	e0bffb85 	stb	r2,-18(fp)
-		IO_write(HPI_ADDR,0x0500); //the start address
  8000dd0:	01414004 	movi	r5,1280
  8000dd4:	01000084 	movi	r4,2
  8000dd8:	80002500 	call	8000250 <IO_write>
-		//data phase IN-1
-		IO_write(HPI_DATA,0x051c); //500
  8000ddc:	01414704 	movi	r5,1308
  8000de0:	0009883a 	mov	r4,zero
  8000de4:	80002500 	call	8000250 <IO_write>
-
-		IO_write(HPI_DATA,0x000f & data_size);//2 data length
  8000de8:	e0bfff03 	ldbu	r2,-4(fp)
  8000dec:	108003cc 	andi	r2,r2,15
  8000df0:	100b883a 	mov	r5,r2
  8000df4:	0009883a 	mov	r4,zero
  8000df8:	80002500 	call	8000250 <IO_write>
-
-		IO_write(HPI_DATA,0x0291);//4 //endpoint 1
  8000dfc:	0140a444 	movi	r5,657
  8000e00:	0009883a 	mov	r4,zero
  8000e04:	80002500 	call	8000250 <IO_write>
-		if(toggle%2)
  8000e08:	e0bffb83 	ldbu	r2,-18(fp)
  8000e0c:	1080004c 	andi	r2,r2,1
  8000e10:	10803fcc 	andi	r2,r2,255
  8000e14:	10000426 	beq	r2,zero,8000e28 <main+0xaf4>
-		{
-			IO_write(HPI_DATA,0x0001);//6 //data 1
  8000e18:	01400044 	movi	r5,1
  8000e1c:	0009883a 	mov	r4,zero
  8000e20:	80002500 	call	8000250 <IO_write>
  8000e24:	00000306 	br	8000e34 <main+0xb00>
-		}
-		else
-		{
-			IO_write(HPI_DATA,0x0041);//6 //data 1
  8000e28:	01401044 	movi	r5,65
  8000e2c:	0009883a 	mov	r4,zero
  8000e30:	80002500 	call	8000250 <IO_write>
-		}
-		IO_write(HPI_DATA,0x0013);//8
  8000e34:	014004c4 	movi	r5,19
  8000e38:	0009883a 	mov	r4,zero
  8000e3c:	80002500 	call	8000250 <IO_write>
-		IO_write(HPI_DATA,0x0000);//a
  8000e40:	000b883a 	mov	r5,zero
  8000e44:	0009883a 	mov	r4,zero
  8000e48:	80002500 	call	8000250 <IO_write>
-		UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  8000e4c:	01414004 	movi	r5,1280
  8000e50:	01006c04 	movi	r4,432
  8000e54:	80010880 	call	8001088 <UsbWrite>
-		
-		while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000e58:	00002406 	br	8000eec <main+0xbb8>
-		{
-			IO_write(HPI_ADDR,0x0500); //the start address
  8000e5c:	01414004 	movi	r5,1280
  8000e60:	01000084 	movi	r4,2
  8000e64:	80002500 	call	8000250 <IO_write>
-			//data phase IN-1
-			IO_write(HPI_DATA,0x051c); //500
  8000e68:	01414704 	movi	r5,1308
  8000e6c:	0009883a 	mov	r4,zero
  8000e70:	80002500 	call	8000250 <IO_write>
-
-			IO_write(HPI_DATA,0x000f & data_size);//2 data length
  8000e74:	e0bfff03 	ldbu	r2,-4(fp)
  8000e78:	108003cc 	andi	r2,r2,15
  8000e7c:	100b883a 	mov	r5,r2
  8000e80:	0009883a 	mov	r4,zero
  8000e84:	80002500 	call	8000250 <IO_write>
-
-			IO_write(HPI_DATA,0x0291);//4 //endpoint 1
  8000e88:	0140a444 	movi	r5,657
  8000e8c:	0009883a 	mov	r4,zero
  8000e90:	80002500 	call	8000250 <IO_write>
-			if(toggle%2)
  8000e94:	e0bffb83 	ldbu	r2,-18(fp)
  8000e98:	1080004c 	andi	r2,r2,1
  8000e9c:	10803fcc 	andi	r2,r2,255
  8000ea0:	10000426 	beq	r2,zero,8000eb4 <main+0xb80>
-			{
-				IO_write(HPI_DATA,0x0001);//6 //data 1
  8000ea4:	01400044 	movi	r5,1
  8000ea8:	0009883a 	mov	r4,zero
  8000eac:	80002500 	call	8000250 <IO_write>
  8000eb0:	00000306 	br	8000ec0 <main+0xb8c>
-			}
-			else
-			{
-				IO_write(HPI_DATA,0x0041);//6 //data 1
  8000eb4:	01401044 	movi	r5,65
  8000eb8:	0009883a 	mov	r4,zero
  8000ebc:	80002500 	call	8000250 <IO_write>
-			}
-			IO_write(HPI_DATA,0x0013);//8
  8000ec0:	014004c4 	movi	r5,19
  8000ec4:	0009883a 	mov	r4,zero
  8000ec8:	80002500 	call	8000250 <IO_write>
-			IO_write(HPI_DATA,0x0000);//
  8000ecc:	000b883a 	mov	r5,zero
  8000ed0:	0009883a 	mov	r4,zero
  8000ed4:	80002500 	call	8000250 <IO_write>
-			UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  8000ed8:	01414004 	movi	r5,1280
  8000edc:	01006c04 	movi	r4,432
  8000ee0:	80010880 	call	8001088 <UsbWrite>
-			usleep(10*1000);
  8000ee4:	0109c404 	movi	r4,10000
  8000ee8:	800f9f40 	call	800f9f4 <usleep>
-		}
-		IO_write(HPI_DATA,0x0013);//8
-		IO_write(HPI_DATA,0x0000);//a
-		UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
-		
-		while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8000eec:	010000c4 	movi	r4,3
  8000ef0:	80002c00 	call	80002c0 <IO_read>
  8000ef4:	10bfffcc 	andi	r2,r2,65535
  8000ef8:	1080040c 	andi	r2,r2,16
  8000efc:	103fd726 	beq	r2,zero,8000e5c <__alt_data_end+0xfc000e5c>
-			usleep(10*1000);
-		}//end while
-
-
-
-		usb_ctl_val = UsbWaitTDListDone();
  8000f00:	80020780 	call	8002078 <UsbWaitTDListDone>
  8000f04:	e0bffb0d 	sth	r2,-20(fp)
-
-		// packet starts from 0x051c, reading third byte
-		// TASK: Write the address to read from the memory for byte 3 of the report descriptor to HPI_ADDR.
-		IO_write(HPI_ADDR,0x051e); //the start address
  8000f08:	01414784 	movi	r5,1310
  8000f0c:	01000084 	movi	r4,2
  8000f10:	80002500 	call	8000250 <IO_write>
-		keycode = IO_read(HPI_DATA);
  8000f14:	0009883a 	mov	r4,zero
  8000f18:	80002c00 	call	80002c0 <IO_read>
  8000f1c:	10bfffcc 	andi	r2,r2,65535
  8000f20:	e0bffd15 	stw	r2,-12(fp)
-		printf("\nfirst two keycode values are %04x\n",keycode);
  8000f24:	e17ffd17 	ldw	r5,-12(fp)
  8000f28:	01020074 	movhi	r4,2049
  8000f2c:	21081c04 	addi	r4,r4,8304
  8000f30:	800222c0 	call	800222c <printf>
-		IOWR(KEYCODE_BASE, 0, keycode & 0xff);
  8000f34:	e0bffd17 	ldw	r2,-12(fp)
  8000f38:	10c03fcc 	andi	r3,r2,255
  8000f3c:	00801c04 	movi	r2,112
  8000f40:	10c00035 	stwio	r3,0(r2)
-
-
-		usleep(200);//usleep(5000);
  8000f44:	01003204 	movi	r4,200
  8000f48:	800f9f40 	call	800f9f4 <usleep>
-		usb_ctl_val = UsbRead(ctl_reg);
  8000f4c:	d0a6cb0b 	ldhu	r2,-25812(gp)
  8000f50:	10bfffcc 	andi	r2,r2,65535
  8000f54:	1009883a 	mov	r4,r2
  8000f58:	80010e00 	call	80010e0 <UsbRead>
  8000f5c:	e0bffb0d 	sth	r2,-20(fp)
-
-		if(!(usb_ctl_val & no_device))
  8000f60:	d0a6cb8b 	ldhu	r2,-25810(gp)
  8000f64:	e0fffb0b 	ldhu	r3,-20(fp)
  8000f68:	1884703a 	and	r2,r3,r2
  8000f6c:	10bfffcc 	andi	r2,r2,65535
  8000f70:	10003f1e 	bne	r2,zero,8001070 <main+0xd3c>
-		{
-			//USB hot plug routine
-			for(hot_plug_count = 0 ; hot_plug_count < 7 ; hot_plug_count++)
  8000f74:	e03ffbc5 	stb	zero,-17(fp)
  8000f78:	00000f06 	br	8000fb8 <main+0xc84>
-			{
-				usleep(5*1000);
  8000f7c:	0104e204 	movi	r4,5000
  8000f80:	800f9f40 	call	800f9f4 <usleep>
-				usb_ctl_val = UsbRead(ctl_reg);
  8000f84:	d0a6cb0b 	ldhu	r2,-25812(gp)
  8000f88:	10bfffcc 	andi	r2,r2,65535
  8000f8c:	1009883a 	mov	r4,r2
  8000f90:	80010e00 	call	80010e0 <UsbRead>
  8000f94:	e0bffb0d 	sth	r2,-20(fp)
-				if(usb_ctl_val & no_device) break;
  8000f98:	d0a6cb8b 	ldhu	r2,-25810(gp)
  8000f9c:	e0fffb0b 	ldhu	r3,-20(fp)
  8000fa0:	1884703a 	and	r2,r3,r2
  8000fa4:	10bfffcc 	andi	r2,r2,65535
  8000fa8:	1000071e 	bne	r2,zero,8000fc8 <main+0xc94>
-		usb_ctl_val = UsbRead(ctl_reg);
-
-		if(!(usb_ctl_val & no_device))
-		{
-			//USB hot plug routine
-			for(hot_plug_count = 0 ; hot_plug_count < 7 ; hot_plug_count++)
  8000fac:	e0bffbc3 	ldbu	r2,-17(fp)
  8000fb0:	10800044 	addi	r2,r2,1
  8000fb4:	e0bffbc5 	stb	r2,-17(fp)
@@ -2481,100 +1755,56 @@ int main(void)
  8000fbc:	108001f0 	cmpltui	r2,r2,7
  8000fc0:	103fee1e 	bne	r2,zero,8000f7c <__alt_data_end+0xfc000f7c>
  8000fc4:	00000106 	br	8000fcc <main+0xc98>
-			{
-				usleep(5*1000);
-				usb_ctl_val = UsbRead(ctl_reg);
-				if(usb_ctl_val & no_device) break;
  8000fc8:	0001883a 	nop
-			}
-			if(!(usb_ctl_val & no_device))
  8000fcc:	d0a6cb8b 	ldhu	r2,-25810(gp)
  8000fd0:	e0fffb0b 	ldhu	r3,-20(fp)
  8000fd4:	1884703a 	and	r2,r3,r2
  8000fd8:	10bfffcc 	andi	r2,r2,65535
  8000fdc:	1000241e 	bne	r2,zero,8001070 <main+0xd3c>
-			{
-				printf("\n[INFO]: the keyboard has been removed!!! \n");
  8000fe0:	01020074 	movhi	r4,2049
  8000fe4:	21082504 	addi	r4,r4,8340
  8000fe8:	80023280 	call	8002328 <puts>
-				printf("[INFO]: please insert again!!! \n");
  8000fec:	01020074 	movhi	r4,2049
  8000ff0:	21083004 	addi	r4,r4,8384
  8000ff4:	80023280 	call	8002328 <puts>
-			}
-		}
-
-		while (!(usb_ctl_val & no_device))
  8000ff8:	00001d06 	br	8001070 <main+0xd3c>
-		{
-
-			usb_ctl_val = UsbRead(ctl_reg);
  8000ffc:	d0a6cb0b 	ldhu	r2,-25812(gp)
  8001000:	10bfffcc 	andi	r2,r2,65535
  8001004:	1009883a 	mov	r4,r2
  8001008:	80010e00 	call	80010e0 <UsbRead>
  800100c:	e0bffb0d 	sth	r2,-20(fp)
-			usleep(5*1000);
  8001010:	0104e204 	movi	r4,5000
  8001014:	800f9f40 	call	800f9f4 <usleep>
-			usb_ctl_val = UsbRead(ctl_reg);
  8001018:	d0a6cb0b 	ldhu	r2,-25812(gp)
  800101c:	10bfffcc 	andi	r2,r2,65535
  8001020:	1009883a 	mov	r4,r2
  8001024:	80010e00 	call	80010e0 <UsbRead>
  8001028:	e0bffb0d 	sth	r2,-20(fp)
-			usleep(5*1000);
  800102c:	0104e204 	movi	r4,5000
  8001030:	800f9f40 	call	800f9f4 <usleep>
-			usb_ctl_val = UsbRead(ctl_reg);
  8001034:	d0a6cb0b 	ldhu	r2,-25812(gp)
  8001038:	10bfffcc 	andi	r2,r2,65535
  800103c:	1009883a 	mov	r4,r2
  8001040:	80010e00 	call	80010e0 <UsbRead>
  8001044:	e0bffb0d 	sth	r2,-20(fp)
-			usleep(5*1000);
  8001048:	0104e204 	movi	r4,5000
  800104c:	800f9f40 	call	800f9f4 <usleep>
-
-			if(usb_ctl_val & no_device)
  8001050:	d0a6cb8b 	ldhu	r2,-25810(gp)
  8001054:	e0fffb0b 	ldhu	r3,-20(fp)
  8001058:	1884703a 	and	r2,r3,r2
  800105c:	10bfffcc 	andi	r2,r2,65535
  8001060:	10000126 	beq	r2,zero,8001068 <main+0xd34>
-				goto USB_HOT_PLUG;
  8001064:	003cbe06 	br	8000360 <__alt_data_end+0xfc000360>
-
-			usleep(200);
  8001068:	01003204 	movi	r4,200
  800106c:	800f9f40 	call	800f9f4 <usleep>
-				printf("\n[INFO]: the keyboard has been removed!!! \n");
-				printf("[INFO]: please insert again!!! \n");
-			}
-		}
-
-		while (!(usb_ctl_val & no_device))
  8001070:	d0a6cb8b 	ldhu	r2,-25810(gp)
  8001074:	e0fffb0b 	ldhu	r3,-20(fp)
  8001078:	1884703a 	and	r2,r3,r2
  800107c:	10bfffcc 	andi	r2,r2,65535
  8001080:	103fde26 	beq	r2,zero,8000ffc <__alt_data_end+0xfc000ffc>
-				goto USB_HOT_PLUG;
-
-			usleep(200);
-		}
-
-	}//end while
  8001084:	003f4f06 	br	8000dc4 <__alt_data_end+0xfc000dc4>
 
 08001088 <UsbWrite>:
- *
- * @note     None
- *
- ******************************************************************************/
-void UsbWrite(alt_u16 Address, alt_u16 Data)
-{
  8001088:	defffc04 	addi	sp,sp,-16
  800108c:	dfc00315 	stw	ra,12(sp)
  8001090:	df000215 	stw	fp,8(sp)
@@ -2583,18 +1813,14 @@ void UsbWrite(alt_u16 Address, alt_u16 Data)
  800109c:	2805883a 	mov	r2,r5
  80010a0:	e0fffe0d 	sth	r3,-8(fp)
  80010a4:	e0bfff0d 	sth	r2,-4(fp)
-	IO_write(HPI_ADDR,Address);
  80010a8:	e0bffe0b 	ldhu	r2,-8(fp)
  80010ac:	100b883a 	mov	r5,r2
  80010b0:	01000084 	movi	r4,2
  80010b4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,Data);
  80010b8:	e0bfff0b 	ldhu	r2,-4(fp)
  80010bc:	100b883a 	mov	r5,r2
  80010c0:	0009883a 	mov	r4,zero
  80010c4:	80002500 	call	8000250 <IO_write>
-
-}
  80010c8:	0001883a 	nop
  80010cc:	e037883a 	mov	sp,fp
  80010d0:	dfc00117 	ldw	ra,4(sp)
@@ -2603,29 +1829,18 @@ void UsbWrite(alt_u16 Address, alt_u16 Data)
  80010dc:	f800283a 	ret
 
 080010e0 <UsbRead>:
- *
- * @note     None
- *
- ******************************************************************************/
-alt_u16 UsbRead(alt_u16 Address)
-{
  80010e0:	defffd04 	addi	sp,sp,-12
  80010e4:	dfc00215 	stw	ra,8(sp)
  80010e8:	df000115 	stw	fp,4(sp)
  80010ec:	df000104 	addi	fp,sp,4
  80010f0:	2005883a 	mov	r2,r4
  80010f4:	e0bfff0d 	sth	r2,-4(fp)
-	IO_write(HPI_ADDR,Address);
  80010f8:	e0bfff0b 	ldhu	r2,-4(fp)
  80010fc:	100b883a 	mov	r5,r2
  8001100:	01000084 	movi	r4,2
  8001104:	80002500 	call	8000250 <IO_write>
-	return IO_read(HPI_DATA);
  8001108:	0009883a 	mov	r4,zero
  800110c:	80002c00 	call	80002c0 <IO_read>
-
-
-}
  8001110:	e037883a 	mov	sp,fp
  8001114:	dfc00117 	ldw	ra,4(sp)
  8001118:	df000017 	ldw	fp,0(sp)
@@ -2633,73 +1848,45 @@ alt_u16 UsbRead(alt_u16 Address)
  8001120:	f800283a 	ret
 
 08001124 <UsbSoftReset>:
- *
- * @note     None
- *
- ******************************************************************************/
-void UsbSoftReset()
-{
  8001124:	defffe04 	addi	sp,sp,-8
  8001128:	dfc00115 	stw	ra,4(sp)
  800112c:	df000015 	stw	fp,0(sp)
  8001130:	d839883a 	mov	fp,sp
-	//XIo_Out16(USB_MAILBOX, COMM_RESET);
-	IO_write(HPI_MAILBOX,COMM_RESET); //COMM_JUMP2CODE
  8001134:	017e9414 	movui	r5,64080
  8001138:	01000044 	movi	r4,1
  800113c:	80002500 	call	8000250 <IO_write>
-	usleep(100000);
  8001140:	010000b4 	movhi	r4,2
  8001144:	2121a804 	addi	r4,r4,-31072
  8001148:	800f9f40 	call	800f9f4 <usleep>
-	printf("[USB INIT]:reset finished!\n");
  800114c:	01020074 	movhi	r4,2049
  8001150:	21083804 	addi	r4,r4,8416
  8001154:	80023280 	call	8002328 <puts>
-
-	usleep(500000);
  8001158:	01000234 	movhi	r4,8
  800115c:	21284804 	addi	r4,r4,-24288
  8001160:	800f9f40 	call	800f9f4 <usleep>
-	printf("[USB INIT]:Clear up the interrupt\r\n");
  8001164:	01020074 	movhi	r4,2049
  8001168:	21083f04 	addi	r4,r4,8444
  800116c:	80023280 	call	8002328 <puts>
-	IO_read(HPI_MAILBOX);
  8001170:	01000044 	movi	r4,1
  8001174:	80002c00 	call	80002c0 <IO_read>
-	IO_read(HPI_STATUS);
  8001178:	010000c4 	movi	r4,3
  800117c:	80002c00 	call	80002c0 <IO_read>
-
-	// Had to add the write due to a bug in BIOS where they overwrite
-	// the mailbox after initialization with garbage.  The read clears
-	// any pending interrupts.
-	UsbRead (HPI_SIE1_MSG_ADR);
  8001180:	01005104 	movi	r4,324
  8001184:	80010e00 	call	80010e0 <UsbRead>
-	UsbWrite (HPI_SIE1_MSG_ADR, 0);
  8001188:	000b883a 	mov	r5,zero
  800118c:	01005104 	movi	r4,324
  8001190:	80010880 	call	8001088 <UsbWrite>
-	UsbRead (HPI_SIE2_MSG_ADR);
  8001194:	01005204 	movi	r4,328
  8001198:	80010e00 	call	80010e0 <UsbRead>
-	UsbWrite (HPI_SIE2_MSG_ADR, 0);
  800119c:	000b883a 	mov	r5,zero
  80011a0:	01005204 	movi	r4,328
  80011a4:	80010880 	call	8001088 <UsbWrite>
-
-
-	UsbWrite (HOST1_STAT_REG, 0xFFFF);
  80011a8:	017fffd4 	movui	r5,65535
  80011ac:	01302414 	movui	r4,49296
  80011b0:	80010880 	call	8001088 <UsbWrite>
-	UsbWrite (HOST2_STAT_REG, 0xFFFF);
  80011b4:	017fffd4 	movui	r5,65535
  80011b8:	01302c14 	movui	r4,49328
  80011bc:	80010880 	call	8001088 <UsbWrite>
-}
  80011c0:	0001883a 	nop
  80011c4:	e037883a 	mov	sp,fp
  80011c8:	dfc00117 	ldw	ra,4(sp)
@@ -2708,95 +1895,64 @@ void UsbSoftReset()
  80011d4:	f800283a 	ret
 
 080011d8 <UsbSetAddress>:
-
-
-void UsbSetAddress()
-{
  80011d8:	defffe04 	addi	sp,sp,-8
  80011dc:	dfc00115 	stw	ra,4(sp)
  80011e0:	df000015 	stw	fp,0(sp)
  80011e4:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  80011e8:	01414004 	movi	r5,1280
  80011ec:	01000084 	movi	r4,2
  80011f0:	80002500 	call	8000250 <IO_write>
-	// TD #1: 6 writes
-	IO_write(HPI_DATA,0x050C);
  80011f4:	01414304 	movi	r5,1292
  80011f8:	0009883a 	mov	r4,zero
  80011fc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  8001200:	01400204 	movi	r5,8
  8001204:	0009883a 	mov	r4,zero
  8001208:	80002500 	call	8000250 <IO_write>
-	// TASK: Complete with 4 more IOWR functions
-	IO_write(HPI_DATA,0x00D0);
  800120c:	01403404 	movi	r5,208
  8001210:	0009883a 	mov	r4,zero
  8001214:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  8001218:	01400044 	movi	r5,1
  800121c:	0009883a 	mov	r4,zero
  8001220:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001224:	014004c4 	movi	r5,19
  8001228:	0009883a 	mov	r4,zero
  800122c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  8001230:	01414504 	movi	r5,1300
  8001234:	0009883a 	mov	r4,zero
  8001238:	80002500 	call	8000250 <IO_write>
-	// TD #2: 4 writes
-	// TASK: Complete with 4 IOWR functions
-	IO_write(HPI_DATA,0x0500);
  800123c:	01414004 	movi	r5,1280
  8001240:	0009883a 	mov	r4,zero
  8001244:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0002);
  8001248:	01400084 	movi	r5,2
  800124c:	0009883a 	mov	r4,zero
  8001250:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001254:	000b883a 	mov	r5,zero
  8001258:	0009883a 	mov	r4,zero
  800125c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001260:	000b883a 	mov	r5,zero
  8001264:	0009883a 	mov	r4,zero
  8001268:	80002500 	call	8000250 <IO_write>
-	// TD #3: 6 writes
-	// TASK: Complete with 6 IOWR functions
-	IO_write(HPI_DATA,0x0000); //
  800126c:	000b883a 	mov	r5,zero
  8001270:	0009883a 	mov	r4,zero
  8001274:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//
  8001278:	000b883a 	mov	r5,zero
  800127c:	0009883a 	mov	r4,zero
  8001280:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0090);//
  8001284:	01402404 	movi	r5,144
  8001288:	0009883a 	mov	r4,zero
  800128c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);
  8001290:	01401044 	movi	r5,65
  8001294:	0009883a 	mov	r4,zero
  8001298:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  800129c:	014004c4 	movi	r5,19
  80012a0:	0009883a 	mov	r4,zero
  80012a4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  80012a8:	000b883a 	mov	r5,zero
  80012ac:	0009883a 	mov	r4,zero
  80012b0:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  80012b4:	01414004 	movi	r5,1280
  80012b8:	01006c04 	movi	r4,432
  80012bc:	80010880 	call	8001088 <UsbWrite>
-}
  80012c0:	0001883a 	nop
  80012c4:	e037883a 	mov	sp,fp
  80012c8:	dfc00117 	ldw	ra,4(sp)
@@ -2805,119 +1961,82 @@ void UsbSetAddress()
  80012d4:	f800283a 	ret
 
 080012d8 <UsbGetDeviceDesc1>:
-
-
-void UsbGetDeviceDesc1()
-{
  80012d8:	defffe04 	addi	sp,sp,-8
  80012dc:	dfc00115 	stw	ra,4(sp)
  80012e0:	df000015 	stw	fp,0(sp)
  80012e4:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  80012e8:	01414004 	movi	r5,1280
  80012ec:	01000084 	movi	r4,2
  80012f0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x050C);
  80012f4:	01414304 	movi	r5,1292
  80012f8:	0009883a 	mov	r4,zero
  80012fc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  8001300:	01400204 	movi	r5,8
  8001304:	0009883a 	mov	r4,zero
  8001308:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x02D0); //device address
  800130c:	0140b404 	movi	r5,720
  8001310:	0009883a 	mov	r4,zero
  8001314:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  8001318:	01400044 	movi	r5,1
  800131c:	0009883a 	mov	r4,zero
  8001320:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001324:	014004c4 	movi	r5,19
  8001328:	0009883a 	mov	r4,zero
  800132c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  8001330:	01414504 	movi	r5,1300
  8001334:	0009883a 	mov	r4,zero
  8001338:	80002500 	call	8000250 <IO_write>
-
-	//td content 4 bytes
-	IO_write(HPI_DATA,0x0680);//c
  800133c:	0141a004 	movi	r5,1664
  8001340:	0009883a 	mov	r4,zero
  8001344:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0100); //device 0x01
  8001348:	01404004 	movi	r5,256
  800134c:	0009883a 	mov	r4,zero
  8001350:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001354:	000b883a 	mov	r5,zero
  8001358:	0009883a 	mov	r4,zero
  800135c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);
  8001360:	01400204 	movi	r5,8
  8001364:	0009883a 	mov	r4,zero
  8001368:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN
-	IO_write(HPI_DATA,0x052C); //
  800136c:	01414b04 	movi	r5,1324
  8001370:	0009883a 	mov	r4,zero
  8001374:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//
  8001378:	01400204 	movi	r5,8
  800137c:	0009883a 	mov	r4,zero
  8001380:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//
  8001384:	0140a404 	movi	r5,656
  8001388:	0009883a 	mov	r4,zero
  800138c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);
  8001390:	01401044 	movi	r5,65
  8001394:	0009883a 	mov	r4,zero
  8001398:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  800139c:	014004c4 	movi	r5,19
  80013a0:	0009883a 	mov	r4,zero
  80013a4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0520);
  80013a8:	01414804 	movi	r5,1312
  80013ac:	0009883a 	mov	r4,zero
  80013b0:	80002500 	call	8000250 <IO_write>
-
-	//    //status phase
-	IO_write(HPI_DATA,0x0000); //don't care
  80013b4:	000b883a 	mov	r5,zero
  80013b8:	0009883a 	mov	r4,zero
  80013bc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//port number
  80013c0:	000b883a 	mov	r5,zero
  80013c4:	0009883a 	mov	r4,zero
  80013c8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0210);//device address
  80013cc:	01408404 	movi	r5,528
  80013d0:	0009883a 	mov	r4,zero
  80013d4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);
  80013d8:	01401044 	movi	r5,65
  80013dc:	0009883a 	mov	r4,zero
  80013e0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  80013e4:	014004c4 	movi	r5,19
  80013e8:	0009883a 	mov	r4,zero
  80013ec:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  80013f0:	000b883a 	mov	r5,zero
  80013f4:	0009883a 	mov	r4,zero
  80013f8:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  80013fc:	01414004 	movi	r5,1280
  8001400:	01006c04 	movi	r4,432
  8001404:	80010880 	call	8001088 <UsbWrite>
-}
  8001408:	0001883a 	nop
  800140c:	e037883a 	mov	sp,fp
  8001410:	dfc00117 	ldw	ra,4(sp)
@@ -2926,170 +2045,118 @@ void UsbGetDeviceDesc1()
  800141c:	f800283a 	ret
 
 08001420 <UsbGetDeviceDesc2>:
-
-void UsbGetDeviceDesc2()
-{
  8001420:	defffe04 	addi	sp,sp,-8
  8001424:	dfc00115 	stw	ra,4(sp)
  8001428:	df000015 	stw	fp,0(sp)
  800142c:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  8001430:	01414004 	movi	r5,1280
  8001434:	01000084 	movi	r4,2
  8001438:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x050C);
  800143c:	01414304 	movi	r5,1292
  8001440:	0009883a 	mov	r4,zero
  8001444:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  8001448:	01400204 	movi	r5,8
  800144c:	0009883a 	mov	r4,zero
  8001450:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x02D0); //device address
  8001454:	0140b404 	movi	r5,720
  8001458:	0009883a 	mov	r4,zero
  800145c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  8001460:	01400044 	movi	r5,1
  8001464:	0009883a 	mov	r4,zero
  8001468:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  800146c:	014004c4 	movi	r5,19
  8001470:	0009883a 	mov	r4,zero
  8001474:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  8001478:	01414504 	movi	r5,1300
  800147c:	0009883a 	mov	r4,zero
  8001480:	80002500 	call	8000250 <IO_write>
-
-	//td content 4 bytes
-	IO_write(HPI_DATA,0x0680);//c
  8001484:	0141a004 	movi	r5,1664
  8001488:	0009883a 	mov	r4,zero
  800148c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0100);//e //device 0x01
  8001490:	01404004 	movi	r5,256
  8001494:	0009883a 	mov	r4,zero
  8001498:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//0
  800149c:	000b883a 	mov	r5,zero
  80014a0:	0009883a 	mov	r4,zero
  80014a4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0012);//2
  80014a8:	01400484 	movi	r5,18
  80014ac:	0009883a 	mov	r4,zero
  80014b0:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-1
-	IO_write(HPI_DATA,0x0544); //514
  80014b4:	01415104 	movi	r5,1348
  80014b8:	0009883a 	mov	r4,zero
  80014bc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//6
  80014c0:	01400204 	movi	r5,8
  80014c4:	0009883a 	mov	r4,zero
  80014c8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//8
  80014cc:	0140a404 	movi	r5,656
  80014d0:	0009883a 	mov	r4,zero
  80014d4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//a
  80014d8:	01401044 	movi	r5,65
  80014dc:	0009883a 	mov	r4,zero
  80014e0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//c
  80014e4:	014004c4 	movi	r5,19
  80014e8:	0009883a 	mov	r4,zero
  80014ec:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0520);//e
  80014f0:	01414804 	movi	r5,1312
  80014f4:	0009883a 	mov	r4,zero
  80014f8:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-2
-	IO_write(HPI_DATA,0x054c); //520
  80014fc:	01415304 	movi	r5,1356
  8001500:	0009883a 	mov	r4,zero
  8001504:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//2
  8001508:	01400204 	movi	r5,8
  800150c:	0009883a 	mov	r4,zero
  8001510:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//4
  8001514:	0140a404 	movi	r5,656
  8001518:	0009883a 	mov	r4,zero
  800151c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//6
  8001520:	01400044 	movi	r5,1
  8001524:	0009883a 	mov	r4,zero
  8001528:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//8
  800152c:	014004c4 	movi	r5,19
  8001530:	0009883a 	mov	r4,zero
  8001534:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x052c);//a
  8001538:	01414b04 	movi	r5,1324
  800153c:	0009883a 	mov	r4,zero
  8001540:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-3
-	IO_write(HPI_DATA,0x0554); //c
  8001544:	01415504 	movi	r5,1364
  8001548:	0009883a 	mov	r4,zero
  800154c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0002);//e
  8001550:	01400084 	movi	r5,2
  8001554:	0009883a 	mov	r4,zero
  8001558:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//530
  800155c:	0140a404 	movi	r5,656
  8001560:	0009883a 	mov	r4,zero
  8001564:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//2
  8001568:	01401044 	movi	r5,65
  800156c:	0009883a 	mov	r4,zero
  8001570:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//4
  8001574:	014004c4 	movi	r5,19
  8001578:	0009883a 	mov	r4,zero
  800157c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0538);//6
  8001580:	01414e04 	movi	r5,1336
  8001584:	0009883a 	mov	r4,zero
  8001588:	80002500 	call	8000250 <IO_write>
-
-	//status phase
-	IO_write(HPI_DATA,0x0000); //538
  800158c:	000b883a 	mov	r5,zero
  8001590:	0009883a 	mov	r4,zero
  8001594:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//a
  8001598:	000b883a 	mov	r5,zero
  800159c:	0009883a 	mov	r4,zero
  80015a0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0210);//c
  80015a4:	01408404 	movi	r5,528
  80015a8:	0009883a 	mov	r4,zero
  80015ac:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//e
  80015b0:	01401044 	movi	r5,65
  80015b4:	0009883a 	mov	r4,zero
  80015b8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//540
  80015bc:	014004c4 	movi	r5,19
  80015c0:	0009883a 	mov	r4,zero
  80015c4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//2
  80015c8:	000b883a 	mov	r5,zero
  80015cc:	0009883a 	mov	r4,zero
  80015d0:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  80015d4:	01414004 	movi	r5,1280
  80015d8:	01006c04 	movi	r4,432
  80015dc:	80010880 	call	8001088 <UsbWrite>
-}
  80015e0:	0001883a 	nop
  80015e4:	e037883a 	mov	sp,fp
  80015e8:	dfc00117 	ldw	ra,4(sp)
@@ -3098,145 +2165,100 @@ void UsbGetDeviceDesc2()
  80015f4:	f800283a 	ret
 
 080015f8 <UsbGetConfigDesc1>:
-
-
-void UsbGetConfigDesc1()
-{
  80015f8:	defffe04 	addi	sp,sp,-8
  80015fc:	dfc00115 	stw	ra,4(sp)
  8001600:	df000015 	stw	fp,0(sp)
  8001604:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  8001608:	01414004 	movi	r5,1280
  800160c:	01000084 	movi	r4,2
  8001610:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x050C);
  8001614:	01414304 	movi	r5,1292
  8001618:	0009883a 	mov	r4,zero
  800161c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  8001620:	01400204 	movi	r5,8
  8001624:	0009883a 	mov	r4,zero
  8001628:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x02D0); //device address
  800162c:	0140b404 	movi	r5,720
  8001630:	0009883a 	mov	r4,zero
  8001634:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  8001638:	01400044 	movi	r5,1
  800163c:	0009883a 	mov	r4,zero
  8001640:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001644:	014004c4 	movi	r5,19
  8001648:	0009883a 	mov	r4,zero
  800164c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  8001650:	01414504 	movi	r5,1300
  8001654:	0009883a 	mov	r4,zero
  8001658:	80002500 	call	8000250 <IO_write>
-
-	//td content 4 bytes
-	IO_write(HPI_DATA,0x0680);//c
  800165c:	0141a004 	movi	r5,1664
  8001660:	0009883a 	mov	r4,zero
  8001664:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0200);//e //config 0x02
  8001668:	01408004 	movi	r5,512
  800166c:	0009883a 	mov	r4,zero
  8001670:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//0
  8001674:	000b883a 	mov	r5,zero
  8001678:	0009883a 	mov	r4,zero
  800167c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0009);//2
  8001680:	01400244 	movi	r5,9
  8001684:	0009883a 	mov	r4,zero
  8001688:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-1
-	IO_write(HPI_DATA,0x0544); //514
  800168c:	01415104 	movi	r5,1348
  8001690:	0009883a 	mov	r4,zero
  8001694:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//6
  8001698:	01400204 	movi	r5,8
  800169c:	0009883a 	mov	r4,zero
  80016a0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//8
  80016a4:	0140a404 	movi	r5,656
  80016a8:	0009883a 	mov	r4,zero
  80016ac:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//a
  80016b0:	01401044 	movi	r5,65
  80016b4:	0009883a 	mov	r4,zero
  80016b8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//c
  80016bc:	014004c4 	movi	r5,19
  80016c0:	0009883a 	mov	r4,zero
  80016c4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0520);//e
  80016c8:	01414804 	movi	r5,1312
  80016cc:	0009883a 	mov	r4,zero
  80016d0:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-2
-	IO_write(HPI_DATA,0x054c); //520
  80016d4:	01415304 	movi	r5,1356
  80016d8:	0009883a 	mov	r4,zero
  80016dc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//2
  80016e0:	01400044 	movi	r5,1
  80016e4:	0009883a 	mov	r4,zero
  80016e8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//4
  80016ec:	0140a404 	movi	r5,656
  80016f0:	0009883a 	mov	r4,zero
  80016f4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//6 //data0
  80016f8:	01400044 	movi	r5,1
  80016fc:	0009883a 	mov	r4,zero
  8001700:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//8
  8001704:	014004c4 	movi	r5,19
  8001708:	0009883a 	mov	r4,zero
  800170c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x052c);//a
  8001710:	01414b04 	movi	r5,1324
  8001714:	0009883a 	mov	r4,zero
  8001718:	80002500 	call	8000250 <IO_write>
-
-	//status phase
-	IO_write(HPI_DATA,0x0000); //52c
  800171c:	000b883a 	mov	r5,zero
  8001720:	0009883a 	mov	r4,zero
  8001724:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//e
  8001728:	000b883a 	mov	r5,zero
  800172c:	0009883a 	mov	r4,zero
  8001730:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0210);//530
  8001734:	01408404 	movi	r5,528
  8001738:	0009883a 	mov	r4,zero
  800173c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//2
  8001740:	01401044 	movi	r5,65
  8001744:	0009883a 	mov	r4,zero
  8001748:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//4
  800174c:	014004c4 	movi	r5,19
  8001750:	0009883a 	mov	r4,zero
  8001754:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//6
  8001758:	000b883a 	mov	r5,zero
  800175c:	0009883a 	mov	r4,zero
  8001760:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  8001764:	01414004 	movi	r5,1280
  8001768:	01006c04 	movi	r4,432
  800176c:	80010880 	call	8001088 <UsbWrite>
-}
  8001770:	0001883a 	nop
  8001774:	e037883a 	mov	sp,fp
  8001778:	dfc00117 	ldw	ra,4(sp)
@@ -3245,223 +2267,154 @@ void UsbGetConfigDesc1()
  8001784:	f800283a 	ret
 
 08001788 <UsbGetConfigDesc2>:
-
-
-void UsbGetConfigDesc2()
-{
  8001788:	defffe04 	addi	sp,sp,-8
  800178c:	dfc00115 	stw	ra,4(sp)
  8001790:	df000015 	stw	fp,0(sp)
  8001794:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  8001798:	01414004 	movi	r5,1280
  800179c:	01000084 	movi	r4,2
  80017a0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x050C);
  80017a4:	01414304 	movi	r5,1292
  80017a8:	0009883a 	mov	r4,zero
  80017ac:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  80017b0:	01400204 	movi	r5,8
  80017b4:	0009883a 	mov	r4,zero
  80017b8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x02D0); //device address
  80017bc:	0140b404 	movi	r5,720
  80017c0:	0009883a 	mov	r4,zero
  80017c4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  80017c8:	01400044 	movi	r5,1
  80017cc:	0009883a 	mov	r4,zero
  80017d0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  80017d4:	014004c4 	movi	r5,19
  80017d8:	0009883a 	mov	r4,zero
  80017dc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  80017e0:	01414504 	movi	r5,1300
  80017e4:	0009883a 	mov	r4,zero
  80017e8:	80002500 	call	8000250 <IO_write>
-
-	//td content 4 bytes
-	IO_write(HPI_DATA,0x0680);//c
  80017ec:	0141a004 	movi	r5,1664
  80017f0:	0009883a 	mov	r4,zero
  80017f4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0200);//e //config 0x02
  80017f8:	01408004 	movi	r5,512
  80017fc:	0009883a 	mov	r4,zero
  8001800:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//0
  8001804:	000b883a 	mov	r5,zero
  8001808:	0009883a 	mov	r4,zero
  800180c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x00FF);//2
  8001810:	01403fc4 	movi	r5,255
  8001814:	0009883a 	mov	r4,zero
  8001818:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-1
-	IO_write(HPI_DATA,0x055c); //514
  800181c:	01415704 	movi	r5,1372
  8001820:	0009883a 	mov	r4,zero
  8001824:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//6
  8001828:	01400204 	movi	r5,8
  800182c:	0009883a 	mov	r4,zero
  8001830:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//8
  8001834:	0140a404 	movi	r5,656
  8001838:	0009883a 	mov	r4,zero
  800183c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//a
  8001840:	01401044 	movi	r5,65
  8001844:	0009883a 	mov	r4,zero
  8001848:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//c
  800184c:	014004c4 	movi	r5,19
  8001850:	0009883a 	mov	r4,zero
  8001854:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0520);//e
  8001858:	01414804 	movi	r5,1312
  800185c:	0009883a 	mov	r4,zero
  8001860:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-2
-	IO_write(HPI_DATA,0x0564); //520
  8001864:	01415904 	movi	r5,1380
  8001868:	0009883a 	mov	r4,zero
  800186c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//2
  8001870:	01400204 	movi	r5,8
  8001874:	0009883a 	mov	r4,zero
  8001878:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//4
  800187c:	0140a404 	movi	r5,656
  8001880:	0009883a 	mov	r4,zero
  8001884:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//6 //data0
  8001888:	01400044 	movi	r5,1
  800188c:	0009883a 	mov	r4,zero
  8001890:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//8
  8001894:	014004c4 	movi	r5,19
  8001898:	0009883a 	mov	r4,zero
  800189c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x052c);//a
  80018a0:	01414b04 	movi	r5,1324
  80018a4:	0009883a 	mov	r4,zero
  80018a8:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-3
-	IO_write(HPI_DATA,0x056c); //52c
  80018ac:	01415b04 	movi	r5,1388
  80018b0:	0009883a 	mov	r4,zero
  80018b4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//e
  80018b8:	01400204 	movi	r5,8
  80018bc:	0009883a 	mov	r4,zero
  80018c0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//530
  80018c4:	0140a404 	movi	r5,656
  80018c8:	0009883a 	mov	r4,zero
  80018cc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//2
  80018d0:	01401044 	movi	r5,65
  80018d4:	0009883a 	mov	r4,zero
  80018d8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//4
  80018dc:	014004c4 	movi	r5,19
  80018e0:	0009883a 	mov	r4,zero
  80018e4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0538);//6
  80018e8:	01414e04 	movi	r5,1336
  80018ec:	0009883a 	mov	r4,zero
  80018f0:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-4
-	IO_write(HPI_DATA,0x0574); //538
  80018f4:	01415d04 	movi	r5,1396
  80018f8:	0009883a 	mov	r4,zero
  80018fc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//a
  8001900:	01400204 	movi	r5,8
  8001904:	0009883a 	mov	r4,zero
  8001908:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//c
  800190c:	0140a404 	movi	r5,656
  8001910:	0009883a 	mov	r4,zero
  8001914:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//e //data0
  8001918:	01400044 	movi	r5,1
  800191c:	0009883a 	mov	r4,zero
  8001920:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//540
  8001924:	014004c4 	movi	r5,19
  8001928:	0009883a 	mov	r4,zero
  800192c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0544);//2
  8001930:	01415104 	movi	r5,1348
  8001934:	0009883a 	mov	r4,zero
  8001938:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-5
-	IO_write(HPI_DATA,0x057c); //544
  800193c:	01415f04 	movi	r5,1404
  8001940:	0009883a 	mov	r4,zero
  8001944:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0002);//6
  8001948:	01400084 	movi	r5,2
  800194c:	0009883a 	mov	r4,zero
  8001950:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//8
  8001954:	0140a404 	movi	r5,656
  8001958:	0009883a 	mov	r4,zero
  800195c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//a //data1
  8001960:	01401044 	movi	r5,65
  8001964:	0009883a 	mov	r4,zero
  8001968:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//c
  800196c:	014004c4 	movi	r5,19
  8001970:	0009883a 	mov	r4,zero
  8001974:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0550);//e
  8001978:	01415404 	movi	r5,1360
  800197c:	0009883a 	mov	r4,zero
  8001980:	80002500 	call	8000250 <IO_write>
-
-	//status phase
-	IO_write(HPI_DATA,0x0000); //550
  8001984:	000b883a 	mov	r5,zero
  8001988:	0009883a 	mov	r4,zero
  800198c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//2
  8001990:	000b883a 	mov	r5,zero
  8001994:	0009883a 	mov	r4,zero
  8001998:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0210);//4
  800199c:	01408404 	movi	r5,528
  80019a0:	0009883a 	mov	r4,zero
  80019a4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//6
  80019a8:	01401044 	movi	r5,65
  80019ac:	0009883a 	mov	r4,zero
  80019b0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//8
  80019b4:	014004c4 	movi	r5,19
  80019b8:	0009883a 	mov	r4,zero
  80019bc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//a
  80019c0:	000b883a 	mov	r5,zero
  80019c4:	0009883a 	mov	r4,zero
  80019c8:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  80019cc:	01414004 	movi	r5,1280
  80019d0:	01006c04 	movi	r4,432
  80019d4:	80010880 	call	8001088 <UsbWrite>
-}
  80019d8:	0001883a 	nop
  80019dc:	e037883a 	mov	sp,fp
  80019e0:	dfc00117 	ldw	ra,4(sp)
@@ -3470,92 +2423,64 @@ void UsbGetConfigDesc2()
  80019ec:	f800283a 	ret
 
 080019f0 <UsbSetConfig>:
-
-void UsbSetConfig()
-{
  80019f0:	defffe04 	addi	sp,sp,-8
  80019f4:	dfc00115 	stw	ra,4(sp)
  80019f8:	df000015 	stw	fp,0(sp)
  80019fc:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  8001a00:	01414004 	movi	r5,1280
  8001a04:	01000084 	movi	r4,2
  8001a08:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x050C);
  8001a0c:	01414304 	movi	r5,1292
  8001a10:	0009883a 	mov	r4,zero
  8001a14:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  8001a18:	01400204 	movi	r5,8
  8001a1c:	0009883a 	mov	r4,zero
  8001a20:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x02D0); //port address
  8001a24:	0140b404 	movi	r5,720
  8001a28:	0009883a 	mov	r4,zero
  8001a2c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  8001a30:	01400044 	movi	r5,1
  8001a34:	0009883a 	mov	r4,zero
  8001a38:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001a3c:	014004c4 	movi	r5,19
  8001a40:	0009883a 	mov	r4,zero
  8001a44:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  8001a48:	01414504 	movi	r5,1300
  8001a4c:	0009883a 	mov	r4,zero
  8001a50:	80002500 	call	8000250 <IO_write>
-
-	//td content 4 bytes
-	IO_write(HPI_DATA,0x0900);
  8001a54:	01424004 	movi	r5,2304
  8001a58:	0009883a 	mov	r4,zero
  8001a5c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//device address
  8001a60:	01400044 	movi	r5,1
  8001a64:	0009883a 	mov	r4,zero
  8001a68:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001a6c:	000b883a 	mov	r5,zero
  8001a70:	0009883a 	mov	r4,zero
  8001a74:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001a78:	000b883a 	mov	r5,zero
  8001a7c:	0009883a 	mov	r4,zero
  8001a80:	80002500 	call	8000250 <IO_write>
-	//in packet
-	IO_write(HPI_DATA,0x0000); //don't care
  8001a84:	000b883a 	mov	r5,zero
  8001a88:	0009883a 	mov	r4,zero
  8001a8c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//port number
  8001a90:	000b883a 	mov	r5,zero
  8001a94:	0009883a 	mov	r4,zero
  8001a98:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//device address
  8001a9c:	0140a404 	movi	r5,656
  8001aa0:	0009883a 	mov	r4,zero
  8001aa4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041); //data 1
  8001aa8:	01401044 	movi	r5,65
  8001aac:	0009883a 	mov	r4,zero
  8001ab0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001ab4:	014004c4 	movi	r5,19
  8001ab8:	0009883a 	mov	r4,zero
  8001abc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001ac0:	000b883a 	mov	r5,zero
  8001ac4:	0009883a 	mov	r4,zero
  8001ac8:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  8001acc:	01414004 	movi	r5,1280
  8001ad0:	01006c04 	movi	r4,432
  8001ad4:	80010880 	call	8001088 <UsbWrite>
-
-}
  8001ad8:	0001883a 	nop
  8001adc:	e037883a 	mov	sp,fp
  8001ae0:	dfc00117 	ldw	ra,4(sp)
@@ -3564,91 +2489,64 @@ void UsbSetConfig()
  8001aec:	f800283a 	ret
 
 08001af0 <UsbClassRequest>:
-
-void UsbClassRequest()
-{
  8001af0:	defffe04 	addi	sp,sp,-8
  8001af4:	dfc00115 	stw	ra,4(sp)
  8001af8:	df000015 	stw	fp,0(sp)
  8001afc:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  8001b00:	01414004 	movi	r5,1280
  8001b04:	01000084 	movi	r4,2
  8001b08:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x050C);
  8001b0c:	01414304 	movi	r5,1292
  8001b10:	0009883a 	mov	r4,zero
  8001b14:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  8001b18:	01400204 	movi	r5,8
  8001b1c:	0009883a 	mov	r4,zero
  8001b20:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x02D0); //port address
  8001b24:	0140b404 	movi	r5,720
  8001b28:	0009883a 	mov	r4,zero
  8001b2c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  8001b30:	01400044 	movi	r5,1
  8001b34:	0009883a 	mov	r4,zero
  8001b38:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001b3c:	014004c4 	movi	r5,19
  8001b40:	0009883a 	mov	r4,zero
  8001b44:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  8001b48:	01414504 	movi	r5,1300
  8001b4c:	0009883a 	mov	r4,zero
  8001b50:	80002500 	call	8000250 <IO_write>
-
-	//td content 4 bytes
-	IO_write(HPI_DATA,0x0A21);
  8001b54:	01428844 	movi	r5,2593
  8001b58:	0009883a 	mov	r4,zero
  8001b5c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//device address
  8001b60:	000b883a 	mov	r5,zero
  8001b64:	0009883a 	mov	r4,zero
  8001b68:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001b6c:	000b883a 	mov	r5,zero
  8001b70:	0009883a 	mov	r4,zero
  8001b74:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001b78:	000b883a 	mov	r5,zero
  8001b7c:	0009883a 	mov	r4,zero
  8001b80:	80002500 	call	8000250 <IO_write>
-	//in packet
-	IO_write(HPI_DATA,0x0000); //don't care
  8001b84:	000b883a 	mov	r5,zero
  8001b88:	0009883a 	mov	r4,zero
  8001b8c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//port number /data length
  8001b90:	000b883a 	mov	r5,zero
  8001b94:	0009883a 	mov	r4,zero
  8001b98:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//device address
  8001b9c:	0140a404 	movi	r5,656
  8001ba0:	0009883a 	mov	r4,zero
  8001ba4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041); //data 1
  8001ba8:	01401044 	movi	r5,65
  8001bac:	0009883a 	mov	r4,zero
  8001bb0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001bb4:	014004c4 	movi	r5,19
  8001bb8:	0009883a 	mov	r4,zero
  8001bbc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);
  8001bc0:	000b883a 	mov	r5,zero
  8001bc4:	0009883a 	mov	r4,zero
  8001bc8:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  8001bcc:	01414004 	movi	r5,1280
  8001bd0:	01006c04 	movi	r4,432
  8001bd4:	80010880 	call	8001088 <UsbWrite>
-}
  8001bd8:	0001883a 	nop
  8001bdc:	e037883a 	mov	sp,fp
  8001be0:	dfc00117 	ldw	ra,4(sp)
@@ -3657,120 +2555,82 @@ void UsbClassRequest()
  8001bec:	f800283a 	ret
 
 08001bf0 <UsbGetHidDesc>:
-
-
-void UsbGetHidDesc()
-{
  8001bf0:	defffe04 	addi	sp,sp,-8
  8001bf4:	dfc00115 	stw	ra,4(sp)
  8001bf8:	df000015 	stw	fp,0(sp)
  8001bfc:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  8001c00:	01414004 	movi	r5,1280
  8001c04:	01000084 	movi	r4,2
  8001c08:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x050C);
  8001c0c:	01414304 	movi	r5,1292
  8001c10:	0009883a 	mov	r4,zero
  8001c14:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  8001c18:	01400204 	movi	r5,8
  8001c1c:	0009883a 	mov	r4,zero
  8001c20:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x02D0); //port address
  8001c24:	0140b404 	movi	r5,720
  8001c28:	0009883a 	mov	r4,zero
  8001c2c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  8001c30:	01400044 	movi	r5,1
  8001c34:	0009883a 	mov	r4,zero
  8001c38:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001c3c:	014004c4 	movi	r5,19
  8001c40:	0009883a 	mov	r4,zero
  8001c44:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  8001c48:	01414504 	movi	r5,1300
  8001c4c:	0009883a 	mov	r4,zero
  8001c50:	80002500 	call	8000250 <IO_write>
-
-	//td content 4 bytes
-	IO_write(HPI_DATA,0x0681);//c
  8001c54:	0141a044 	movi	r5,1665
  8001c58:	0009883a 	mov	r4,zero
  8001c5c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x2100);//e //HID 0x21
  8001c60:	01484004 	movi	r5,8448
  8001c64:	0009883a 	mov	r4,zero
  8001c68:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//0
  8001c6c:	000b883a 	mov	r5,zero
  8001c70:	0009883a 	mov	r4,zero
  8001c74:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x007B);//2
  8001c78:	01401ec4 	movi	r5,123
  8001c7c:	0009883a 	mov	r4,zero
  8001c80:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-1
-	IO_write(HPI_DATA,0x0544); //514
  8001c84:	01415104 	movi	r5,1348
  8001c88:	0009883a 	mov	r4,zero
  8001c8c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//6
  8001c90:	01400204 	movi	r5,8
  8001c94:	0009883a 	mov	r4,zero
  8001c98:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//8
  8001c9c:	0140a404 	movi	r5,656
  8001ca0:	0009883a 	mov	r4,zero
  8001ca4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//a
  8001ca8:	01401044 	movi	r5,65
  8001cac:	0009883a 	mov	r4,zero
  8001cb0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//c
  8001cb4:	014004c4 	movi	r5,19
  8001cb8:	0009883a 	mov	r4,zero
  8001cbc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0520);//e
  8001cc0:	01414804 	movi	r5,1312
  8001cc4:	0009883a 	mov	r4,zero
  8001cc8:	80002500 	call	8000250 <IO_write>
-
-	//status phase
-	IO_write(HPI_DATA,0x0000); //52c
  8001ccc:	000b883a 	mov	r5,zero
  8001cd0:	0009883a 	mov	r4,zero
  8001cd4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//e
  8001cd8:	000b883a 	mov	r5,zero
  8001cdc:	0009883a 	mov	r4,zero
  8001ce0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0210);//530
  8001ce4:	01408404 	movi	r5,528
  8001ce8:	0009883a 	mov	r4,zero
  8001cec:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//2
  8001cf0:	01401044 	movi	r5,65
  8001cf4:	0009883a 	mov	r4,zero
  8001cf8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//4
  8001cfc:	014004c4 	movi	r5,19
  8001d00:	0009883a 	mov	r4,zero
  8001d04:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//6
  8001d08:	000b883a 	mov	r5,zero
  8001d0c:	0009883a 	mov	r4,zero
  8001d10:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  8001d14:	01414004 	movi	r5,1280
  8001d18:	01006c04 	movi	r4,432
  8001d1c:	80010880 	call	8001088 <UsbWrite>
-
-}
  8001d20:	0001883a 	nop
  8001d24:	e037883a 	mov	sp,fp
  8001d28:	dfc00117 	ldw	ra,4(sp)
@@ -3779,302 +2639,208 @@ void UsbGetHidDesc()
  8001d34:	f800283a 	ret
 
 08001d38 <UsbGetReportDesc>:
-
-
-void UsbGetReportDesc()
-{
  8001d38:	defffe04 	addi	sp,sp,-8
  8001d3c:	dfc00115 	stw	ra,4(sp)
  8001d40:	df000015 	stw	fp,0(sp)
  8001d44:	d839883a 	mov	fp,sp
-	//the starting address
-	IO_write(HPI_ADDR,0x0500); //the start address
  8001d48:	01414004 	movi	r5,1280
  8001d4c:	01000084 	movi	r4,2
  8001d50:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x050C);
  8001d54:	01414304 	movi	r5,1292
  8001d58:	0009883a 	mov	r4,zero
  8001d5c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008); //4 port number
  8001d60:	01400204 	movi	r5,8
  8001d64:	0009883a 	mov	r4,zero
  8001d68:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x02D0); //device address
  8001d6c:	0140b404 	movi	r5,720
  8001d70:	0009883a 	mov	r4,zero
  8001d74:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);
  8001d78:	01400044 	movi	r5,1
  8001d7c:	0009883a 	mov	r4,zero
  8001d80:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);
  8001d84:	014004c4 	movi	r5,19
  8001d88:	0009883a 	mov	r4,zero
  8001d8c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0514);
  8001d90:	01414504 	movi	r5,1300
  8001d94:	0009883a 	mov	r4,zero
  8001d98:	80002500 	call	8000250 <IO_write>
-
-	//td content 4 bytes
-	IO_write(HPI_DATA,0x0681);//c
  8001d9c:	0141a044 	movi	r5,1665
  8001da0:	0009883a 	mov	r4,zero
  8001da4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x2200);//e //report 0x22
  8001da8:	01488004 	movi	r5,8704
  8001dac:	0009883a 	mov	r4,zero
  8001db0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//0
  8001db4:	000b883a 	mov	r5,zero
  8001db8:	0009883a 	mov	r4,zero
  8001dbc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x007B);//2
  8001dc0:	01401ec4 	movi	r5,123
  8001dc4:	0009883a 	mov	r4,zero
  8001dc8:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-1
-	IO_write(HPI_DATA,0x0580); //514
  8001dcc:	01416004 	movi	r5,1408
  8001dd0:	0009883a 	mov	r4,zero
  8001dd4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//6
  8001dd8:	01400204 	movi	r5,8
  8001ddc:	0009883a 	mov	r4,zero
  8001de0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//8
  8001de4:	0140a404 	movi	r5,656
  8001de8:	0009883a 	mov	r4,zero
  8001dec:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//a
  8001df0:	01401044 	movi	r5,65
  8001df4:	0009883a 	mov	r4,zero
  8001df8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//c
  8001dfc:	014004c4 	movi	r5,19
  8001e00:	0009883a 	mov	r4,zero
  8001e04:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0520);//e
  8001e08:	01414804 	movi	r5,1312
  8001e0c:	0009883a 	mov	r4,zero
  8001e10:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-2
-	IO_write(HPI_DATA,0x0588); //520
  8001e14:	01416204 	movi	r5,1416
  8001e18:	0009883a 	mov	r4,zero
  8001e1c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//2
  8001e20:	01400204 	movi	r5,8
  8001e24:	0009883a 	mov	r4,zero
  8001e28:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//4
  8001e2c:	0140a404 	movi	r5,656
  8001e30:	0009883a 	mov	r4,zero
  8001e34:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//6 //data0
  8001e38:	01400044 	movi	r5,1
  8001e3c:	0009883a 	mov	r4,zero
  8001e40:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//8
  8001e44:	014004c4 	movi	r5,19
  8001e48:	0009883a 	mov	r4,zero
  8001e4c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x052c);//a
  8001e50:	01414b04 	movi	r5,1324
  8001e54:	0009883a 	mov	r4,zero
  8001e58:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-3
-	IO_write(HPI_DATA,0x0590); //52c
  8001e5c:	01416404 	movi	r5,1424
  8001e60:	0009883a 	mov	r4,zero
  8001e64:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//e
  8001e68:	01400204 	movi	r5,8
  8001e6c:	0009883a 	mov	r4,zero
  8001e70:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//530
  8001e74:	0140a404 	movi	r5,656
  8001e78:	0009883a 	mov	r4,zero
  8001e7c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//2
  8001e80:	01401044 	movi	r5,65
  8001e84:	0009883a 	mov	r4,zero
  8001e88:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//4
  8001e8c:	014004c4 	movi	r5,19
  8001e90:	0009883a 	mov	r4,zero
  8001e94:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0538);//6
  8001e98:	01414e04 	movi	r5,1336
  8001e9c:	0009883a 	mov	r4,zero
  8001ea0:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-4
-	IO_write(HPI_DATA,0x0598); //538
  8001ea4:	01416604 	movi	r5,1432
  8001ea8:	0009883a 	mov	r4,zero
  8001eac:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//a
  8001eb0:	01400204 	movi	r5,8
  8001eb4:	0009883a 	mov	r4,zero
  8001eb8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//c
  8001ebc:	0140a404 	movi	r5,656
  8001ec0:	0009883a 	mov	r4,zero
  8001ec4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//e //data0
  8001ec8:	01400044 	movi	r5,1
  8001ecc:	0009883a 	mov	r4,zero
  8001ed0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//540
  8001ed4:	014004c4 	movi	r5,19
  8001ed8:	0009883a 	mov	r4,zero
  8001edc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0544);//2
  8001ee0:	01415104 	movi	r5,1348
  8001ee4:	0009883a 	mov	r4,zero
  8001ee8:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-5
-	IO_write(HPI_DATA,0x05a0); //544
  8001eec:	01416804 	movi	r5,1440
  8001ef0:	0009883a 	mov	r4,zero
  8001ef4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//6
  8001ef8:	01400204 	movi	r5,8
  8001efc:	0009883a 	mov	r4,zero
  8001f00:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//8
  8001f04:	0140a404 	movi	r5,656
  8001f08:	0009883a 	mov	r4,zero
  8001f0c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//a //data1
  8001f10:	01401044 	movi	r5,65
  8001f14:	0009883a 	mov	r4,zero
  8001f18:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//c
  8001f1c:	014004c4 	movi	r5,19
  8001f20:	0009883a 	mov	r4,zero
  8001f24:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0550);//e
  8001f28:	01415404 	movi	r5,1360
  8001f2c:	0009883a 	mov	r4,zero
  8001f30:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-6
-	IO_write(HPI_DATA,0x05a8); //550
  8001f34:	01416a04 	movi	r5,1448
  8001f38:	0009883a 	mov	r4,zero
  8001f3c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//2
  8001f40:	01400204 	movi	r5,8
  8001f44:	0009883a 	mov	r4,zero
  8001f48:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//4
  8001f4c:	0140a404 	movi	r5,656
  8001f50:	0009883a 	mov	r4,zero
  8001f54:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//6 //data0
  8001f58:	01400044 	movi	r5,1
  8001f5c:	0009883a 	mov	r4,zero
  8001f60:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//8
  8001f64:	014004c4 	movi	r5,19
  8001f68:	0009883a 	mov	r4,zero
  8001f6c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x055c);//a
  8001f70:	01415704 	movi	r5,1372
  8001f74:	0009883a 	mov	r4,zero
  8001f78:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-7
-	IO_write(HPI_DATA,0x05b0); //c
  8001f7c:	01416c04 	movi	r5,1456
  8001f80:	0009883a 	mov	r4,zero
  8001f84:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0008);//e
  8001f88:	01400204 	movi	r5,8
  8001f8c:	0009883a 	mov	r4,zero
  8001f90:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//560
  8001f94:	0140a404 	movi	r5,656
  8001f98:	0009883a 	mov	r4,zero
  8001f9c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//2 //data1
  8001fa0:	01401044 	movi	r5,65
  8001fa4:	0009883a 	mov	r4,zero
  8001fa8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//4
  8001fac:	014004c4 	movi	r5,19
  8001fb0:	0009883a 	mov	r4,zero
  8001fb4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0568);//6
  8001fb8:	01415a04 	movi	r5,1384
  8001fbc:	0009883a 	mov	r4,zero
  8001fc0:	80002500 	call	8000250 <IO_write>
-
-	//data phase IN-8
-	IO_write(HPI_DATA,0x05b8); //8
  8001fc4:	01416e04 	movi	r5,1464
  8001fc8:	0009883a 	mov	r4,zero
  8001fcc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0003);//a
  8001fd0:	014000c4 	movi	r5,3
  8001fd4:	0009883a 	mov	r4,zero
  8001fd8:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0290);//c
  8001fdc:	0140a404 	movi	r5,656
  8001fe0:	0009883a 	mov	r4,zero
  8001fe4:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0001);//e //data0
  8001fe8:	01400044 	movi	r5,1
  8001fec:	0009883a 	mov	r4,zero
  8001ff0:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//570
  8001ff4:	014004c4 	movi	r5,19
  8001ff8:	0009883a 	mov	r4,zero
  8001ffc:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0574);//2
  8002000:	01415d04 	movi	r5,1396
  8002004:	0009883a 	mov	r4,zero
  8002008:	80002500 	call	8000250 <IO_write>
-
-	//status phase
-	IO_write(HPI_DATA,0x0000); //574
  800200c:	000b883a 	mov	r5,zero
  8002010:	0009883a 	mov	r4,zero
  8002014:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//6
  8002018:	000b883a 	mov	r5,zero
  800201c:	0009883a 	mov	r4,zero
  8002020:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0210);//8
  8002024:	01408404 	movi	r5,528
  8002028:	0009883a 	mov	r4,zero
  800202c:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0041);//a
  8002030:	01401044 	movi	r5,65
  8002034:	0009883a 	mov	r4,zero
  8002038:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0013);//c
  800203c:	014004c4 	movi	r5,19
  8002040:	0009883a 	mov	r4,zero
  8002044:	80002500 	call	8000250 <IO_write>
-	IO_write(HPI_DATA,0x0000);//e
  8002048:	000b883a 	mov	r5,zero
  800204c:	0009883a 	mov	r4,zero
  8002050:	80002500 	call	8000250 <IO_write>
-
-	UsbWrite(HUSB_SIE1_pCurrentTDPtr,0x0500); //HUSB_SIE1_pCurrentTDPtr
  8002054:	01414004 	movi	r5,1280
  8002058:	01006c04 	movi	r4,432
  800205c:	80010880 	call	8001088 <UsbWrite>
-
-}
  8002060:	0001883a 	nop
  8002064:	e037883a 	mov	sp,fp
  8002068:	dfc00117 	ldw	ra,4(sp)
@@ -4083,66 +2849,34 @@ void UsbGetReportDesc()
  8002074:	f800283a 	ret
 
 08002078 <UsbWaitTDListDone>:
-
-
-alt_u16 UsbWaitTDListDone()
-{
  8002078:	defffd04 	addi	sp,sp,-12
  800207c:	dfc00215 	stw	ra,8(sp)
  8002080:	df000115 	stw	fp,4(sp)
  8002084:	df000104 	addi	fp,sp,4
-	alt_u16 usb_ctl_val;
-
-	usb_ctl_val = UsbRead(HPI_SIE1_MSG_ADR); // STEP 3 j
  8002088:	01005104 	movi	r4,324
  800208c:	80010e00 	call	80010e0 <UsbRead>
  8002090:	e0bfff0d 	sth	r2,-4(fp)
-	UsbWrite(HPI_SIE1_MSG_ADR, 0);
  8002094:	000b883a 	mov	r5,zero
  8002098:	01005104 	movi	r4,324
  800209c:	80010880 	call	8001088 <UsbWrite>
-	while (usb_ctl_val != HUSB_TDListDone)  // k, read sie1 msg register
  80020a0:	00000d06 	br	80020d8 <UsbWaitTDListDone+0x60>
-	{
-		if(usb_ctl_val == 0x0000)
  80020a4:	e0bfff0b 	ldhu	r2,-4(fp)
  80020a8:	10000526 	beq	r2,zero,80020c0 <UsbWaitTDListDone+0x48>
-		{
-		}
-		else
-		{
-			printf("[SIE1 MSG]:SIE1 msg reg is %x\n",usb_ctl_val);
  80020ac:	e0bfff0b 	ldhu	r2,-4(fp)
  80020b0:	100b883a 	mov	r5,r2
  80020b4:	01020074 	movhi	r4,2049
  80020b8:	21084804 	addi	r4,r4,8480
  80020bc:	800222c0 	call	800222c <printf>
-		}
-		usb_ctl_val = UsbRead(HPI_SIE1_MSG_ADR);
  80020c0:	01005104 	movi	r4,324
  80020c4:	80010e00 	call	80010e0 <UsbRead>
  80020c8:	e0bfff0d 	sth	r2,-4(fp)
-		UsbWrite(HPI_SIE1_MSG_ADR, 0);
  80020cc:	000b883a 	mov	r5,zero
  80020d0:	01005104 	movi	r4,324
  80020d4:	80010880 	call	8001088 <UsbWrite>
-{
-	alt_u16 usb_ctl_val;
-
-	usb_ctl_val = UsbRead(HPI_SIE1_MSG_ADR); // STEP 3 j
-	UsbWrite(HPI_SIE1_MSG_ADR, 0);
-	while (usb_ctl_val != HUSB_TDListDone)  // k, read sie1 msg register
  80020d8:	e0bfff0b 	ldhu	r2,-4(fp)
  80020dc:	10840018 	cmpnei	r2,r2,4096
  80020e0:	103ff01e 	bne	r2,zero,80020a4 <__alt_data_end+0xfc0020a4>
-		}
-		usb_ctl_val = UsbRead(HPI_SIE1_MSG_ADR);
-		UsbWrite(HPI_SIE1_MSG_ADR, 0);
-	}
-
-	return usb_ctl_val;
  80020e4:	e0bfff0b 	ldhu	r2,-4(fp)
-}
  80020e8:	e037883a 	mov	sp,fp
  80020ec:	dfc00117 	ldw	ra,4(sp)
  80020f0:	df000017 	ldw	fp,0(sp)
@@ -4150,54 +2884,33 @@ alt_u16 UsbWaitTDListDone()
  80020f8:	f800283a 	ret
 
 080020fc <UsbGetRetryCnt>:
-
-
-alt_u16 UsbGetRetryCnt()
-{
  80020fc:	defffd04 	addi	sp,sp,-12
  8002100:	dfc00215 	stw	ra,8(sp)
  8002104:	df000115 	stw	fp,4(sp)
  8002108:	df000104 	addi	fp,sp,4
-	alt_u16 usb_ctl_val;
-
-	IO_read(HPI_STATUS);
  800210c:	010000c4 	movi	r4,3
  8002110:	80002c00 	call	80002c0 <IO_read>
-	if(UsbRead(HPI_SIE1_MSG_ADR) == HUSB_TDListDone)
  8002114:	01005104 	movi	r4,324
  8002118:	80010e00 	call	80010e0 <UsbRead>
  800211c:	10bfffcc 	andi	r2,r2,65535
  8002120:	10840018 	cmpnei	r2,r2,4096
  8002124:	1000091e 	bne	r2,zero,800214c <UsbGetRetryCnt+0x50>
-	{
-		UsbWrite(HPI_SIE1_MSG_ADR, 0);
  8002128:	000b883a 	mov	r5,zero
  800212c:	01005104 	movi	r4,324
  8002130:	80010880 	call	8001088 <UsbWrite>
-
-		while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
  8002134:	0001883a 	nop
  8002138:	010000c4 	movi	r4,3
  800213c:	80002c00 	call	80002c0 <IO_read>
  8002140:	10bfffcc 	andi	r2,r2,65535
  8002144:	1080040c 	andi	r2,r2,16
  8002148:	103ffb26 	beq	r2,zero,8002138 <__alt_data_end+0xfc002138>
-		{
-		}
-	}
-	//usleep(1000);
-	IO_write(HPI_ADDR,0x0508);
  800214c:	01414204 	movi	r5,1288
  8002150:	01000084 	movi	r4,2
  8002154:	80002500 	call	8000250 <IO_write>
-	usb_ctl_val = IO_read(HPI_DATA);
  8002158:	0009883a 	mov	r4,zero
  800215c:	80002c00 	call	80002c0 <IO_read>
  8002160:	e0bfff0d 	sth	r2,-4(fp)
-
-	return usb_ctl_val;
  8002164:	e0bfff0b 	ldhu	r2,-4(fp)
-}
  8002168:	e037883a 	mov	sp,fp
  800216c:	dfc00117 	ldw	ra,4(sp)
  8002170:	df000017 	ldw	fp,0(sp)
@@ -4205,29 +2918,19 @@ alt_u16 UsbGetRetryCnt()
  8002178:	f800283a 	ret
 
 0800217c <UsbPrintMem>:
-
-
-void UsbPrintMem()
-{
  800217c:	defffc04 	addi	sp,sp,-16
  8002180:	dfc00315 	stw	ra,12(sp)
  8002184:	df000215 	stw	fp,8(sp)
  8002188:	df000204 	addi	fp,sp,8
-	int i, code;
-	IO_write(HPI_ADDR,0x0500); //the start address
  800218c:	01414004 	movi	r5,1280
  8002190:	01000084 	movi	r4,2
  8002194:	80002500 	call	8000250 <IO_write>
-	for (i = 0; i <= 200; i += 2)
  8002198:	e03ffe15 	stw	zero,-8(fp)
  800219c:	00000e06 	br	80021d8 <UsbPrintMem+0x5c>
-	{
-		code = IO_read(HPI_DATA);
  80021a0:	0009883a 	mov	r4,zero
  80021a4:	80002c00 	call	80002c0 <IO_read>
  80021a8:	10bfffcc 	andi	r2,r2,65535
  80021ac:	e0bfff15 	stw	r2,-4(fp)
-		printf("\naddr %x = %04x\n", 0x0500+i, code);
  80021b0:	e0bffe17 	ldw	r2,-8(fp)
  80021b4:	10814004 	addi	r2,r2,1280
  80021b8:	e1bfff17 	ldw	r6,-4(fp)
@@ -4235,23 +2938,12 @@ void UsbPrintMem()
  80021c0:	01020074 	movhi	r4,2049
  80021c4:	21085004 	addi	r4,r4,8512
  80021c8:	800222c0 	call	800222c <printf>
-
-void UsbPrintMem()
-{
-	int i, code;
-	IO_write(HPI_ADDR,0x0500); //the start address
-	for (i = 0; i <= 200; i += 2)
  80021cc:	e0bffe17 	ldw	r2,-8(fp)
  80021d0:	10800084 	addi	r2,r2,2
  80021d4:	e0bffe15 	stw	r2,-8(fp)
  80021d8:	e0bffe17 	ldw	r2,-8(fp)
  80021dc:	10803250 	cmplti	r2,r2,201
  80021e0:	103fef1e 	bne	r2,zero,80021a0 <__alt_data_end+0xfc0021a0>
-	{
-		code = IO_read(HPI_DATA);
-		printf("\naddr %x = %04x\n", 0x0500+i, code);
-	}
-}
  80021e4:	0001883a 	nop
  80021e8:	e037883a 	mov	sp,fp
  80021ec:	dfc00117 	ldw	ra,4(sp)
