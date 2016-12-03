@@ -1,17 +1,17 @@
 
-module  square (input Reset, Clk, coord,
+module  square (input Reset, Clk, coord, edge_disableL, edge_disableR,
 					input a_enable,s_enable,d_enable,
 					input [9:0] center_x, center_y,
 					output logic [9:0]  SQUAREX, SQUAREY, SQUARE_Size_x, SQUARE_Size_y,
-					output logic at_bottom);
+					output logic at_bottom, at_edgeL, at_edgeR);
 
     logic [9:0] SQUARE_X_Pos, SQUARE_Y_Pos;
-    parameter [9:0] SQUARE_X_Center = 300;  // Center position on the X axis // needs to be variable
-    parameter [9:0] SQUARE_Y_Center = 40;  // Center position on the Y axis  // needs to be variable from sate machine
     parameter [9:0] SQUARE_X_Min=200;       // Leftmost point on the X axis
-    parameter [9:0] SQUARE_X_Max=400;     // Rightmost point on the X axis
+    parameter [9:0] SQUARE_X_Max=380;     // Rightmost point on the X axis
     parameter [9:0] SQUARE_Y_Min=0;       // Topmost point on the Y axis
-    parameter [9:0] SQUARE_Y_Max=400;     // Bottommost point on the Y axis
+    parameter [9:0] SQUARE_Y_Max=380;     // Bottommost point on the Y axis
+
+
     parameter [9:0] SQUARE_X_Step=20;      // Step size on the X axis
     parameter [9:0] SQUARE_Y_Step=20;      // Step size on the Y axis
 
@@ -28,10 +28,10 @@ module  square (input Reset, Clk, coord,
 		  else if(coord) begin
 						SQUARE_Y_Pos <= center_y;
 						SQUARE_X_Pos <= center_x;
-		  end 
+		  end
         	else
         		begin
-				if(a_enable == 1'b1)
+				if(a_enable == 1'b1 && edge_disableL != 1'b1)
 				begin
 					 SQUARE_X_Pos <= SQUARE_X_Pos - SQUARE_X_Step;
 				end
@@ -39,7 +39,7 @@ module  square (input Reset, Clk, coord,
 				begin
 					 SQUARE_Y_Pos <= SQUARE_Y_Pos + SQUARE_Y_Step;
 				end
-				if(d_enable == 1'b1)
+				if(d_enable == 1'b1 && edge_disableR != 1'b1)
 				begin
 					 SQUARE_X_Pos <= SQUARE_X_Pos + SQUARE_X_Step;
 				end
@@ -50,7 +50,7 @@ module  square (input Reset, Clk, coord,
 				 		SQUARE_Y_Pos <= SQUARE_Y_Max;
 
 				 end
-				 if( (SQUARE_X_Pos) >= SQUARE_X_Max & ~s_enable) // SQUARE is at right edge
+				 if( (SQUARE_X_Pos) >= (SQUARE_X_Max) & ~s_enable) // SQUARE is at right edge
 				 begin
 						SQUARE_X_Pos <= SQUARE_X_Max;
 				 end
@@ -64,11 +64,24 @@ module  square (input Reset, Clk, coord,
 		 end
     end
 	 always_comb begin
+	 if((SQUARE_X_Pos == SQUARE_X_Min) && ~d_enable)
+	 		at_edgeL = 1'b1;
+	 else
+	 	  at_edgeL = 1'b0;
+	 
+	 if((SQUARE_X_Pos == SQUARE_X_Max) && ~s_enable)
+	 		at_edgeR = 1'b1;
+	 else
+	 	  at_edgeR = 1'b0;
+
 		if(SQUARE_Y_Pos == SQUARE_Y_Max)
 			at_bottom = 1'b1;
 		else
 			at_bottom = 1'b0;
+
 	 end
+
+
     assign SQUAREX = SQUARE_X_Pos;
 
     assign SQUAREY = SQUARE_Y_Pos;

@@ -1,0 +1,38 @@
+module rowmodule( input Clk,Reset,load,
+                  input [9:0] in,
+                  output logic full,
+                  output logic [9:0] out
+);
+
+          always_ff @ (posedge Clk or posedge Reset)
+          begin
+          if(Reset)
+            out = 10'b0;
+          else begin
+          always_comb begin
+            out = in;
+            if(load) begin
+              case(x_coord)
+              200 : out[0] = 1'b1;
+              220 : out[1] = 1'b1;
+              240 : out[2] = 1'b1;
+              260 : out[3] = 1'b1;
+              280 : out[4] = 1'b1;
+              300 : out[5] = 1'b1;
+              320 : out[6] = 1'b1;
+              340 : out[7] = 1'b1;
+              360 : out[8] = 1'b1;
+              380 : out[9] = 1'b1;
+              default :
+              endcase
+              end
+              if(out == 10'b1111111111 ) // full row
+                full <= 1'b1;
+              else
+                full <= 1'b0;
+
+          end
+        end
+      end
+
+endmodule

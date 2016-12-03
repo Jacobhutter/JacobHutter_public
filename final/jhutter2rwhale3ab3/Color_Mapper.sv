@@ -14,7 +14,10 @@
 
 
 module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, BallY3, BallX4, BallY4, DrawX, DrawY, Ball_size,
-                       output logic [7:0]  Red, Green, Blue );
+                       input [399:0][199:0] game,
+                       output logic [7:0]  Red, Green, Blue,
+							  output logic flag
+								);
 
     //logic ball_on;
 
@@ -45,7 +48,7 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 	logic[10:0] borderr_size_y = 420;
 
 	logic[10:0] borderb_x = 180;
-	logic[10:0] borderb_y = 420;
+	logic[10:0] borderb_y = 400;
 	logic[10:0] borderb_size_x = 240;
 	logic[10:0] borderb_size_y = 20;
 
@@ -88,12 +91,34 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 	assign shape4_size_x = Ball_size;
 	logic[10:0] shape4_size_y;
 	assign shape4_size_y = Ball_size;
-
+	
+	logic game_piece;
+	//logic [199:0] dy,dx;
+	//assign dy = DrawY;
+	//assign dx = DrawX;
+	assign game_piece = game[DrawY][DrawX + 56];
+	logic store_on;
+	logic[10:0] gameL = 11'd200;
+	logic[10:0] gameR = 11'd400;
+	
     always_comb
     begin:Ball_on_proc
-			if(DrawX >= shape_x && DrawX < shape_x + shape_size_x &&
+			if(DrawX < gameR && DrawX >= gameL && DrawY < gameR && game_piece == 1'b1) begin
+				flag = 1'b1;
+				store_on = 1'b1;
+				shape_on = 1'b0;
+				shape2_on = 1'b0;
+				shape3_on = 1'b0;
+				shape4_on = 1'b0;
+				borderL_on = 1'b0;
+				borderR_on = 1'b0;
+	         borderB_on = 1'b0;
+			end
+			else if(DrawX >= shape_x && DrawX < shape_x + shape_size_x &&
 				DrawY >= shape_y && DrawY < shape_y + shape_size_y)
 			begin
+				flag = 1'b0;
+				store_on = 1'b0;
 				shape_on = 1'b1;
 				shape2_on = 1'b0;
 				shape3_on = 1'b0;
@@ -101,11 +126,12 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 				borderL_on = 1'b0;
 				borderR_on = 1'b0;
 	         borderB_on = 1'b0;
-				//sprite_addr = (DrawY - shape_y + 16*'h48);
 			end
 			else if(DrawX >= borderl_x && DrawX < borderl_x + borderl_size_x &&
 				DrawY >= borderl_y && DrawY < borderl_y + borderl_size_y)
 			begin
+			flag = 1'b0;
+				store_on = 1'b0;
 				shape_on = 1'b0;
 				shape2_on = 1'b0;
 				shape3_on = 1'b0;
@@ -113,11 +139,12 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 				borderL_on = 1'b1;
 				borderR_on = 1'b0;
 	         borderB_on = 1'b0;
-				//sprite_addr = (DrawY - shape_y + 16*'h48);
 			end
 			else if(DrawX >= borderr_x && DrawX < borderr_x + borderr_size_x &&
 				DrawY >= borderr_y && DrawY < borderr_y + borderr_size_y)
 			begin
+			flag = 1'b0;
+				store_on = 1'b0;
 				shape_on = 1'b0;
 				shape2_on = 1'b0;
 				shape3_on = 1'b0;
@@ -125,11 +152,12 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 				borderL_on = 1'b0;
 				borderR_on = 1'b1;
 	         borderB_on = 1'b0;
-				//sprite_addr = (DrawY - shape_y + 16*'h48);
 			end
 			else if(DrawX >= borderb_x && DrawX < borderb_x + borderb_size_x &&
 				DrawY >= borderb_y && DrawY < borderb_y + borderb_size_y)
 			begin
+			flag = 1'b0;
+				store_on = 1'b0;
 				shape_on = 1'b0;
 				shape2_on = 1'b0;
 				shape3_on = 1'b0;
@@ -137,11 +165,12 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 				borderL_on = 1'b0;
 				borderR_on = 1'b0;
 	         borderB_on = 1'b1;
-				//sprite_addr = (DrawY - shape_y + 16*'h48);
 			end
 			else if(DrawX >= shape2_x && DrawX < shape2_x + shape2_size_x &&
 					  DrawY >= shape2_y && DrawY < shape2_y + shape2_size_y)
 			begin
+			flag = 1'b0;
+				store_on = 1'b0;
 				shape_on = 1'b0;
 				shape2_on = 1'b1;
 			   shape3_on = 1'b0;
@@ -149,11 +178,12 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 				borderL_on = 1'b0;
 				borderR_on = 1'b0;
 	         borderB_on = 1'b0;
-				//sprite_addr = (DrawY - shape2_y + 16*'h49);
 			end
 			else if(DrawX >= shape3_x && DrawX < shape3_x + shape3_size_x &&
 					  DrawY >= shape3_y && DrawY < shape3_y + shape3_size_y)
 			begin
+			flag = 1'b0;
+				store_on = 1'b0;
 				shape_on = 1'b0;
 				shape2_on = 1'b0;
 				shape3_on = 1'b1;
@@ -161,11 +191,12 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 				borderL_on = 1'b0;
 				borderR_on = 1'b0;
 	         borderB_on = 1'b0;
-				//sprite_addr = (DrawY - shape2_y + 16*'h49);
 			end
 			else if(DrawX >= shape4_x && DrawX < shape4_x + shape4_size_x &&
 					  DrawY >= shape4_y && DrawY < shape4_y + shape4_size_y)
 			begin
+			flag = 1'b0;
+				store_on = 1'b0;
 				shape_on = 1'b0;
 				shape2_on = 1'b0;
 				shape3_on = 1'b0;
@@ -173,10 +204,11 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 				borderL_on = 1'b0;
 				borderR_on = 1'b0;
 	         borderB_on = 1'b0;
-				//sprite_addr = (DrawY - shape2_y + 16*'h49);
 			end
 			else
 			begin
+			flag = 1'b0;
+				store_on = 1'b0;
 				shape_on = 1'b0;
 				shape2_on = 1'b0;
 				shape3_on = 1'b0;
@@ -184,18 +216,17 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 				borderL_on = 1'b0;
 				borderR_on = 1'b0;
 	         borderB_on = 1'b0;
-				//sprite_addr = 10'b0;
 			end
 		end
     always_comb
     begin:RGB_Display
-        if ((shape_on == 1'b1)/* && sprite_data[DrawX - shape_x ] == 1'b1*/)
+        if ((shape_on == 1'b1))
         begin
-            Red = 8'h00;
+				Red = 8'hff;
             Green = 8'hff;
-            Blue = 8'hff;
+            Blue = 8'h00;
         end
-        else if((shape2_on == 1'b1)/* && sprite_data[DrawX - shape2_x] == 1'b1*/)
+        else if((shape2_on == 1'b1))
         begin
 				Red = 8'hff;
             Green = 8'hff;
@@ -203,9 +234,9 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 		  end
 		  else if(shape3_on == 1'b1)
 		  begin
-				Red = 8'hAD;
+				Red = 8'hff;
             Green = 8'hff;
-            Blue = 8'h2F;
+            Blue = 8'h00;
 		  end
 		  else if(borderL_on == 1'b1)
 		  begin
@@ -228,9 +259,14 @@ module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, 
 		  else if(shape4_on == 1'b1)
 		  begin
 				Red = 8'hff;
-            Green = 8'h14;
-            Blue = 8'h93;
+            Green = 8'hff;
+            Blue = 8'h00;
 		  end
+      else if(store_on == 1'b1) begin
+          Red = 8'hff;
+          Green = 8'h14;
+          Blue = 8'h93;
+      end
 		  else
 		  begin
             Red = 8'h00;

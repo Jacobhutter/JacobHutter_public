@@ -30,7 +30,7 @@ module  vga_controller ( input        Clk,       // 50 MHz clock
 												  blank,     // Blanking interval indicator.  Active low.
 												  sync,      // Composite Sync signal.  Active low.  We don't use it in this lab,
 												             //   but the video DAC on the DE2 board requires an input for it.
-								 output [9:0] DrawX,     // horizontal coordinate
+								 output logic [9:0] DrawX,     // horizontal coordinate
 								              DrawY );   // vertical coordinate
     
     // 800 horizontal pixels indexed 0 to 799

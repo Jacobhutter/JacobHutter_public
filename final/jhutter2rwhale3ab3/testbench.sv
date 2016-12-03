@@ -8,29 +8,54 @@ timeprecision 1ns;
 // instantiated as a submodule in testbench.
 logic Clk = 0;
 logic Reset;
+logic [9:0] BallX, BallY, BallX2, BallY2, BallX3, BallY3, BallX4, BallY4;
+logic hs,vs,pixel_clk,blank,sync;
+logic [9:0] DrawX, DrawY;
+
+logic [399:0][199:0] game;
+logic [7:0] Red, Green, Blue;
+
+logic [9:0] square1x,square1y,square2x,square2y,square3x,square3y,square4x,square4y;
 logic at_bottom;
-logic [9:0] center_x,center_y;
-logic a_enable,d_enable,s_enable;
-logic [9:0] ballxsig,ballysig,ballsizesig;
+logic [9:0] Ball_size;
+assign Ball_size = 10'd20;
+assign BallX = square1x;
+assign BallY = square1y;
+assign BallX2 = square2x;
+assign BallY2 = square2y;
+assign BallX3 = square3x;
+assign BallY3 = square3y;
+assign BallX4 = square4x;
+assign BallY4 = square4y;
 
-logic coord;
+logic [19:0][199:0] example;
+logic flag;
 
+color_mapper cm(.*);
+vga_controller vc(.*);
+gameboard gm(.*,.Clk(Clk));
 
-shape_generator s_g(.coord(coord),.Clk(Clk),.Reset(Reset_h),.at_bottom(at_bottom),.new_square_1x(center_x),.new_square_1y(center_y),.new_square_2x(),.new_square_2y(),.new_square_3x(),.new_square_3y(),.new_square_4x(),.new_square_4y());
+/*module gameboard(
+              input Clk,Reset, at_bottom,
+              input [9:0] square1x,square1y,square2x,square2y,square3x,square3y,square4x,square4y, // current square positions not placed
+              output logic [399:0][199:0] game,
+				  output logic [19:0][199:0] example
+  );*/
+/*module  color_mapper ( input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, BallY3, BallX4, BallY4, DrawX, DrawY, Ball_size,
+                       input [399:0][199:0] game,
+                       output logic [7:0]  Red, Green, Blue );
+*/
+/*module  vga_controller ( input        Clk,       // 50 MHz clock
+                                      Reset,     // reset signal
+                         output logic hs,        // Horizontal sync pulse.  Active low
+								              vs,        // Vertical sync pulse.  Active low
+												  pixel_clk, // 25 MHz pixel clock output
+												  blank,     // Blanking interval indicator.  Active low.
+												  sync,      // Composite Sync signal.  Active low.  We don't use it in this lab,
+												             //   but the video DAC on the DE2 board requires an input for it.
+								 output [9:0] DrawX,     // horizontal coordinate
+								              DrawY );   // vertical coordinate*/
 
-	 square square_instance(.at_bottom(at_bottom),.center_x(center_x),.center_y(center_y),.Reset(Reset_h),.a_enable(a_enable),.s_enable(s_enable|flag),.d_enable(d_enable),
-   .Clk(Clk),.SQUAREX(ballxsig),.SQUAREY(ballysig),.SQUARE_Size_x(ballsizesig),.SQUARE_Size_y(),.coord(coord));
-
-/*module  square (input Reset, Clk,
-					input a_enable,s_enable,d_enable,
-					input [9:0] center_x, center_y,
-					output logic [9:0]  SQUAREX, SQUAREY, SQUARE_Size_x, SQUARE_Size_y,
-					output logic at_bottom);*/
-/*module shape_generator(input Clk, Reset, at_bottom,
-                       output logic [9:0] new_square_1x, output logic [9:0] new_square_1y,
-                       output logic [9:0] new_square_2x, output logic [9:0] new_square_2y,
-                       output logic [9:0] new_square_3x, output logic [9:0] new_square_3y,
-                       output logic [9:0] new_square_4x, output logic [9:0] new_square_4y );*/
 // To store expected results
 
 // A counter to count the instances where simulation results
@@ -42,6 +67,7 @@ shape_generator s_g(.coord(coord),.Clk(Clk),.Reset(Reset_h),.at_bottom(at_bottom
 
 // Toggle the clock
 // #1 means wait for a delay of 1 timeunit
+
 
 
 always begin : CLOCK_GENERATION
@@ -57,79 +83,23 @@ end
 // Everything happens sequentially inside an initial block
 // as in a software program
 initial begin: TEST_VECTORS
-#0 Reset = 1'b0;
+#0 square1x = 10'd200;
+#0 square2x = 10'd220;
+#0 square3x = 10'd240;
+#0 square4x = 10'd260;
+#0 square1y = 10'd380;
+#0 square2y = 10'd380;
+#0 square3y = 10'd380;
+#0 square4y = 10'd380;
 #0 at_bottom = 1'b0;
-#0 s_enable = 1'b0;
-#0 d_enable = 1'b0;
-#0 a_enable = 1'b0;
+#0 Reset = 1'b0;
 #2 Reset = 1'b1;
-#2 Reset = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
-#2 s_enable = 1'b1;
-#2 s_enable = 1'b0;
+#2 Reset = 1'b0;  //reset
+
+#2 at_bottom = 1'b1;
+#2 at_bottom = 1'b0;
+
+
 
 
 

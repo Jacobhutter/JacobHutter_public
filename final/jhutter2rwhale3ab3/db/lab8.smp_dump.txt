@@ -1,8 +1,20 @@
 
 State Machine - |lab8|shape_generator:s_g|State
-Name State.square_wait 
-State.square 0 
-State.square_wait 1 
+Name State.t_wait State.t State.l_l_wait State.l_l State.r_l_wait State.r_l State.r_s_wait State.r_s State.l_s_wait State.l_s State.rod_wait State.rod State.square_wait State.square 
+State.square 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+State.square_wait 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+State.rod 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+State.rod_wait 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+State.l_s 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+State.l_s_wait 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+State.r_s 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+State.r_s_wait 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+State.r_l 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+State.r_l_wait 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+State.l_l 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+State.l_l_wait 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+State.t 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+State.t_wait 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
 State Machine - |lab8|keycode_state_machine:ksm|State
 Name State.assign_s State.press_s State.assign_d State.press_d State.assign_a State.press_a State.WAIT 

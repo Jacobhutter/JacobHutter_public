@@ -1,0 +1,680 @@
+module gameboard(
+              input Clk,Reset, at_bottom
+              input [9:0] square1x,square1y,square2x,square2y,square3x,square3y,square4x,square4y, // current square positions not placed
+              output logic [199:0][399:0] game,
+              output logic [9:0] c1,c2,c3,c4,c5,c6,c7,c8,c9,c10
+  );
+        always_comb begin
+            if(r1out[0])
+              c1 = 0;
+            else if(r2out[0])
+              c1 = 20;
+            else if(r3out[0])
+              c1 = 40;
+            else if(r4out[0])
+              c1 = 60;
+            else if(r5out[0])
+              c1 = 80;
+            else if(r6out[0])
+              c1 = 100;
+            else if(r7out[0])
+              c1 = 120;
+            else if(r8out[0])
+              c1 = 140;
+            else if(r9out[0])
+              c1 = 160;
+            else if(r10out[0])
+              c1 = 180;
+            else if(r11out[0])
+              c1 = 200;
+            else if(r12out[0])
+              c1 = 220;
+            else if(r13out[0])
+              c1 = 240;
+            else if(r14out[0])
+              c1 = 260;
+            else if(r15out[0])
+              c1 = 280;
+            else if(r16out[0])
+              c1 = 300;
+            else if(r17out[0])
+              c1 = 320;
+            else if(r18out[0])
+              c1 = 340;
+            else if(r19out[0])
+              c1 = 360;
+            else if(r20out[0])
+              c1 = 380;
+
+              if(r1out[1])
+                c2 = 0;
+              else if(r2out[1])
+                c2 = 20;
+              else if(r3out[1])
+                c2 = 40;
+              else if(r4out[1])
+                c2 = 60;
+              else if(r5out[1])
+                c2 = 80;
+              else if(r6out[1])
+                c2 = 100;
+              else if(r7out[1])
+                c2 = 120;
+              else if(r8out[1])
+                c2 = 140;
+              else if(r9out[1])
+                c2 = 160;
+              else if(r10out[1])
+                c2 = 180;
+              else if(r11out[1])
+                c2 = 200;
+              else if(r12out[1])
+                c2 = 220;
+              else if(r13out[1])
+                c2 = 240;
+              else if(r14out[1])
+                c2 = 260;
+              else if(r15out[1])
+                c2 = 280;
+              else if(r16out[1])
+                c2 = 300;
+              else if(r17out[1])
+                c2 = 320;
+              else if(r18out[1])
+                c2 = 340;
+              else if(r19out[1])
+                c2 = 360;
+              else if(r20out[1])
+                c2 = 380;
+
+                if(r1out[2])
+                  c3 = 0;
+                else if(r2out[2])
+                  c3 = 20;
+                else if(r3out[2])
+                  c3 = 40;
+                else if(r4out[2])
+                  c3 = 60;
+                else if(r5out[2])
+                  c3 = 80;
+                else if(r6out[2])
+                  c3 = 100;
+                else if(r7out[2])
+                  c3 = 120;
+                else if(r8out[2])
+                  c3 = 140;
+                else if(r9out[2])
+                  c3 = 160;
+                else if(r10out[2])
+                  c3 = 180;
+                else if(r11out[2])
+                  c3 = 200;
+                else if(r12out[2])
+                  c3 = 220;
+                else if(r13out[2])
+                  c3 = 240;
+                else if(r14out[2])
+                  c3 = 260;
+                else if(r15out[2])
+                  c3 = 280;
+                else if(r16out[2])
+                  c3 = 300;
+                else if(r17out[2])
+                  c3 = 320;
+                else if(r18out[2])
+                  c3 = 340;
+                else if(r19out[2])
+                  c3 = 360;
+                else if(r20out[2])
+                  c3 = 380;
+
+                  if(r1out[3])
+                    c4 = 0;
+                  else if(r2out[3])
+                    c4 = 20;
+                  else if(r3out[3])
+                    c4 = 40;
+                  else if(r4out[3])
+                    c4 = 60;
+                  else if(r5out[3])
+                    c4 = 80;
+                  else if(r6out[3])
+                    c4 = 100;
+                  else if(r7out[3])
+                    c4 = 120;
+                  else if(r8out[3])
+                    c4 = 140;
+                  else if(r9out[3])
+                    c4 = 160;
+                  else if(r10out[3])
+                    c4 = 180;
+                  else if(r11out[3])
+                    c4 = 200;
+                  else if(r12out[3])
+                    c4 = 220;
+                  else if(r13out[3])
+                    c4 = 240;
+                  else if(r14out[3])
+                    c4 = 260;
+                  else if(r15out[3])
+                    c4 = 280;
+                  else if(r16out[3])
+                    c4 = 300;
+                  else if(r17out[3])
+                    c4 = 320;
+                  else if(r18out[3])
+                    c4 = 340;
+                  else if(r19out[3])
+                    c4 = 360;
+                  else if(r20out[3])
+                    c4 = 380;
+
+                    if(r1out[4])
+                      c5 = 0;
+                    else if(r2out[4])
+                      c5 = 20;
+                    else if(r3out[4])
+                      c5 = 40;
+                    else if(r4out[4])
+                      c5 = 60;
+                    else if(r5out[4])
+                      c5 = 80;
+                    else if(r6out[4])
+                      c5 = 100;
+                    else if(r7out[4])
+                      c5 = 120;
+                    else if(r8out[4])
+                      c5 = 140;
+                    else if(r9out[4])
+                      c5 = 160;
+                    else if(r10out[4])
+                      c5 = 180;
+                    else if(r11out[4])
+                      c5 = 200;
+                    else if(r12out[4])
+                      c5 = 220;
+                    else if(r13out[4])
+                      c5 = 240;
+                    else if(r14out[4])
+                      c5 = 260;
+                    else if(r15out[4])
+                      c5 = 280;
+                    else if(r16out[4])
+                      c5 = 300;
+                    else if(r17out[4])
+                      c5 = 320;
+                    else if(r18out[4])
+                      c5 = 340;
+                    else if(r19out[4])
+                      c5 = 360;
+                    else if(r20out[4])
+                      c5 = 380;
+
+                      if(r1out[0])
+                        c6 = 0;
+                      else if(r2out[5])
+                        c6 = 20;
+                      else if(r3out[5])
+                        c6 = 40;
+                      else if(r4out[5])
+                        c6 = 60;
+                      else if(r5out[5])
+                        c6 = 80;
+                      else if(r6out[5])
+                        c6 = 100;
+                      else if(r7out[5])
+                        c6 = 120;
+                      else if(r8out[5])
+                        c6 = 140;
+                      else if(r9out[5])
+                        c6 = 160;
+                      else if(r10out[5])
+                        c6 = 180;
+                      else if(r11out[5])
+                        c6 = 200;
+                      else if(r12out[5])
+                        c6 = 220;
+                      else if(r13out[5])
+                        c6 = 240;
+                      else if(r14out[5])
+                        c6 = 260;
+                      else if(r15out[5])
+                        c6 = 280;
+                      else if(r16out[5])
+                        c6 = 300;
+                      else if(r17out[5])
+                        c6 = 320;
+                      else if(r18out[5])
+                        c6 = 340;
+                      else if(r19out[5])
+                        c6 = 360;
+                      else if(r20out[5])
+                        c6 = 380;
+
+                        if(r1out[6])
+                          c7 = 0;
+                        else if(r2out[6])
+                          c7 = 20;
+                        else if(r3out[6])
+                          c7 = 40;
+                        else if(r4out[6])
+                          c7 = 60;
+                        else if(r5out[6])
+                          c7 = 80;
+                        else if(r6out[6])
+                          c7 = 100;
+                        else if(r7out[6])
+                          c7 = 120;
+                        else if(r8out[6])
+                          c7 = 140;
+                        else if(r9out[6])
+                          c7 = 160;
+                        else if(r10out[6])
+                          c7 = 180;
+                        else if(r11out[6])
+                          c7 = 200;
+                        else if(r12out[6])
+                          c7 = 220;
+                        else if(r13out[6])
+                          c7 = 240;
+                        else if(r14out[6])
+                          c7 = 260;
+                        else if(r15out[6])
+                          c7 = 280;
+                        else if(r16out[6])
+                          c7 = 300;
+                        else if(r17out[6])
+                          c7 = 320;
+                        else if(r18out[6])
+                          c7 = 340;
+                        else if(r19out[6])
+                          c7 = 360;
+                        else if(r20out[6])
+                          c7 = 380;
+
+                          if(r1out[7])
+                            c8 = 0;
+                          else if(r2out[7])
+                            c8 = 20;
+                          else if(r3out[7])
+                            c8 = 40;
+                          else if(r4out[7])
+                            c8 = 60;
+                          else if(r5out[7])
+                            c8 = 80;
+                          else if(r6out[7])
+                            c8 = 100;
+                          else if(r7out[7])
+                            c8 = 120;
+                          else if(r8out[7])
+                            c8 = 140;
+                          else if(r9out[7])
+                            c8 = 160;
+                          else if(r10out[7])
+                            c8 = 180;
+                          else if(r11out[7])
+                            c8 = 200;
+                          else if(r12out[7])
+                            c8 = 220;
+                          else if(r13out[7])
+                            c8 = 240;
+                          else if(r14out[7])
+                            c8 = 260;
+                          else if(r15out[7])
+                            c8 = 280;
+                          else if(r16out[7])
+                            c8 = 300;
+                          else if(r17out[7])
+                            c8 = 320;
+                          else if(r18out[7])
+                            c8 = 340;
+                          else if(r19out[7])
+                            c8 = 360;
+                          else if(r20out[7])
+                            c8 = 380;
+
+                            if(r1out[8])
+                              c9 = 0;
+                            else if(r2out[8])
+                              c9 = 20;
+                            else if(r3out[8])
+                              c9 = 40;
+                            else if(r4out[8])
+                              c9 = 60;
+                            else if(r5out[8])
+                              c9 = 80;
+                            else if(r6out[8])
+                              c9 = 100;
+                            else if(r7out[8])
+                              c9 = 120;
+                            else if(r8out[8])
+                              c9 = 140;
+                            else if(r9out[8])
+                              c9 = 160;
+                            else if(r10out[8])
+                              c9 = 180;
+                            else if(r11out[8])
+                              c9 = 200;
+                            else if(r12out[8])
+                              c9 = 220;
+                            else if(r13out[8])
+                              c9 = 240;
+                            else if(r14out[8])
+                              c9 = 260;
+                            else if(r15out[8])
+                              c9 = 280;
+                            else if(r16out[8])
+                              c9 = 300;
+                            else if(r17out[8])
+                              c9 = 320;
+                            else if(r18out[8])
+                              c9 = 340;
+                            else if(r19out[8])
+                              c9 = 360;
+                            else if(r20out[8])
+                              c9 = 380;
+
+                              if(r1out[9])
+                                c10 = 0;
+                              else if(r2out[9])
+                                c10 = 20;
+                              else if(r3out[9])
+                                c10 = 40;
+                              else if(r4out[9])
+                                c10 = 60;
+                              else if(r5out[9])
+                                c10 = 80;
+                              else if(r6out[9])
+                                c10 = 100;
+                              else if(r7out[9])
+                                c10 = 120;
+                              else if(r8out[9])
+                                c10 = 140;
+                              else if(r9out[9])
+                                c10 = 160;
+                              else if(r10out[9])
+                                c10 = 180;
+                              else if(r11out[9])
+                                c10 = 200;
+                              else if(r12out[9])
+                                c10 = 220;
+                              else if(r13out[9])
+                                c10 = 240;
+                              else if(r14out[9])
+                                c10 = 260;
+                              else if(r15out[9])
+                                c10 = 280;
+                              else if(r16out[9])
+                                c10 = 300;
+                              else if(r17out[9])
+                                c10 = 320;
+                              else if(r18out[9])
+                                c10 = 340;
+                              else if(r19out[9])
+                                c10 = 360;
+                              else if(r20out[9])
+                                c10 = 380;
+
+        end
+        logic [9:0] r1out,r2out,r3out,r4out,r5out,r6out,r7out,r8out,r9out,r10out,r11out,r12out,r13out,r14out,r15out,r16out,r17out,r18out,r19out,r20out;
+        logic f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16,f17,f18,f19,f20;
+
+
+        rowmodule r1(.*,.load(at_bottom),.in(r1out),.full(f1),.out(r1out),.y_val(10'd0)); // [0 -20][]
+        assign game[19:0][19:0] = {40{r1out[0]}};
+        assign game[39:20][19:0] = {40{r1out[1]}};
+        assign game[59:40][19:0] = {40{r1out[2]}};
+        assign game[79:60][19:0] = {40{r1out[3]}};
+        assign game[99:80][19:0] = {40{r1out[4]}};
+        assign game[119:100][19:0] = {40{r1out[5]}};
+        assign game[139:120][19:0] = {40{r1out[6]}};
+        assign game[159:140][19:0] = {40{r1out[7]}};
+        assign game[179:160][19:0] = {40{r1out[8]}};
+        assign game[199:180][19:0] = {40{r1out[9]}};
+
+        rowmodule r2(.*,.load(at_bottom),.in(r2out),.full(f2),.out(r2out),.y_val(10'd20));
+        assign game[19:0][39:20] = {40{r2out[0]}};
+        assign game[39:20][39:20] = {40{r2out[1]}};
+        assign game[59:40][39:20] = {40{r2out[2]}};
+        assign game[79:60][39:20] = {40{r2out[3]}};
+        assign game[99:80][39:20] = {40{r2out[4]}};
+        assign game[119:100][39:20] = {40{r2out[5]}};
+        assign game[139:120][39:20] = {40{r2out[6]}};
+        assign game[159:140][39:20] = {40{r2out[7]}};
+        assign game[179:160][39:20] = {40{r2out[8]}};
+        assign game[199:180][39:20] = {40{r2out[9]}};
+
+
+        rowmodule r3(.*,.load(at_bottom),.in(r3out),.full(f3),.out(r3out),.y_val(10'd40));
+        assign game[19:0][59:40] = {40{r3out[0]}};
+        assign game[39:20][59:40] = {40{r3out[1]}};
+        assign game[59:40][59:40] = {40{r3out[2]}};
+        assign game[79:60][59:40] = {40{r3out[3]}};
+        assign game[99:80][59:40] = {40{r3out[4]}};
+        assign game[119:100][59:40] = {40{r3out[5]}};
+        assign game[139:120][59:40] = {40{r3out[6]}};
+        assign game[159:140][59:40] = {40{r3out[7]}};
+        assign game[179:160][59:40] = {40{r3out[8]}};
+        assign game[199:180][59:40] = {40{r3out[9]}};
+
+
+        rowmodule r4(.*,.load(at_bottom),.in(r4out),.full(f4),.out(r4out),.y_val(10'd60));
+        assign game[19:0][79:60] = {40{r4out[0]}};
+        assign game[39:20][79:60] = {40{r4out[1]}};
+        assign game[59:40][79:60] = {40{r4out[2]}};
+        assign game[79:60][79:60] = {40{r4out[3]}};
+        assign game[99:80][79:60] = {40{r4out[4]}};
+        assign game[119:100][79:60] = {40{r4out[5]}};
+        assign game[139:120][79:60] = {40{r4out[6]}};
+        assign game[159:140][79:60] = {40{r4out[7]}};
+        assign game[179:160][79:60] = {40{r4out[8]}};
+        assign game[199:180][79:60] = {40{r4out[9]}};
+
+
+        rowmodule r5(.*,.load(at_bottom),.in(r5out),.full(f5),.out(r5out),.y_val(10'd80));
+        assign game[19:0][99:80] = {40{r5out[0]}};
+        assign game[39:20][99:80] = {40{r5out[1]}};
+        assign game[59:40][99:80] = {40{r5out[2]}};
+        assign game[79:60][99:80] = {40{r5out[3]}};
+        assign game[99:80][99:80] = {40{r5out[4]}};
+        assign game[119:100][99:80] = {40{r5out[5]}};
+        assign game[139:120][99:80] = {40{r5out[6]}};
+        assign game[159:140][99:80] = {40{r5out[7]}};
+        assign game[179:160][99:80] = {40{r5out[8]}};
+        assign game[199:180][99:80] = {40{r5out[9]}};
+
+
+        rowmodule r6(.*,.load(at_bottom),.in(r6out),.full(f6),.out(r6out),.y_val(10'd100));
+        assign game[19:0][119:100] = {40{r6out[0]}};
+        assign game[39:20][119:100] = {40{r6out[1]}};
+        assign game[59:40][119:100] = {40{r6out[2]}};
+        assign game[79:60][119:100] = {40{r6out[3]}};
+        assign game[99:80][119:100] = {40{r6out[4]}};
+        assign game[119:100][119:100] = {40{r6out[5]}};
+        assign game[139:120][119:100] = {40{r6out[6]}};
+        assign game[159:140][119:100] = {40{r6out[7]}};
+        assign game[179:160][119:100] = {40{r6out[8]}};
+        assign game[199:180][119:100] = {40{r6out[9]}};
+
+
+        rowmodule r7(.*,.load(at_bottom),.in(r7out),.full(f7),.out(r7out),.y_val(10'd120));
+        assign game[19:0][139:120] = {40{r7out[0]}};
+        assign game[39:20][139:120] = {40{r7out[1]}};
+        assign game[59:40][139:120] = {40{r7out[2]}};
+        assign game[79:60][139:120] = {40{r7out[3]}};
+        assign game[99:80][139:120] = {40{r7out[4]}};
+        assign game[119:100][139:120] = {40{r7out[5]}};
+        assign game[139:120][139:120] = {40{r7out[6]}};
+        assign game[159:140][139:120] = {40{r7out[7]}};
+        assign game[179:160][139:120] = {40{r7out[8]}};
+        assign game[199:180][139:120] = {40{r7out[9]}};
+
+
+        rowmodule r8(.*,.load(at_bottom),.in(r8out),.full(f8),.out(r8out),.y_val(10'd140));
+        assign game[19:0][159:140] = {40{r8out[0]}};
+        assign game[39:20][159:140] = {40{r8out[1]}};
+        assign game[59:40][159:140] = {40{r8out[2]}};
+        assign game[79:60][159:140] = {40{r8out[3]}};
+        assign game[99:80][159:140] = {40{r8out[4]}};
+        assign game[119:100][159:140] = {40{r8out[5]}};
+        assign game[139:120][159:140] = {40{r8out[6]}};
+        assign game[159:140][159:140] = {40{r8out[7]}};
+        assign game[179:160][159:140] = {40{r8out[8]}};
+        assign game[199:180][159:140] = {40{r8out[9]}};
+
+
+        rowmodule r9(.*,.load(at_bottom),.in(r9out),.full(f9),.out(r9out),.y_val(10'd160));
+        assign game[19:0][179:160] = {40{r9out[0]}};
+        assign game[39:20][179:160] = {40{r9out[1]}};
+        assign game[59:40][179:160] = {40{r9out[2]}};
+        assign game[79:60][179:160] = {40{r9out[3]}};
+        assign game[99:80][179:160] = {40{r9out[4]}};
+        assign game[119:100][179:160] = {40{r9out[5]}};
+        assign game[139:120][179:160] = {40{r9out[6]}};
+        assign game[159:140][179:160] = {40{r9out[7]}};
+        assign game[179:160][179:160] = {40{r9out[8]}};
+        assign game[199:180][179:160] = {40{r9out[9]}};
+
+
+        rowmodule r10(.*,.load(at_bottom),.in(r10out),.full(f10),.out(r10out),.y_val(10'd180));
+        assign game[19:0][199:180] = {40{r10out[0]}};
+        assign game[39:20][199:180] = {40{r10out[1]}};
+        assign game[59:40][199:180] = {40{r10out[2]}};
+        assign game[79:60][199:180] = {40{r10out[3]}};
+        assign game[99:80][199:180] = {40{r10out[4]}};
+        assign game[119:100][199:180] = {40{r10out[5]}};
+        assign game[139:120][199:180] = {40{r10out[6]}};
+        assign game[159:140][199:180] = {40{r10out[7]}};
+        assign game[179:160][199:180] = {40{r10out[8]}};
+        assign game[199:180][199:180] = {40{r10out[9]}};
+
+
+        rowmodule r11(.*,.load(at_bottom),.in(r11out),.full(f11),.out(r11out),.y_val(10'd200));
+        assign game[19:0][219:200] = {40{r11out[0]}};
+        assign game[39:20][219:200] = {40{r11out[1]}};
+        assign game[59:40][219:200] = {40{r11out[2]}};
+        assign game[79:60][219:200] = {40{r11out[3]}};
+        assign game[99:80][219:200] = {40{r11out[4]}};
+        assign game[119:100][219:200] = {40{r11out[5]}};
+        assign game[139:120][219:200] = {40{r11out[6]}};
+        assign game[159:140][219:200] = {40{r11out[7]}};
+        assign game[179:160][219:200] = {40{r11out[8]}};
+        assign game[199:180][219:200] = {40{r11out[9]}};
+
+
+        rowmodule r12(.*,.load(at_bottom),.in(r12out),.full(f12),.out(r12out),.y_val(10'd220));
+        assign game[19:0][239:220] = {40{r12out[0]}};
+        assign game[39:20][239:220] = {40{r12out[1]}};
+        assign game[59:40][239:220] = {40{r12out[2]}};
+        assign game[79:60][239:220] = {40{r12out[3]}};
+        assign game[99:80][239:220] = {40{r12out[4]}};
+        assign game[119:100][239:220] = {40{r12out[5]}};
+        assign game[139:120][239:220] = {40{r12out[6]}};
+        assign game[159:140][239:220] = {40{r12out[7]}};
+        assign game[179:160][239:220] = {40{r12out[8]}};
+        assign game[199:180][239:220] = {40{r12out[9]}};
+
+
+        rowmodule r13(.*,.load(at_bottom),.in(r13out),.full(f13),.out(r13out),.y_val(10'd240));
+        assign game[19:0][259:240] = {40{r13out[0]}};
+        assign game[39:20][259:240] = {40{r13out[1]}};
+        assign game[59:40][259:240] = {40{r13out[2]}};
+        assign game[79:60][259:240] = {40{r13out[3]}};
+        assign game[99:80][259:240] = {40{r13out[4]}};
+        assign game[119:100][259:240] = {40{r13out[5]}};
+        assign game[139:120][259:240] = {40{r13out[6]}};
+        assign game[159:140][259:240] = {40{r13out[7]}};
+        assign game[179:160][259:240] = {40{r13out[8]}};
+        assign game[199:180][259:240] = {40{r13out[9]}};
+
+
+        rowmodule r14(.*,.load(at_bottom),.in(r14out),.full(f14),.out(r14out),.y_val(10'd260));
+        assign game[19:0][279:260] = {40{r14out[0]}};
+        assign game[39:20][279:260] = {40{r14out[1]}};
+        assign game[59:40][279:260] = {40{r14out[2]}};
+        assign game[79:60][279:260] = {40{r14out[3]}};
+        assign game[99:80][279:260] = {40{r14out[4]}};
+        assign game[119:100][279:260] = {40{r14out[5]}};
+        assign game[139:120][279:260] = {40{r14out[6]}};
+        assign game[159:140][279:260] = {40{r14out[7]}};
+        assign game[179:160][279:260] = {40{r14out[8]}};
+        assign game[199:180][279:260] = {40{r14out[9]}};
+
+
+        rowmodule r15(.*,.load(at_bottom),.in(r15out),.full(f15),.out(r15out),.y_val(10'd280));
+        assign game[19:0][299:280] = {40{r15out[0]}};
+        assign game[39:20][299:280] = {40{r15out[1]}};
+        assign game[59:40][299:280] = {40{r15out[2]}};
+        assign game[79:60][299:280] = {40{r15out[3]}};
+        assign game[99:80][299:280] = {40{r15out[4]}};
+        assign game[119:100][299:280] = {40{r15out[5]}};
+        assign game[139:120][299:280] = {40{r15out[6]}};
+        assign game[159:140][299:280] = {40{r15out[7]}};
+        assign game[179:160][299:280] = {40{r15out[8]}};
+        assign game[199:180][299:280] = {40{r15out[9]}};
+
+
+        rowmodule r16(.*,.load(at_bottom),.in(r16out),.full(f16),.out(r16out),.y_val(10'd300));
+        assign game[19:0][319:300] = {40{r16out[0]}};
+        assign game[39:20][319:300] = {40{r16out[1]}};
+        assign game[59:40][319:300] = {40{r16out[2]}};
+        assign game[79:60][319:300] = {40{r16out[3]}};
+        assign game[99:80][319:300] = {40{r16out[4]}};
+        assign game[119:100][319:300] = {40{r16out[5]}};
+        assign game[139:120][319:300] = {40{r16out[6]}};
+        assign game[159:140][319:300] = {40{r16out[7]}};
+        assign game[179:160][319:300] = {40{r16out[8]}};
+        assign game[199:180][319:300] = {40{r16out[9]}};
+
+
+        rowmodule r17(.*,.load(at_bottom),.in(r17out),.full(f17),.out(r17out),.y_val(10'd320));
+        assign game[19:0][339:320] = {40{r17out[0]}};
+        assign game[39:20][339:320] = {40{r17out[1]}};
+        assign game[59:40][339:320] = {40{r17out[2]}};
+        assign game[79:60][339:320] = {40{r17out[3]}};
+        assign game[99:80][339:320] = {40{r17out[4]}};
+        assign game[119:100][339:320] = {40{r17out[5]}};
+        assign game[139:120][339:320] = {40{r17out[6]}};
+        assign game[159:140][339:320] = {40{r17out[7]}};
+        assign game[179:160][339:320] = {40{r17out[8]}};
+        assign game[199:180][339:320] = {40{r17out[9]}};
+
+
+        rowmodule r18(.*,.load(at_bottom),.in(r18out),.full(f18),.out(r18out),.y_val(10'd340));
+        assign game[19:0][359:340] = {40{r18out[0]}};
+        assign game[39:20][359:340] = {40{r18out[1]}};
+        assign game[59:40][359:340] = {40{r18out[2]}};
+        assign game[79:60][359:340] = {40{r18out[3]}};
+        assign game[99:80][359:340] = {40{r18out[4]}};
+        assign game[119:100][359:340] = {40{r18out[5]}};
+        assign game[139:120][359:340] = {40{r18out[6]}};
+        assign game[159:140][359:340] = {40{r18out[7]}};
+        assign game[179:160][359:340] = {40{r18o19ut[8]}};
+        assign game[199:180][359:340] = {40{r18out[9]}};
+
+
+        rowmodule r19(.*,.load(at_bottom),.in(r19out),.full(f19),.out(r19out),.y_val(10'd360));
+        assign game[19:0][379:360] = {40{r19out[0]}};
+        assign game[39:20][379:360] = {40{r19out[1]}};
+        assign game[59:40][379:360] = {40{r19out[2]}};
+        assign game[79:60][379:360] = {40{r19out[3]}};
+        assign game[99:80][379:360] = {40{r19out[4]}};
+        assign game[119:100][379:360] = {40{r19out[5]}};
+        assign game[139:120][379:360] = {40{r19out[6]}};
+        assign game[159:140][379:360] = {40{r19out[7]}};
+        assign game[179:160][379:360] = {40{r19out[8]}};
+        assign game[199:180][379:360] = {40{r19out[9]}};
+
+
+        rowmodule r20(.*,.load(at_bottom),.in(r20out),.full(f20),.out(r20out),.y_val(10'd380));
+        assign game[19:0][399:380] = {40{r20out[0]}};
+        assign game[39:20][399:380] = {40{r20out[1]}};
+        assign game[59:40][399:380] = {40{r20out[2]}};
+        assign game[79:60][399:380] = {40{r20out[3]}};
+        assign game[99:80][399:380] = {40{r20out[4]}};
+        assign game[119:100][399:380] = {40{r20out[5]}};
+        assign game[139:120][399:380] = {40{r20out[6]}};
+        assign game[159:140][399:380] = {40{r20out[7]}};
+        assign game[179:160][399:380] = {40{r20out[8]}};
+        assign game[199:180][399:380] = {40{r20out[9]}};
+endmodule
