@@ -40,6 +40,7 @@ vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale
 vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/shape_generator.sv}
 vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/reg16.sv}
 vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/rowmodule.sv}
+vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/rotation.sv}
 vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_irq_mapper.sv}
 vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0.sv}
 vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv}
@@ -68,7 +69,6 @@ vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synth
 vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_translator.sv}
 vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_translator.sv}
 vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/gameboard.sv}
-vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/ball.sv}
 
 vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/testbench.sv}
 

@@ -12,6 +12,12 @@ module rowmodule( input Clk,Reset,load,
 				compilation = {{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row},{b_row}};
 
 			 end
+			 always_comb begin
+			      if(out == 10'b1111111111 ) // full row
+                full <= 1'b1;
+              else
+                full <= 1'b0;
+			 end
           always_ff @ (posedge Clk or posedge Reset)
           begin
           if(Reset)
@@ -75,11 +81,6 @@ module rowmodule( input Clk,Reset,load,
                  380 : out[9] <= 1'b1;
                  endcase
                  end
-              if(out == 10'b1111111111 ) // full row
-                full <= 1'b1;
-              else
-                full <= 1'b0;
-
           end
         end
       end

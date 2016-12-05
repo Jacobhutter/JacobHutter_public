@@ -17,18 +17,21 @@ State.t 0 1 0 0 0 0 0 0 0 0 0 0 0 1
 State.t_wait 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
 State Machine - |lab8|keycode_state_machine:ksm|State
-Name State.assign_r State.press_r State.assign_p State.press_p State.assign_s State.press_s State.assign_d State.press_d State.assign_a State.press_a State.WAIT 
-State.WAIT 0 0 0 0 0 0 0 0 0 0 0 
-State.press_a 0 0 0 0 0 0 0 0 0 1 1 
-State.assign_a 0 0 0 0 0 0 0 0 1 0 1 
-State.press_d 0 0 0 0 0 0 0 1 0 0 1 
-State.assign_d 0 0 0 0 0 0 1 0 0 0 1 
-State.press_s 0 0 0 0 0 1 0 0 0 0 1 
-State.assign_s 0 0 0 0 1 0 0 0 0 0 1 
-State.press_p 0 0 0 1 0 0 0 0 0 0 1 
-State.assign_p 0 0 1 0 0 0 0 0 0 0 1 
-State.press_r 0 1 0 0 0 0 0 0 0 0 1 
-State.assign_r 1 0 0 0 0 0 0 0 0 0 1 
+Name State.assign_space State.press_space State.loop_prevention State.assign_r State.press_r State.assign_p State.press_p State.assign_s State.press_s State.assign_d State.press_d State.assign_a State.press_a State.WAIT 
+State.WAIT 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+State.press_a 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+State.assign_a 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+State.press_d 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+State.assign_d 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+State.press_s 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+State.assign_s 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+State.press_p 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+State.assign_p 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+State.press_r 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+State.assign_r 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+State.loop_prevention 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+State.press_space 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+State.assign_space 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
 State Machine - |lab8|nios_system:nios_system|nios_system_sdram:sdram|m_next
 Name m_next.010000000 m_next.000010000 m_next.000001000 m_next.000000001 
