@@ -1,6 +1,6 @@
-12:57:25 **** Build of configuration Nios II for project usb_kb_bsp ****
+19:05:07 **** Build of configuration Nios II for project usb_kb_bsp ****
 make all 
 [BSP build complete]
 
-12:57:34 Build Finished (took 9s.32ms)
+19:05:08 Build Finished (took 709ms)
 

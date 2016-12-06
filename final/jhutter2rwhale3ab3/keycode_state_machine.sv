@@ -3,9 +3,9 @@ module keycode_state_machine( input Clk, input Reset,
 							 output logic step_enable_a,
 							 output logic step_enable_s,
 							 output logic step_enable_d,
-							 output logic pause_enable, restart_enable
+							 output logic pause_enable, restart_enable, rotate_enable
 						);
-						enum logic [3:0] {WAIT, press_a, assign_a, press_d, assign_d, press_s, assign_s, press_p, assign_p, press_r, assign_r, loop_prevention} State, next_state;
+						enum logic [3:0] {WAIT, press_a, assign_a, press_d, assign_d, press_s, assign_s, press_p, assign_p, press_r, assign_r, loop_prevention, press_space, assign_space} State, next_state;
 
 						always_ff @ (posedge Reset or posedge Clk )
 						begin : Assign_Next_State
@@ -16,8 +16,10 @@ module keycode_state_machine( input Clk, input Reset,
 					   end
 						always_comb begin
 						unique case(State)
+
 							WAIT : begin
-								if(keycode == 16'd7) // d
+
+								if (keycode == 16'd7) // d
 									next_state <=  press_d;
 								else if(keycode == 16'd22) // s
 									next_state <= press_s;
@@ -27,6 +29,8 @@ module keycode_state_machine( input Clk, input Reset,
 									next_state <= press_p;
 								else if(keycode == 16'd21) // r
 									next_state <= press_r;
+								else if(keycode == 16'd44) // r
+									next_state <= press_space;
 								else
 									next_state <= WAIT;
 							end
@@ -59,7 +63,7 @@ module keycode_state_machine( input Clk, input Reset,
 						 assign_a : begin
 								next_state <= WAIT;
 						 end
-						 
+
 						 press_p : begin
 								if(keycode == 16'd19)
 									next_state <= press_p;
@@ -69,7 +73,7 @@ module keycode_state_machine( input Clk, input Reset,
 						 assign_p : begin
 							if(keycode == 16'd19)
 								next_state <= loop_prevention;
-							else 
+							else
 								next_state <= assign_p;
 						 end
 						 loop_prevention : begin
@@ -78,18 +82,29 @@ module keycode_state_machine( input Clk, input Reset,
 								else
 									next_state <= WAIT;
 						 end
-						 
-						 press_r : begin 
+
+						 press_r : begin
 								if(keycode == 16'd21)
 									next_state <= press_r;
 								else
 									next_state <= assign_r;
 							end
-						
+
 						 assign_r : begin
 								next_state <= WAIT;
-						 end 
-						 
+						 end
+
+						 press_space : begin
+								if(keycode == 16'd44)
+									next_state <= press_space;
+								else
+									next_state <= assign_space;
+							end
+
+						 assign_space : begin
+								next_state <= WAIT;
+						 end
+
 						 default : begin
 								next_state <= WAIT;
 						 end
@@ -104,6 +119,7 @@ module keycode_state_machine( input Clk, input Reset,
 						step_enable_d = 1'b0;
 						pause_enable = 1'b0;
 						restart_enable = 1'b0;
+						rotate_enable = 1'b0;
 
 						case(State)
 						WAIT:
@@ -122,6 +138,9 @@ module keycode_state_machine( input Clk, input Reset,
 							begin
 							end
 						press_r:
+							begin
+							end
+						press_space:
 							begin
 							end
 
@@ -146,6 +165,10 @@ module keycode_state_machine( input Clk, input Reset,
 						assign_r :
 							begin
 								restart_enable = 1'b1;
+							end
+						assign_space :
+							begin
+								rotate_enable = 1'b1;
 							end
 						default :
 							begin

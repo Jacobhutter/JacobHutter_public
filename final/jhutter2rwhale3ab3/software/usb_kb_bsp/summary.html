@@ -22,13 +22,13 @@
 <td width="20%" bgcolor="#77BBFF">BSP Version:</td><td>default</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Dec 3, 2016 12:56:41 PM</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Dec 5, 2016 7:04:49 PM</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1480791401877</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1480986289808</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated Location:</td><td>E:\final\jhutter2rwhale3ab3\software\usb_kb_bsp</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated Location:</td><td>C:\Users\cam82\Desktop\final\jhutter2rwhale3ab3\software\usb_kb_bsp</td>
 </tr>
 </table>
 <br>
@@ -558,7 +558,7 @@
 <td width="20%">Destination:</td><td>none</td>
 </tr>
 <tr mode="wrap">
-<td width="20%">Description:</td><td>Enables the alt_load() facility. The alt_load() facility copies data sections (.rodata, .rwdata, or .exceptions) from boot memory to RAM. If true, this setting sets up the VMA/LMA of sections in linker.x to allow them to be loaded into the .text memory.</td>
+<td width="20%">Description:</td><td>Enables the alt_load() facility. The alt_load() facility copies sections from the .text memory into RAM. If true, this setting sets up the VMA/LMA of sections in linker.x to allow them to be loaded into the .text memory.</td>
 </tr>
 <tr mode="wrap">
 <td width="20%">Restrictions:</td><td>This setting is typically false if an external bootloader (e.g. flash bootloader) is present.</td>
@@ -1423,33 +1423,6 @@
 </tr>
 <tr mode="wrap">
 <td width="20%">Description:</td><td>Command executed before each .c/.S file is compiled.</td>
-</tr>
-<tr mode="wrap">
-<td width="20%">Restrictions:</td><td>none</td>
-</tr>
-</table>
-<br>
-<table border="1" bgcolor="#FFFFCC" width="60%">
-<tr bgcolor="#77BBFF">
-<td align="left" width="15%">Setting Name:</td><td align="left">hal.make.cflags_mgpopt</td>
-</tr>
-<tr>
-<td width="20%">Identifier:</td><td>CFLAGS_MGPOPT</td>
-</tr>
-<tr>
-<td width="20%">Default Value:</td><td>-mgpopt=local</td>
-</tr>
-<tr>
-<td width="20%">Value:</td><td>-mgpopt=local</td>
-</tr>
-<tr>
-<td width="20%">Type:</td><td>UnquotedString</td>
-</tr>
-<tr mode="wrap">
-<td width="20%">Destination:</td><td>makefile_variable</td>
-</tr>
-<tr mode="wrap">
-<td width="20%">Description:</td><td>C/C++ compiler to generate (do not generate) GP-relative accesses. 'none' tells the compilter not to generate GP-relative accesses. 'local' will generate GP-relative accesses for small data objects that are not external, weak, or uninitialized common symbols. Also use GP-relative addressing for objects that have been explicitly placed in a small data section via a section attribute. provides the default set of debug symbols typically required to debug a typical application. 'global' is same as 'local' but also generate GP-relative accesses for small data objects that are external, weak, or common.</td>
 </tr>
 <tr mode="wrap">
 <td width="20%">Restrictions:</td><td>none</td>

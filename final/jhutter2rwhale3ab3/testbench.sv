@@ -9,12 +9,19 @@ timeprecision 1ns;
 logic Clk = 0;
 logic Reset;
 logic [399:0][199:0] game;
-logic [9:0] square1x,square1y,square2x,square2y,square3x,square3y,square4x,square4y;
-logic at_bottom;
-logic [19:0][199:0] example;
-logic [9:0] c1,c2,c3,c4,c5,c6,c7,c8,c9,c10;
-gameboard gm(.*);
-
+logic [9:0]  BallX, BallY, BallX2, BallY2, BallX3, BallY3, BallX4, BallY4, DrawX, DrawY, Ball_size;
+logic pause_enable;
+logic [7:0] Red,Green,Blue;
+logic flag;
+color_mapper cm(.*);
+/*
+module  color_mapper ( input Clk, Reset,
+                       input [9:0] BallX, BallY, BallX2, BallY2, BallX3, BallY3, BallX4, BallY4, DrawX, DrawY, Ball_size,
+                       input pause_enable,
+                       input [399:0][199:0] game,
+                       output logic [7:0]  Red, Green, Blue,
+							  output logic flag
+								);*/
 /*module gameboard(
               input Clk,Reset, at_bottom,
               input [9:0] square1x,square1y,square2x,square2y,square3x,square3y,square4x,square4y, // current square positions not placed
@@ -63,34 +70,18 @@ end
 // Everything happens sequentially inside an initial block
 // as in a software program
 initial begin: TEST_VECTORS
-#0 square1x = 10'd200;
-#0 square2x = 10'd220;
-#0 square3x = 10'd240;
-#0 square4x = 10'd260;
-#0 square1y = 10'd380;
-#0 square2y = 10'd380;
-#0 square3y = 10'd380;
-#0 square4y = 10'd380;
-#0 at_bottom = 1'b0;
+#0 pause_enable = 1'b0;
+#0 BallX = 10'd200;
+#0 BallY = 10'd220;
+#0 BallX2 = 10'd200;
+#0 BallY2 = 10'd220;
+#0 BallX3 = 10'd200;
+#0 BallY3 = 10'd220;
+#0 BallX4 = 10'd200;
+#0 BallY4 = 10'd220;
 #0 Reset = 1'b0;
 #2 Reset = 1'b1;
 #2 Reset = 1'b0;  //reset
-
-#2 at_bottom = 1'b1;
-#2 at_bottom = 1'b0;
-
-#2 square1x = 10'd200;
-#0 square2x = 10'd220;
-#0 square3x = 10'd240;
-#0 square4x = 10'd260;
-#0 square1y = 10'd360;
-#0 square2y = 10'd360;
-#0 square3y = 10'd360;
-#0 square4y = 10'd360;
-
-#2 at_bottom = 1'b1;
-#2 at_bottom = 1'b0;
-
 
 
 

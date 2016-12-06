@@ -3,6 +3,12 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
                        output logic [9:0] new_square_2x, output logic [9:0] new_square_2y,
                        output logic [9:0] new_square_3x, output logic [9:0] new_square_3y,
                        output logic [9:0] new_square_4x, output logic [9:0] new_square_4y,
+                       output logic [9:0] next_square_1x, output logic [9:0] next_square_1y,
+                       output logic [9:0] next_square_2x, output logic [9:0] next_square_2y,
+                       output logic [9:0] next_square_3x, output logic [9:0] next_square_3y,
+                       output logic [9:0] next_square_4x, output logic [9:0] next_square_4y,
+                       output logic [3:0] shape,
+                       output logic next,
 							  output logic  coord
 							  );
 
@@ -106,7 +112,17 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
 						new_square_3y = 10'd0;
             new_square_4x = 10'd0;
 						new_square_4y = 10'd0;
+            next_square_1x = 10'd0;
+            next_square_1y = 10'd0;
+            next_square_2x = 10'd0;
+            next_square_2y = 10'd0;
+            next_square_3x = 10'd0;
+            next_square_3y = 10'd0;
+            next_square_4x = 10'd0;
+            next_square_4y = 10'd0;
 					   coord = 1'b0;
+             shape = 4'd0;
+             next = 1'b0;
 
 						case(State)
 						square : begin
@@ -116,9 +132,21 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
 						new_square_3y = 10'd20;
 						new_square_4x = 10'd320;
 						new_square_4y = 10'd20;
+
 						coord = 1'b1;
+            shape = 4'd1;
 						end
-						square_wait : begin
+						square_wait :
+              begin
+              next = 1'b1
+              next_square_1x = 10'd100;
+              next_square_1y = 10'd100;
+              next_square_2x = 10'd100;
+              next_square_2y = 10'd120;
+              next_square_3x = 10'd100;
+              next_square_3y = 10'd140;
+              next_square_4x = 10'd100;
+              next_square_4y = 10'd160;
 						end
 
             rod : begin
@@ -130,9 +158,20 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
             new_square_3y = 10'd40;
             new_square_4x = 10'd300;
             new_square_4y = 10'd60;
+
             coord = 1'b1;
+            shape = 4'd2;
             end
             rod_wait : begin
+            next_square_1x = 10'd120;
+            next_square_1y = 10'd100;
+            next_square_2x = 10'd100;
+            next_square_2y = 10'd100;
+            next_square_3x = 10'd100;
+            next_square_3y = 10'd120;
+            next_square_4x = 10'd80;
+            next_square_4y = 10'd120;
+              next = 1'b1;
             end
 
 
@@ -145,9 +184,20 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
             new_square_3y = 10'd20;
             new_square_4x = 10'd280;
             new_square_4y = 10'd20;
+
             coord = 1'b1;
+            shape = 4'd3;
             end
             r_s_wait : begin
+            next_square_1x = 10'd80;
+            next_square_1y = 10'd100;
+            next_square_2x = 10'd100;
+            next_square_2y = 10'd100;
+            next_square_3x = 10'd100;
+            next_square_3y = 10'd120;
+            next_square_4x = 10'd120;
+            next_square_4y = 10'd120;
+              next = 1'b1
             end
 
             l_s : begin
@@ -160,8 +210,19 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
             new_square_4x = 10'd320;
             new_square_4y = 10'd20;
             coord = 1'b1;
+            shape = 4'd4;
+
             end
             l_s_wait : begin
+            next_square_1x = 10'd100;
+            next_square_1y = 10'd100;
+            next_square_2x = 10'd100;
+            next_square_2y = 10'd120;
+            next_square_3x = 10'd100;
+            next_square_3y = 10'd140;
+            next_square_4x = 10'd120;
+            next_square_4y = 10'd140;
+            next = 1'b1;
             end
 
             r_l : begin
@@ -174,8 +235,18 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
             new_square_4x = 10'd320;
             new_square_4y = 10'd40;
             coord = 1'b1;
+            shape = 4'd5;
             end
             r_l_wait :begin
+            next_square_1x = 10'd100;
+            next_square_1y = 10'd100;
+            next_square_2x = 10'd100;
+            next_square_2y = 10'd120;
+            next_square_3x = 10'd100;
+            next_square_3y = 10'd140;
+            next_square_4x = 10'd80;
+            next_square_4y = 10'd140;
+            next = 1'b1;
             end
 
             l_l : begin
@@ -188,8 +259,18 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
             new_square_4x = 10'd280;
             new_square_4y = 10'd40;
             coord = 1'b1;
+            shape = 4'd6;
             end
             l_l_wait : begin
+            next_square_1x = 10'd80;
+            next_square_1y = 10'd100;
+            next_square_2x = 10'd100;
+            next_square_2y = 10'd100;
+            next_square_3x = 10'd120;
+            next_square_3y = 10'd100;
+            next_square_4x = 10'd100;
+            next_square_4y = 10'd120;
+            next = 1'b1;
             end
 
             t : begin
@@ -202,8 +283,18 @@ module shape_generator(input Clk, Reset, at_bottom, at_bottom2, at_bottom3, at_b
             new_square_4x = 10'd300;
             new_square_4y = 10'd20;
             coord = 1'b1;
+            shape = 4'd7;
             end
             t_wait : begin
+            next_square_1x = 10'd100;
+            next_square_1y = 10'd100;
+            next_square_2x = 10'd120;
+            next_square_2y = 10'd100;
+            next_square_3x = 10'd100;
+            next_square_3y = 10'd120;
+            next_square_4x = 10'd120;
+            next_square_4y = 10'd120;
+            next = 1'b1;
             end
 
             default : begin
