@@ -19,90 +19,169 @@
 # Model Technology ModelSim PE vmap 10.3d Lib Mapping Utility 2014.10 Oct  7 2014
 # vmap -modelsim_quiet nios_system nios_system 
 # Modifying modelsim.ini
+<<<<<<< HEAD
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/nios_system.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:09 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/nios_system.v 
+=======
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/nios_system.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:50 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/nios_system.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system
 # 
 # Top level modules:
 # 	nios_system
+<<<<<<< HEAD
 # End time: 18:46:09 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_reset_controller.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:09 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_reset_controller.v 
+=======
+# End time: 11:09:51 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_reset_controller.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:51 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_reset_controller.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_reset_controller
 # 
 # Top level modules:
 # 	altera_reset_controller
+<<<<<<< HEAD
 # End time: 18:46:10 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_reset_synchronizer.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:10 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_reset_synchronizer.v 
+=======
+# End time: 11:09:51 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_reset_synchronizer.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:51 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_reset_synchronizer.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_reset_synchronizer
 # 
 # Top level modules:
 # 	altera_reset_synchronizer
+<<<<<<< HEAD
 # End time: 18:46:10 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:10 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0.v 
+=======
+# End time: 11:09:51 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:51 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0
+<<<<<<< HEAD
 # End time: 18:46:10 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:10 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005.v 
+=======
+# End time: 11:09:52 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:52 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_avalon_st_adapter_005
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_avalon_st_adapter_005
+<<<<<<< HEAD
 # End time: 18:46:10 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:10 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter.v 
+=======
+# End time: 11:09:52 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:52 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_avalon_st_adapter
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_avalon_st_adapter
+<<<<<<< HEAD
 # End time: 18:46:10 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_sc_fifo.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:10 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_sc_fifo.v 
+=======
+# End time: 11:09:52 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_sc_fifo.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:52 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_sc_fifo.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_avalon_sc_fifo
 # 
 # Top level modules:
 # 	altera_avalon_sc_fifo
+<<<<<<< HEAD
 # End time: 18:46:10 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sysid_qsys_0.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:10 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sysid_qsys_0.v 
+=======
+# End time: 11:09:53 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sysid_qsys_0.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:53 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sysid_qsys_0.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_sysid_qsys_0
 # 
 # Top level modules:
 # 	nios_system_sysid_qsys_0
+<<<<<<< HEAD
 # End time: 18:46:11 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sdram_pll.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:11 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sdram_pll.v 
+=======
+# End time: 11:09:53 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sdram_pll.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:53 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sdram_pll.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_sdram_pll_dffpipe_l2c
 # -- Compiling module nios_system_sdram_pll_stdsync_sv6
 # -- Compiling module nios_system_sdram_pll_altpll_lqa2
@@ -110,73 +189,136 @@
 # 
 # Top level modules:
 # 	nios_system_sdram_pll
+<<<<<<< HEAD
 # End time: 18:46:11 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sdram.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:11 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sdram.v 
+=======
+# End time: 11:09:53 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sdram.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:53 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_sdram.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_sdram_input_efifo_module
 # -- Compiling module nios_system_sdram
 # 
 # Top level modules:
 # 	nios_system_sdram
+<<<<<<< HEAD
 # End time: 18:46:11 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_data.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:11 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_data.v 
+=======
+# End time: 11:09:57 on Dec 04,2016, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_data.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:57 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_data.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_otg_hpi_data
 # 
 # Top level modules:
 # 	nios_system_otg_hpi_data
+<<<<<<< HEAD
 # End time: 18:46:11 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_cs.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:11 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_cs.v 
+=======
+# End time: 11:09:57 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_cs.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:57 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_cs.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_otg_hpi_cs
 # 
 # Top level modules:
 # 	nios_system_otg_hpi_cs
+<<<<<<< HEAD
 # End time: 18:46:11 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_address.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:11 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_address.v 
+=======
+# End time: 11:09:58 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_address.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:58 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_otg_hpi_address.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_otg_hpi_address
 # 
 # Top level modules:
 # 	nios_system_otg_hpi_address
+<<<<<<< HEAD
 # End time: 18:46:11 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_onchip_memory2_0.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:11 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_onchip_memory2_0.v 
+=======
+# End time: 11:09:58 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_onchip_memory2_0.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:58 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_onchip_memory2_0.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_onchip_memory2_0
 # 
 # Top level modules:
 # 	nios_system_onchip_memory2_0
+<<<<<<< HEAD
 # End time: 18:46:12 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:12 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0.v 
+=======
+# End time: 11:09:58 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:58 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_nios2_qsys_0
 # 
 # Top level modules:
 # 	nios_system_nios2_qsys_0
+<<<<<<< HEAD
 # End time: 18:46:13 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:13 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu.v 
+=======
+# End time: 11:09:58 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:09:58 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_nios2_qsys_0_cpu_register_bank_a_module
 # -- Compiling module nios_system_nios2_qsys_0_cpu_register_bank_b_module
 # -- Compiling module nios_system_nios2_qsys_0_cpu_nios2_oci_debug
@@ -202,52 +344,97 @@
 # Top level modules:
 # 	nios_system_nios2_qsys_0_cpu_nios2_performance_monitors
 # 	nios_system_nios2_qsys_0_cpu
+<<<<<<< HEAD
 # End time: 18:46:13 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_sysclk.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:13 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_sysclk.v 
+=======
+# End time: 11:10:04 on Dec 04,2016, Elapsed time: 0:00:06
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_sysclk.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:04 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_sysclk.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_nios2_qsys_0_cpu_debug_slave_sysclk
 # 
 # Top level modules:
 # 	nios_system_nios2_qsys_0_cpu_debug_slave_sysclk
+<<<<<<< HEAD
 # End time: 18:46:13 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_tck.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:13 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_tck.v 
+=======
+# End time: 11:10:04 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_tck.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:04 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_tck.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_nios2_qsys_0_cpu_debug_slave_tck
 # 
 # Top level modules:
 # 	nios_system_nios2_qsys_0_cpu_debug_slave_tck
+<<<<<<< HEAD
 # End time: 18:46:13 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_wrapper.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:13 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_wrapper.v 
+=======
+# End time: 11:10:04 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_wrapper.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:04 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_debug_slave_wrapper.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_nios2_qsys_0_cpu_debug_slave_wrapper
 # 
 # Top level modules:
 # 	nios_system_nios2_qsys_0_cpu_debug_slave_wrapper
+<<<<<<< HEAD
 # End time: 18:46:13 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_test_bench.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:13 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_test_bench.v 
+=======
+# End time: 11:10:04 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_test_bench.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:04 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_nios2_qsys_0_cpu_test_bench.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_nios2_qsys_0_cpu_test_bench
 # 
 # Top level modules:
 # 	nios_system_nios2_qsys_0_cpu_test_bench
+<<<<<<< HEAD
 # End time: 18:46:13 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_jtag_uart_0.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:13 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_jtag_uart_0.v 
+=======
+# End time: 11:10:06 on Dec 04,2016, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_jtag_uart_0.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:06 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_jtag_uart_0.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_jtag_uart_0_sim_scfifo_w
 # -- Compiling module nios_system_jtag_uart_0_scfifo_w
 # -- Compiling module nios_system_jtag_uart_0_sim_scfifo_r
@@ -256,126 +443,235 @@
 # 
 # Top level modules:
 # 	nios_system_jtag_uart_0
+<<<<<<< HEAD
 # End time: 18:46:14 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_Keycode.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:14 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_Keycode.v 
+=======
+# End time: 11:10:20 on Dec 04,2016, Elapsed time: 0:00:14
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_Keycode.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:20 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_Keycode.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_Keycode
 # 
 # Top level modules:
 # 	nios_system_Keycode
+<<<<<<< HEAD
 # End time: 18:46:14 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/VGA_controller.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:14 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/VGA_controller.sv 
+=======
+# End time: 11:10:20 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/VGA_controller.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:20 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/VGA_controller.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module vga_controller
 # 
 # Top level modules:
 # 	vga_controller
+<<<<<<< HEAD
 # End time: 18:46:14 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/lab8.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:14 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/lab8.sv 
+=======
+# End time: 11:10:20 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/lab8.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:20 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/lab8.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module lab8
 # 
 # Top level modules:
 # 	lab8
+<<<<<<< HEAD
 # End time: 18:46:14 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/hpi_io_intf.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:14 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/hpi_io_intf.sv 
+=======
+# End time: 11:10:20 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/hpi_io_intf.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:20 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/hpi_io_intf.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module hpi_io_intf
 # 
 # Top level modules:
 # 	hpi_io_intf
+<<<<<<< HEAD
 # End time: 18:46:14 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/HexDriver.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:14 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/HexDriver.sv 
+=======
+# End time: 11:10:20 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/HexDriver.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:20 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/HexDriver.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module HexDriver
 # 
 # Top level modules:
 # 	HexDriver
+<<<<<<< HEAD
 # End time: 18:46:14 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/Color_Mapper.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:14 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/Color_Mapper.sv 
+=======
+# End time: 11:10:21 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/Color_Mapper.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:21 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/Color_Mapper.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module color_mapper
 # 
 # Top level modules:
 # 	color_mapper
+<<<<<<< HEAD
 # End time: 18:46:14 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/square.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:14 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/square.sv 
+=======
+# End time: 11:10:21 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/square.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:21 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/square.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module square
 # 
 # Top level modules:
 # 	square
+<<<<<<< HEAD
 # End time: 18:46:14 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/keycode_state_machine.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:14 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/keycode_state_machine.sv 
+=======
+# End time: 11:10:21 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/keycode_state_machine.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:21 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/keycode_state_machine.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module keycode_state_machine
 # 
 # Top level modules:
 # 	keycode_state_machine
+<<<<<<< HEAD
 # End time: 18:46:15 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/reg6.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:15 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/reg6.sv 
+=======
+# End time: 11:10:21 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/reg6.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:21 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/reg6.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module reg6
 # 
 # Top level modules:
 # 	reg6
+<<<<<<< HEAD
 # End time: 18:46:15 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/shape_generator.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:15 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/shape_generator.sv 
+=======
+# End time: 11:10:21 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/shape_generator.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:21 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/shape_generator.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module shape_generator
 # 
 # Top level modules:
 # 	shape_generator
+<<<<<<< HEAD
 # End time: 18:46:15 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/reg16.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:15 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/reg16.sv 
+=======
+# End time: 11:10:21 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/reg16.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:21 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/reg16.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module reg16
 # 
 # Top level modules:
 # 	reg16
+<<<<<<< HEAD
 # End time: 18:46:15 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/rowmodule.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:15 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/rowmodule.sv 
+=======
+# End time: 11:10:22 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/rowmodule.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:22 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/rowmodule.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module rowmodule
 # 
 # Top level modules:
 # 	rowmodule
+<<<<<<< HEAD
 # End time: 18:46:15 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/font_rom.sv}
@@ -402,242 +698,467 @@
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:15 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_irq_mapper.sv 
+=======
+# End time: 11:10:22 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/rotation.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:22 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/rotation.sv 
+# -- Compiling module rotation
+# 
+# Top level modules:
+# 	rotation
+# End time: 11:10:22 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_irq_mapper.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:22 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_irq_mapper.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_irq_mapper
 # 
 # Top level modules:
 # 	nios_system_irq_mapper
+<<<<<<< HEAD
 # End time: 18:46:15 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:15 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0.sv 
+=======
+# End time: 11:10:22 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:22 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_avalon_st_adapter_005_error_adapter_0
+<<<<<<< HEAD
 # End time: 18:46:15 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:16 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv 
+=======
+# End time: 11:10:22 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:22 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_avalon_st_adapter_error_adapter_0.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_avalon_st_adapter_error_adapter_0
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_avalon_st_adapter_error_adapter_0
+<<<<<<< HEAD
 # End time: 18:46:16 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_st_handshake_clock_crosser.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:16 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_st_handshake_clock_crosser.v 
+=======
+# End time: 11:10:22 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_st_handshake_clock_crosser.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:23 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_st_handshake_clock_crosser.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_avalon_st_handshake_clock_crosser
 # 
 # Top level modules:
 # 	altera_avalon_st_handshake_clock_crosser
+<<<<<<< HEAD
 # End time: 18:46:17 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -vlog01compat -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_st_clock_crosser.v}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:17 on Dec 05,2016
 # vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_st_clock_crosser.v 
+=======
+# End time: 11:10:23 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_st_clock_crosser.v}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:23 on Dec 04,2016
+# vlog -reportprogress 300 -vlog01compat -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_avalon_st_clock_crosser.v 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_avalon_st_clock_crosser
 # 
 # Top level modules:
 # 	altera_avalon_st_clock_crosser
+<<<<<<< HEAD
 # End time: 18:46:18 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_width_adapter.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:18 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_width_adapter.sv 
+=======
+# End time: 11:10:23 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_width_adapter.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:23 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_width_adapter.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_width_adapter
 # 
 # Top level modules:
 # 	altera_merlin_width_adapter
+<<<<<<< HEAD
 # End time: 18:46:18 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:18 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv 
+=======
+# End time: 11:10:24 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:24 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_uncompressor.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_burst_uncompressor
 # 
 # Top level modules:
 # 	altera_merlin_burst_uncompressor
+<<<<<<< HEAD
 # End time: 18:46:18 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_arbitrator.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:18 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_arbitrator.sv 
+=======
+# End time: 11:10:24 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_arbitrator.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:24 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_arbitrator.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_arbitrator
 # -- Compiling module altera_merlin_arb_adder
 # 
 # Top level modules:
 # 	altera_merlin_arbitrator
+<<<<<<< HEAD
 # End time: 18:46:18 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_mux_001.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:18 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_mux_001.sv 
+=======
+# End time: 11:10:24 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_mux_001.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:24 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_mux_001.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_rsp_mux_001
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_rsp_mux_001
+<<<<<<< HEAD
 # End time: 18:46:18 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_mux.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:18 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_mux.sv 
+=======
+# End time: 11:10:25 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_mux.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:25 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_mux.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_rsp_mux
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_rsp_mux
+<<<<<<< HEAD
 # End time: 18:46:19 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_demux_001.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:19 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_demux_001.sv 
+=======
+# End time: 11:10:25 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_demux_001.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:25 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_demux_001.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_rsp_demux_001
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_rsp_demux_001
+<<<<<<< HEAD
 # End time: 18:46:19 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_demux.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:19 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_demux.sv 
+=======
+# End time: 11:10:25 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_demux.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:25 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_rsp_demux.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_rsp_demux
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_rsp_demux
+<<<<<<< HEAD
 # End time: 18:46:19 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_mux_001.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:19 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_mux_001.sv 
+=======
+# End time: 11:10:25 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_mux_001.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:25 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_mux_001.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_cmd_mux_001
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_cmd_mux_001
+<<<<<<< HEAD
 # End time: 18:46:19 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_mux.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:19 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_mux.sv 
+=======
+# End time: 11:10:26 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_mux.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:26 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_mux.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_cmd_mux
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_cmd_mux
+<<<<<<< HEAD
 # End time: 18:46:19 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_demux_001.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:19 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_demux_001.sv 
+=======
+# End time: 11:10:26 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_demux_001.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:26 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_demux_001.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_cmd_demux_001
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_cmd_demux_001
+<<<<<<< HEAD
 # End time: 18:46:19 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_demux.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:19 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_demux.sv 
+=======
+# End time: 11:10:26 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_demux.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:26 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_cmd_demux.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_cmd_demux
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_cmd_demux
+<<<<<<< HEAD
 # End time: 18:46:20 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_adapter.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:20 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_adapter.sv 
+=======
+# End time: 11:10:26 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_adapter.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:26 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_adapter.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_burst_adapter
 # 
 # Top level modules:
 # 	altera_merlin_burst_adapter
+<<<<<<< HEAD
 # End time: 18:46:21 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_adapter_uncmpr.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:21 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_adapter_uncmpr.sv 
+=======
+# End time: 11:10:26 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_adapter_uncmpr.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:27 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_burst_adapter_uncmpr.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_burst_adapter_uncompressed_only
 # 
 # Top level modules:
 # 	altera_merlin_burst_adapter_uncompressed_only
+<<<<<<< HEAD
 # End time: 18:46:21 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_007.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:21 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_007.sv 
+=======
+# End time: 11:10:27 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_007.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:27 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_007.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_router_007_default_decode
 # -- Compiling module nios_system_mm_interconnect_0_router_007
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_router_007
+<<<<<<< HEAD
 # End time: 18:46:21 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_003.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:21 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_003.sv 
+=======
+# End time: 11:10:27 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_003.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:27 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_003.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_router_003_default_decode
 # -- Compiling module nios_system_mm_interconnect_0_router_003
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_router_003
+<<<<<<< HEAD
 # End time: 18:46:21 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_002.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:21 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_002.sv 
+=======
+# End time: 11:10:27 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_002.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:27 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_002.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_router_002_default_decode
 # -- Compiling module nios_system_mm_interconnect_0_router_002
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_router_002
+<<<<<<< HEAD
 # End time: 18:46:21 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_001.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:21 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_001.sv 
+=======
+# End time: 11:10:28 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_001.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:28 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router_001.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_router_001_default_decode
 # -- Compiling module nios_system_mm_interconnect_0_router_001
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_router_001
+<<<<<<< HEAD
 # End time: 18:46:22 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:22 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router.sv 
+=======
+# End time: 11:10:28 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:28 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/nios_system_mm_interconnect_0_router.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module nios_system_mm_interconnect_0_router_default_decode
 # -- Compiling module nios_system_mm_interconnect_0_router
 # 
 # Top level modules:
 # 	nios_system_mm_interconnect_0_router
+<<<<<<< HEAD
 # End time: 18:46:22 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_agent.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:22 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_agent.sv 
+=======
+# End time: 11:10:28 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_agent.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:28 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_agent.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_slave_agent
 # ** Warning: C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_agent.sv(618): (vlog-2186) SystemVerilog testbench feature
 # 
@@ -662,46 +1183,83 @@
 # 
 # Top level modules:
 # 	altera_merlin_slave_agent
+<<<<<<< HEAD
 # End time: 18:46:22 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 6
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_agent.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:22 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_agent.sv 
+=======
+# End time: 11:10:29 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 6
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_agent.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:29 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_agent.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_master_agent
 # 
 # Top level modules:
 # 	altera_merlin_master_agent
+<<<<<<< HEAD
 # End time: 18:46:22 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_translator.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:22 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_translator.sv 
+=======
+# End time: 11:10:33 on Dec 04,2016, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_translator.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:33 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_slave_translator.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_slave_translator
 # 
 # Top level modules:
 # 	altera_merlin_slave_translator
+<<<<<<< HEAD
 # End time: 18:46:22 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work nios_system +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_translator.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:22 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work nios_system "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_translator.sv 
+=======
+# End time: 11:10:33 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work nios_system +incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules {E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_translator.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:33 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work nios_system "+incdir+E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules" E:/final/jhutter2rwhale3ab3/nios_system/synthesis/submodules/altera_merlin_master_translator.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module altera_merlin_master_translator
 # 
 # Top level modules:
 # 	altera_merlin_master_translator
+<<<<<<< HEAD
 # End time: 18:46:23 on Dec 05,2016, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3 {C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/gameboard.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:23 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/gameboard.sv 
+=======
+# End time: 11:10:34 on Dec 04,2016, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/gameboard.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:34 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/gameboard.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module gameboard
 # 
 # Top level modules:
 # 	gameboard
+<<<<<<< HEAD
 # End time: 18:46:23 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
@@ -709,16 +1267,34 @@
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
 # Start time: 18:46:23 on Dec 05,2016
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3" C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/testbench.sv 
+=======
+# End time: 11:10:34 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -sv -work work +incdir+E:/final/jhutter2rwhale3ab3 {E:/final/jhutter2rwhale3ab3/testbench.sv}
+# Model Technology ModelSim ALTERA vlog 10.4d Compiler 2015.12 Dec 30 2015
+# Start time: 11:10:34 on Dec 04,2016
+# vlog -reportprogress 300 -sv -work work "+incdir+E:/final/jhutter2rwhale3ab3" E:/final/jhutter2rwhale3ab3/testbench.sv 
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # -- Compiling module testbench
 # 
 # Top level modules:
 # 	testbench
+<<<<<<< HEAD
 # End time: 18:46:23 on Dec 05,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -L nios_system -voptargs="+acc"  testbench
 # vsim -gui "+altera" -l msim_transcript -do "lab8_run_msim_rtl_systemverilog.do" 
 # Start time: 18:46:23 on Dec 05,2016
+=======
+# End time: 11:10:34 on Dec 04,2016, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -L nios_system -voptargs="+acc"  testbench
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -L nios_system -voptargs=""+acc"" testbench 
+# Start time: 11:10:34 on Dec 04,2016
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # Loading sv_std.std
 # Loading work.testbench
 # Loading work.color_mapper
@@ -729,16 +1305,24 @@
 # 
 #           File in use by: jhutter2  Hostname: ECEB-3022-10  ProcessID: 10152
 # 
+<<<<<<< HEAD
 #           Attempting to use alternate WLF file "./wlftfj8db5".
 # ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
 # 
 #           Using alternate file: ./wlftfj8db5
+=======
+#           Attempting to use alternate WLF file "./wlftvn1zem".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+# 
+#           Using alternate file: ./wlftvn1zem
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # 
 # view structure
 # .main_pane.structure.interior.cs.body.struct
 # view signals
 # .main_pane.objects.interior.cs.body.tree
 # run 1000 ns
+<<<<<<< HEAD
 add wave -position insertpoint  \
 sim:/testbench/cm/counter0 \
 sim:/testbench/cm/counter1 \
@@ -753,4 +1337,7 @@ restart
 # Loading work.font_rom
 run 5000ns
 # End time: 18:49:47 on Dec 05,2016, Elapsed time: 0:03:24
+=======
+# End time: 11:12:29 on Dec 04,2016, Elapsed time: 0:01:55
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 # Errors: 0, Warnings: 2

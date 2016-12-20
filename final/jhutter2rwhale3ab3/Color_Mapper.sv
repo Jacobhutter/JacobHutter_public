@@ -14,19 +14,30 @@
 
 
 module  color_mapper ( input Clk, Reset,
+<<<<<<< HEAD
                        input [9:0] BallX, BallY, BallX2, BallY2, BallX3, BallY3, BallX4, BallY4, DrawX, DrawY, Ball_size,
                        input pause_enable, game_over,
+=======
+                       input        [9:0] BallX, BallY, BallX2, BallY2, BallX3, BallY3, BallX4, BallY4, DrawX, DrawY, Ball_size,
+                       input pause_enable,
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
                        input [399:0][199:0] game,
                        output logic [7:0]  Red, Green, Blue,
 							  output logic flag
 								);
+<<<<<<< HEAD
     logic[4:0] counter0,counter1,counter2,counter3,counter4,counter5;
     always_ff @ (posedge Clk or posedge Reset)
 	 begin : base10counter
+=======
+    logic[3:0] counter0,counter1,counter2,counter3,counter4,counter5;
+    always_ff @ (posedge Clk or posedge Reset) begin
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
       if(Reset)begin
         counter0 = 0;
         counter1 = 0;
         counter2 = 0;
+<<<<<<< HEAD
         counter3 <= 0;
         counter4 <= 0;
         counter5 <= 0;
@@ -191,6 +202,23 @@ module  color_mapper ( input Clk, Reset,
    logic[10:0] d6_size_y = 16;
 
 
+=======
+        counter3 = 0;
+        counter4 = 0;
+        counter5 = 0;
+      end
+      if(counter0 % 10 == 0) begin
+        counter0 = 4'd0;
+        counter1 = counter1 + 1;
+        end
+      if(counter1 % 10 == 0) begin
+          counter0 = 4'd0;
+          counter1 = counter1 + 1;
+      end
+      else
+        counter0 = counter0 + 1;
+    end
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 	 logic [10:0] sprite_addr;
 	 logic [7:0] sprite_data;
 	 font_rom fr(.addr(sprite_addr),.data(sprite_data));
@@ -308,6 +336,7 @@ module  color_mapper ( input Clk, Reset,
   logic p_on,p_on1;
     always_comb
     begin:Ball_on_proc
+<<<<<<< HEAD
     if(game_over == 1'b1 && DrawX >= gx && DrawX < gx + d1_size_x && DrawY >= gy && DrawY < gy + d1_size_y)
 		begin
 
@@ -801,6 +830,11 @@ module  color_mapper ( input Clk, Reset,
     d4 = 1'b0;
     d5 = 1'b0;
     d6 = 1'b0;
+=======
+
+		if(DrawX >= box && DrawX < box + bo_size_x && DrawY >= boy && DrawY < boy + bo_size_y)
+		begin
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 		c_on = 1'b0;
 		o_on = 1'b0;
 		r_on = 1'b0;
@@ -821,6 +855,7 @@ module  color_mapper ( input Clk, Reset,
 		end
 		else if(DrawX >= cx && DrawX < cx + c_size_x && DrawY >= cy && DrawY < cy + c_size_y) // c
 		begin
+<<<<<<< HEAD
     g = 1'b0;
     a = 1'b0;
     m = 1'b0;
@@ -835,6 +870,8 @@ module  color_mapper ( input Clk, Reset,
     d4 = 1'b0;
     d5 = 1'b0;
     d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 		c_on = 1'b1;
 		o_on = 1'b0;
 		r_on = 1'b0;
@@ -855,6 +892,7 @@ module  color_mapper ( input Clk, Reset,
 		end
 		else if(DrawX >= ox && DrawX < ox + o_size_x && DrawY >= oy && DrawY < oy + o_size_y) // o
 		begin
+<<<<<<< HEAD
     g = 1'b0;
     a = 1'b0;
     m = 1'b0;
@@ -869,6 +907,8 @@ module  color_mapper ( input Clk, Reset,
     d4 = 1'b0;
     d5 = 1'b0;
     d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 		c_on = 1'b0;
 		o_on = 1'b1;
 		r_on = 1'b0;
@@ -889,6 +929,7 @@ module  color_mapper ( input Clk, Reset,
 		end
 		else if(DrawX >= rx && DrawX < rx + r_size_x && DrawY >= ry && DrawY < ry + r_size_y) // r
 		begin
+<<<<<<< HEAD
     g = 1'b0;
     a = 1'b0;
     m = 1'b0;
@@ -903,6 +944,8 @@ module  color_mapper ( input Clk, Reset,
     d4 = 1'b0;
     d5 = 1'b0;
     d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 		c_on = 1'b0;
 		o_on = 1'b0;
 		r_on = 1'b1;
@@ -923,6 +966,7 @@ module  color_mapper ( input Clk, Reset,
 		end
 		else if(DrawX >= ex && DrawX < ex + e_size_x && DrawY >= ey && DrawY < ey + e_size_y) // e
 		begin
+<<<<<<< HEAD
     g = 1'b0;
     a = 1'b0;
     m = 1'b0;
@@ -937,6 +981,8 @@ module  color_mapper ( input Clk, Reset,
     d4 = 1'b0;
     d5 = 1'b0;
     d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 		c_on = 1'b0;
 		o_on = 1'b0;
 		r_on = 1'b0;
@@ -956,6 +1002,7 @@ module  color_mapper ( input Clk, Reset,
 
 		end
 		else if(pause_enable && DrawX >= 20 && DrawX < 30 && DrawY >= 10 && DrawY < 30)begin
+<<<<<<< HEAD
     g = 1'b0;
     a = 1'b0;
     m = 1'b0;
@@ -970,6 +1017,8 @@ module  color_mapper ( input Clk, Reset,
     d4 = 1'b0;
     d5 = 1'b0;
     d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 		bo_on = 1'b0;
 				c_on = 1'b0;
 		o_on = 1'b0;
@@ -988,6 +1037,7 @@ module  color_mapper ( input Clk, Reset,
       borderB_on = 1'b0;
       end
       else if(pause_enable && DrawX >= 40 && DrawX < 50 && DrawY >= 10 && DrawY < 30)begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1002,6 +1052,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 		bo_on = 1'b0;
 				c_on = 1'b0;
 		o_on = 1'b0;
@@ -1020,6 +1072,7 @@ module  color_mapper ( input Clk, Reset,
       borderB_on = 1'b0;
       end
 			else if(DrawX < gameR && DrawX >= gameL && DrawY < gameR && game_piece == 1'b1) begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1034,6 +1087,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 				bo_on = 1'b0;
 						c_on = 1'b0;
 		o_on = 1'b0;
@@ -1054,6 +1109,7 @@ module  color_mapper ( input Clk, Reset,
 			else if(DrawX >= shape_x && DrawX < shape_x + shape_size_x &&
 				DrawY >= shape_y && DrawY < shape_y + shape_size_y)
 			begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1068,6 +1124,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 			bo_on = 1'b0;
 			sprite_addr = 10'b0;
       p_on = 1'b0;
@@ -1088,6 +1146,7 @@ module  color_mapper ( input Clk, Reset,
 			else if(DrawX >= borderl_x && DrawX < borderl_x + borderl_size_x &&
 				DrawY >= borderl_y && DrawY < borderl_y + borderl_size_y)
 			begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1102,6 +1161,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 			bo_on = 1'b0;
 			sprite_addr = 10'b0;
       p_on = 1'b0;
@@ -1122,6 +1183,7 @@ module  color_mapper ( input Clk, Reset,
 			else if(DrawX >= borderr_x && DrawX < borderr_x + borderr_size_x &&
 				DrawY >= borderr_y && DrawY < borderr_y + borderr_size_y)
 			begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1136,6 +1198,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 			bo_on = 1'b0;
 			sprite_addr = 10'b0;
       p_on = 1'b0;
@@ -1156,6 +1220,7 @@ module  color_mapper ( input Clk, Reset,
 			else if(DrawX >= borderb_x && DrawX < borderb_x + borderb_size_x &&
 				DrawY >= borderb_y && DrawY < borderb_y + borderb_size_y)
 			begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1170,6 +1235,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 			bo_on = 1'b0;
 			sprite_addr = 10'b0;
       p_on = 1'b0;
@@ -1190,6 +1257,7 @@ module  color_mapper ( input Clk, Reset,
 			else if(DrawX >= shape2_x && DrawX < shape2_x + shape2_size_x &&
 					  DrawY >= shape2_y && DrawY < shape2_y + shape2_size_y)
 			begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1204,6 +1272,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 			bo_on = 1'b0;
 			sprite_addr = 10'b0;
         p_on = 1'b0;
@@ -1224,6 +1294,7 @@ module  color_mapper ( input Clk, Reset,
 			else if(DrawX >= shape3_x && DrawX < shape3_x + shape3_size_x &&
 					  DrawY >= shape3_y && DrawY < shape3_y + shape3_size_y)
 			begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1238,6 +1309,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 			bo_on = 1'b0;
 			sprite_addr = 10'b0;
 			   p_on = 1'b0;
@@ -1258,6 +1331,7 @@ module  color_mapper ( input Clk, Reset,
 			else if(DrawX >= shape4_x && DrawX < shape4_x + shape4_size_x &&
 					  DrawY >= shape4_y && DrawY < shape4_y + shape4_size_y)
 			begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1272,6 +1346,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 			bo_on = 1'b0;
 			sprite_addr = 10'b0;
 			  p_on = 1'b0;
@@ -1291,6 +1367,7 @@ module  color_mapper ( input Clk, Reset,
 			end
 			else
 			begin
+<<<<<<< HEAD
       g = 1'b0;
       a = 1'b0;
       m = 1'b0;
@@ -1305,6 +1382,8 @@ module  color_mapper ( input Clk, Reset,
       d4 = 1'b0;
       d5 = 1'b0;
       d6 = 1'b0;
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 					c_on = 1'b0;
 		o_on = 1'b0;
 		r_on = 1'b0;
@@ -1325,6 +1404,7 @@ module  color_mapper ( input Clk, Reset,
 		end
     always_comb
     begin:RGB_Display
+<<<<<<< HEAD
       if((g == 1'b1) && sprite_data[DrawX - gx] == 1'b1) begin
          Red = 8'hff;
          Green = 8'hff;
@@ -1368,34 +1448,63 @@ module  color_mapper ( input Clk, Reset,
 			else if((bo_on == 1'b1) && sprite_data[DrawX - box] == 1'b1)
 			begin
 			   Red = 8'hff;
+=======
+			if((bo_on == 1'b1) && sprite_data[DrawX - box] == 1'b1)
+			begin
+			   Red = 8'h00;
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
             Green = 8'hff;
             Blue = 8'hff;
 
 			end
+<<<<<<< HEAD
 			else if((c_on == 1'b1) && sprite_data[DrawX - cx] == 1'b1)
 			begin
 			   Red = 8'hff;
+=======
+			else if((c_on == 1'b1) && sprite_data[DrawX - box] == 1'b1)
+			begin
+			   Red = 8'h00;
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
             Green = 8'hff;
             Blue = 8'hff;
 
 			end
+<<<<<<< HEAD
 			else if((o_on == 1'b1) && sprite_data[DrawX - ox] == 1'b1)
 			begin
 			   Red = 8'hff;
+=======
+			else if((o_on == 1'b1) && sprite_data[DrawX - box] == 1'b1)
+			begin
+			   Red = 8'h00;
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
             Green = 8'hff;
             Blue = 8'hff;
 
 			end
+<<<<<<< HEAD
 			else if((r_on == 1'b1) && sprite_data[DrawX - rx] == 1'b1)
 			begin
 			   Red = 8'hff;
+=======
+			else if((r_on == 1'b1) && sprite_data[DrawX - box] == 1'b1)
+			begin
+			   Red = 8'h00;
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
             Green = 8'hff;
             Blue = 8'hff;
 
 			end
+<<<<<<< HEAD
 			else if((e_on == 1'b1) && sprite_data[DrawX - ex] == 1'b1)
 			begin
 			   Red = 8'hff;
+=======
+			else if((e_on == 1'b1) && sprite_data[DrawX - box] == 1'b1)
+			begin
+			   Red = 8'h00;
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
             Green = 8'hff;
             Blue = 8'hff;
 
@@ -1457,6 +1566,7 @@ module  color_mapper ( input Clk, Reset,
       Green = 8'hff;
       Blue = 8'hff;
       end
+<<<<<<< HEAD
       else if(d1 == 1'b1 && sprite_data[DrawX - d1x] == 1'b1) begin
       Red = 8'hff;
       Green = 8'hff;
@@ -1488,6 +1598,8 @@ module  color_mapper ( input Clk, Reset,
       Blue = 8'hff;
       end
 
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
       else
 		  begin
             Red = 8'h00;

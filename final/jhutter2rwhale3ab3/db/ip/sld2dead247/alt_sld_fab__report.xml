@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
+<<<<<<< HEAD
  date="2016.12.05.18:50:55"
  outputDirectory="C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/db/ip/sld2dead247/">
+=======
+ date="2016.12.04.13:32:45"
+ outputDirectory="E:/final/jhutter2rwhale3ab3/db/ip/sld2dead247/">
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
  <perimeter>
   <parameter
      name="AUTO_DEVICE_FAMILY"

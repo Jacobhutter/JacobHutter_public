@@ -1316,6 +1316,7 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY com.altera.sbtgui.launch 1 0 2016-12-04 12:53:19.908
 !MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --accept-bad-sysid --sidp=0xa0 /cygdrive/e/final/jhutter2rwhale3ab3/software/usb_kb/usb_kb.elf]
+<<<<<<< HEAD
 !SESSION 2016-12-05 19:02:42.879 -----------------------------------------------
 eclipse.buildId=4.3.2.M20140221-1700
 java.version=1.8.0_05
@@ -1438,3 +1439,5 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY com.altera.sbtgui.launch 1 0 2016-12-05 19:05:25.343
 !MESSAGE Executing: [C:/altera/15.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --accept-bad-sysid --sidp=0xa0 /cygdrive/c/Users/cam82/Desktop/final/jhutter2rwhale3ab3/software/usb_kb/usb_kb.elf]
+=======
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f

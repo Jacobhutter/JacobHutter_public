@@ -1,6 +1,11 @@
 EDA Netlist Writer report for lab8
+<<<<<<< HEAD
 Mon Dec 05 18:59:22 2016
 Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
+=======
+Sun Dec 04 13:42:02 2016
+Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Full Version
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 
 
 ---------------------
@@ -37,7 +42,11 @@ agreement for further details.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
+<<<<<<< HEAD
 ; EDA Netlist Writer Status ; Successful - Mon Dec 05 18:59:22 2016 ;
+=======
+; EDA Netlist Writer Status ; Successful - Sun Dec 04 13:42:02 2016 ;
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 ; Revision Name             ; lab8                                  ;
 ; Top-level Entity Name     ; lab8                                  ;
 ; Family                    ; Cyclone IV E                          ;
@@ -88,8 +97,13 @@ agreement for further details.
 +-----------------------------+
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit EDA Netlist Writer
+<<<<<<< HEAD
     Info: Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
     Info: Processing started: Mon Dec 05 18:59:09 2016
+=======
+    Info: Version 15.0.0 Build 145 04/22/2015 SJ Full Version
+    Info: Processing started: Sun Dec 04 13:39:46 2016
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off lab8 -c lab8
 Info (204019): Generated file lab8_7_1200mv_85c_slow.svo in folder "C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file lab8_7_1200mv_0c_slow.svo in folder "C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/simulation/modelsim/" for EDA simulation tool
@@ -100,9 +114,16 @@ Info (204019): Generated file lab8_7_1200mv_0c_v_slow.sdo in folder "C:/Users/ca
 Info (204019): Generated file lab8_min_1200mv_0c_v_fast.sdo in folder "C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file lab8_v.sdo in folder "C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/simulation/modelsim/" for EDA simulation tool
 Info: Quartus II 64-Bit EDA Netlist Writer was successful. 0 errors, 0 warnings
+<<<<<<< HEAD
     Info: Peak virtual memory: 728 megabytes
     Info: Processing ended: Mon Dec 05 18:59:23 2016
     Info: Elapsed time: 00:00:14
     Info: Total CPU time (on all processors): 00:00:13
+=======
+    Info: Peak virtual memory: 704 megabytes
+    Info: Processing ended: Sun Dec 04 13:42:02 2016
+    Info: Elapsed time: 00:02:16
+    Info: Total CPU time (on all processors): 00:00:15
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 
 

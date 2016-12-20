@@ -2,7 +2,11 @@ module gameboard(
               input Clk,Reset, at_bottom,
               input [9:0] square1x,square1y,square2x,square2y,square3x,square3y,square4x,square4y, // current square positions not placed
               output logic [399:0][199:0] game,
+<<<<<<< HEAD
 				  output logic [19:0][199:0] example
+=======
+				  output logic [19:0][199:0] example,
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
   );
 		       logic [19:0][199:0] compilation1,compilation2,compilation3,compilation4,compilation5,compilation6,compilation7,compilation8,compilation9,compilation10,compilation11,compilation12,compilation13,compilation14,compilation15,compilation16,compilation17,compilation18,compilation19,compilation20;
 		 assign example = compilation20;

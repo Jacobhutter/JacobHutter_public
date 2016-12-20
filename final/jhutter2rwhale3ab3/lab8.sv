@@ -109,7 +109,11 @@ module  lab8 		( input         CLOCK_50,
     vga_controller vgasync_instance(.Clk(Clk),.Reset(Reset_h),.hs(VGA_HS),.vs(VGA_VS),.pixel_clk(VGA_CLK),.blank(VGA_BLANK_N),.sync(VGA_SYNC_N),.DrawX(drawxsig),.DrawY(drawysig));
 
     // ensures that one keypress only moves block over one
+<<<<<<< HEAD
 	 keycode_state_machine ksm (.Clk(VGA_VS),.Reset(Reset_h),.keycode(keycode),.step_enable_a(a_enable),.step_enable_s(s_enable),.step_enable_d(d_enable),.pause_enable(pause_enable),.restart_enable(restart_enable),.rotate_enable(rotate_enable));
+=======
+	 keycode_state_machine ksm (.Clk(VGA_VS),.Reset(Reset_h),.keycode(keycode),.step_enable_a(a_enable),.step_enable_s(s_enable),.step_enable_d(d_enable),.pause_enable(pause_enable),.restart_enable(restart_enable),.rotate_enable());
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 
   // logic for up counter and flag to drop down
    logic [5:0] data_connect;
@@ -149,6 +153,7 @@ module  lab8 		( input         CLOCK_50,
   .next_square_1x(next_square_1x),.next_square_1y(next_square_1y),.next_square_2x(next_square_2x),.next_square_2y(next_square_2y),.next_square_3x(next_square_3x),.next_square_3y(next_square_3y),.next_square_4x(next_square_4x),.next_square_4y(next_square_4y));
 
  // one instance of a square
+<<<<<<< HEAD
 square square_instance(.sq(0),.rotate_enable(rotate_enable),.shape(shape),.game(game),.pause_enable(pause_enable),.at_edgeL(edge1L),.at_edgeR(edge1R),.edge_disableL(edge_disableL),.edge_disableR(edge_disableR),.at_bottom(at_bottom),.center_x(center_x),.center_y(center_y),.Reset(Reset_h|restart_enable),.a_enable(a_enable),.s_enable(s_enable|flag),.d_enable(d_enable),
    .Clk(VGA_VS),.SQUAREX(ballxsig),.SQUAREY(ballysig),.SQUARE_Size_x(ballsizesig),.SQUARE_Size_y(),.coord(coord));
  // ne square
@@ -161,6 +166,20 @@ square square_instance3(.sq(2),.rotate_enable(rotate_enable),.shape(shape),.game
 
 	// se square
 square square_instance4(.sq(3),.rotate_enable(rotate_enable),.shape(shape),.game(game),.pause_enable(pause_enable),.at_edgeL(edge4L),.at_edgeR(edge4R),.edge_disableL(edge_disableL),.edge_disableR(edge_disableR),.at_bottom(at_bottom4),.center_x(center_x4),.center_y(center_y4),.Reset(Reset_h|restart_enable),.a_enable(a_enable),.s_enable(s_enable|flag),.d_enable(d_enable),
+=======
+square square_instance(.game(game),.pause_enable(pause_enable),.at_edgeL(edge1L),.at_edgeR(edge1R),.edge_disableL(edge_disableL),.edge_disableR(edge_disableR),.at_bottom(at_bottom),.center_x(center_x),.center_y(center_y),.Reset(Reset_h|restart_enable),.a_enable(a_enable),.s_enable(s_enable|flag),.d_enable(d_enable),
+   .Clk(VGA_VS),.SQUAREX(ballxsig),.SQUAREY(ballysig),.SQUARE_Size_x(ballsizesig),.SQUARE_Size_y(),.coord(coord));
+ // ne square
+square square_instance2(.game(game),.pause_enable(pause_enable),.at_edgeL(edge2L),.at_edgeR(edge2R),.edge_disableL(edge_disableL),.edge_disableR(edge_disableR),.at_bottom(at_bottom2),.center_x(center_x2),.center_y(center_y2),.Reset(Reset_h|restart_enable),.a_enable(a_enable),.s_enable(s_enable|flag),.d_enable(d_enable),
+   .Clk(VGA_VS),.SQUAREX(ballxsig2),.SQUAREY(ballysig2),.SQUARE_Size_x(),.SQUARE_Size_y(),.coord(coord));
+
+  // sw square
+square square_instance3(.game(game),.pause_enable(pause_enable),.at_edgeL(edge3L),.at_edgeR(edge3R),.edge_disableL(edge_disableL),.edge_disableR(edge_disableR),.at_bottom(at_bottom3),.center_x(center_x3),.center_y(center_y3),.Reset(Reset_h|restart_enable),.a_enable(a_enable),.s_enable(s_enable|flag),.d_enable(d_enable),
+   .Clk(VGA_VS),.SQUAREX(ballxsig3),.SQUAREY(ballysig3),.SQUARE_Size_x(),.SQUARE_Size_y(),.coord(coord));
+
+	// se square
+square square_instance4(.game(game),.pause_enable(pause_enable),.at_edgeL(edge4L),.at_edgeR(edge4R),.edge_disableL(edge_disableL),.edge_disableR(edge_disableR),.at_bottom(at_bottom4),.center_x(center_x4),.center_y(center_y4),.Reset(Reset_h|restart_enable),.a_enable(a_enable),.s_enable(s_enable|flag),.d_enable(d_enable),
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
    .Clk(VGA_VS),.SQUAREX(ballxsig4),.SQUAREY(ballysig4),.SQUARE_Size_x(),.SQUARE_Size_y(),.coord(coord));
 
 
@@ -170,6 +189,7 @@ square square_instance4(.sq(3),.rotate_enable(rotate_enable),.shape(shape),.game
 
   gameboard gb(.Clk(VGA_VS),.Reset(Reset_h|restart_enable),.at_bottom(at_bottom|at_bottom2|at_bottom3|at_bottom4),.square1x(ballxsig),.square1y(ballysig),.square2x(ballxsig2),.square2y(ballysig2),
   .square3x(ballxsig3),.square3y(ballysig3),.square4x(ballxsig4),.square4y(ballysig4),.game(game));
+<<<<<<< HEAD
   logic [2:0] endit;
   logic confirm;
   always_comb begin
@@ -189,6 +209,12 @@ square square_instance4(.sq(3),.rotate_enable(rotate_enable),.shape(shape),.game
   end
  // tells vga controller which pixels are painted what color
 color_mapper color_instance(.game_over(confirm),.Clk((flag|s_enable)&(~at_bottom)&(~pause_enable)),.Reset(Reset_h|restart_enable),.pause_enable(pause_enable),.BallX(ballxsig),.BallY(ballysig),.BallX2(ballxsig2),.BallY2(ballysig2),.BallX3(ballxsig3),.BallY3(ballysig3),.BallX4(ballxsig4),.BallY4(ballysig4),.DrawX(drawxsig),.DrawY(drawysig),.Ball_size(ballsizesig),.Red(VGA_R),.Blue(VGA_B),.Green(VGA_G),.game(game));
+=======
+
+  rotation rt();
+ // tells vga controller which pixels are painted what color
+color_mapper color_instance(.pause_enable(pause_enable),.BallX(ballxsig),.BallY(ballysig),.BallX2(ballxsig2),.BallY2(ballysig2),.BallX3(ballxsig3),.BallY3(ballysig3),.BallX4(ballxsig4),.BallY4(ballysig4),.DrawX(drawxsig),.DrawY(drawysig),.Ball_size(ballsizesig),.Red(VGA_R),.Blue(VGA_B),.Green(VGA_G),.game(game));
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 
   // uncomment the exported HEXN above in module declaration and comment two lines above
    HexDriver hex_inst_0 (scoreboard[3:0],HEX0);

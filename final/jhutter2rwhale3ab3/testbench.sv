@@ -83,6 +83,37 @@ initial begin: TEST_VECTORS
 #2 Reset = 1'b1;
 #2 Reset = 1'b0;  //reset
 
+<<<<<<< HEAD
+=======
+#2 at_bottom = 1'b1;
+#2 at_bottom = 1'b0;
+
+#2 square1x = 10'd280;
+#0 square2x = 10'd300;
+#0 square3x = 10'd320;
+#0 square4x = 10'd340;
+#0 square1y = 10'd380;
+#0 square2y = 10'd380;
+#0 square3y = 10'd380;
+#0 square4y = 10'd380;
+
+#2 at_bottom = 1'b1;
+#2 at_bottom = 1'b0;
+
+#2 square1x = 10'd360;
+#0 square2x = 10'd380;
+#0 square3x = 10'd200;
+#0 square4x = 10'd220;
+#0 square1y = 10'd380;
+#0 square2y = 10'd380;
+#0 square3y = 10'd360;
+#0 square4y = 10'd360;
+
+#2 at_bottom = 1'b1;
+#2 at_bottom = 1'b0;
+
+
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 
 
 end

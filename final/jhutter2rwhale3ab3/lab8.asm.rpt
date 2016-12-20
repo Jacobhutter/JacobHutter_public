@@ -1,6 +1,11 @@
 Assembler report for lab8
+<<<<<<< HEAD
 Mon Dec 05 18:58:31 2016
 Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
+=======
+Sun Dec 04 13:39:09 2016
+Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Full Version
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 
 
 ---------------------
@@ -39,7 +44,11 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
+<<<<<<< HEAD
 ; Assembler Status      ; Successful - Mon Dec 05 18:58:31 2016 ;
+=======
+; Assembler Status      ; Successful - Sun Dec 04 13:39:09 2016 ;
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 ; Revision Name         ; lab8                                  ;
 ; Top-level Entity Name ; lab8                                  ;
 ; Family                ; Cyclone IV E                          ;
@@ -73,6 +82,7 @@ agreement for further details.
 +----------------------------------------------------------+
 
 
+<<<<<<< HEAD
 +------------------------------------------------------------------------------------+
 ; Assembler Device Options: C:/Users/cam82/Desktop/final/jhutter2rwhale3ab3/lab8.sof ;
 +----------------+-------------------------------------------------------------------+
@@ -82,6 +92,17 @@ agreement for further details.
 ; JTAG usercode  ; 0x00C1451A                                                        ;
 ; Checksum       ; 0x00C1451A                                                        ;
 +----------------+-------------------------------------------------------------------+
+=======
++----------------------------------------------------------------+
+; Assembler Device Options: E:/final/jhutter2rwhale3ab3/lab8.sof ;
++----------------+-----------------------------------------------+
+; Option         ; Setting                                       ;
++----------------+-----------------------------------------------+
+; Device         ; EP4CE115F29C7                                 ;
+; JTAG usercode  ; 0x00BD3FF8                                    ;
+; Checksum       ; 0x00BD3FF8                                    ;
++----------------+-----------------------------------------------+
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 
 
 +--------------------+
@@ -89,15 +110,27 @@ agreement for further details.
 +--------------------+
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Assembler
+<<<<<<< HEAD
     Info: Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
     Info: Processing started: Mon Dec 05 18:58:25 2016
+=======
+    Info: Version 15.0.0 Build 145 04/22/2015 SJ Full Version
+    Info: Processing started: Sun Dec 04 13:39:00 2016
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off lab8 -c lab8
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus II 64-Bit Assembler was successful. 0 errors, 0 warnings
+<<<<<<< HEAD
     Info: Peak virtual memory: 671 megabytes
     Info: Processing ended: Mon Dec 05 18:58:32 2016
     Info: Elapsed time: 00:00:07
     Info: Total CPU time (on all processors): 00:00:06
+=======
+    Info: Peak virtual memory: 650 megabytes
+    Info: Processing ended: Sun Dec 04 13:39:09 2016
+    Info: Elapsed time: 00:00:09
+    Info: Total CPU time (on all processors): 00:00:05
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 
 

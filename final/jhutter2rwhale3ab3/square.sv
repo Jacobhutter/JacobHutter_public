@@ -1,9 +1,14 @@
 
 module  square (input Reset, Clk, coord, edge_disableL, edge_disableR,
+<<<<<<< HEAD
 					input a_enable,s_enable,d_enable, pause_enable, rotate_enable,
 					input [399:0][199:0] game,
 					input [3:0] shape,
 					input [2:0] sq,
+=======
+					input a_enable,s_enable,d_enable, pause_enable,
+					input [399:0][199:0] game,
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 					input [9:0] center_x, center_y,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,
 					output logic [9:0]  SQUAREX, SQUAREY, SQUARE_Size_x, SQUARE_Size_y,
 					output logic at_bottom, at_edgeL, at_edgeR);
@@ -81,7 +86,11 @@ module  square (input Reset, Clk, coord, edge_disableL, edge_disableR,
 	 	  at_edgeR = 1'b0;
 
 		if(SQUARE_Y_Pos == SQUARE_Y_Max || game[SQUARE_Y_Pos + 20][SQUARE_X_Pos - 200] == 1'b1 )
+<<<<<<< HEAD
 			at_bottom = 1'b1;		 
+=======
+			at_bottom = 1'b1;
+>>>>>>> 9b1c6dc1725e0fc6ff297331fa33a15b8a3f133f
 		else
 			at_bottom = 1'b0;
 		end
