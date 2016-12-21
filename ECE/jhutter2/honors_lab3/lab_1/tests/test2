@@ -1,0 +1,5 @@
+file obj/bubble_sort
+memory x5000 x0002
+memory x5001 x000C
+memory x5002 x0001
+continue

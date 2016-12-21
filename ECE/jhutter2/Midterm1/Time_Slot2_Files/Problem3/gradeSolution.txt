@@ -1,0 +1,170 @@
+Assembling Code
+################################################
+STARTING PASS 1
+0 errors found in first pass.
+STARTING PASS 2
+0 errors found in second pass.
+Test 1:
+################################################
+
+Welcome to the LC-3 simulator.
+
+The contents of the LC-3 tools distribution, including sources, management
+tools, and data, are Copyright (c) 2003 Steven S. Lumetta.
+
+The LC-3 tools distribution is free software covered by the GNU General
+Public License, and you are welcome to modify it and/or distribute copies
+of it under certain conditions.  The file COPYING (distributed with the
+tools) specifies those conditions.  There is absolutely no warranty for
+the LC-3 tools distribution, as described in the file NO_WARRANTY (also
+distributed with the tools).
+
+Have fun.
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0000 R4=x0000 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+Loaded "test1.obj" and set PC to x4FFF
+Loaded "gold.obj" and set PC to x3000
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0001 R3=x0035 R4=x0036 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+4FF8:                                         0030 0039 0038 0037          0987
+5004: 0036 0035 0034 0033 0032 0031 0000 0000 0000 0000 0000 0000  654321......
+5010: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+501C: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5028: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5034: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5040: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+504C: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5058: 0000 0000 0000 0000 0000 0000 0000 0000                      ........    
+Test 2:
+################################################
+
+Welcome to the LC-3 simulator.
+
+The contents of the LC-3 tools distribution, including sources, management
+tools, and data, are Copyright (c) 2003 Steven S. Lumetta.
+
+The LC-3 tools distribution is free software covered by the GNU General
+Public License, and you are welcome to modify it and/or distribute copies
+of it under certain conditions.  The file COPYING (distributed with the
+tools) specifies those conditions.  There is absolutely no warranty for
+the LC-3 tools distribution, as described in the file NO_WARRANTY (also
+distributed with the tools).
+
+Have fun.
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0000 R4=x0000 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+Loaded "test2.obj" and set PC to x4FFF
+Loaded "gold.obj" and set PC to x3000
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0001 R3=x0044 R4=x0054 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+4FF8:                                         0050 0051 0052 0053          PQRS
+5004: 0054 0044 0043 0042 0041 0040 0000 0000 0000 0000 0000 0000  TDCBA@......
+5010: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+501C: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5028: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5034: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5040: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+504C: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5058: 0000 0000 0000 0000 0000 0000 0000 0000                      ........    
+Test 3:
+################################################
+
+Welcome to the LC-3 simulator.
+
+The contents of the LC-3 tools distribution, including sources, management
+tools, and data, are Copyright (c) 2003 Steven S. Lumetta.
+
+The LC-3 tools distribution is free software covered by the GNU General
+Public License, and you are welcome to modify it and/or distribute copies
+of it under certain conditions.  The file COPYING (distributed with the
+tools) specifies those conditions.  There is absolutely no warranty for
+the LC-3 tools distribution, as described in the file NO_WARRANTY (also
+distributed with the tools).
+
+Have fun.
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0000 R4=x0000 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+Loaded "test3.obj" and set PC to x4FFF
+Loaded "gold.obj" and set PC to x3000
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0001 R3=x001D R4=x001C R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+4FF8:                                         0019 001A 001B 001C          ....
+5004: 001D 001E 001F 0020 0000 0000 0000 0000 0000 0000 0000 0000  ... ........
+5010: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+501C: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5028: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5034: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5040: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+504C: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5058: 0000 0000 0000 0000 0000 0000 0000 0000                      ........    
+Test 4:
+################################################
+
+Welcome to the LC-3 simulator.
+
+The contents of the LC-3 tools distribution, including sources, management
+tools, and data, are Copyright (c) 2003 Steven S. Lumetta.
+
+The LC-3 tools distribution is free software covered by the GNU General
+Public License, and you are welcome to modify it and/or distribute copies
+of it under certain conditions.  The file COPYING (distributed with the
+tools) specifies those conditions.  There is absolutely no warranty for
+the LC-3 tools distribution, as described in the file NO_WARRANTY (also
+distributed with the tools).
+
+Have fun.
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0000 R4=x0000 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+Loaded "test4.obj" and set PC to x4FFF
+Loaded "gold.obj" and set PC to x3000
+
+
+--- halting the LC-3 ---
+
+PC=x0494 IR=xB1AE PSR=x0400 (ZERO)
+R0=x0000 R1=x7FFF R2=x0000 R3=x0033 R4=x0035 R5=x0000 R6=x0000 R7=x0490 
+                   x0494 x0FF9 BRNZP TRAP_HALT
+4FF8:                                         0037 0036 0035 0001          765.
+5004: 0033 0032 0031 0000 0000 0000 0000 0000 0000 0000 0000 0000  321.........
+5010: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+501C: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5028: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5034: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5040: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+504C: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000  ............
+5058: 0000 0000 0000 0000 0000 0000 0000 0000                      ........    

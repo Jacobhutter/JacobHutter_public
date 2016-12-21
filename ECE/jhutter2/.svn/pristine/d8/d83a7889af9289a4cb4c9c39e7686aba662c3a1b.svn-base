@@ -1,0 +1,48 @@
+Instructions
+************
+Given a length and an unsorted array, sort the array in order from least to
+greatest. You can assume that length will be greater or equal to 0.
+
+Example:
+Input: x5000 - x0003
+       x5001 - x0008
+       x5002 - xFFFF
+       x5003 - x0001
+Output: x5001 - xFFFF
+        x5002 - x0001
+        x5003 - x0008
+Console: 0008 FFFF 0001
+         FFFF 0001 0008
+
+The provided file contains 4 functions: BUBBLE_SORT, SWAP, PRINT_ARRAY, and
+PRINT_DATA. You will need to complete the first 3 of these. Each function
+contains some relevant data at the end of it which you should make use of in
+your program. Note that you may add more data for each function as necessary
+such as callee-saved registers. 
+
+The MAIN function of the code will print out the unsorted array, sort the array,
+and finally print out the sorted array as shown above in Console in the example
+above. Please make sure to print out the array on two separate lines. The
+PRINT_ARRAY function contains the ASCII_NEWLN data to allow you to do this. When
+running 'make test', the script will expect the output to be in this format.
+Note that when debugging your program with 'lc3sim-tk', the newline won't work
+because 'lc3sim-tk' uses xD instead of xA for newline. Please use 'lc3sim' to
+verify that your code work correctly.
+
+The BUBBLE_SORT program is based off the following C code:
+int s = 1;
+while (s)
+{
+  s = 0;
+  for (i = 1; i < length; i++)
+  {
+    if (a[i] < a[i-1])
+    {
+      swap(a[i], a[i-1]);
+      s = 1;
+    }
+  }
+}
+
+Note that the swap above corresponds to the SWAP function which will swap data
+between two memory locations.

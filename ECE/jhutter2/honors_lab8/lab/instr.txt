@@ -1,0 +1,37 @@
+Instructions
+************
+Complete the 'insert_dlist' and 'reverse_dlist' functions in dlist.c. For the
+first function, given data and an index it inserts the data into the correct
+position. For the second function, given starting and ending indices, it 
+reverse those values in the list.
+
+Example:
+Input: <file>
+4 1 2
+0 1 2 3
+Output:
+Regular list: 0 1 2 3
+Reversed list: 0 2 1 3
+
+Input: <file>
+4 -100 100
+0 1 2 3
+Output:
+Regular list: 0 1 2 3
+Reversed list: 3 2 1 0
+
+The first line of the input file is as follows:
+<data length> <starting index> <ending index>
+<list data>
+
+For either of the function, you code should still be handle indices that are 
+out of bounds. If reverse_dlist is given start and end indices of -100 and 100
+respectively, it should reverse the entire list as shown above.
+
+This lab will be testing you on a doubly linked list which has prev and next
+pointers so you will need to correctly assign 4 pointers whenenever you do an
+insertion. Also, this lab makes use of a sentinel node (discussion and diagram
+can be found here: http://stackoverflow.com/questions/5384358/how-does-a-
+sentinel-node-offer-benefits-over-null). Although you won't be tested on this, 
+the doubly linked list also contains a length member variable which should be 
+updated on every insertion.

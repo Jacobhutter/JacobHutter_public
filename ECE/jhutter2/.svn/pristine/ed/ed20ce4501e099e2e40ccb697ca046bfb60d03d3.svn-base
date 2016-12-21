@@ -1,0 +1,22 @@
+#include <stdlib.h>
+#include "count_steps.h"
+
+/*
+ * count_steps
+ *   DESCRIPTION: counts the total number of ways to reach the nth step by
+ *                climbing either 1, 2, or 3 steps at a single time
+ *   INPUTS: num_steps -- number of steps to climb
+ *   OUTPUTS: none
+ *   RETURN VALUE: total number of ways to reach top
+ *   SIDE EFFECTS: none
+ */
+int count_steps(int num_steps)
+{
+  // Allocate step array
+  int *step_arr = (int *)malloc(num_steps * sizeof(int));
+  
+  // Free memory
+  free(step_arr);
+
+  return 0;
+}

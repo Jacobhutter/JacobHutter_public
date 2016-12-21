@@ -1,0 +1,11 @@
+//Record your answers for Problem 4 here
+
+1. What is one advantage of interrupt-driven I/O over polling I/O?
+Traditional polling I/O commonly used in LC3 trap routines involves a wasteful process of constantly updating a status register to check for user input and then another for outputing to external device. Interrupt-driven I/O has an advantage in that it is highly more efficient. In interrupt, the external device(and sometimes program) will send an 'interrupt' signal to the processor to enable intake of data or output of data from a keyboard or to a monitor for example rather than the processor constantly probing for an input.
+
+
+
+
+
+2. What is the significance of the function main in C?
+	It is where all other function calls must stem from. Every program in C must either be linked to a main function or stem from one in order to compile. Once in main, the user can then call various functions. If we look at the run-time stack for a main function, we see that the R5 must start at the local variables there so we cannot call other functions first. In c to LC3 conversion, another significant feature we implement is not allocating space for return value,address, or previous frame pointers. 

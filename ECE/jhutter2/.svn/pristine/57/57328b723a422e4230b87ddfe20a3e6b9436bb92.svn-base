@@ -1,0 +1,28 @@
+Instructions
+************
+Given an input at x4000, print out the binary representation to the console.
+
+Example:
+Input: x4000 - x1234
+Console: 0001001000110100
+
+This lab assignment is intended to provided a brief refresher on LC3 assembly.
+You must write your code in the 'print_binary.asm' file (located in the 'src'
+directory) where indicated to solve the above problem. The code contains all 
+necessary data required to solve the problem (ASCII representations of 0 and 1). 
+Note that there are a few ways to solve this problem and that to print a 
+character to the console, you should make use of the OUT instruction.
+
+A makefile has been provided to you to assemble inputs and print_binary files,
+run tests, and clean .obj/.sym files. If you open the makefile, you will see a 
+few labels followed by some commands. Typing in 'make' will execute commands 
+associated with the 'all' label which references the 'sources' and 'input'
+labels. After assemblying the program, all .obj/.sym files will be located
+in the 'obj' directory. In case you would like to remove all .obj/.sym files, 
+you can simply run 'make clean' (This may be more useful in the future for C 
+labs/MPs in some situtations). 
+
+All input and test files are located in the 'tests' directory. Running 'make 
+test' will execute the 'runtests.sh' script in the 'tests' directory. To test 
+the program, you can either do 'lc3sim -s tests/testX' for individual tests 
+or './tests/runtests.sh' to run all tests.

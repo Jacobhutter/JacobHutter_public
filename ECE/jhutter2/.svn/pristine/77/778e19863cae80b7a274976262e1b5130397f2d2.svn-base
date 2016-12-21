@@ -1,0 +1,29 @@
+Instructions
+************
+Given two numbers at x5000 and x5001, find the greatest common divisor of
+the two numbers and store the result in x5002.
+
+Example:
+Input: x5000 - x0004
+       x5001 - x000C
+Output: x5002 - 4
+
+This lab assignment is intended to introduce functions and recursion in 
+assembly programming. You must write your code in the 'gcd_recursion.asm' file
+where indicated (MAIN, GCD, and MOD functions). To solve the problem please
+refer to the algorithm below:
+
+gcd(input u, input v)
+  if v != 0
+    return gcd(v, mod(u, v))
+  else
+    return u
+
+mod(input a, input b)
+  return a%b (equivalent to remainder of a/b)
+
+The provided code included the stack code used in MP2 if you wish to utilize it
+in the assignment.
+
+Similar to last lab, a makefile has been provided to you for assembling inputs
+and testing your code against a few test cases.

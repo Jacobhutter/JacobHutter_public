@@ -1,0 +1,15 @@
+Record your answers here for Problem 4.
+Please limit each answer to no more than 3 sentences.
+
+
+1. It would be 16 bits. In order for the Mar to access all of the addresses available in the lc3 memory, it would need at least the 4 digits of hexadecimal to account for them. 
+MDR also needs the 16 bits to take in the full 16 bit word in the instruction. EX: MAR<--- PC, is a common micro instruction and pc is 16 bits so mar must also be at least that. 
+
+
+
+
+2. The stack data structure is used to quickly access memory with no need for permanent storage and thus expands the usage of those memory addresses allocated. They are used by setting aside a group of addresses, maintaining the top and bottom for reference, to which the first slot, memory is loaded in via an indirect store of the stack pointer which points to the next available address.
+From there you can add more or pop material out by an indirect load but it must be in the order it was stored, lastly, if the stack is empty and pop is attempted or full and push is attempted then an underflow or overflow consequence should be used. 
+
+
+

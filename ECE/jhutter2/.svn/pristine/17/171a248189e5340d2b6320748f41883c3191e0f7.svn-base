@@ -1,0 +1,32 @@
+Instructions
+************
+Complete the 'count_steps' function in count_steps.c. The problems can be
+described as follows - "A child is running up a staircase with n steps and can 
+hop either 1 step, 2 steps, 3 steps at a time. Count the total number of ways
+that the child can run up the stairs."
+
+Example:
+Input: 3
+Output: 4
+Explanation:
+           ____ 3rd step
+       ____|    2nd step
+   ____|        1st step
+___|            Floor (0th step)
+
+There are 4 ways the child can get from the floor to the 3rd step:
+(1st step, 2nd step, 3rd step)
+(1st step, 3rd step)
+(2nd step, 3rd step)
+(3rd step)
+
+You will need to calculate all these possibilities and print the total number 
+of different ways to get from the bottom to the top.
+
+HINT:
+You can consider the floor to be a 0th step and use it in your algorithm.
+In the provided code, I have created an array of size num_steps for you. You 
+can use it if you wish.
+
+Assumptions:
+--n will be >= 1

@@ -1,0 +1,32 @@
+Instructions
+************
+Fill in the C and x86 assembly functions to reverse the input array and return
+the average of the contents of the array. The C code should be written in
+'rev_avg_c.c' and the assembly should be written in 'rev_avg_asm.S'. Please
+refer to the 'max' program demonstrated in class because the lab is very similar
+to it. In both functions, you should reverse the array in place without
+allocating any extra space.
+
+To run a single test from, do './bin/rev_avg tests/testx where x in the number
+of the test.
+
+Important information regarding the x86 assembly:
+-The provided code already sets up and breaks down the runtime stack so you only
+need to implement the functionality.
+
+-All x86 instructions are in the form (Note the l in instrl):
+jump label
+instrl <src> <dest>
+
+-All x86 instructions needed for the lab can be found at:
+https://en.wikibooks.org/wiki/X86_Assembly
+
+-To perform the swapping of data, make use of the XOR swapping method:
+https://en.wikipedia.org/wiki/XOR_swap_algorithm
+
+-To perform division, use 'cdq' to sign-extend %eax register:
+cdq         #sign extends %eax into %edx
+idiv <src>  #%edx:%eax / <src> = %eax, %edx = remainder
+
+-Although I listed how I used certain registers at the top, you can use them
+however you want. The register usage is only a suggestion.

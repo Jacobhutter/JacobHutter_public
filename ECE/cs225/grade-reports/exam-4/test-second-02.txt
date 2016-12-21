@@ -1,0 +1,67 @@
+CD to .. 
+/home/mattox/repos/cs225/fa16-exam4-grading/submissions/jhutter2
+###############################
+##                           ##
+##     Grading question      ##
+##                           ##
+###############################
+Grader dir is /home/mattox/repos/cs225/fa16-exam4-grading/code-grading/scripts
+qid is second-02
+variant is
+test_dir is /home/mattox/repos/cs225/fa16-exam4-grading/code-grading/scripts/tests/second-02/
+fullTmpDir = /home/mattox/repos/cs225/fa16-exam4-grading/submissions/jhutter2/grade-.uTf
+:: Compiling...
+g++ -std=c++0x -c -g -O0 -Wall -Wextra -Wno-unused-function solution_second.cpp
+solution_second.cpp:14:6: error: prototype for ‘void Quadtree::tallyDeviants(const RGBAPixel&, const Quadtree::QuadtreeNode*, int, int&) const’ does not match any in class ‘Quadtree’
+ void Quadtree::tallyDeviants(RGBAPixel const & target,
+      ^~~~~~~~
+In file included from solution_second.cpp:2:0:
+quadtree.h:152:9: error: candidate is: int Quadtree::tallyDeviants(const RGBAPixel&, const Quadtree::QuadtreeNode*, int) const
+     int tallyDeviants(RGBAPixel const & target, QuadtreeNode const * curNode, int tolerance) const;
+         ^~~~~~~~~~~~~
+solution_second.cpp: In member function ‘int Quadtree::tallyDeviants(const RGBAPixel&, const Quadtree::QuadtreeNode*, int) const’:
+solution_second.cpp:38:51: error: no matching function for call to ‘Quadtree::tallyDeviants(const RGBAPixel&, const Quadtree::QuadtreeNode*&, int&, int&) const’
+     tallyDeviants(target,curNode,tolerance,running);
+                                                   ^
+solution_second.cpp:34:5: note: candidate: int Quadtree::tallyDeviants(const RGBAPixel&, const Quadtree::QuadtreeNode*, int) const
+ int Quadtree::tallyDeviants(RGBAPixel const & target,
+     ^~~~~~~~
+solution_second.cpp:34:5: note:   candidate expects 3 arguments, 4 provided
+solution_second.cpp: At global scope:
+solution_second.cpp:42:6: error: prototype for ‘void Quadtree::prunish(int, double, Quadtree::QuadtreeNode*)’ does not match any in class ‘Quadtree’
+ void Quadtree::prunish(int tolerance, double percent, QuadtreeNode * curNode) { // calculates res
+      ^~~~~~~~
+In file included from solution_second.cpp:2:0:
+quadtree.h:153:10: error: candidates are: void Quadtree::prunish(Quadtree::QuadtreeNode*, int, int, double)
+     void prunish(QuadtreeNode * curNode, int tolerance, int res, double percent);
+          ^~~~~~~
+quadtree.h:151:10: error:                 void Quadtree::prunish(int, double)
+     void prunish(int tolerance, double percent);
+          ^~~~~~~
+solution_second.cpp: In member function ‘void Quadtree::prunish(int, double)’:
+solution_second.cpp:58:37: error: no matching function for call to ‘Quadtree::prunish(int&, double&, Quadtree::QuadtreeNode*&)’
+     prunish(tolerance, percent, root);
+                                     ^
+solution_second.cpp:55:6: note: candidate: void Quadtree::prunish(int, double)
+ void Quadtree::prunish(int tolerance, double percent) {
+      ^~~~~~~~
+solution_second.cpp:55:6: note:   candidate expects 2 arguments, 3 provided
+In file included from solution_second.cpp:2:0:
+quadtree.h:153:10: note: candidate: void Quadtree::prunish(Quadtree::QuadtreeNode*, int, int, double)
+     void prunish(QuadtreeNode * curNode, int tolerance, int res, double percent);
+          ^~~~~~~
+quadtree.h:153:10: note:   candidate expects 4 arguments, 3 provided
+Makefile:20: recipe for target 'solution_second.o' failed
+make: *** [solution_second.o] Error 1
+Could not compile solution_second.o.
+
+Grade for question : 0/100
+
+
+~ ~ ~
+
+Grade: 0
+
+Details:
+test,grade
+_compiled,0

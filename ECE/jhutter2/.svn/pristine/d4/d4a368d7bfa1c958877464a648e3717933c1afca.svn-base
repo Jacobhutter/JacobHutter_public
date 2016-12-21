@@ -1,0 +1,38 @@
+Instructions
+************
+Complete the 'verify' function in verify.c. The goal of this lab will be to
+verify input data in the provided test using regex. 
+
+Input: <file>
+Firstname Lastname
+mm-dd-yyy
+(nnn)-nnn-nnnn
+
+The input file contain 3 lines of data in the order shown above You can make
+the following assumption about each the of lines:
+Firstname Lastname:
+First/last names will start with a capital letter followed by all lowercase
+letters. There is a single space between the two names.
+mm-dd-yy:
+This is a date with mm between 1 - 12, dd between 1 - 31 (I realize this allows
+some extra days in certain months but oh well), and yyyy between 0000-9999.
+(nnn)-nnn-nnnn:
+This a telephone number with any of the digits, n, between 0 - 9.
+
+This lab goes a bit ahead of the lecture since it requires to do some file I/O
+to read the data from the provided file. I have left two variables that may be
+useful to you: buffer and reg_flags. To read the file, I recommend you use the
+function 'fgets' and store the data into buffer. As for the regex portion,
+please take a look at http://www.peope.net/old/regex.html to see all the regex
+related functions and a small example. When creating the regex, please pass the
+provided reg_flags since it will make writing the regex easier (regex supports
+BRE (Basic Regular Expression) and ERE (Extended Regular Expression) with the
+latter being closer to what was shown in lab). 
+
+A few things to note when working on this lab:
+--fgets will read the '\n' character into the buffer; you should replace it
+with a '\0' character.
+
+--No support for '\d' so you will need to write it out manually.
+
+--If you want to escape a character like '[', you will need to write '\\['.

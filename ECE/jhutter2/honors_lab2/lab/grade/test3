@@ -1,0 +1,5 @@
+file obj/gcd_recursion
+memory x5000 x0013
+memory x5001 x0004
+continue
+dump x5002

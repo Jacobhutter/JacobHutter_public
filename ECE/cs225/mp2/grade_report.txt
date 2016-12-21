@@ -1,0 +1,8 @@
+Grading r11027 by enx-cs225autograder committed on Mon Sep 12 01:52:14 CDT 2016
+Monad Autograder
+Testing mp2 at 2016-09-13 00:18:23
+
+"The first 90% of the code accounts for the first 90% of the development time. The remaining 10% of the code accounts for the other 90% of the development time." ~ Tom Cargill
+
+Setting up test environment...
+Error: /dev/shm/cs225student/autograder/temp/mp2/scene.h does not exist.

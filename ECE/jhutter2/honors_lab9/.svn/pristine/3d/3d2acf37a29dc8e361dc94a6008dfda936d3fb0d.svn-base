@@ -1,0 +1,194 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "queue.h"
+#include "stack.h"
+#include "simp_tree.h"
+
+/* PUBLIC FUNCTIONS */
+
+/*
+ * insert_st
+ *   DESCRIPTION: inserts new values into the nd
+ *   INPUTS: nd -- tree to be operated on
+ *           val -- value to be inserted
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle insert_st(Node **nd, int val)
+{
+  Node **cur = nd;
+  while (*cur != NULL)
+  {
+    // If less then, go left
+    if (val < (*cur)->val)
+    {
+      cur = &((*cur)->left);
+    }
+    // If greater than, go right
+    else if (val > (*cur)->val)
+    {
+      cur = &((*cur)->right);
+    }
+    // If same value, return
+    else
+    {
+      return E_SUCCESS;
+    }
+  }
+
+  *cur = (Node*)malloc(sizeof(Node));
+  (*cur)->val = val; 
+  (*cur)->left = NULL;
+  (*cur)->right = NULL;
+
+  return E_SUCCESS;
+}
+
+/*
+ * get_size_st
+ *   DESCRIPTION: returns the size of the nd
+ *   INPUTS: nd -- tree whose size will be computed
+ *   OUTPUTS: sz -- size return value; note that this should be initialized 
+ *                  to 0
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle get_size_st(Node *nd, size_t *sz)
+{
+  return E_FAILURE;
+}
+
+/*
+ * print_pre_st
+ *   DESCRIPTION: prints the tree in pre-order
+ *   INPUTS: nd -- pointer to node to start from
+ *          stream - file stream to print output
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle print_pre_st(Node *nd, FILE *stream)
+{
+  return E_FAILURE;
+}
+
+/*
+ * print_in_st
+ *   DESCRIPTION: prints the tree in in-order
+ *   INPUTS: nd -- pointer to node to start from
+ *          stream - file stream to print output
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle print_in_st(Node *nd, FILE *stream)
+{
+  return E_FAILURE;
+}
+
+/*
+ * print_post_st
+ *   DESCRIPTION: prints the tree in post-order
+ *   INPUTS: nd -- pointer to node to start from
+ *          stream - file stream to print output
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle print_post_st(Node *nd, FILE *stream)
+{
+  return E_FAILURE;
+}
+
+/*
+ * print_bfs_st
+ *   DESCRIPTION: prints the tree with a BFS traversal
+ *   INPUTS: nd -- pointer to node to start from
+ *          stream -- file stream to print output
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle print_bfs_st(Node *nd, FILE *stream)
+{
+  return E_FAILURE;
+}
+
+/*
+ * print_dfs_st
+ *    DESCRIPTION: prints the tree with a DFS traversal
+ *    INPUTS: nd -- pointer to node to start from
+ *          stream -- file stream to print output
+ *    OUTPUTS: none
+ *    RETURNVALUE: handle error
+ *    SIDE EFFECTS: none
+ */
+Handle print_dfs_st(Node *nd, FILE *stream)
+{
+  return E_FAILURE;
+}
+
+/*
+ * print_level_st
+ *   DESCRIPTION: prints the kth level of a tree
+ *   INPUTS: nd -- pointer to node to start from
+ *           k -- kth level to print
+ *           stream -- file stream to print output
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle print_level_st(Node *nd, int k, FILE *stream)
+{
+  return E_FAILURE;
+}
+
+/*
+ * print_zigzag_st
+ *   DESCRIPTION: prints the levels of the tree in a zigzag fashion. The first
+ *                level is printed going rightwards.
+ *   INPUTS: nd -- pointer to node to start from
+ *           stream -- file stream to print output
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle print_zigzag_st(Node *nd, FILE *stream)
+{
+  return E_FAILURE;
+}
+
+/* 
+ * free_st
+ *   DESCRIPTION: frees the tree underneath passed in node
+ *   INPUTS: nd -- pointer to node to free tree
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle free_st(Node *nd)
+{
+  // Check if valid
+  if (nd == NULL)
+  {
+    return E_SUCCESS;
+  }
+
+  // Free left child
+  if (nd->left != NULL)
+  {
+    free_st(nd->left);
+  }
+
+  // Free right child
+  if (nd->right != NULL)
+  {
+    free_st(nd->right);
+  }
+
+  // Free nd
+  free_Node(nd);
+
+  return E_SUCCESS;
+}
