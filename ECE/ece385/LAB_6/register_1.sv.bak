@@ -1,0 +1,13 @@
+module register_1(input D, Load, Clk, Reset
+						output Z);
+						
+		assign Z = Z;
+		always_ff @ (posedge Clk or posedge Reset)
+			begin
+				if(Reset)
+					Z <= 1'b0;
+				else if (Load)
+					Z <= D;		
+			
+			end			
+endmodule

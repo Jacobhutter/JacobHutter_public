@@ -1,0 +1,8 @@
+Info (10281): Verilog HDL Declaration information at slc3.sv(35): object "ben" differs only in case from object "BEN" in the same scope
+Info (10281): Verilog HDL Declaration information at datapath.sv(9): object "MARMUX" differs only in case from object "marmux" in the same scope
+Info (10281): Verilog HDL Declaration information at datapath.sv(15): object "MAR" differs only in case from object "mar" in the same scope
+Info (10281): Verilog HDL Declaration information at datapath.sv(16): object "MDR" differs only in case from object "mdr" in the same scope
+Info (10281): Verilog HDL Declaration information at datapath.sv(17): object "IR" differs only in case from object "ir" in the same scope
+Info (10281): Verilog HDL Declaration information at datapath.sv(6): object "PCMUX" differs only in case from object "pcMUX" in the same scope
+Info (10281): Verilog HDL Declaration information at datapath.sv(12): object "SR2" differs only in case from object "sr2" in the same scope
+Info (10281): Verilog HDL Declaration information at datapath.sv(10): object "ALUK" differs only in case from object "aluk" in the same scope

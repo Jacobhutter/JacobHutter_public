@@ -1,0 +1,57 @@
+module datapath(
+				input Clk,
+				input Reset,
+				input logic LD_MAR, LD_MDR, LD_IR, LD_PC,
+				input logic GatePC, GateMDR, GateALU, GateMARMUX, MIO_EN,
+				input logic [1:0] PCMUX, DRMUX, SR1MUX,
+				input logic 	SR2MUX, ADDR1MUX,
+				input logic [1:0] ADDR2MUX,
+				input logic 	MARMUX,
+				input logic [1:0] ALUK,
+				input logic [15:0] MDR_In,
+				
+
+			output  logic[15:0]     MAR,
+			output  logic[15:0]     MDR,
+			output  logic[15:0]     IR,
+			output  logic[15:0]     PC_Data,
+			output  logic[15:0]     BUS
+			);
+
+logic [15:0] global_bus; //
+assign  BUS = global_bus;
+logic [15:0] muxconnect; //
+logic [15:0] marmux; //
+logic [15:0] mdrtogate; //
+logic [15:0] muxtomdr;
+
+//intstantiate pc
+
+
+reg16 pc(.Clk(Clk),.Reset(Reset),.Load(LD_PC),.D(muxconnect),.Data_Out(PC_Data));
+
+// instantiate mar
+
+reg16 mar(.Clk(Clk),.Reset(Reset),.Load(LD_MAR),.D(global_bus),.Data_Out(MAR));
+
+// instantiate mdr
+
+reg16 mdr(.Clk(Clk),.Reset(Reset),.Load(LD_MDR),.D(muxtomdr),.Data_Out(MDR));
+
+// instantiate ir
+
+reg16 ir(.Clk(Clk),.Reset(Reset),.Load(LD_IR),.D(global_bus),.Data_Out(IR));
+
+// instantiate pcmUX
+
+four_mux pcMUX(.D1(PC_Data + 1'b1),.D2(marmux),.D3(global_bus),.D4(16'h0000),.select(PCMUX),.Z(muxconnect));
+
+//instantiate tristate buffer mux
+
+buffers tri_state(.MDR_Gate(GateMDR),.PC_Gate(GatePC),.PC(PC_Data),.MDR(MDR),.Z(global_bus));
+
+//instantiate MIO.en mux
+
+two_mux MIO(.D1(MDR_In),.D2(global_bus),.select(MIO_EN),.Z(muxtomdr));
+
+endmodule

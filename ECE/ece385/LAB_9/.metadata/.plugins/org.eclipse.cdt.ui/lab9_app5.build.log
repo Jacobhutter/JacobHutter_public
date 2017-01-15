@@ -1,0 +1,9 @@
+16:22:24 **** Incremental Build of configuration Nios II for project lab9_app5 ****
+make all 
+Info: Building ../lab9_app4_bsp/
+C:/altera/16.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../lab9_app4_bsp/
+[BSP build complete]
+[lab9_app4 build complete]
+
+16:22:32 Build Finished (took 7s.443ms)
+

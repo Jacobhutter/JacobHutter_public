@@ -1,0 +1,3 @@
+module ALUK(input [15:0] A,B,
+				input [1:0] select,
+				output Z);
