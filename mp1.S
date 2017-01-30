@@ -1,11 +1,11 @@
 
 .data					# section declaration
 
-        # Useful offset constants for accessing members of a 
+        # Useful offset constants for accessing members of a
         # struct mp1_blink_struct structure
-        LOCATION   = 0    
+        LOCATION   = 0
         ON_CHAR    = 2
-        OFF_CHAR   = 3 
+        OFF_CHAR   = 3
         ON_LENGTH  = 4
         OFF_LENGTH = 6
         COUNTDOWN  = 8
@@ -35,7 +35,7 @@ mp1_list_head:
 #            the byte in %cl
 # Registers: Clobbers EDX
 mp1_poke:
-        
+
 	movl    vmem_base_addr(,1),%edx
 	movb    %cl,(%edx,%eax,1)
 	ret
@@ -43,15 +43,35 @@ mp1_poke:
 mp1_rtc_tasklet:
 	ret
 
-mp1_ioctl:
-	ret
+mp1_ioctl: # eax will contain return value of int
+  pushl %ebp # save old frame Pointer
+  movl  $esp,%ebp #point to new frame
+  movl 12(%ebp),%ebx # move cmd into ebx
+  xorl %edx,%edx
+  addl $3,%edx
+  cmpl %edx,%ebx # ebx - edx
+  ja invalid # check for invalid commands
+  addl jump_table,%ebx # add offset
+  jmp %ebx
+  xorl %eax,%eax 
+  ret
+
+invalid:
+  xorl %eax,%eax # clear return value
+  subl $1,%eax # put in -1
+  ret
+
+jump_table:
+.long mp1_ioctl_add,mp1_ioctl_remove,mp1_ioctl_find,mp1_ioctl_sync # jump table logic
+
+
 
 mp1_ioctl_add:
 	ret
-        
+
 mp1_ioctl_remove:
 	ret
-        
+
 mp1_ioctl_find:
 	ret
 
