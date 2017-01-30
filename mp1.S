@@ -45,14 +45,14 @@ mp1_rtc_tasklet:
 
 mp1_ioctl: # eax will contain return value of int
   pushl %ebp # save old frame Pointer
-  movl  $esp,%ebp #point to new frame
+  movl  %esp,%ebp #point to new frame
   movl 12(%ebp),%ebx # move cmd into ebx
   xorl %edx,%edx
   addl $3,%edx
   cmpl %edx,%ebx # ebx - edx
   ja invalid # check for invalid commands
-  movl jump_table(,%ebx,$4),%ebx # add offset
-  jmp %ebx
+  movl jump_table(,%ebx,4),%ebx # add offset
+  jmp *%ebx
   xorl %eax,%eax
   leave
   ret
