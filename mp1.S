@@ -51,9 +51,10 @@ mp1_ioctl: # eax will contain return value of int
   addl $3,%edx
   cmpl %edx,%ebx # ebx - edx
   ja invalid # check for invalid commands
-  addl jump_table,%ebx # add offset
+  movl jump_table(,%ebx,$4),%ebx # add offset
   jmp %ebx
-  xorl %eax,%eax 
+  xorl %eax,%eax
+  leave
   ret
 
 invalid:
