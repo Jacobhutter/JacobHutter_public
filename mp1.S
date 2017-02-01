@@ -165,43 +165,121 @@ mp1_ioctl_add:
 	ret
 
 mp1_ioctl_remove:
+
+  movl 8(%ebp),%ebx # get arg (location to search for)
+  movl mp1_list_head,%edi
+  movl $0,%edx # edx will hold prev node
+srch:
+  testl %edi,%edi
+  je invalid
+  cmpw LOCATION(%edi),%bx # compare what we want vs what we have
+  je deletion
+  movl %edi,%edx
+  movl NEXT(%edi),%edi
+  jmp srch
+deletion:
+  testl %edx,%edx
+  je special_deletion # to reset head
+  movl NEXT(%edi),%eax
+  movl %eax,NEXT(%edx) # skip over item in the list
+  pushl %edi
+  call mp1_free
+  addl $4,%esp
+  xorl %eax,%eax
   leave
-	ret
+  ret
+special_deletion:
+  movl NEXT(%edi),%eax
+  movl %eax,mp1_list_head
+  pushl %edi
+  call mp1_free
+  addl $4,%esp
+  xorl %eax,%eax
+  leave
+  ret
+
 
 mp1_ioctl_find:
-/*
-  movl 8(%ebp),%ebx # get arg (pointer to struct)
+  movl 8(%ebp),%ebx # get arg (2 bytes each of locations)
   testl %ebx,%ebx
   je invalid # null test
-  movl (%ebx),%ebx #get location of searched for node
-  movl mp1_list_head,%ecx # give ecx the head node
+  xorl %eax,%eax # clear eax
+  movw LOCATION(%ebx),%ax #get location of searched for node
+  movl mp1_list_head,%ecx # give ecx the head node address
 search:
   testl %ecx,%ecx
   je invalid # null test for list
-  cmpl (%ecx),$ebx # (%ebx - %ecx)
+  cmpw LOCATION(%ecx),%ax # (%ax - location of ecx)
   je found
-  movl 12(%ecx),%ecx # go to next item in list
+  movl NEXT(%ecx),%ecx # go to next item in list # not found
   jmp search
 found:
-  pushl %16 # push size
-  pushl %ecx # push from
-  pushl 8(%ebp) # push to
+  pushl $16 # push size
+  pushl %ecx # push from parameter
+  pushl 8(%ebp) # push to parameter
   call mp1_copy_to_user
-  popl
-  popl
-  popl
+  addl $12,%esp # pop off arguments
   testl %eax,%eax
   jne invalid # return -1 if return value is not zero from copy call
   xorl %eax,%eax # return 0
-*/
   leave
 	ret
 
 mp1_ioctl_sync:
-/*
-  movw 8(%ebp),%ebx # get arg lower 16 bits ,second , ecx,ebx is full 32 bit word
-  movw 6(%ebp),%ecx # get arg upper 16 bits ,first
-*/
+  xorl %ebx,%ebx
+  xorl %ecx,%ecx
+  xorl %eax,%eax
+  movw 8(%ebp),%bx # get arg lower 16 bits ,second , ecx,ebx is full 32 bit word
+  movw 10(%ebp),%cx # get arg upper 16 bits ,first # location of first blink
+  movl mp1_list_head,%edi # get head node address
+  movl mp1_list_head,%edx
+finder1:
+  testl %edi,%edi #
+  je invalid # null check
+  movw LOCATION(%edi),%ax
+  cmpw LOCATION(%edi),%cx
+  je finder2 # %edi holds address of first location
+  movl NEXT(%edi),%edi
+  jmp finder1 # else go to next
+finder2:
+  testl %edx,%edx #
+  je invalid
+  cmpw LOCATION(%edx),%bx
+  je found_both
+  movl NEXT(%edx),%edx
+  jmp finder2
+found_both: # copy over values
+  movw ON_LENGTH(%edi),%ax
+  movw %ax,ON_LENGTH(%edx)
+  movw OFF_LENGTH(%edi),%ax
+  movw %ax,OFF_LENGTH(%edx)
+  movw COUNTDOWN(%edi),%ax
+  movw %ax,COUNTDOWN(%edx)
+  movw STATUS(%edi),%ax
+  movw %ax,STATUS(%edx)
+  testw %ax,%ax # test status
+  je put_off
+  jmp put_on
+put_off:
+  xorl %ecx,%ecx
+  xorl %eax,%eax
+  movb OFF_CHAR(%edx),%cl
+  movw LOCATION(%edx),%ax
+  addw %ax,%ax # double it
+  call mp1_poke
+  jmp finish
+
+put_on:
+  xorl %ecx,%ecx
+  xorl %eax,%eax
+  movb ON_CHAR(%edx),%cl
+  movw LOCATION(%edx),%ax
+  addw %ax,%ax # double it
+  call mp1_poke
+  jmp finish
+
+finish:
+  xorl %eax,%eax
   leave
 	ret
 
