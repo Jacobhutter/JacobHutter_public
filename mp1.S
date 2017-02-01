@@ -41,7 +41,7 @@ mp1_poke:
 	ret
 
 mp1_rtc_tasklet:
-/*
+
   pushl %ebp # save old frame Pointer
   movl  %esp,%ebp #point to new frame
   movl mp1_list_head,%ebx # get starting struct address
@@ -49,62 +49,70 @@ loop:
   testl %ebx, %ebx # null test
   je done
 
-  subl $1,8(%ebx) # countdown--
-  testl 8(%ebx),8(%ebx) # test for zero in countdown
-  jne valid
+  subw $1,COUNTDOWN(%ebx) # countdown--
+  movw COUNTDOWN(%ebx),%dx
+  testw %dx,%dx # test for zero in countdown
+  jne valid # jump if countdown not zero
 
-  testl 10(%ebx),10(%ebx) # and status together
+  movw STATUS(%ebx),%dx
+  testw %dx,%dx # test for zero in status
   je off_status
   jmp on_status
 
 off_status: # status is currently 0
-  addl $1, 10(%ebx) # change status to 1
-  movb 2(%ebx),%cl # give on_char
-  movl (%ebx),%eax # give location ( assumed to be valid because of add)
+  xorl %ecx,%ecx
+  xorl %eax,%eax
+  movw $1, STATUS(%ebx) # change status to 1
+  movb ON_CHAR(%ebx),%cl # give on_char
+  movw LOCATION(%ebx),%ax # give location ( assumed to be valid because of add)
+  addw %ax,%ax # multiply by 2
   call mp1_poke
-  movl 4(%ebx),8(%ebx) # on_length into countdown
+  movw ON_LENGTH(%ebx),%di # on_length into countdown
+  movw %di,COUNTDOWN(%ebx)
   jmp valid
 
 on_status:
-  subl $1, 10(%ebx) # change status to 0
-  movb 3(%ebx),%cl # give off_char
-  movl (%ebx),%eax # give location ( assumed to be valid because of add)
+  xorl %ecx,%ecx
+  xorl %eax,%eax
+  movw $0, STATUS(%ebx) # change status to 0
+  movb OFF_CHAR(%ebx),%cl # give off_char
+  movw LOCATION(%ebx),%ax # give location ( assumed to be valid because of add)
+  addw %ax,%ax # multiply by 2
   call mp1_poke
-  movl 6(%ebx),8(%ebx) # off_length into countdown
+  movw OFF_LENGTH(%ebx),%di
+  movw %di,COUNTDOWN(%ebx) # off_length into countdown
   jmp valid
 
 
 valid:
-  movl 12(%ebx),%ebx # move to next struct in list
+  movl NEXT(%ebx),%ebx # move to next struct in list
   jmp loop
 
 done:
   leave
-*/
 	ret
 
 mp1_ioctl: # eax will contain return value of int
-  pushl %ebp # save old frame Pointer
-  movl  %esp,%ebp #point to new frame
+  pushl %ebp
+  movl %esp,%ebp #
   movl 12(%ebp),%ebx # move cmd into ebx
   xorl %edx,%edx
   addl $3,%edx
   cmpl %edx,%ebx # ebx - edx
   ja invalid # check for invalid commands
-  movl jump_table(,%ebx,4),%ebx # add offset
-  jmp *%ebx
+  jmp *jump_table(,%ebx,4)
   xorl %eax,%eax
   leave
   ret
-  /*
+
 invalid_free:
   pushl %ecx # free memory
   call mp1_free
   popl %ecx # pop off paramter
-  */
 invalid:
   xorl %eax,%eax # clear return value
   subl $1,%eax # put in -1
+  leave
   ret
 
 jump_table:
@@ -112,11 +120,13 @@ jump_table:
 
 
 mp1_ioctl_add:
-/*
+
   movl 8(%ebp),%ebx # get arg (pointer to struct )
-  pushl %ebx # push parameter
+  testl %ebx,%ebx
+  je invalid # null test arg
+  pushl $16 # push parameter
   call mp1_malloc # eax holds void * return value
-  popl %ebx # pop off initial parameter
+  addl $4,%esp # pop off initial parameter
   testl %eax,%eax
   je invalid # return negative one if return null from malloc
 
@@ -126,38 +136,36 @@ mp1_ioctl_add:
   pushl %ecx # push to address
   call mp1_copy_from_user
   popl %ecx
-  popl %ebx
-  popl
+  addl $8,%esp # pop off params
   testl %eax,%eax
   jne invalid_free # return negative one if returned not zero
 
-  movl %ecx,%edx
-  addl $8,%edx # add offset for address of countdown
-  movl %ecx,%eax
-  addl $4,%eax
-  movl (%eax),%eax # get value of on length
-  movl %eax,(%edx) # store on_length into countdown
+  movw ON_LENGTH(%ecx),%dx
+  movw %dx,COUNTDOWN(%ecx)
 
-  addl $2,%edx # add offset to address (ecx still holds head)
-  movl $1,(%edx) # set status field to 1
+  movl $1,STATUS(%ecx) # set status field to 1
 
-  addl $2,%edx # edx now holds starting address of next *
-  movl (mp1_list_head),(%edx) # cur head next = prev head
-  subl $12,%edx
-  movl %edx,(mp1_list_head) # make current node the new head by filling in address
 
-  movl (%edx),%edx # get starting address of location offset
-  movl $3998,%eax # max offset
-  cmpl %eax,%edx # edx - eax
+  movl mp1_list_head,%edi
+  movl %edi,NEXT(%ecx)
+  movl %ecx,mp1_list_head # make current node the new head by filling in address
+
+  movw LOCATION(%ecx),%dx # get starting address of location offset
+  movw $3998,%ax # max offset
+  cmpw %ax,%dx # edx - eax
   ja invalid_free
-  movl %edx,%eax # prep eax for poke
-  movb 2(%ecx),%cl # prep cl for poke with on char
+  xorl %eax,%eax
+  movw %dx,%ax # prep eax for poke
+  addw %ax,%ax # double
+  movb ON_CHAR(%ecx),%cl # prep cl for poke with on char
   call mp1_poke
   xorl %eax,%eax # return 0
-*/
+
+  leave
 	ret
 
 mp1_ioctl_remove:
+  leave
 	ret
 
 mp1_ioctl_find:
@@ -186,13 +194,15 @@ found:
   jne invalid # return -1 if return value is not zero from copy call
   xorl %eax,%eax # return 0
 */
+  leave
 	ret
 
 mp1_ioctl_sync:
 /*
-  movw 8(%ebp),%ebx # get arg lower 16 bits ,second , ecx,ebx is full 32 bit word 
+  movw 8(%ebp),%ebx # get arg lower 16 bits ,second , ecx,ebx is full 32 bit word
   movw 6(%ebp),%ecx # get arg upper 16 bits ,first
 */
+  leave
 	ret
 
 .end
