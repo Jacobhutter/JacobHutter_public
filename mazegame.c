@@ -430,24 +430,7 @@ static int total = 0;
  *   RETURN VALUE: none
  *   SIDE EFFECTS: none
  */
- typedef struct status_bar{
-   typedef struct timer{
-     void increase_time(){
-       seconds++;
-       if(seconds%60 == 0)
-         minutes++;
-       seconds = seconds % 60;
-     }
-     void clear(){
-       seconds = 0;
-       minutes = 0;
-     }
-     int seconds;
-     int minutes;
-   } t;
-   int fruit_remaining;
-   int level;
- };
+
 
 static void *rtc_thread(void *arg)
 {
@@ -457,16 +440,38 @@ static void *rtc_thread(void *arg)
 	int open[NUM_DIRS];
 	int need_redraw = 0;
 	int goto_next_level = 0;
-  status_bar status; // declare status bar structure
+/*
+  struct timer{
+    void increase_time(){
+      seconds++;
+      if(seconds%60 == 0)
+        minutes++;
+      seconds = seconds % 60;
+    }
+
+    void clear(){
+      seconds = 0;
+      minutes = 0;
+    }
+
+    int seconds;
+    int minutes;
+  };
+  struct status_bar{
+    timer t;
+    int fruit_remaining;
+    int level;
+  } status; // declare status bar structure
+*/
 	// Loop over levels until a level is lost or quit.
 	for (level = 1; (level <= MAX_LEVEL) && (quit_flag == 0); level++)
 	{
-    status.level++;
-    status.t.clear(); // clear time for this current level
+    //status.level++;
+    //status.t.clear(); // clear time for this current level
 		// Prepare for the level.  If we fail, just let the player win.
 		if (prepare_maze_level (level) != 0)
 			break;
-    
+
 		goto_next_level = 0;
 
 		// Start the player at (1,1)
