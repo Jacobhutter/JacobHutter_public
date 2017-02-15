@@ -514,15 +514,15 @@ show_screen ()
     for (i = 0; i < 4; i++) {
 	SET_WRITE_MASK (1 << (i + 8));
 	copy_image (addr + ((p_off - i + 4) & 3) * SCROLL_SIZE + (p_off < i),
-	            target_img);
+	            target_img + 0x5F0); // shift to avoid status bar
     }
 
     /*
      * Change the VGA registers to point the top left of the screen
      * to the video memory that we just filled.
      */
-    OUTW (0x03D4, (target_img & 0xFF00) | 0x0C);
-    OUTW (0x03D4, ((target_img & 0x00FF) << 8) | 0x0D);
+    OUTW (0x03D4, ((target_img + 0x5F0) & 0xFF00) | 0x0C);
+    OUTW (0x03D4, (((target_img + 0x5F0) & 0x00FF) << 8) | 0x0D);
 }
 
 
@@ -748,7 +748,7 @@ open_memory_and_ports ()
     }
 
     /* Map video memory (0xA0000 - 0xBFFFF) into our address space. */
-    if ((mem_image = mmap (0, VID_MEM_SIZE, PROT_READ | PROT_WRITE,
+    if ((mem_image  = mmap (0, VID_MEM_SIZE, PROT_READ | PROT_WRITE,
 			   MAP_SHARED, mem_fd, 0xA0000)) == MAP_FAILED) {
 	perror ("mmap video memory");
 	return -1;
