@@ -53,9 +53,9 @@
 #define IMAGE_Y_DIM     200   /* pixels                                     */
 #define IMAGE_X_WIDTH   (IMAGE_X_DIM / 4)          /* addresses (bytes)     */
 #define SCROLL_X_DIM	IMAGE_X_DIM                /* full image width      */
-#define SCROLL_Y_DIM    IMAGE_Y_DIM                /* full image width      */
+#define SCROLL_Y_DIM    182          /* full image width      */
 #define SCROLL_X_WIDTH  (IMAGE_X_DIM / 4)          /* addresses (bytes)     */
-#define SCROLL_Y_WIDTH  (IMAGE_Y_DIM / 4)         // added 
+#define SCROLL_Y_WIDTH  (IMAGE_Y_DIM / 4)         // added
 
 
 /*
