@@ -482,6 +482,44 @@ set_view_window (int scr_x, int scr_y)
 }
 
 
+
+static void
+copy_image_s (unsigned char* img, unsigned short scr_addr)
+{
+    /*
+     * memcpy is actually probably good enough here, and is usually
+     * implemented using ISA-specific features like those below,
+     * but the code here provides an example of x86 string moves
+     */
+    asm volatile (
+        "cld                                                 ;"
+       	"movl $1520,%%ecx                                    ;"
+       	"rep movsb    # copy ECX bytes from M[ESI] to M[EDI]  "
+      : /* no outputs */
+      : "S" (img), "D" (mem_image + scr_addr)
+      : "eax", "ecx", "memory"
+    );
+}
+
+int text_status(){ // create text and color for status bar
+  int size = SCROLL_X_DIM * 5;
+  int bg_color = 5;
+  int text_color = 2;
+  int i;
+  unsigned char buf[size]; // status bar buffer
+  for(i = 0; i < size; i++)
+       buf[i] =  text_color; // assign pixel index color
+  for(i = 2*size/5 +1; i < size; i++)
+    buf[i] = bg_color;
+
+  for (i = 0; i < 4; i++) {
+SET_WRITE_MASK (1 << (i + 8));
+copy_image_s (buf,target_img);
+}
+      return 0;
+}
+
+
 /*
  * show_screen
  *   DESCRIPTION: Show the logical view window on the video display.
@@ -494,9 +532,9 @@ set_view_window (int scr_x, int scr_y)
 void
 show_screen ()
 {
+    int i;
     unsigned char* addr;  /* source address for copy             */
     int p_off;            /* plane offset of first display plane */
-    int i;		  /* loop index over video planes        */
 
     /*
      * Calculate offset of build buffer plane to be mapped into plane 0
@@ -516,6 +554,7 @@ show_screen ()
 	copy_image (addr + ((p_off - i + 4) & 3) * SCROLL_SIZE + (p_off < i),
 	            target_img + 0x5F0); // shift to avoid status bar
     }
+     // shift to avoid status bar*/
 
     /*
      * Change the VGA registers to point the top left of the screen
@@ -650,18 +689,14 @@ draw_vert_line (int x)
       return -1;
     x += show_x; // adjust x to be within logical column
 
-    (*vert_line_fn) (show_y, x, buf);
+    (*vert_line_fn) (x, show_y, buf);
 
-    addr = img3 + (show_y >> 2) + x * SCROLL_Y_WIDTH;
+    addr = img3 + (x >> 2) + show_y * SCROLL_X_WIDTH;
 
-    p_off = (3 - (show_y & 3));
+    p_off = (3 - (x & 3));
 
     for (i = 0; i < SCROLL_Y_DIM; i++) {
-        addr[p_off * SCROLL_SIZE] = buf[i];
-        if (--p_off < 0) {
-      	    p_off = 3;
-      	    addr++;
-      	}
+        addr[(p_off * SCROLL_SIZE) + (i*80)] = buf[i];
       }
     return 0;
 }

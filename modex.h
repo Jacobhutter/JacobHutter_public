@@ -53,7 +53,7 @@
 #define IMAGE_Y_DIM     200   /* pixels                                     */
 #define IMAGE_X_WIDTH   (IMAGE_X_DIM / 4)          /* addresses (bytes)     */
 #define SCROLL_X_DIM	IMAGE_X_DIM                /* full image width      */
-#define SCROLL_Y_DIM    182          /* full image width      */
+#define SCROLL_Y_DIM    182                     /* scaled image height */
 #define SCROLL_X_WIDTH  (IMAGE_X_DIM / 4)          /* addresses (bytes)     */
 #define SCROLL_Y_WIDTH  (IMAGE_Y_DIM / 4)         // added
 
@@ -123,6 +123,8 @@ extern void set_view_window (int scr_x, int scr_y);
 
 /* show the logical view window on the monitor */
 extern void show_screen ();
+
+extern int text_status();
 
 /* clear the video memory in mode X */
 extern void clear_screens ();
