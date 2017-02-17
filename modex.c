@@ -87,7 +87,7 @@ static unsigned short mode_X_CRTC[NUM_CRTC_REGS] = { // 18 is the line compare r
     0x5F00, 0x4F01, 0x5002, 0x8203, 0x5404, 0x8005, 0xBF06, 0x1F07,
     0x0008, 0x0109, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F,
     0x9C10, 0x8E11, 0x8F12, 0x2813, 0x0014, 0x9615, 0xB916, 0xE317,
-    0x6A18
+    0x6B18
 }; // changed 4109 to 0109 bit 9, 1F07 -> 1F07 bit 8
 static unsigned char mode_X_attr[NUM_ATTR_REGS * 2] = {
     0x00, 0x00, 0x01, 0x01, 0x02, 0x02, 0x03, 0x03,
@@ -502,16 +502,22 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
 }
 
 int text_status(){ // create text and color for status bar
-  int size = SCROLL_X_DIM * 5;
-  int bg_color = 5;
-  int text_color = 2;
+  int rows = 18;
+  int cols = SCROLL_X_DIM/4;
+  int area = rows * cols;
+  int purple = 5; // purple(background color)
+  int green = 2; // green(text color)
+  int black = 0;
   int i;
-  unsigned char buf[size]; // status bar buffer
-  for(i = 0; i < size/10; i++)
-       buf[i] =  text_color; // assign pixel index color
-  for(i = 2*size/5 +1; i < size; i++)
-    buf[i] = bg_color;
+  unsigned char buf[area]; // status bar buffer
+  for(i = 0; i < area; i++)
+       buf[i] =  black; // assign pixel index color*/
+  buf[0] = green;
 
+
+  /*for(i = 0; i < rows; i++){
+    font_data[1][j]
+}*/
   for (i = 0; i < 4; i++) {
 SET_WRITE_MASK (1 << (i + 8));
 copy_image_s (buf,target_img);
