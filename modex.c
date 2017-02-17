@@ -483,6 +483,18 @@ set_view_window (int scr_x, int scr_y)
 
 
 
+
+
+/*
+* copy_image_S:
+* Description: Copy image s(stands for small) moves data the size of the status
+* bar in memory instead of the larger one
+*   INPUTS: same as copy_image
+*   OUTPUTS: same as copy_image
+*   RETURN VALUE: same as copy_image
+*   SIDE EFFECTS: same as copy_image
+*/
+
 static void
 copy_image_s (unsigned char* img, unsigned short scr_addr)
 {
@@ -500,6 +512,17 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
       : "eax", "ecx", "memory"
     );
 }
+
+
+
+/*
+* text_status
+* Description: write text to graphics using font data onto status bar
+*   INPUTS: NONE
+*   OUTPUTS: text onto screen and color in status bar
+*   RETURN VALUE: dummy 0 on success (always)
+*   SIDE EFFECTS: produces some cool text
+*/
 
 int text_status(){ // create text and color for status bar
   int rows = 18;
@@ -519,7 +542,7 @@ int text_status(){ // create text and color for status bar
       char x = font_data[level[k]][i]; // get 8 bit signed char
       for(j = 0; j<8; j++){
         if(x < 0)
-          buf[(cols*i)+cols + j + (8*k)] = green;
+          buf[(cols*i)+cols + j + (8*k)] = green; // assign green to correct shape
         x = (x << 1); // shift byte
       }
     }
