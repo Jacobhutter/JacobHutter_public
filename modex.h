@@ -56,7 +56,7 @@
 #define SCROLL_Y_DIM    182                     /* scaled image height */
 #define SCROLL_X_WIDTH  (IMAGE_X_DIM / 4)          /* addresses (bytes)     */
 #define SCROLL_Y_WIDTH  (IMAGE_Y_DIM / 4)         // added
-
+#define s_plane 1440  // one plane size 
 
 /*
  * NOTES

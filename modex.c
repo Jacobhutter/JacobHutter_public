@@ -505,7 +505,7 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
      */
     asm volatile (
         "cld                                                 ;"
-       	"movl $1520,%%ecx                                    ;"
+       	"movl $1440,%%ecx                                    ;"
        	"rep movsb    # copy ECX bytes from M[ESI] to M[EDI]  "
       : /* no outputs */
       : "S" (img), "D" (mem_image + scr_addr)
@@ -523,34 +523,37 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
 *   RETURN VALUE: dummy 0 on success (always)
 *   SIDE EFFECTS: produces some cool text
 */
-
 int text_status(){ // create text and color for status bar
   int rows = 18;
-  int cols = SCROLL_X_DIM/4;
+  int cols = SCROLL_X_DIM; // should be 320
   int area = rows * cols;
-  int purple = 5; // purple(background color)
-  int green = 2; // green(text color)
-  int black = 0;
+  char purple = 5; // purple(background color)
+  char green = 2; // green(text color)
+
   int i,j,k;
   unsigned char buf[area]; // status bar buffer
   int level[5] = {76,69,86,69,76};
 
   for(i = 0; i < area; i++)
-       buf[i] =  purple; // assign pixel index color*/
+       buf[i] = purple; // assign pixel index color
+
   for(k = 0; k < 5; k++){
     for( i = 0; i < 16; i++){
       char x = font_data[level[k]][i]; // get 8 bit signed char
       for(j = 0; j<8; j++){
         if(x < 0)
-          buf[(cols*i)+cols + j + (8*k)] = green; // assign green to correct shape
+          buf[8 + (j%4)*s_plane + (j>=4)+ ((1+i)*(cols/4))+(k*2)] = green; // assign green to correct shape
         x = (x << 1); // shift byte
       }
     }
   }
+
+
   for (i = 0; i < 4; i++) {
-SET_WRITE_MASK (1 << (i + 8));
-copy_image_s (buf,target_img);
-}
+    SET_WRITE_MASK (1 << (i + 8));
+    copy_image_s(buf + i*s_plane,0); // copy smaller amount of data :)
+  }
+
       return 0;
 }
 
