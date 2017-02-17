@@ -507,7 +507,7 @@ int text_status(){ // create text and color for status bar
   int text_color = 2;
   int i;
   unsigned char buf[size]; // status bar buffer
-  for(i = 0; i < size; i++)
+  for(i = 0; i < size/10; i++)
        buf[i] =  text_color; // assign pixel index color
   for(i = 2*size/5 +1; i < size; i++)
     buf[i] = bg_color;
