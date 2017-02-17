@@ -508,16 +508,22 @@ int text_status(){ // create text and color for status bar
   int purple = 5; // purple(background color)
   int green = 2; // green(text color)
   int black = 0;
-  int i;
+  int i,j,k;
   unsigned char buf[area]; // status bar buffer
+  int level[5] = {76,69,86,69,76};
+
   for(i = 0; i < area; i++)
-       buf[i] =  black; // assign pixel index color*/
-  buf[0] = green;
-
-
-  /*for(i = 0; i < rows; i++){
-    font_data[1][j]
-}*/
+       buf[i] =  purple; // assign pixel index color*/
+  for(k = 0; k < 5; k++){
+    for( i = 0; i < 16; i++){
+      char x = font_data[level[k]][i]; // get 8 bit signed char
+      for(j = 0; j<8; j++){
+        if(x < 0)
+          buf[(cols*i)+cols + j + (8*k)] = green;
+        x = (x << 1); // shift byte
+      }
+    }
+  }
   for (i = 0; i < 4; i++) {
 SET_WRITE_MASK (1 << (i + 8));
 copy_image_s (buf,target_img);
