@@ -105,7 +105,6 @@ static int unveil_around_player (int play_x, int play_y);
 static void *rtc_thread(void *arg);
 static void *keyboard_thread(void *arg);
 
-
 /*
  * prepare_maze_level
  *   DESCRIPTION: Prepare for a maze of a given level.  Fills the game_info
@@ -440,35 +439,11 @@ static void *rtc_thread(void *arg)
 	int open[NUM_DIRS];
 	int need_redraw = 0;
 	int goto_next_level = 0;
-/*
-  struct timer{
-    void increase_time(){
-      seconds++;
-      if(seconds%60 == 0)
-        minutes++;
-      seconds = seconds % 60;
-    }
 
-    void clear(){
-      seconds = 0;
-      minutes = 0;
-    }
-
-    int seconds;
-    int minutes;
-  };
-  struct status_bar{
-    timer t;
-    int fruit_remaining;
-    int level;
-  } status; // declare status bar structure
-*/
 	// Loop over levels until a level is lost or quit.
 	for (level = 1; (level <= MAX_LEVEL) && (quit_flag == 0); level++)
 	{
-    //status.level++;
-    //status.t.clear(); // clear time for this current level
-		// Prepare for the level.  If we fail, just let the player win.
+
 		if (prepare_maze_level (level) != 0)
 			break;
 
@@ -493,12 +468,12 @@ static void *rtc_thread(void *arg)
 		(void)unveil_around_player (play_x, play_y);
 
 		draw_full_block (play_x, play_y, get_player_block(last_dir));
-    text_status();
+    text_status(game_info.number,game_info.initial_fruit_count,0);
 		show_screen();
 
 		// get first Periodic Interrupt
 		ret = read(fd, &data, sizeof(unsigned long));
-
+    total = 0;
 		while ((quit_flag == 0) && (goto_next_level == 0))
 		{
 			// Wait for Periodic Interrupt
@@ -510,7 +485,7 @@ static void *rtc_thread(void *arg)
 			ticks = data >> 8;
 
 			total += ticks;
-
+      update_total(total);
 			// If the system is completely overwhelmed we better slow down:
 			if (ticks > 8) ticks = 8;
 

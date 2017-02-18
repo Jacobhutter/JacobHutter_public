@@ -56,7 +56,7 @@
 #define SCROLL_Y_DIM    182                     /* scaled image height */
 #define SCROLL_X_WIDTH  (IMAGE_X_DIM / 4)          /* addresses (bytes)     */
 #define SCROLL_Y_WIDTH  (IMAGE_Y_DIM / 4)         // added
-#define s_plane 1440  // one plane size 
+#define s_plane 1440  // one plane size
 
 /*
  * NOTES
@@ -118,13 +118,17 @@ extern int set_mode_X (void (*horiz_fill_fn)
 /* return to text mode */
 extern void clear_mode_X ();
 
+extern void dec_fruit();
+
+extern void update_total(int it);
+
 /* set logical view window coordinates */
 extern void set_view_window (int scr_x, int scr_y);
 
 /* show the logical view window on the monitor */
 extern void show_screen ();
 
-extern int text_status();
+extern int text_status(int l, int f, int t);
 
 /* clear the video memory in mode X */
 extern void clear_screens ();

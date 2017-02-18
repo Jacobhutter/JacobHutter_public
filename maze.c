@@ -47,6 +47,7 @@
 #include "modex.h"
 
 
+
 /* Set to 1 to test maze generation routines. */
 #define TEST_MAZE_GEN 0
 
@@ -436,6 +437,8 @@ make_maze (int x_dim, int y_dim, int start_fruits)
     exit_x = x;
     exit_y = y;
 
+    //text_status(get_num(),n_fruits,0);
+
     return 0;
 }
 
@@ -663,7 +666,7 @@ check_for_fruit (int x, int y)
 
 	/* Update the count of fruits. */
 	--n_fruits;
-
+  dec_fruit();
 	/* The exit may appear. */
 	if (n_fruits == 0)
 	    draw_full_block (exit_x * BLOCK_X_DIM, exit_y * BLOCK_Y_DIM,

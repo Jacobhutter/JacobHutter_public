@@ -182,6 +182,25 @@ static unsigned char* mem_image;    /* pointer to start of video memory */
 static unsigned short target_img;   /* offset of displayed screen image */
 
 
+typedef struct status_bar{
+    int level;
+    int fruit_remaining;
+    int total;
+} status_bar_t;
+status_bar_t bar;
+
+void update_total(int it){
+  bar.total = it/32; // ms to s
+  text_status(bar.level,bar.fruit_remaining,bar.total);
+  return;
+}
+void dec_fruit(){
+  bar.fruit_remaining--;
+  text_status(bar.level,bar.fruit_remaining,bar.total);
+  return;
+}
+
+
 /*
  * functions provided by the caller to set_mode_X() and used to obtain
  * graphic images of lines (pixels) to be mapped into the build buffer
@@ -523,7 +542,9 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
 *   RETURN VALUE: dummy 0 on success (always)
 *   SIDE EFFECTS: produces some cool text
 */
-int text_status(){ // create text and color for status bar
+int text_status(int l, int f, int t){ // create text and color for status bar
+  bar.level = l;
+  bar.fruit_remaining = f;
   int rows = 18;
   int cols = SCROLL_X_DIM; // should be 320
   int area = rows * cols;
@@ -532,17 +553,18 @@ int text_status(){ // create text and color for status bar
 
   int i,j,k;
   unsigned char buf[area]; // status bar buffer
-  int level[5] = {76,69,86,69,76};
+  int level[] = {76,69,86,69,76,0,l + '0',0,0,0,0,f + '0',0,70,82,85,73,84,83,
+  0,0,0,0,48 + ((t/600)%6),48 + ((t/60)%10),58,48 + ((t/10)%6),48 + (t%10)};
 
   for(i = 0; i < area; i++)
        buf[i] = purple; // assign pixel index color
 
-  for(k = 0; k < 5; k++){
+  for(k = 0; k < 28; k++){
     for( i = 0; i < 16; i++){
       char x = font_data[level[k]][i]; // get 8 bit signed char
       for(j = 0; j<8; j++){
         if(x < 0)
-          buf[8 + (j%4)*s_plane + (j>=4)+ ((1+i)*(cols/4))+(k*2)] = green; // assign green to correct shape
+          buf[8+(j%4)*s_plane + (j>=4)+ ((1+i)*(cols/4))+(k*2)] = green; // assign green to correct shape
         x = (x << 1); // shift byte
       }
     }
