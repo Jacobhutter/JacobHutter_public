@@ -190,7 +190,7 @@ typedef struct status_bar{
 status_bar_t bar;
 
 void update_total(int it){
-  bar.total = it/32; // ms to s
+  bar.total = it/32; // ticks to s
   text_status(bar.level,bar.fruit_remaining,bar.total);
   return;
 }
@@ -544,16 +544,23 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
 */
 int text_status(int l, int f, int t){ // create text and color for status bar
   bar.level = l;
+  int digit2;
+  if(l == 10){
+    l = 1;
+    digit2 = '0';
+  }
+  else
+    digit2 = 0;
   bar.fruit_remaining = f;
   int rows = 18;
   int cols = SCROLL_X_DIM; // should be 320
   int area = rows * cols;
-  char purple = 5; // purple(background color)
-  char green = 2; // green(text color)
+  char purple = l; // purple(background color)
+  char green = l-1; // green(text color)
 
   int i,j,k;
   unsigned char buf[area]; // status bar buffer
-  int level[] = {76,69,86,69,76,0,l + '0',0,0,0,0,f + '0',0,70,82,85,73,84,83,
+  int level[] = {76,69,86,69,76,0,l + '0',digit2,0,0,0,f + '0',0,70,82,85,73,84,83,
   0,0,0,0,48 + ((t/600)%6),48 + ((t/60)%10),58,48 + ((t/10)%6),48 + (t%10)};
 
   for(i = 0; i < area; i++)
