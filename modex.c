@@ -189,6 +189,14 @@ typedef struct status_bar{
 } status_bar_t;
 status_bar_t bar;
 
+unsigned char background[144];
+
+void fill_background(unsigned char*  fill, int index){
+  background[index] = *(fill + index);
+  return;
+}
+
+
 void update_total(int it){
   bar.total = it/32; // ticks to s
   text_status(bar.level,bar.fruit_remaining,bar.total);
@@ -650,7 +658,18 @@ clear_screens ()
     memset (mem_image, 0, MODE_X_MEM_SIZE);
 }
 
+unsigned char  clean_full_block(unsigned char* blk, int dx, int dy){
+    int in_question = *blk; // get drawable byte of data s
 
+    if(in_question == 0){ // check if in_question is black
+        return (unsigned char) background[(dx * 12) + dy];
+    }
+
+    else
+
+      return *blk; // if byte to be drawn is not black then just draw that color
+
+}
 /*
  * draw_full_block
  *   DESCRIPTION: Draw a BLOCK_X_DIM x BLOCK_Y_DIM block at absolute
@@ -712,7 +731,7 @@ draw_full_block (int pos_x, int pos_y, unsigned char* blk)
     for (dy = 0; dy < y_bottom; dy++, pos_y++) {
 	for (dx = 0; dx < x_right; dx++, pos_x++, blk++)
 	    *(img3 + (pos_x >> 2) + pos_y * SCROLL_X_WIDTH +
-	      (3 - (pos_x & 3)) * SCROLL_SIZE) = *blk;
+	      (3 - (pos_x & 3)) * SCROLL_SIZE) = clean_full_block(blk, dx, dy);
 	pos_x -= x_right;
 	blk += x_left;
     }

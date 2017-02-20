@@ -96,6 +96,19 @@ static int exit_x, exit_y;    /* lattice point of maze exit   */
 #define MAZE_INDEX(a,b) ((a) + ((b) + 1) * maze_x_dim * 2)
 
 
+
+
+
+
+
+
+
+void put_background(){
+  int i =0;
+  for(i = 0; i< 12*12; i++){
+    fill_background((unsigned char *)blocks[BLOCK_EMPTY],i);
+    }
+}
 /*
  * mark_maze_area
  *   DESCRIPTION: Uses a breadth-first search to marks all parts of the
@@ -632,6 +645,7 @@ unveil_space (int x, int y)
 
     /* Unveil the location and redraw it. */
     *cur |= MAZE_REACH;
+    put_background();
     draw_full_block (x * BLOCK_X_DIM, y * BLOCK_Y_DIM, find_block (x, y));
 }
 
@@ -668,6 +682,7 @@ check_for_fruit (int x, int y)
 	--n_fruits;
   dec_fruit();
 	/* The exit may appear. */
+  put_background();
 	if (n_fruits == 0)
 	    draw_full_block (exit_x * BLOCK_X_DIM, exit_y * BLOCK_Y_DIM,
 			     find_block (exit_x, exit_y));
@@ -735,6 +750,7 @@ _add_a_fruit (int show)
     ++n_fruits;
 
     /* If necessary, draw the fruit on the screen. */
+    put_background();
     if (show)
 	draw_full_block (x * BLOCK_X_DIM, y * BLOCK_Y_DIM, find_block (x, y));
 }
@@ -758,6 +774,7 @@ add_a_fruit ()
     _add_a_fruit (1);
 
     /* The exit may disappear. */
+    put_background();
     if (n_fruits == 1)
 	draw_full_block (exit_x * BLOCK_X_DIM, exit_y * BLOCK_Y_DIM,
 			 find_block (exit_x, exit_y));

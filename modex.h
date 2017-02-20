@@ -38,7 +38,7 @@
 
 
 #include "text.h"
-
+#include "blocks.h"
 
 /*
  * IMAGE  is the whole screen in mode X: 320x200 pixels in our flavor.
@@ -119,6 +119,10 @@ extern int set_mode_X (void (*horiz_fill_fn)
 extern void clear_mode_X ();
 
 extern void dec_fruit();
+
+extern unsigned char  clean_full_block(unsigned char* blk, int dx, int dy);
+
+extern void fill_background(unsigned char *  fill, int index);
 
 extern void update_total(int it);
 

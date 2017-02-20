@@ -71,6 +71,9 @@ typedef enum {
 
 
 
+
+extern void put_background();
+
 /* create a maze and place some fruits inside it */
 extern int make_maze (int x_dim, int y_dim, int start_fruits);
 
