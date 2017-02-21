@@ -420,7 +420,33 @@ static int goodcount = 0;
 static int badcount = 0;
 static int total = 0;
 
-static int savex = 0,savey = 0;
+
+/*
+ * draw_in_robot
+ *   DESCRIPTION: get background image for this coord. overlay robot image,
+ *   write to buffer, display, place default block back into buffer
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: eliminates black backdrop
+ */
+void draw_in_robot(){
+  unsigned char  flr[BLOCK_Y_DIM * BLOCK_X_DIM];
+  save_block(play_x,play_y,flr); // save floor under player block
+  unsigned char * robot = get_player_block(last_dir); // get robot image
+  unsigned char canvas[BLOCK_Y_DIM * BLOCK_X_DIM];
+  int i;
+  for(i =0; i < BLOCK_X_DIM * BLOCK_Y_DIM; i++){ // go through all pixels in a block
+    if(robot[i] != 0x00) // if pixel is not black
+      canvas[i] = robot[i]; // draw floor under robot
+    else
+      canvas[i] = flr[i];
+  }
+
+  draw_full_block (play_x, play_y, canvas);
+  show_screen();
+  draw_full_block(play_x, play_y, flr);
+}
 
 
 /*
@@ -431,27 +457,6 @@ static int savex = 0,savey = 0;
  *   RETURN VALUE: none
  *   SIDE EFFECTS: none
  */
-  unsigned char  last_floor[BLOCK_Y_DIM * BLOCK_X_DIM];
-void update_screen(){
-
-  save_block(play_x,play_y,last_floor); // save floor under player block
-  unsigned char * robot = get_player_block(last_dir); // get robot image
-  unsigned char canvas[BLOCK_Y_DIM * BLOCK_X_DIM];
-  int i;
-  for(i =0; i < BLOCK_X_DIM * BLOCK_Y_DIM; i++){ // go through all pixels in a block
-    if(robot[i] != 0x00) // if pixel is not black
-      canvas[i] = robot[i]; // draw floor under robot
-    else
-      canvas[i] = last_floor[i];
-  }
-
-  draw_full_block (play_x, play_y, canvas);
-  show_screen();
-  draw_full_block(play_x, play_y, last_floor);
-}
-
-
-
 static void *rtc_thread(void *arg)
 {
 	int ticks = 0;
@@ -460,7 +465,7 @@ static void *rtc_thread(void *arg)
 	int open[NUM_DIRS];
 	int need_redraw = 0;
 	int goto_next_level = 0;
-  //update_screen();
+  //draw_in_robot();
 	// Loop over levels until a level is lost or quit.
 	for (level = 1; (level <= MAX_LEVEL) && (quit_flag == 0); level++)
 	{
@@ -488,19 +493,7 @@ static void *rtc_thread(void *arg)
 		// Show maze around the player's original position
 		(void)unveil_around_player (play_x, play_y);
 
-    /*save_block(play_x,play_y,last_floor); // save floor under player block
-    unsigned char * robot = get_player_block(last_dir); // get robot image
-    unsigned char canvas[BLOCK_Y_DIM * BLOCK_X_DIM];
-    int i;
-    for(i =0; i < BLOCK_X_DIM * BLOCK_Y_DIM; i++){ // go through all pixels in a block
-      if(robot[i] != 0x00) // if pixel is not black
-        canvas[i] = robot[i]; // draw floor under robot
-      else
-        canvas[i] = last_floor[i];
-    }
-
-		*/
-    update_screen();
+    draw_in_robot(); // show screen with overlayed robot at start
     text_status(game_info.number,game_info.initial_fruit_count,0);
 
 
@@ -600,16 +593,7 @@ static void *rtc_thread(void *arg)
 
 				if (dir != DIR_STOP)
 				{
-            //save_block(play_x,play_y,last_floor); // save current floor;
-            //unsigned char * cur = get_player_block(last_dir); // get the last player block;
-            //savex = play_x/BLOCK_X_DIM;
-            //savey = play_y/BLOCK_Y_DIM;
-            if(dir == DIR_UP || dir == DIR_LEFT){
-              savex = (play_x -1)/BLOCK_X_DIM;
-              savey = (play_y -1)/BLOCK_Y_DIM;
-            }
 
-            //unsigned char * cur = f_b(savex,savey); // save current frame
 
 	    				last_dir = dir;
 	    				move_cnt--;
@@ -629,7 +613,7 @@ static void *rtc_thread(void *arg)
 						break;
 		   			}
 
-          update_screen();
+          draw_in_robot();
 
 					//draw_full_block (play_x, play_y, get_player_block(last_dir));
 					need_redraw = 1;
@@ -637,7 +621,7 @@ static void *rtc_thread(void *arg)
 			}
 			if (need_redraw){
         //show_screen();
-        update_screen();
+        draw_in_robot();
       }
 			need_redraw = 0;
 		}

@@ -182,6 +182,8 @@ static unsigned char* mem_image;    /* pointer to start of video memory */
 static unsigned short target_img;   /* offset of displayed screen image */
 
 
+
+/* structure defined for status bar usage */
 typedef struct status_bar{
     int level;
     int fruit_remaining;
@@ -189,19 +191,27 @@ typedef struct status_bar{
 } status_bar_t;
 status_bar_t bar;
 
-unsigned char background[144];
 
-void fill_background(unsigned char*  fill, int index){
-  background[index] = *(fill + index);
-  return;
-}
-
-
+/*
+* update_total
+* description: takes ticks from maze and converts to time and update our second
+* total within our structure
+* input: total ticks inside while loop in maze
+* output : none
+* side_effects: none
+*/
 void update_total(int it){
   bar.total = it/32; // ticks to s
   text_status(bar.level,bar.fruit_remaining,bar.total);
   return;
 }
+/*
+* dec_fruit
+* description: whenever fruit is taken from the maze, decrement the structure and re display
+* input: none
+* output : none
+* side_effects: none
+*/
 void dec_fruit(){
   bar.fruit_remaining--;
   text_status(bar.level,bar.fruit_remaining,bar.total);
@@ -532,7 +542,7 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
      */
     asm volatile (
         "cld                                                 ;"
-       	"movl $1440,%%ecx                                    ;"
+       	"movl $1440,%%ecx                                    ;" // image size /4 for each plane
        	"rep movsb    # copy ECX bytes from M[ESI] to M[EDI]  "
       : /* no outputs */
       : "S" (img), "D" (mem_image + scr_addr)
@@ -551,7 +561,7 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
 *   SIDE EFFECTS: produces some cool text
 */
 int text_status(int l, int f, int t){ // create text and color for status bar
-  bar.level = l;
+  bar.level = l; // hold level
   int digit2;
   if(l == 10){
     l = 1;
@@ -559,27 +569,27 @@ int text_status(int l, int f, int t){ // create text and color for status bar
   }
   else
     digit2 = 0;
-  bar.fruit_remaining = f;
-  int rows = 18;
+  bar.fruit_remaining = f; // get fruit remaining
+  int rows = status_height;
   int cols = SCROLL_X_DIM; // should be 320
   int area = rows * cols;
-  char purple = l; // purple(background color)
-  char green = l-1; // green(text color)
+  char color1 = l; // purple(background color)
+  char color2 = l-1; // green(text color)
 
   int i,j,k;
   unsigned char buf[area]; // status bar buffer
   int level[] = {76,69,86,69,76,0,l + '0',digit2,0,0,0,f + '0',0,70,82,85,73,84,83,
-  0,0,0,0,48 + ((t/600)%6),48 + ((t/60)%10),58,48 + ((t/10)%6),48 + (t%10)};
+  0,0,0,0,48 + ((t/600)%6),48 + ((t/60)%10),58,48 + ((t/10)%6),48 + (t%10)}; // ascii buffer
 
   for(i = 0; i < area; i++)
-       buf[i] = purple; // assign pixel index color
+       buf[i] = color1; // assign pixel index color
 
   for(k = 0; k < 28; k++){
     for( i = 0; i < 16; i++){
       char x = font_data[level[k]][i]; // get 8 bit signed char
       for(j = 0; j<8; j++){
         if(x < 0)
-          buf[8+(j%4)*s_plane + (j>=4)+ ((1+i)*(cols/4))+(k*2)] = green; // assign green to correct shape
+          buf[8+(j%4)*s_plane + (j>=4)+ ((1+i)*(cols/4))+(k*2)] = color2; // assign secondary to correct shape
         x = (x << 1); // shift byte
       }
     }
@@ -587,7 +597,7 @@ int text_status(int l, int f, int t){ // create text and color for status bar
 
 
   for (i = 0; i < 4; i++) {
-    SET_WRITE_MASK (1 << (i + 8));
+    SET_WRITE_MASK (1 << (i + 8)); // mask
     copy_image_s(buf + i*s_plane,0); // copy smaller amount of data :)
   }
 
@@ -658,18 +668,7 @@ clear_screens ()
     memset (mem_image, 0, MODE_X_MEM_SIZE);
 }
 
-unsigned char  clean_full_block(unsigned char* blk, int dx, int dy){
-    int in_question = *blk; // get drawable byte of data s
 
-    if(in_question == 0){ // check if in_question is black
-        return (unsigned char) background[(dx * 12) + dy];
-    }
-
-    else
-
-      return *blk; // if byte to be drawn is not black then just draw that color
-
-}
 /*
  * draw_full_block
  *   DESCRIPTION: Draw a BLOCK_X_DIM x BLOCK_Y_DIM block at absolute
@@ -738,7 +737,14 @@ draw_full_block (int pos_x, int pos_y, unsigned char* blk)
 }
 
 
-
+/*
+* save_block
+* description: opposite of draw_block, take image from build buffer
+* and write it to some memory space
+* input : position x,y and memory space to write to
+* output: NONE
+* side_effects: may crash if data copying over to address is not properly allocated
+*/
 void
 save_block (int pos_x, int pos_y, unsigned char* blk)
 {
@@ -784,11 +790,11 @@ save_block (int pos_x, int pos_y, unsigned char* blk)
     /* Adjust y_bottom to hold the number of pixel rows to be drawn. */
     y_bottom -= y_top;
 
-    /* Draw the clipped image. */
+    /* save the clipped image. */
     for (dy = 0; dy < y_bottom; dy++, pos_y++) {
 	for (dx = 0; dx < x_right; dx++, pos_x++, blk++)
 	     *blk =  *(img3 + (pos_x >> 2) + pos_y * SCROLL_X_WIDTH +
- 	      (3 - (pos_x & 3)) * SCROLL_SIZE);
+ 	      (3 - (pos_x & 3)) * SCROLL_SIZE); // take image from buffer and grab it
 	pos_x -= x_right;
 	blk += x_left;
     }
@@ -827,18 +833,18 @@ draw_vert_line (int x)
     int p_off;
     int i;
 
-    if(x < 0 || x >= SCROLL_X_DIM) // x outside x boundaries???
+    if(x < 0 || x >= SCROLL_X_DIM) // x outside boundaries???
       return -1;
     x += show_x; // adjust x to be within logical column
 
-    (*vert_line_fn) (x, show_y, buf);
+    (*vert_line_fn) (x, show_y, buf); // get image of vert line
 
-    addr = img3 + (x >> 2) + show_y * SCROLL_X_WIDTH;
+    addr = img3 + (x >> 2) + show_y * SCROLL_X_WIDTH; // calculate starting address in the build buffer
 
-    p_off = (3 - (x & 3));
+    p_off = (3 - (x & 3)); // plane offset of first plane
 
-    for (i = 0; i < SCROLL_Y_DIM; i++) {
-        addr[(p_off * SCROLL_SIZE) + (i*80)] = buf[i];
+    for (i = 0; i < SCROLL_Y_DIM; i++) { // write into correct space into build buffer
+        addr[(p_off * SCROLL_SIZE) + (i*IMAGE_X_DIM/4)] = buf[i];
       }
     return 0;
 }

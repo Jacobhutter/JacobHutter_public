@@ -57,7 +57,7 @@
 #define SCROLL_X_WIDTH  (IMAGE_X_DIM / 4)          /* addresses (bytes)     */
 #define SCROLL_Y_WIDTH  (IMAGE_Y_DIM / 4)         // added
 #define s_plane 1440  // one plane size
-
+#define status_height 18 // 16 + 2 from text.c 
 /*
  * NOTES
  *
@@ -118,13 +118,12 @@ extern int set_mode_X (void (*horiz_fill_fn)
 /* return to text mode */
 extern void clear_mode_X ();
 
+/* save block image from build buffer */
 extern  void save_block (int pos_x, int pos_y, unsigned char* blk);
+/* decrement fruit and re display status bar */
 extern void dec_fruit();
 
-extern unsigned char  clean_full_block(unsigned char* blk, int dx, int dy);
-
-extern void fill_background(unsigned char *  fill, int index);
-
+/* update new time total in seconds in the bar */
 extern void update_total(int it);
 
 /* set logical view window coordinates */

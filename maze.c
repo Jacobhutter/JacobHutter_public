@@ -97,20 +97,6 @@ static int exit_x, exit_y;    /* lattice point of maze exit   */
 
 
 
-
-
-
-
-unsigned char * get_empty(){
-  return (unsigned char *)blocks[BLOCK_EMPTY];
-}
-
-void put_background(){
-  int i =0;
-  for(i = 0; i< 12*12; i++){
-    fill_background((unsigned char *)blocks[BLOCK_EMPTY],i);
-    }
-}
 /*
  * mark_maze_area
  *   DESCRIPTION: Uses a breadth-first search to marks all parts of the
@@ -516,45 +502,6 @@ find_block (int x, int y)
     return (unsigned char*)blocks[pattern];
 }
 
-unsigned char*
-f_b (int x, int y)
-{
-    int fnum;     /* fruit found                           */
-    int pattern;  /* stencil pattern for surrounding walls */
-
-    /* Record whether fruit is present. */
-    fnum = (maze[MAZE_INDEX (x, y)] & MAZE_FRUIT) / MAZE_FRUIT_1;
-
-    /* The exit is always visible once the last fruit is collected. */
-    if (n_fruits == 0 && (maze[MAZE_INDEX (x, y)] & MAZE_EXIT) != 0)
-        return (unsigned char*)blocks[BLOCK_EXIT];
-
-    /*
-     * Everything else not reached is shrouded in mist, although fruits
-     * show up as bumps.
-     */
-    if ((maze[MAZE_INDEX (x, y)] & MAZE_REACH) == 0) {
-        if (fnum != 0)
-            return (unsigned char*)blocks[BLOCK_FRUIT_SHADOW];
-        return (unsigned char*)blocks[BLOCK_SHADOW];
-    }
-
-    /* Show fruit. */
-    if (fnum != 0)
-        return (unsigned char*)blocks[BLOCK_FRUIT_1 + fnum - 1];
-
-    /* Show empty space. */
-    if ((maze[MAZE_INDEX (x, y)] & MAZE_WALL) == 0)
-        return (unsigned char*)blocks[BLOCK_EMPTY];
-
-    /* Show different types of walls. */
-    pattern = (((maze[MAZE_INDEX (x, y - 1)] & MAZE_WALL) != 0) << 0) |
-	      (((maze[MAZE_INDEX (x + 1, y)] & MAZE_WALL) != 0) << 1) |
-	      (((maze[MAZE_INDEX (x, y + 1)] & MAZE_WALL) != 0) << 2) |
-	      (((maze[MAZE_INDEX (x - 1, y)] & MAZE_WALL) != 0) << 3);
-    return (unsigned char*)blocks[pattern];
-}
-
 
 /*
  * fill_horiz_buffer
@@ -686,7 +633,7 @@ unveil_space (int x, int y)
 
     /* Unveil the location and redraw it. */
     *cur |= MAZE_REACH;
-    put_background();
+  //  put_background();
     draw_full_block (x * BLOCK_X_DIM, y * BLOCK_Y_DIM, find_block (x, y));
 }
 
@@ -723,7 +670,7 @@ check_for_fruit (int x, int y)
 	--n_fruits;
   dec_fruit();
 	/* The exit may appear. */
-  put_background();
+  //put_background();
 	if (n_fruits == 0)
 	    draw_full_block (exit_x * BLOCK_X_DIM, exit_y * BLOCK_Y_DIM,
 			     find_block (exit_x, exit_y));
@@ -791,7 +738,7 @@ _add_a_fruit (int show)
     ++n_fruits;
 
     /* If necessary, draw the fruit on the screen. */
-    put_background();
+    //put_background();
     if (show)
 	draw_full_block (x * BLOCK_X_DIM, y * BLOCK_Y_DIM, find_block (x, y));
 }
@@ -815,7 +762,7 @@ add_a_fruit ()
     _add_a_fruit (1);
 
     /* The exit may disappear. */
-    put_background();
+    //put_background();
     if (n_fruits == 1)
 	draw_full_block (exit_x * BLOCK_X_DIM, exit_y * BLOCK_Y_DIM,
 			 find_block (exit_x, exit_y));
