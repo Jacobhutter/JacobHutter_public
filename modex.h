@@ -118,6 +118,7 @@ extern int set_mode_X (void (*horiz_fill_fn)
 /* return to text mode */
 extern void clear_mode_X ();
 
+extern  void save_block (int pos_x, int pos_y, unsigned char* blk);
 extern void dec_fruit();
 
 extern unsigned char  clean_full_block(unsigned char* blk, int dx, int dy);

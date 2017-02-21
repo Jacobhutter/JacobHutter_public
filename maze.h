@@ -71,8 +71,9 @@ typedef enum {
 
 
 
-
+extern unsigned char * f_b(int x, int y);
 extern void put_background();
+extern unsigned char * get_empty();
 
 /* create a maze and place some fruits inside it */
 extern int make_maze (int x_dim, int y_dim, int start_fruits);

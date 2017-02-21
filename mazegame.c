@@ -420,6 +420,8 @@ static int goodcount = 0;
 static int badcount = 0;
 static int total = 0;
 
+static int savex = 0,savey = 0;
+
 
 /*
  * rtc_thread
@@ -429,6 +431,25 @@ static int total = 0;
  *   RETURN VALUE: none
  *   SIDE EFFECTS: none
  */
+  unsigned char  last_floor[BLOCK_Y_DIM * BLOCK_X_DIM];
+void update_screen(){
+
+  save_block(play_x,play_y,last_floor); // save floor under player block
+  unsigned char * robot = get_player_block(last_dir); // get robot image
+  unsigned char canvas[BLOCK_Y_DIM * BLOCK_X_DIM];
+  int i;
+  for(i =0; i < BLOCK_X_DIM * BLOCK_Y_DIM; i++){ // go through all pixels in a block
+    if(robot[i] != 0x00) // if pixel is not black
+      canvas[i] = robot[i]; // draw floor under robot
+    else
+      canvas[i] = last_floor[i];
+  }
+
+  draw_full_block (play_x, play_y, canvas);
+  show_screen();
+  draw_full_block(play_x, play_y, last_floor);
+}
+
 
 
 static void *rtc_thread(void *arg)
@@ -439,7 +460,7 @@ static void *rtc_thread(void *arg)
 	int open[NUM_DIRS];
 	int need_redraw = 0;
 	int goto_next_level = 0;
-
+  //update_screen();
 	// Loop over levels until a level is lost or quit.
 	for (level = 1; (level <= MAX_LEVEL) && (quit_flag == 0); level++)
 	{
@@ -467,9 +488,21 @@ static void *rtc_thread(void *arg)
 		// Show maze around the player's original position
 		(void)unveil_around_player (play_x, play_y);
 
-		draw_full_block (play_x, play_y, get_player_block(last_dir));
+    /*save_block(play_x,play_y,last_floor); // save floor under player block
+    unsigned char * robot = get_player_block(last_dir); // get robot image
+    unsigned char canvas[BLOCK_Y_DIM * BLOCK_X_DIM];
+    int i;
+    for(i =0; i < BLOCK_X_DIM * BLOCK_Y_DIM; i++){ // go through all pixels in a block
+      if(robot[i] != 0x00) // if pixel is not black
+        canvas[i] = robot[i]; // draw floor under robot
+      else
+        canvas[i] = last_floor[i];
+    }
+
+		*/
+    update_screen();
     text_status(game_info.number,game_info.initial_fruit_count,0);
-		show_screen();
+
 
 		// get first Periodic Interrupt
 		ret = read(fd, &data, sizeof(unsigned long));
@@ -567,7 +600,17 @@ static void *rtc_thread(void *arg)
 
 				if (dir != DIR_STOP)
 				{
-	    				// move in chosen direction
+            //save_block(play_x,play_y,last_floor); // save current floor;
+            //unsigned char * cur = get_player_block(last_dir); // get the last player block;
+            //savex = play_x/BLOCK_X_DIM;
+            //savey = play_y/BLOCK_Y_DIM;
+            if(dir == DIR_UP || dir == DIR_LEFT){
+              savex = (play_x -1)/BLOCK_X_DIM;
+              savey = (play_y -1)/BLOCK_Y_DIM;
+            }
+
+            //unsigned char * cur = f_b(savex,savey); // save current frame
+
 	    				last_dir = dir;
 	    				move_cnt--;
 	    				switch (dir)
@@ -585,11 +628,17 @@ static void *rtc_thread(void *arg)
 						move_left (&play_x);
 						break;
 		   			}
-					draw_full_block (play_x, play_y, get_player_block(last_dir));
+
+          update_screen();
+
+					//draw_full_block (play_x, play_y, get_player_block(last_dir));
 					need_redraw = 1;
 				}
 			}
-			if (need_redraw) show_screen();
+			if (need_redraw){
+        //show_screen();
+        update_screen();
+      }
 			need_redraw = 0;
 		}
 	}

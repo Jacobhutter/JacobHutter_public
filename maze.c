@@ -53,7 +53,7 @@
 
 
 /* Set to 1 to remove all walls as a debugging aid. (Nate Taylor, S07). */
-#define GOD_MODE 1
+#define GOD_MODE 0
 
 
 /* local functions--see function headers for details */
@@ -101,7 +101,9 @@ static int exit_x, exit_y;    /* lattice point of maze exit   */
 
 
 
-
+unsigned char * get_empty(){
+  return (unsigned char *)blocks[BLOCK_EMPTY];
+}
 
 void put_background(){
   int i =0;
@@ -477,6 +479,45 @@ make_maze (int x_dim, int y_dim, int start_fruits)
  */
 static unsigned char*
 find_block (int x, int y)
+{
+    int fnum;     /* fruit found                           */
+    int pattern;  /* stencil pattern for surrounding walls */
+
+    /* Record whether fruit is present. */
+    fnum = (maze[MAZE_INDEX (x, y)] & MAZE_FRUIT) / MAZE_FRUIT_1;
+
+    /* The exit is always visible once the last fruit is collected. */
+    if (n_fruits == 0 && (maze[MAZE_INDEX (x, y)] & MAZE_EXIT) != 0)
+        return (unsigned char*)blocks[BLOCK_EXIT];
+
+    /*
+     * Everything else not reached is shrouded in mist, although fruits
+     * show up as bumps.
+     */
+    if ((maze[MAZE_INDEX (x, y)] & MAZE_REACH) == 0) {
+        if (fnum != 0)
+            return (unsigned char*)blocks[BLOCK_FRUIT_SHADOW];
+        return (unsigned char*)blocks[BLOCK_SHADOW];
+    }
+
+    /* Show fruit. */
+    if (fnum != 0)
+        return (unsigned char*)blocks[BLOCK_FRUIT_1 + fnum - 1];
+
+    /* Show empty space. */
+    if ((maze[MAZE_INDEX (x, y)] & MAZE_WALL) == 0)
+        return (unsigned char*)blocks[BLOCK_EMPTY];
+
+    /* Show different types of walls. */
+    pattern = (((maze[MAZE_INDEX (x, y - 1)] & MAZE_WALL) != 0) << 0) |
+	      (((maze[MAZE_INDEX (x + 1, y)] & MAZE_WALL) != 0) << 1) |
+	      (((maze[MAZE_INDEX (x, y + 1)] & MAZE_WALL) != 0) << 2) |
+	      (((maze[MAZE_INDEX (x - 1, y)] & MAZE_WALL) != 0) << 3);
+    return (unsigned char*)blocks[pattern];
+}
+
+unsigned char*
+f_b (int x, int y)
 {
     int fnum;     /* fruit found                           */
     int pattern;  /* stencil pattern for surrounding walls */
