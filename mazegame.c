@@ -421,6 +421,40 @@ static int badcount = 0;
 static int total = 0;
 
 
+// structure to decide which color to fill into robot
+typedef struct filler{
+  int cur_color;
+} filler_t;
+filler_t c;
+
+/*
+ *   second()
+ *   DESCRIPTION: updates every half second to change color
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: modifies current mask being placed
+ */
+void second(){
+    c.cur_color = (c.cur_color + 1)%10;
+}
+
+/*
+ * fill_in_robot
+ *   DESCRIPTION: assign changing color to the robot in the maze,
+ *   INPUTS: current block being put into buffer
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: modifies current mask being placed
+ */
+#define WHITE 0x20 // color that matches center of robot
+void fill_in_robot(unsigned char * robot){
+    int i;
+  for(i = 0; i < BLOCK_X_DIM * BLOCK_Y_DIM; i++){
+    if(robot[i] == WHITE)
+          robot[i] = c.cur_color;
+  }
+}
 /*
  * draw_in_robot
  *   DESCRIPTION: get background image for this coord. overlay robot image,
@@ -442,7 +476,7 @@ void draw_in_robot(){
     else
       canvas[i] = flr[i];
   }
-
+  fill_in_robot(canvas);
   draw_full_block (play_x, play_y, canvas);
   show_screen();
   draw_full_block(play_x, play_y, flr);
@@ -511,6 +545,10 @@ static void *rtc_thread(void *arg)
 			ticks = data >> 8;
 
 			total += ticks;
+      if(total%16 == 0){
+        second();
+        draw_in_robot();
+      }
       update_total(total);
 			// If the system is completely overwhelmed we better slow down:
 			if (ticks > 8) ticks = 8;
