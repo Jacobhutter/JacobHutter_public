@@ -443,6 +443,29 @@ make_maze (int x_dim, int y_dim, int start_fruits)
     return 0;
 }
 
+
+#define WHITE 0x20
+#define BLUE  0x22
+typedef struct{
+  unsigned char hijacked[BLOCK_X_DIM*BLOCK_Y_DIM];
+  int lev;
+}hijacked_t;
+hijacked_t h;
+
+void change_lev(int n){
+  h.lev = n;
+}
+
+unsigned char * hijack_return(unsigned char * arg){
+  int i;
+  for(i = 0; i < BLOCK_Y_DIM * BLOCK_X_DIM; i++){
+      if(arg[i] == BLUE)
+        h.hijacked[i] = h.lev + 2;
+      else
+        h.hijacked[i] = arg[i];
+  }
+  return h.hijacked;
+}
 /*
  * The functions inside the preprocessor block below rely on block image
  * data in blocks.s.  These external data are neither available nor
@@ -450,8 +473,6 @@ make_maze (int x_dim, int y_dim, int start_fruits)
  * linking the test program (i.e., when TEST_MAZE_GEN is 1).
  */
 #if (TEST_MAZE_GEN == 0)
-
-
 /*
  * find_block
  *   DESCRIPTION: Find the appropriate image to be used for a given maze
@@ -499,7 +520,8 @@ find_block (int x, int y)
 	      (((maze[MAZE_INDEX (x + 1, y)] & MAZE_WALL) != 0) << 1) |
 	      (((maze[MAZE_INDEX (x, y + 1)] & MAZE_WALL) != 0) << 2) |
 	      (((maze[MAZE_INDEX (x - 1, y)] & MAZE_WALL) != 0) << 3);
-    return (unsigned char*)blocks[pattern];
+    return hijack_return((unsigned char *)blocks[pattern]);
+    //return hijack_return(pattern);
 }
 
 
@@ -670,7 +692,6 @@ check_for_fruit (int x, int y)
 	--n_fruits;
   dec_fruit();
 	/* The exit may appear. */
-  //put_background();
 	if (n_fruits == 0)
 	    draw_full_block (exit_x * BLOCK_X_DIM, exit_y * BLOCK_Y_DIM,
 			     find_block (exit_x, exit_y));
@@ -738,7 +759,6 @@ _add_a_fruit (int show)
     ++n_fruits;
 
     /* If necessary, draw the fruit on the screen. */
-    //put_background();
     if (show)
 	draw_full_block (x * BLOCK_X_DIM, y * BLOCK_Y_DIM, find_block (x, y));
 }

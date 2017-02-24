@@ -72,6 +72,8 @@ typedef enum {
 
 
 
+extern unsigned char * hijack_return(unsigned char * arg);
+extern void change_lev(int n);
 
 /* create a maze and place some fruits inside it */
 extern int make_maze (int x_dim, int y_dim, int start_fruits);

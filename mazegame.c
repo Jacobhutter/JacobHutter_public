@@ -503,7 +503,7 @@ static void *rtc_thread(void *arg)
 	// Loop over levels until a level is lost or quit.
 	for (level = 1; (level <= MAX_LEVEL) && (quit_flag == 0); level++)
 	{
-
+    change_lev(level);
 		if (prepare_maze_level (level) != 0)
 			break;
 
@@ -652,8 +652,6 @@ static void *rtc_thread(void *arg)
 		   			}
 
           draw_in_robot();
-
-					//draw_full_block (play_x, play_y, get_player_block(last_dir));
 					need_redraw = 1;
 				}
 			}
