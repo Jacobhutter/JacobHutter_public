@@ -598,7 +598,7 @@ int text_status(int l, int f, int t){ // create text and color for status bar
 
   for (i = 0; i < 4; i++) {
     SET_WRITE_MASK (1 << (i + 8)); // mask
-    copy_image_s(buf + i*s_plane,0); // copy smaller amount of data :)
+    copy_image_s(buf + i*s_plane,0); // copy smaller amount of data :) plane by plane
   }
 
       return 0;

@@ -499,7 +499,6 @@ static void *rtc_thread(void *arg)
 	int open[NUM_DIRS];
 	int need_redraw = 0;
 	int goto_next_level = 0;
-  //draw_in_robot();
 	// Loop over levels until a level is lost or quit.
 	for (level = 1; (level <= MAX_LEVEL) && (quit_flag == 0); level++)
 	{
@@ -527,9 +526,11 @@ static void *rtc_thread(void *arg)
 		// Show maze around the player's original position
 		(void)unveil_around_player (play_x, play_y);
 
+    pthread_mutex_lock(&mtx); // dont want multiple drawings to occur from different threads at same time
+    //                           must synchronize
     draw_in_robot(); // show screen with overlayed robot at start
-    text_status(game_info.number,game_info.initial_fruit_count,0);
-
+    text_status(game_info.number,game_info.initial_fruit_count,0); // initialize status bar 
+    pthread_mutex_unlock(&mtx); // release lock
 
 		// get first Periodic Interrupt
 		ret = read(fd, &data, sizeof(unsigned long));
@@ -651,13 +652,16 @@ static void *rtc_thread(void *arg)
 						break;
 		   			}
 
+          pthread_mutex_lock(&mtx);
           draw_in_robot();
+          pthread_mutex_unlock(&mtx);
 					need_redraw = 1;
 				}
 			}
 			if (need_redraw){
-        //show_screen();
+        pthread_mutex_lock(&mtx);
         draw_in_robot();
+        pthread_mutex_unlock(&mtx);
       }
 			need_redraw = 0;
 		}
