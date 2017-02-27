@@ -487,7 +487,19 @@ void draw_in_robot(){
             if(i - BLOCK_X_DIM >= 0 && robot[i-BLOCK_X_DIM] != 0x00) // check above
               canvas[i] = robot[i];
             else
-              canvas[i] = flr[i];
+             if((i - BLOCK_X_DIM - 1) >= 0 && robot[i - BLOCK_X_DIM -1] != 0x00) // check top left
+              canvas[i] = robot[i];
+             else
+              if((i-BLOCK_X_DIM +1) >= 0 && robot[i - BLOCK_X_DIM +1]!=0x00) // check top right
+               canvas[i] = robot[i];
+              else
+               if((i+BLOCK_X_DIM -1) < BLOCK_X_DIM * BLOCK_Y_DIM && robot[i+BLOCK_X_DIM -1] != 0x00)
+                canvas[i] = robot[i];
+               else
+                if((i+BLOCK_X_DIM +1) < BLOCK_X_DIM * BLOCK_Y_DIM && robot[i+BLOCK_X_DIM +1] != 0x00)
+                 canvas[i] = robot[i];
+                else
+                 canvas[i] = flr[i];
     }
   }
   fill_in_robot(canvas);
