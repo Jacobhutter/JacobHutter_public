@@ -471,10 +471,24 @@ void draw_in_robot(){
   unsigned char canvas[BLOCK_Y_DIM * BLOCK_X_DIM];
   int i;
   for(i =0; i < BLOCK_X_DIM * BLOCK_Y_DIM; i++){ // go through all pixels in a block
-    if(robot[i] != 0x00) // if pixel is not black
-      canvas[i] = robot[i]; // draw floor under robot
-    else
-      canvas[i] = flr[i];
+    if(robot[i] != 0x00){ // if pixel is not black
+      canvas[i] = robot[i]; // draw  robot
+    }
+    else{
+      if(/*(i+i) < BLOCK_X_DIM * BLOCK_Y_DIM &&*/ robot[i+1] != 0x00) // check for black border right
+        canvas[i] = robot[i];
+      else
+        if((i-1) >= 0 && robot[i-1] != 0x00) // check for border left
+          canvas[i] = robot[i];
+        else
+          if(i+BLOCK_X_DIM < BLOCK_X_DIM * BLOCK_Y_DIM && robot[i+BLOCK_X_DIM] != 0x00) // check below
+            canvas[i] = robot[i];
+          else
+            if(i - BLOCK_X_DIM >= 0 && robot[i-BLOCK_X_DIM] != 0x00) // check above
+              canvas[i] = robot[i];
+            else
+              canvas[i] = flr[i];
+    }
   }
   fill_in_robot(canvas);
   draw_full_block (play_x, play_y, canvas);
@@ -529,7 +543,7 @@ static void *rtc_thread(void *arg)
     pthread_mutex_lock(&mtx); // dont want multiple drawings to occur from different threads at same time
     //                           must synchronize
     draw_in_robot(); // show screen with overlayed robot at start
-    text_status(game_info.number,game_info.initial_fruit_count,0); // initialize status bar 
+    text_status(game_info.number,game_info.initial_fruit_count,0); // initialize status bar
     pthread_mutex_unlock(&mtx); // release lock
 
 		// get first Periodic Interrupt
