@@ -31,20 +31,46 @@
 
 /************************ Protocol Implementation *************************/
 
+typedef struct{
+	static bool do_not_enter = false;
+	static bool acknowledged = false;
+	static spinlock_t tux_lock; //  = SPIN_LOCK_UNLOCKED;
+	static unsigned short disp; // current displayed char, 2 bytes
+}tux_t;
+tux_t tux;
 /* tuxctl_handle_packet()
- * IMPORTANT : Read the header for tuxctl_ldisc_data_callback() in 
- * tuxctl-ld.c. It calls this function, so all warnings there apply 
+ * IMPORTANT : Read the header for tuxctl_ldisc_data_callback() in
+ * tuxctl-ld.c. It calls this function, so all warnings there apply
  * here as well.
  */
 void tuxctl_handle_packet (struct tty_struct* tty, unsigned char* packet)
 {
+		if(tux.do_not_enter)
+			return;
     unsigned a, b, c;
 
     a = packet[0]; /* Avoid printk() sign extending the 8-bit */
     b = packet[1]; /* values when printing them. */
     c = packet[2];
 
-    /*printk("packet : %x %x %x\n", a, b, c); */
+    //printk("packet : %x %x %x\n", a, b, c);
+		if(a == MTCP_RESET){
+			T_I(tty);
+			if(tux.acknowledged){
+				T_S_L(tty,tux.disp);
+			}
+			return;
+		}
+		if(a == MTCP_ACK){
+			tux.acknowledged = true;
+			return;
+		}
+		if(a == MTCP_BIOC_EVENT){
+			T_B(tty);
+		}
+		// add more responses?
+		return;
+
 }
 
 /******** IMPORTANT NOTE: READ THIS BEFORE IMPLEMENTING THE IOCTLS ************
@@ -60,19 +86,50 @@ void tuxctl_handle_packet (struct tty_struct* tty, unsigned char* packet)
  * valid.                                                                     *
  *                                                                            *
  ******************************************************************************/
-int 
-tuxctl_ioctl (struct tty_struct* tty, struct file* file, 
+ int T_I(struct tty_struct* tty){
+	tux.tux_lock = SPIN_LOCK_UNLOCKED;
+
+	tuxctl_ldisc_put(tty,&MTCP_LED_USR,1); // enter user mode, leds display what ever is in set
+	tuxctl_ldisc_put(tty,&MTCP_BIOC_ON,1); // enable button interrupt, will need spin locks from now on
+	disp = 0x0000; // hex displays are at 0
+
+ 	return 0;
+ }
+
+
+ int T_B(struct tty_struct* tty){
+ 	return 0;
+ }
+
+
+ int T_S_L(struct tty_struct* tty,unsigned long arg){
+	 if(!tux.acknowledged)
+	 	return -EINVAL;
+	// low 16 bits of of arg contains our LED values
+	unsigned long copy = arg;
+	tux.disp = copy & tux.disp & 0x0000FFFF; // get lower 16 bits
+	
+ 	return 0;
+ }
+
+int
+tuxctl_ioctl (struct tty_struct* tty, struct file* file,
 	      unsigned cmd, unsigned long arg)
 {
     switch (cmd) {
 	case TUX_INIT:
+		return T_I(tty);
 	case TUX_BUTTONS:
+		return T_B(tty);
 	case TUX_SET_LED:
+		return T_S_L(tty,arg);
 	case TUX_LED_ACK:
+		return 0;
 	case TUX_LED_REQUEST:
+		return 0;
 	case TUX_READ_LED:
+		return 0;
 	default:
 	    return -EINVAL;
     }
 }
-

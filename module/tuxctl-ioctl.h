@@ -3,6 +3,14 @@
 #ifndef TUXCTL_H
 #define TUXCTL_H
 
+
+/*extern int T_I(); // implementation for tux_init
+extern int T_B(); // implementation for tus_set_led
+extern int T_S_L(unsigned long arg); // implementation for tux_buttons*/
+int T_I(struct tty_struct* tty);
+int T_B(struct tty_struct* tty);
+int T_S_L(struct tty_struct* tty,unsigned long arg);
+
 #define TUX_SET_LED _IOR('E', 0x10, unsigned long)
 #define TUX_READ_LED _IOW('E', 0x11, unsigned long*)
 #define TUX_BUTTONS _IOW('E', 0x12, unsigned long*)
@@ -10,5 +18,8 @@
 #define TUX_LED_REQUEST _IO('E', 0x14)
 #define TUX_LED_ACK _IO('E', 0x15)
 
-#endif
 
+
+
+
+#endif

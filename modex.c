@@ -573,23 +573,30 @@ int text_status(int l, int f, int t){ // create text and color for status bar
   int rows = status_height;
   int cols = SCROLL_X_DIM; // should be 320
   int area = rows * cols;
-  char color1 = l; // purple(background color)
-  char color2 = l-1; // green(text color)
+  char color1 = l; // (background color)
+  char color2 = l-1; // (text color)
 
   int i,j,k;
   unsigned char buf[area]; // status bar buffer
+  /*
+  * 76 - L, 69 - E, 86 - V, 0 - space
+  * 70 - f, 82 - r, 85 - u, 73 - i, 84 - t, 83 - s
+  * 58 - : , 48 - 0
+  */
   int level[] = {76,69,86,69,76,0,l + '0',digit2,0,0,0,f + '0',0,70,82,85,73,84,83,
   0,0,0,0,48 + ((t/600)%6),48 + ((t/60)%10),58,48 + ((t/10)%6),48 + (t%10)}; // ascii buffer
-
+  // time arithmetic: 0th digit is total %10 for seconds, second is total /10 %6 to be within 1 to 6
+  // the rest follow the same logic with increasing powers of ten 
   for(i = 0; i < area; i++)
        buf[i] = color1; // assign pixel index color
 
-  for(k = 0; k < 28; k++){
+  for(k = 0; k < 28; k++){ // 28 is num of chars to write to text bar
     for( i = 0; i < 16; i++){
       char x = font_data[level[k]][i]; // get 8 bit signed char
       for(j = 0; j<8; j++){
         if(x < 0)
           buf[8+(j%4)*s_plane + (j>=4)+ ((1+i)*(cols/4))+(k*2)] = color2; // assign secondary to correct shape
+          // 8 is to offsett from left side, /4 and %4 is for planes
         x = (x << 1); // shift byte
       }
     }
