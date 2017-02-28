@@ -1,0 +1,10 @@
+x = linspace(-2*pi,2*pi,20);
+d = diric(x,20);
+d_1 = 20*d;
+e = exp(-i*x*21/2);
+x_w = e.*d_1;
+figure;
+subplot(211);
+plot(abs(x_w));
+subplot(212);
+plot(angle(x_w));
