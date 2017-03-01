@@ -39,6 +39,7 @@
 #include "maze.h"
 #include "modex.h"
 #include "text.h"
+#include "module/tuxctl-ioctl.h"
 
 // New Includes and Defines
 #include <linux/rtc.h>
@@ -104,6 +105,7 @@ static void move_left (int* xpos);
 static int unveil_around_player (int play_x, int play_y);
 static void *rtc_thread(void *arg);
 static void *keyboard_thread(void *arg);
+static void *tux_thread(void *arg);
 
 /*
  * prepare_maze_level
@@ -345,12 +347,52 @@ int winner= 0;
 int next_dir = UP;
 int play_x, play_y, last_dir, dir;
 int move_cnt = 0;
-int fd;
+int fd,fd2;
 unsigned long data;
 static struct termios tio_orig;
 static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
 
+/*
+ * tux_thread
+ *   DESCRIPTION: Thread that handles tux inputs
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
+ */
+ #define right_mask  0x0080
+ #define left_mask 0x0040
+ #define down_mask 0x0020
+ #define up_mask 0x0010
+ #define start_mask 0x0001
+ //#define TUX_BUTTONS _IOW('E', 0x12, unsigned long*)
+static void *tux_thread(void *arg){
+  int button_state = 0x0020;
+  while(winner == 0 && quit_flag != 1){
+    
+    //ioctl(fd2,TUX_BUTTONS,&button_state); // get button val from T_B
+    pthread_mutex_lock(&mtx);
+    // remember button_state comes in the form of 0x0000 | RLDUCBASTART
+    if(button_state & right_mask){ // check right
+      next_dir = DIR_RIGHT;
+      }
+    else if(button_state & left_mask){
+      next_dir = DIR_LEFT;
+    }
+    else if(button_state & down_mask){
+      next_dir = DIR_DOWN;
+    }
+    else if(button_state & up_mask){
+      next_dir = DIR_UP;
+    }
+    else if(button_state & start_mask){
+      quit_flag = 1;
+    }
+    pthread_mutex_unlock(&mtx);
+  }
 
+  return 0;
+}
 /*
  * keyboard_thread
  *   DESCRIPTION: Thread that handles keyboard inputs
@@ -485,7 +527,7 @@ void draw_in_robot(){
             canvas[i] = robot[i];
           else
             if(i - BLOCK_X_DIM >= 0 && robot[i-BLOCK_X_DIM] != 0x00) // check above
-              canvas[i] = robot[i];
+             canvas[i] = robot[i];
             else
              if((i - BLOCK_X_DIM - 1) >= 0 && robot[i - BLOCK_X_DIM -1] != 0x00) // check top left
               canvas[i] = robot[i];
@@ -493,10 +535,10 @@ void draw_in_robot(){
               if((i-BLOCK_X_DIM +1) >= 0 && robot[i - BLOCK_X_DIM +1]!=0x00) // check top right
                canvas[i] = robot[i];
               else
-               if((i+BLOCK_X_DIM -1) < BLOCK_X_DIM * BLOCK_Y_DIM && robot[i+BLOCK_X_DIM -1] != 0x00)
+               if((i+BLOCK_X_DIM -1) < BLOCK_X_DIM * BLOCK_Y_DIM && robot[i+BLOCK_X_DIM -1] != 0x00) // bottom left
                 canvas[i] = robot[i];
                else
-                if((i+BLOCK_X_DIM +1) < BLOCK_X_DIM * BLOCK_Y_DIM && robot[i+BLOCK_X_DIM +1] != 0x00)
+                if((i+BLOCK_X_DIM +1) < BLOCK_X_DIM * BLOCK_Y_DIM && robot[i+BLOCK_X_DIM +1] != 0x00) // bottom right
                  canvas[i] = robot[i];
                 else
                  canvas[i] = flr[i];
@@ -712,9 +754,11 @@ int main()
 
 	pthread_t tid1;
 	pthread_t tid2;
+  pthread_t tid3;
 
 	// Initialize RTC
 	fd = open("/dev/rtc", O_RDONLY, 0);
+
 
 	// Enable RTC periodic interrupts at update_rate Hz
 	// Default max is 64...must change in /proc/sys/dev/rtc/max-user-freq
@@ -729,6 +773,14 @@ int main()
 		return -1;
     	}
 
+  // open tux_thread
+  fd2 = open("/dev/ttyS0", O_RDWR | O_NOCTTY);
+  int ldsic_num = N_MOUSE;
+  ioctl(fd2, TIOCSETD, &ldsic_num);
+
+  // send init signal to tux
+  ioctl(fd2,TUX_INIT);
+
 	// Save current terminal attributes for stdin.
     	if (tcgetattr (fileno (stdin), &tio_orig) != 0)
 	{
@@ -738,7 +790,7 @@ int main()
 
 	// Turn off canonical (line-buffered) mode and echoing of keystrokes
  	// Set minimal character and timing parameters so as
-        tio_new = tio_orig;
+      tio_new = tio_orig;
     	tio_new.c_lflag &= ~(ICANON | ECHO);
     	tio_new.c_cc[VMIN] = 1;
     	tio_new.c_cc[VTIME] = 0;
@@ -758,10 +810,12 @@ int main()
 	// Create the threads
 	pthread_create(&tid1, NULL, rtc_thread, NULL);
 	pthread_create(&tid2, NULL, keyboard_thread, NULL);
+  pthread_create(&tid3, NULL, tux_thread, NULL); // create thread for tux
 
 	// Wait for all the threads to end
 	pthread_join(tid1, NULL);
 	pthread_join(tid2, NULL);
+  pthread_join(tid3, NULL);
 
 	// Shutdown Display
 	clear_mode_X();
@@ -771,6 +825,9 @@ int main()
 
 	// Close RTC
 	close(fd);
+
+  // Close TUX
+  close(fd2);
 
 	// Print outcome of the game
 	if (winner == 1)
