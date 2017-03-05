@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  4 MAR 2017 23:06
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  4 MAR 2017 23:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -239,59 +239,20 @@ Package pdftex.def Info: report5_1.jpg used on input line 76.
 File: report5_2.jpg Graphic file (type jpg)
 
 <use report5_2.jpg>
-Package pdftex.def Info: report5_2.jpg used on input line 78.
+Package pdftex.def Info: report5_2.jpg used on input line 82.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
  <report5_3.jpg, id=9, 562.1pt x 421.575pt>
 File: report5_3.jpg Graphic file (type jpg)
 
 <use report5_3.jpg>
-Package pdftex.def Info: report5_3.jpg used on input line 80.
+Package pdftex.def Info: report5_3.jpg used on input line 87.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 76--83
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 76--83
-\OT1/cmr/m/n/10 With $\OML/cmm/m/it/10 a \OT1/cmr/m/n/10 = [1\OML/cmm/m/it/10 ;
- \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/c
-mr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/
-10 0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0]$ and $\OML/cmm/m/it/10 b \OT1/cmr/m/n
-/10 = [2\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 
-5\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 4\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/c
-mm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OMS/cmsy/m/n/10 ^^@\OT1/cmr/m
-/n/10 3]$
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 76--83
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 76--83
-\OT1/cmr/m/n/10 With $\OML/cmm/m/it/10 a \OT1/cmr/m/n/10 = [1\OML/cmm/m/it/10 ;
- \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/c
-mr/m/n/10 0]$ and $\OML/cmm/m/it/10 b \OT1/cmr/m/n/10 = [3\OML/cmm/m/it/10 ; \O
-T1/cmr/m/n/10 2\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OMS/cmsy
-/m/n/10 ^^@\OT1/cmr/m/n/10 3]$
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 76--83
-[]  \OT1/cmr/m/n/10 With
- []
-
-
-LaTeX Warning: Float too large for page by 254.1052pt on input line 83.
-
-[1
+ [1
 
 {/usr/share/texlive/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2 <./report1.jp
 g>] [3 <./report2.jpg>] [4 <./report3.jpg>] [5 <./report4_1.png> <./report4_2.p
-ng>] [6 <./report5_1.jpg> <./report5_2.jpg> <./report5_3.jpg>]
-(./jhutter2.aux) ) 
+ng>] [6 <./report5_1.jpg>] [7 <./report5_2.jpg> <./report5_3.jpg>] (./jhutter2.
+aux) ) 
 Here is how much of TeX's memory you used:
  3413 strings out of 495063
  47698 string characters out of 3182201
@@ -300,21 +261,21 @@ Here is how much of TeX's memory you used:
  6675 words of font info for 24 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  38i,7n,39p,238b,1852s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmsy8.pfb>
-Output written on jhutter2.pdf (6 pages, 257398 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy8.pfb>
+Output written on jhutter2.pdf (7 pages, 257967 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
- 48 compressed objects within 1 object stream
+ 83 PDF objects out of 1000 (max. 8388607)
+ 52 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
