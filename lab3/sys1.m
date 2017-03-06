@@ -18,6 +18,6 @@ figure;
 stem(y_n);
 title('a = 2, N = 64');
 ylabel('y_n');
-xlabel('x_n');
+xlabel('N');
 end
 
