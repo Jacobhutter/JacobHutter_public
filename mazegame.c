@@ -58,7 +58,13 @@
 #define DOWN 66
 #define RIGHT 67
 #define LEFT 68
-
+#define palette_offset 64
+#define font_height 16
+#define font_width 8
+#define right_button 128
+#define down_button 32
+#define up_button 16
+#define left_button 64
 
 /*
  * If NDEBUG is not defined, we execute sanity checks to make sure that
@@ -74,7 +80,11 @@ static int sanity_check ();
 /* a few constants */
 #define PAN_BORDER      5  /* pan when border in maze squares reaches 5    */
 #define MAX_LEVEL      10  /* maximum level number                         */
-
+#define right_mask  0x0080
+#define left_mask 0x0040
+#define down_mask 0x0020
+#define up_mask 0x0010
+#define start_mask 0x0001
 /* outcome of each level, and of the game as a whole */
 typedef enum {GAME_WON, GAME_LOST, GAME_QUIT} game_condition_t;
 
@@ -360,39 +370,36 @@ static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
  *   RETURN VALUE: none
  *   SIDE EFFECTS: none
  */
- #define right_mask  0x0080
- #define left_mask 0x0040
- #define down_mask 0x0020
- #define up_mask 0x0010
- #define start_mask 0x0001
  //#define TUX_BUTTONS _IOW('E', 0x12, unsigned long*)
 static void *tux_thread(void *arg){
-  int button_state = 0x0020;
+  int button_state; // = 0x0020;
+
   while(winner == 0 && quit_flag != 1){
-    
-    //ioctl(fd2,TUX_BUTTONS,&button_state); // get button val from T_B
+    ioctl(fd2,TUX_BUTTONS,&button_state); // get button val from T_B
+    if(button_state != 0){
     pthread_mutex_lock(&mtx);
-    // remember button_state comes in the form of 0x0000 | RLDUCBASTART
-    if(button_state & right_mask){ // check right
+    switch(button_state){
+    case right_button:
       next_dir = DIR_RIGHT;
-      }
-    else if(button_state & left_mask){
-      next_dir = DIR_LEFT;
-    }
-    else if(button_state & down_mask){
+      break;
+    case down_button:
       next_dir = DIR_DOWN;
-    }
-    else if(button_state & up_mask){
+      break;
+    case up_button:
       next_dir = DIR_UP;
-    }
-    else if(button_state & start_mask){
-      quit_flag = 1;
+      break;
+    case left_button:
+      next_dir = DIR_LEFT;
+      break;
+    default:
+      break;
     }
     pthread_mutex_unlock(&mtx);
+   }
   }
-
   return 0;
 }
+
 /*
  * keyboard_thread
  *   DESCRIPTION: Thread that handles keyboard inputs
@@ -497,6 +504,7 @@ void fill_in_robot(unsigned char * robot){
           robot[i] = c.cur_color;
   }
 }
+
 /*
  * draw_in_robot
  *   DESCRIPTION: get background image for this coord. overlay robot image,
@@ -545,9 +553,115 @@ void draw_in_robot(){
     }
   }
   fill_in_robot(canvas);
+  unsigned char old_flr[BIG_BLOCK_X_DIM*BIG_BLOCK_Y_DIM];
+  save_big_block(play_x-5,play_y-25,old_flr); // save old fruit buffer space
+  /* 25 and 5 were used as offsets to place the text safely above the robot*/
   draw_full_block (play_x, play_y, canvas);
+
+  if(ret_timer()>0){
+  dec_timer();
+  unsigned char canvas_buf[BIG_BLOCK_X_DIM*BIG_BLOCK_Y_DIM];
+  int i,j,k;
+  int level[11]; // 11 is the max size of the text we wish to write
+  int size;
+  fill_palette_plus(); // initialize new palette
+  /* fnum guide
+  * 1 - apple, 2 - grapes, 3 - peach, 4 - strawberry
+  * 5 - banana 6 - watermelon 7 - dew
+  */
+  switch(ret_frt()){
+    case 1: level[0] = 'A';
+            level[1] = 'P';
+            level[2] = 'P';
+            level[3] = 'L';
+            level[4] = 'E';
+            level[5] = '!';
+            size = 6;
+            break;
+    case 2: level[0] = 'G';
+            level[1] = 'R';
+            level[2] = 'A';
+            level[3] = 'P';
+            level[4] = 'E';
+            level[5] = 'S';
+            level[6] = '!';
+            size = 7;
+            break;
+    case 3: level[0] = 'P';
+            level[1] = 'E';
+            level[2] = 'A';
+            level[3] = 'C';
+            level[4] = 'H';
+            level[5] = '!';
+            size = 6;
+            break;
+    case 4: level[0] = 'S';
+            level[1] = 'T';
+            level[2] = 'R';
+            level[3] = 'A';
+            level[4] = 'W';
+            level[5] = 'B';
+            level[6] = 'E';
+            level[7] = 'R';
+            level[8] = 'R';
+            level[9] = 'Y';
+            level[10] = '!';
+            size = 11;
+            break;
+    case 5: level[0] = 'B';
+            level[1] = 'A';
+            level[2] = 'N';
+            level[3] = 'A';
+            level[4] = 'N';
+            level[5] = 'A';
+            level[6] = '!';
+            size = 7;
+            break;
+    case 6: level[0] = 'W';
+            level[1] = 'A';
+            level[2] = 'T';
+            level[3] = 'E';
+            level[4] = 'R';
+            level[5] = 'M';
+            level[6] = 'E';
+            level[7] = 'L';
+            level[8] = 'O';
+            level[9] = 'N';
+            level[10] = '!';
+            size = 11;
+            break;
+    case 7: level[0] = 'D';
+            level[1] = 'E';
+            level[2] = 'W';
+            level[3] = '!';
+            size = 4;
+            break;
+    default:
+            size = 0;
+            break;
+  }
+
+  for(k = 0; k < BIG_BLOCK_X_DIM*BIG_BLOCK_Y_DIM; k++)
+    canvas_buf[k] = old_flr[k];
+for(k = 0; k<size; k++){
+  for(i = 0; i < font_height; i++){
+    char b = font_data[level[k]][i];
+    for(j = 0; j<font_width; j++){
+      if(b<0)
+        canvas_buf[j+i*BIG_BLOCK_X_DIM + font_width*k] = palette_offset + old_flr[j+i*BIG_BLOCK_X_DIM + font_width*k]; // fill in with new color
+      b = b << 1;
+  }
+ }
+}
+  draw_big_block(play_x-5,play_y-25,canvas_buf); // display floor on text*/
+  /* 25 and 5 were used ass offsets to place the text safely above the robot*/
+
+}
   show_screen();
   draw_full_block(play_x, play_y, flr);
+  draw_big_block(play_x-5,play_y-25,old_flr);
+  /* 25 and 5 were used ass offsets to place the text safely above the robot*/
+
 }
 
 
@@ -570,6 +684,7 @@ static void *rtc_thread(void *arg)
 	// Loop over levels until a level is lost or quit.
 	for (level = 1; (level <= MAX_LEVEL) && (quit_flag == 0); level++)
 	{
+    ioctl(fd2,TUX_SET_LED,0x020F0000); // this hex number fits the format of time(decimal 2 on) while displaying all four LEDS at 0
     change_lev(level);
 		if (prepare_maze_level (level) != 0)
 			break;
@@ -603,6 +718,8 @@ static void *rtc_thread(void *arg)
 		// get first Periodic Interrupt
 		ret = read(fd, &data, sizeof(unsigned long));
     total = 0;
+    unsigned long sub1,sub2,sub3,sub4;
+    unsigned long initial = 0x040F0000;
 		while ((quit_flag == 0) && (goto_next_level == 0))
 		{
 			// Wait for Periodic Interrupt
@@ -614,11 +731,24 @@ static void *rtc_thread(void *arg)
 			ticks = data >> 8;
 
 			total += ticks;
-      if(total%16 == 0){
+      if(total%16 == 0){ // every half second, 32 hz clock
         second();
         draw_in_robot();
       }
-      update_total(total);
+
+      if(total%32 == 0){ //every second at 32 hz
+          sub1 = (total/32); // get num seconds(total/32)
+          sub2 = (sub1/10); // from seconds, get num of ten seconds, 10 secs
+          sub3 = (sub1/60); // get minutes from num seconds, 60 secs
+          sub4 = (sub3/10); // every 10 * 60 secs update biggest digit
+          ioctl(fd2,TUX_SET_LED,initial|sub1%10|((sub2%6)<<4)|((sub3%10)<<8)|((sub4%6) << 12));
+          // constant explanations:  subl%10 is for the first digit that is always between 0 and 9
+          //                         sub2%6 <<4 is for the second digit between 0 and 6, put into place for the correct ioctl format
+          //                         sub3%10<<8 is the third digit between 0 and 9 shifted into the correct place
+          //                         sub4%6<<12 is the fourth digit between 0 and 6 shifted into the correct place
+      }
+      update_total(total); // redraw status bar every time the time changes
+
 			// If the system is completely overwhelmed we better slow down:
 			if (ticks > 8) ticks = 8;
 
@@ -779,7 +909,7 @@ int main()
   ioctl(fd2, TIOCSETD, &ldsic_num);
 
   // send init signal to tux
-  ioctl(fd2,TUX_INIT);
+  ioctl(fd2,TUX_INIT,0);
 
 	// Save current terminal attributes for stdin.
     	if (tcgetattr (fileno (stdin), &tio_orig) != 0)

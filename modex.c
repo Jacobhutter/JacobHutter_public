@@ -79,6 +79,7 @@
 #define NUM_GRAPHICS_REGS       9
 #define NUM_ATTR_REGS          22
 
+
 /* VGA register settings for mode X */
 static unsigned short mode_X_seq[NUM_SEQUENCER_REGS] = {
     0x0100, 0x2101, 0x0F02, 0x0003, 0x0604
@@ -182,7 +183,6 @@ static unsigned char* mem_image;    /* pointer to start of video memory */
 static unsigned short target_img;   /* offset of displayed screen image */
 
 
-
 /* structure defined for status bar usage */
 typedef struct status_bar{
     int level;
@@ -217,6 +217,7 @@ void dec_fruit(){
   text_status(bar.level,bar.fruit_remaining,bar.total);
   return;
 }
+
 
 
 /*
@@ -550,8 +551,6 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
     );
 }
 
-
-
 /*
 * text_status
 * Description: write text to graphics using font data onto status bar
@@ -563,9 +562,9 @@ copy_image_s (unsigned char* img, unsigned short scr_addr)
 int text_status(int l, int f, int t){ // create text and color for status bar
   bar.level = l; // hold level
   int digit2;
-  if(l == 10){
-    l = 1;
-    digit2 = '0';
+  if(l == 10){ // max_level is 10
+    l = 1; // set level to 1
+    digit2 = '0'; // add the zero to form 10
   }
   else
     digit2 = 0;
@@ -583,7 +582,12 @@ int text_status(int l, int f, int t){ // create text and color for status bar
   * 70 - f, 82 - r, 85 - u, 73 - i, 84 - t, 83 - s
   * 58 - : , 48 - 0
   */
-  int level[] = {76,69,86,69,76,0,l + '0',digit2,0,0,0,f + '0',0,70,82,85,73,84,83,
+  unsigned char f_or_nah;
+  if(f == 1)
+    f_or_nah = 0;
+  else
+    f_or_nah = 'S'; // fruit vs fruits
+  int level[] = {76,69,86,69,76,0,l + '0',digit2,0,0,0,f + '0',0,70,82,85,73,84,f_or_nah,
   0,0,0,0,48 + ((t/600)%6),48 + ((t/60)%10),58,48 + ((t/10)%6),48 + (t%10)}; // ascii buffer
   // time arithmetic: 0th digit is total %10 for seconds, second is total /10 %6 to be within 1 to 6
   // the rest follow the same logic with increasing powers of ten
@@ -591,12 +595,12 @@ int text_status(int l, int f, int t){ // create text and color for status bar
        buf[i] = color1; // assign pixel index color
 
   for(k = 0; k < 28; k++){ // 28 is num of chars to write to text bar
-    for( i = 0; i < 16; i++){
+    for( i = 0; i < 16; i++){ // 16 is the height of the text char
       char x = font_data[level[k]][i]; // get 8 bit signed char
-      for(j = 0; j<8; j++){
+      for(j = 0; j<8; j++){ // 8 is the width of the text char
         if(x < 0)
           buf[8+(j%4)*s_plane + (j>=4)+ ((1+i)*(cols/4))+(k*2)] = color2; // assign secondary to correct shape
-          // 8 is to offsett from left side, /4 and %4 is for planes, second half is row major order 
+          // 8 is to offsett from left side, /4 and %4 is for planes, second half is row major order
         x = (x << 1); // shift byte
       }
     }
@@ -743,6 +747,67 @@ draw_full_block (int pos_x, int pos_y, unsigned char* blk)
     }
 }
 
+/*
+* draw_big_block
+* description: draws a block defined by size of big_block x * y
+* inputs: postion and memory to write from
+* side effects: none
+*/
+void
+draw_big_block (int pos_x, int pos_y, unsigned char* blk)
+{
+    int dx, dy;          /* loop indices for x and y traversal of block */
+    int x_left, x_right; /* clipping limits in horizontal dimension     */
+    int y_top, y_bottom; /* clipping limits in vertical dimension       */
+
+    /* If block is completely off-screen, we do nothing. */
+    if (pos_x + BIG_BLOCK_X_DIM <= show_x || pos_x >= show_x + SCROLL_X_DIM ||
+        pos_y + BIG_BLOCK_Y_DIM <= show_y || pos_y >= show_y + SCROLL_Y_DIM)
+	return;
+
+    /* Clip any pixels falling off the left side of screen. */
+    if ((x_left = show_x - pos_x) < 0)
+        x_left = 0;
+    /* Clip any pixels falling off the right side of screen. */
+    if ((x_right = show_x + SCROLL_X_DIM - pos_x) > BIG_BLOCK_X_DIM)
+        x_right = BIG_BLOCK_X_DIM;
+    /* Skip the first x_left pixels in both screen position and block data. */
+    pos_x += x_left;
+    blk += x_left;
+    /*
+     * Adjust x_right to hold the number of pixels to be drawn, and x_left
+     * to hold the amount to skip between rows in the block, which is the
+     * sum of the original left clip and (BIG_BLOCK_X_DIM - the original right
+     * clip).
+     */
+    x_right -= x_left;
+    x_left = BIG_BLOCK_X_DIM - x_right;
+
+    /* Clip any pixels falling off the top of the screen. */
+    if ((y_top = show_y - pos_y) < 0)
+        y_top = 0;
+    /* Clip any pixels falling off the bottom of the screen. */
+    if ((y_bottom = show_y + SCROLL_Y_DIM - pos_y) > BIG_BLOCK_Y_DIM)
+        y_bottom = BIG_BLOCK_Y_DIM;
+    /*
+     * Skip the first y_left pixel in screen position and the first
+     * y_left rows of pixels in the block data.
+     */
+    pos_y += y_top;
+    blk += y_top * BIG_BLOCK_X_DIM;
+    /* Adjust y_bottom to hold the number of pixel rows to be drawn. */
+    y_bottom -= y_top;
+
+    /* Draw the clipped image. */
+    for (dy = 0; dy < y_bottom; dy++, pos_y++) {
+	for (dx = 0; dx < x_right; dx++, pos_x++, blk++)
+	    *(img3 + (pos_x >> 2) + pos_y * SCROLL_X_WIDTH +
+	      (3 - (pos_x & 3)) * SCROLL_SIZE) = *blk; // clean_full_block(blk,dx,dy);
+	pos_x -= x_right;
+	blk += x_left;
+    }
+}
+
 
 /*
 * save_block
@@ -794,6 +859,67 @@ save_block (int pos_x, int pos_y, unsigned char* blk)
      */
     pos_y += y_top;
     blk += y_top * BLOCK_X_DIM;
+    /* Adjust y_bottom to hold the number of pixel rows to be drawn. */
+    y_bottom -= y_top;
+
+    /* save the clipped image. */
+    for (dy = 0; dy < y_bottom; dy++, pos_y++) {
+	for (dx = 0; dx < x_right; dx++, pos_x++, blk++)
+	     *blk =  *(img3 + (pos_x >> 2) + pos_y * SCROLL_X_WIDTH +
+ 	      (3 - (pos_x & 3)) * SCROLL_SIZE); // take image from buffer and grab it
+	pos_x -= x_right;
+	blk += x_left;
+    }
+}
+
+/*
+* save_big_block
+* description: saves a block defined by size of big_block x * y
+* inputs: postion and memory to save to
+* side effects: none
+*/
+void
+save_big_block (int pos_x, int pos_y, unsigned char* blk)
+{
+    int dx, dy;          /* loop indices for x and y traversal of block */
+    int x_left, x_right; /* clipping limits in horizontal dimension     */
+    int y_top, y_bottom; /* clipping limits in vertical dimension       */
+
+    /* If block is completely off-screen, we do nothing. */
+    if (pos_x + BIG_BLOCK_X_DIM <= show_x || pos_x >= show_x + SCROLL_X_DIM ||
+        pos_y + BIG_BLOCK_Y_DIM <= show_y || pos_y >= show_y + SCROLL_Y_DIM)
+	return;
+
+    /* Clip any pixels falling off the left side of screen. */
+    if ((x_left = show_x - pos_x) < 0)
+        x_left = 0;
+    /* Clip any pixels falling off the right side of screen. */
+    if ((x_right = show_x + SCROLL_X_DIM - pos_x) > BIG_BLOCK_X_DIM)
+        x_right = BIG_BLOCK_X_DIM;
+    /* Skip the first x_left pixels in both screen position and block data. */
+    pos_x += x_left;
+    blk += x_left;
+    /*
+     * Adjust x_right to hold the number of pixels to be drawn, and x_left
+     * to hold the amount to skip between rows in the block, which is the
+     * sum of the original left clip and (BLOCK_X_DIM - the original right
+     * clip).
+     */
+    x_right -= x_left;
+    x_left = BIG_BLOCK_X_DIM - x_right;
+
+    /* Clip any pixels falling off the top of the screen. */
+    if ((y_top = show_y - pos_y) < 0)
+        y_top = 0;
+    /* Clip any pixels falling off the bottom of the screen. */
+    if ((y_bottom = show_y + SCROLL_Y_DIM - pos_y) > BIG_BLOCK_Y_DIM)
+        y_bottom = BIG_BLOCK_Y_DIM;
+    /*
+     * Skip the first y_left pixel in screen position and the first
+     * y_left rows of pixels in the block data.
+     */
+    pos_y += y_top;
+    blk += y_top * BIG_BLOCK_X_DIM;
     /* Adjust y_bottom to hold the number of pixel rows to be drawn. */
     y_bottom -= y_top;
 

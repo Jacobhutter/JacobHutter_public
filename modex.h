@@ -57,7 +57,7 @@
 #define SCROLL_X_WIDTH  (IMAGE_X_DIM / 4)          /* addresses (bytes)     */
 #define SCROLL_Y_WIDTH  (IMAGE_Y_DIM / 4)         // added
 #define s_plane 1440  // one plane size
-#define status_height 18 // 16 + 2 from text.c 
+#define status_height 18 // 16 + 2 from text.c
 /*
  * NOTES
  *
@@ -115,6 +115,8 @@ extern int set_mode_X (void (*horiz_fill_fn)
 		       void (*vert_fill_fn)
 		            (int, int, unsigned char[SCROLL_Y_DIM]));
 
+extern void draw_big_block(int pos_x, int pos_y, unsigned char* blk);
+extern void save_big_block(int pos_x, int pos_y, unsigned char* blk);
 /* return to text mode */
 extern void clear_mode_X ();
 

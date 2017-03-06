@@ -45,6 +45,7 @@
 #include "input.h"
 #include "maze.h"
 #include "modex.h"
+#include "text.h"
 
 
 
@@ -95,8 +96,123 @@ static int exit_x, exit_y;    /* lattice point of maze exit   */
  */
 #define MAZE_INDEX(a,b) ((a) + ((b) + 1) * maze_x_dim * 2)
 
+/* macro used to write a byte to a port */
+#define OUTB(port,val)                                                  \
+do {                                                                    \
+    asm volatile ("                                                     \
+        outb %b1,(%w0)                                                  \
+    " : /* no outputs */                                                \
+      : "d" ((port)), "a" ((val))                                       \
+      : "memory", "cc");                                                \
+} while (0)
+// macro used to repeatedly export to port
+#define REP_OUTSB(port,source,count)                                    \
+do {                                                                    \
+    asm volatile ("                                                     \
+     1: movb 0(%1),%%al                                                ;\
+	outb %%al,(%w2)                                                ;\
+	incl %1                                                        ;\
+	decl %0                                                        ;\
+	jne 1b                                                          \
+    " : /* no outputs */                                                \
+      : "c" ((count)), "S" ((source)), "d" ((port))                     \
+      : "eax", "memory", "cc");                                         \
+} while (0)
 
 
+
+
+/*
+ * fill_palette_plus
+ *   DESCRIPTION: creates new palette with extended transparent colors
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: changes the color palette but should not affect any of the original colors
+ */
+void
+fill_palette_plus ()
+{
+  int i;
+    /* 6-bit RGB (red, green, blue) values for first 64 colors */
+    static unsigned char palette_RGB[128][3] = {
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x2A},   /* palette 0x00 - 0x0F    */
+    {0x00, 0x2A, 0x00}, {0x00, 0x2A, 0x2A},   /* basic VGA colors       */
+    {0x2A, 0x00, 0x00}, {0x2A, 0x00, 0x2A},
+    {0x2A, 0x15, 0x00}, {0x2A, 0x2A, 0x2A},
+    {0x15, 0x15, 0x15}, {0x15, 0x15, 0x3F},
+    {0x15, 0x3F, 0x15}, {0x15, 0x3F, 0x3F},
+    {0x3F, 0x15, 0x15}, {0x3F, 0x15, 0x3F},
+    {0x3F, 0x3F, 0x15}, {0x3F, 0x3F, 0x3F},
+    {0x00, 0x00, 0x00}, {0x05, 0x05, 0x05},   /* palette 0x10 - 0x1F    */
+    {0x08, 0x08, 0x08}, {0x0B, 0x0B, 0x0B},   /* VGA grey scale         */
+    {0x0E, 0x0E, 0x0E}, {0x11, 0x11, 0x11},
+    {0x14, 0x14, 0x14}, {0x18, 0x18, 0x18},
+    {0x1C, 0x1C, 0x1C}, {0x20, 0x20, 0x20},
+    {0x24, 0x24, 0x24}, {0x28, 0x28, 0x28},
+    {0x2D, 0x2D, 0x2D}, {0x32, 0x32, 0x32},
+    {0x38, 0x38, 0x38}, {0x3F, 0x3F, 0x3F},
+    {0x3F, 0x3F, 0x3F}, {0x3F, 0x3F, 0x3F},   /* palette 0x20 - 0x2F    */
+    {0x00, 0x00, 0x3F}, {0x00, 0x00, 0x00},   /* wa	ll and player colors */
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x10, 0x08, 0x00}, {0x18, 0x0C, 0x00},   /* palette 0x30 - 0x3F    */
+    {0x20, 0x10, 0x00}, {0x28, 0x14, 0x00},   /* browns for maze floor  */
+    {0x30, 0x18, 0x00}, {0x38, 0x1C, 0x00},
+    {0x3F, 0x20, 0x00}, {0x3F, 0x20, 0x10},
+    {0x20, 0x18, 0x10}, {0x28, 0x1C, 0x10},
+    {0x3F, 0x20, 0x10}, {0x38, 0x24, 0x10},
+    {0x3F, 0x28, 0x10}, {0x3F, 0x2C, 0x10},
+    {0x3F, 0x30, 0x10}, {0x3F, 0x20, 0x10},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x2A},   /* palette 0x00 - 0x0F    */
+    {0x00, 0x2A, 0x00}, {0x00, 0x2A, 0x2A},   /* basic VGA colors       */
+    {0x2A, 0x00, 0x00}, {0x2A, 0x00, 0x2A},
+    {0x2A, 0x15, 0x00}, {0x2A, 0x2A, 0x2A},
+    {0x15, 0x15, 0x15}, {0x15, 0x15, 0x3F},
+    {0x15, 0x3F, 0x15}, {0x15, 0x3F, 0x3F},
+    {0x3F, 0x15, 0x15}, {0x3F, 0x15, 0x3F},
+    {0x3F, 0x3F, 0x15}, {0x3F, 0x3F, 0x3F},
+    {0x00, 0x00, 0x00}, {0x05, 0x05, 0x05},   /* palette 0x10 - 0x1F    */
+    {0x08, 0x08, 0x08}, {0x0B, 0x0B, 0x0B},   /* VGA grey scale         */
+    {0x0E, 0x0E, 0x0E}, {0x11, 0x11, 0x11},
+    {0x14, 0x14, 0x14}, {0x18, 0x18, 0x18},
+    {0x1C, 0x1C, 0x1C}, {0x20, 0x20, 0x20},
+    {0x24, 0x24, 0x24}, {0x28, 0x28, 0x28},
+    {0x2D, 0x2D, 0x2D}, {0x32, 0x32, 0x32},
+    {0x38, 0x38, 0x38}, {0x3F, 0x3F, 0x3F},
+    {0x3F, 0x3F, 0x3F}, {0x3F, 0x3F, 0x3F},   /* palette 0x20 - 0x2F    */
+    {0x00, 0x00, 0x3F}, {0x00, 0x00, 0x00},   /* wa	ll and player colors */
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x00, 0x00, 0x00}, {0x00, 0x00, 0x00},
+    {0x10, 0x08, 0x00}, {0x18, 0x0C, 0x00},   /* palette 0x30 - 0x3F    */
+    {0x20, 0x10, 0x00}, {0x28, 0x14, 0x00},   /* browns for maze floor  */
+    {0x30, 0x18, 0x00}, {0x38, 0x1C, 0x00},
+    {0x3F, 0x20, 0x00}, {0x3F, 0x20, 0x10},
+    {0x20, 0x18, 0x10}, {0x28, 0x1C, 0x10},
+    {0x3F, 0x20, 0x10}, {0x38, 0x24, 0x10},
+    {0x3F, 0x28, 0x10}, {0x3F, 0x2C, 0x10},
+    {0x3F, 0x30, 0x10}, {0x3F, 0x20, 0x10}
+    };
+
+    for(i = 0; i < 64; i++){ // calculate transparent text
+      palette_RGB[i+64][0] = palette_RGB[i][0]*.5 + 0x3F*.5;
+      palette_RGB[i+64][1] = palette_RGB[i][1]*.5 + 0x3F*.5;
+      palette_RGB[i+64][2] = palette_RGB[i][2]*.5 + 0x3F*.5;
+    }
+    /* Start writing at color 0. */
+    OUTB (0x03C8, 0x00);
+
+    /* Write all 128 colors from array. */
+    REP_OUTSB (0x03C9, palette_RGB, 128 * 3);
+}
 /*
  * mark_maze_area
  *   DESCRIPTION: Uses a breadth-first search to marks all parts of the
@@ -446,21 +562,38 @@ make_maze (int x_dim, int y_dim, int start_fruits)
 
 #define WHITE 0x20
 #define BLUE  0x22
+// structure to take care of wall color functions
 typedef struct{
   unsigned char hijacked[BLOCK_X_DIM*BLOCK_Y_DIM];
   int lev;
 }hijacked_t;
 hijacked_t h;
 
+/*
+ * change_lev
+ *   DESCRIPTION: decreases level in the scope of our struct
+ *   INPUTS: n, level number
+ *   OUTPUTS: none
+ *   RETURN VALUE:NONE
+ *   SIDE EFFECTS:
+ */
 void change_lev(int n){
   h.lev = n;
 }
 
+/*
+ * hijack_return
+ *   DESCRIPTION: takes what should be the wall color and changes it based on level
+ *   INPUTS: would be return value to change
+ *   OUTPUTS: none
+ *   RETURN VALUE: modified char pointer
+ *   SIDE EFFECTS: changes wall color
+ */
 unsigned char * hijack_return(unsigned char * arg){
   int i;
   for(i = 0; i < BLOCK_Y_DIM * BLOCK_X_DIM; i++){
       if(arg[i] == BLUE)
-        h.hijacked[i] = h.lev + 2;
+        h.hijacked[i] = h.lev + 2; // 2 is an arbitrary constant to make color different than text bar
       else
         h.hijacked[i] = arg[i];
   }
@@ -660,6 +793,41 @@ unveil_space (int x, int y)
 }
 
 
+
+
+int timer = 0; // timer is how long text will be on screen
+int frt; // frt is the fruitnum global
+
+/*
+ * ret_timer
+ *   DESCRIPTION: returns global timer variable to check for > 0
+ *   INPUTS: NONE
+ *   OUTPUTS: int timer val
+ *   RETURN VALUE: int timer val
+ */
+int ret_timer(){
+  return timer;
+}
+/*
+ * ret_frt
+ *   DESCRIPTION: returns global fruit variable to check for fruit number
+ *   INPUTS: NONE
+ *   OUTPUTS: int timer val
+ *   RETURN VALUE: int timer val
+ */
+int ret_frt(){
+  return frt;
+}
+/*
+ * dec_timer
+ *   DESCRIPTION: decreases the timer until 0
+ *   INPUTS: NONE
+ *   OUTPUTS: NONE
+ *   RETURN VALUE: NONE
+ */
+void dec_timer(){
+  timer--;
+}
 /*
  * check_for_fruit
  *   DESCRIPTION: Checks a maze lattice point for fruit, eats the fruit if
@@ -671,6 +839,7 @@ unveil_space (int x, int y)
  *   SIDE EFFECTS: may draw to the screen (empty fruit and, once last fruit
  *                 is eaten, the maze exit)
  */
+
 int
 check_for_fruit (int x, int y)
 {
@@ -682,6 +851,8 @@ check_for_fruit (int x, int y)
 
     /* Calculate the fruit number. */
     fnum = (maze[MAZE_INDEX (x, y)] & MAZE_FRUIT) / MAZE_FRUIT_1;
+  //  unsigned char flr[BIG_BLOCK_X_DIM*BIG_BLOCK_Y_DIM];
+
 
     /* If fruit was present... */
     if (fnum != 0) {
@@ -691,6 +862,8 @@ check_for_fruit (int x, int y)
 	/* Update the count of fruits. */
 	--n_fruits;
   dec_fruit();
+  timer = 300; // set globals, 300 is an arbitrary constant for length of time on screen for text
+  frt = fnum;
 	/* The exit may appear. */
 	if (n_fruits == 0)
 	    draw_full_block (exit_x * BLOCK_X_DIM, exit_y * BLOCK_Y_DIM,

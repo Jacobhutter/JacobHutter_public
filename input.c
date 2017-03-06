@@ -51,6 +51,7 @@
 #include "assert.h"
 #include "input.h"
 #include "maze.h"
+#include "module/tuxctl-ioctl.h"
 
 
 /* set to 1 and compile this file by itself to test functionality */
@@ -113,9 +114,11 @@ init_input ()
 	return -1;
     }
 
+    /* initialize tux controller */
     fd = open("/dev/ttyS0", O_RDWR | O_NOCTTY);
     int ldsic_num = N_MOUSE;
     ioctl(fd, TIOCSETD, &ldsic_num);
+    ioctl(fd,TUX_INIT,0);
 
     /* Return success. */
     return 0;
@@ -135,7 +138,7 @@ init_input ()
  */
 cmd_t
 get_command (dir_t cur_dir)
-{
+{   volatile int arg = 0;
     static dir_t prev_cur = DIR_STOP; /* previous direction sent  */
     static dir_t pushed = DIR_STOP;   /* last direction pushed    */
 #if (USE_TUX_CONTROLLER == 0) /* use keyboard control with arrow keys */
@@ -143,8 +146,28 @@ get_command (dir_t cur_dir)
 #endif
     cmd_t command;
     int ch;
-
-    /*
+    ioctl(fd,TUX_BUTTONS,&arg);
+    if(arg == 64){
+      printf("LEFT \n");
+      while(arg != 0)
+        ioctl(fd,TUX_BUTTONS,&arg);
+    }
+    if(arg == 16){
+      printf("UP \n");
+      while(arg != 0)
+        ioctl(fd,TUX_BUTTONS,&arg);
+    }
+    if(arg == 128){
+      printf("RIGHT \n");
+      while(arg != 0)
+        ioctl(fd,TUX_BUTTONS,&arg);
+    }
+    if(arg == 32){
+      printf("DOWN \n");
+      while(arg != 0)
+        ioctl(fd,TUX_BUTTONS,&arg);
+    }
+      /*
      * If the direction of motion has changed, forget the last
      * direction pushed.  Otherwise, it remains active.
      */
@@ -159,6 +182,17 @@ get_command (dir_t cur_dir)
 	/* Backquote is used to quit the game. */
 	if (ch == '`')
 	    return CMD_QUIT;
+#if (USE_TUX_CONTROLLER == 1)
+  if(arg == 64)
+    printf("LEFT");
+  else if(arg == 16)
+    printf("UP");
+  else if(arg == 128)
+    printf("RIGHT");
+  else if(arg == 32)
+    printf("DOWN");
+
+#endif
 
 #if (USE_TUX_CONTROLLER == 0) /* use keyboard control with arrow keys */
 	/*
@@ -247,7 +281,7 @@ main ()
 	perror ("ioperm");
 	return 3;
     }
-
+    printf("enter init input");
     init_input ();
     while (1) {
 	printf ("CURRENT DIRECTION IS %s\n", dir_names[dir]);

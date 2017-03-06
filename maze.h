@@ -70,8 +70,10 @@ typedef enum {
 } maze_bit_t;
 
 
-
-
+extern int ret_frt();
+extern int ret_timer();
+extern void dec_timer();
+extern void fill_palette_plus ();
 extern unsigned char * hijack_return(unsigned char * arg);
 extern void change_lev(int n);
 

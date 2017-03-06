@@ -41,6 +41,8 @@
  */
 #define BLOCK_X_DIM 12
 #define BLOCK_Y_DIM 12
+#define BIG_BLOCK_X_DIM        96
+#define BIG_BLOCK_Y_DIM        24
 
 /*
  * CAUTION!  The directions below are listed clockwise to allow the use

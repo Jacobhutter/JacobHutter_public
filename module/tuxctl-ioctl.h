@@ -4,9 +4,6 @@
 #define TUXCTL_H
 
 
-int T_I(struct tty_struct* tty);
-int T_B(struct tty_struct* tty,unsigned long arg);
-int T_S_L(struct tty_struct* tty,unsigned long arg);
 
 #define TUX_SET_LED _IOR('E', 0x10, unsigned long)
 #define TUX_READ_LED _IOW('E', 0x11, unsigned long*)
