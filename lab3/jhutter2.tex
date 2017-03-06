@@ -42,7 +42,7 @@
 \maketitle
 
 \begin{figure}[H]
-\Report Item 1
+\ Report Item 1
 \lstinputlisting[language=Matlab]{myDFTConv.m}
 \includegraphics[scale = .5]{report1}
 \\ Because of the use of fft and ifft, the time coplexity is also $O(Nlog(N))$.
@@ -64,7 +64,9 @@ depends on past or current inputs.
 \ Report Item 3
 \lstinputlisting[language=Matlab]{sys2.m}
 \includegraphics[scale = .5]{report3}
-\\ With $a = 2$ and $x(n) = (1,0,0,....)$, or the delta function, we can see that the equation is not linear because of $x(n)^{2}$. The system is causal becasue of the fact that the finite difference equation output only depends on past or current inputs. Because the output graph is in the form of $e^x$ the equation is unnstable.
+\\ With $a = 2$ and $x(n) = (1,0,0,....)$, or the delta function, we can see that the equation is not linear because of $x(n)^{2}$. The system is causal because of the fact that the finite difference equation output only depends on past or current inputs. Because the output graph is in the form of $e^x$, the equation is unnstable.
+\end{figure}
+\begin{figure}[H]
 \includegraphics[scale = .5]{report3_2}
 \\ With $a = 0.5$, the equation is not linear,causal,and is stable because $\lim_{x_n\to\infty} y_n = 0$.
 \\ (can you find the output to either system by convolving x(n) with h(n)?)
@@ -97,11 +99,13 @@ depends on past or current inputs.
 \end{figure}
 
 \begin{figure}[H]
-\ $H(z) = z/{(z+e^{-i8\pi/10})(z+e^{i8\pi/10})}$
-\\ $ = z/{z^2 + ze^{-i8\pi/10} + ze^{i8\pi/10 + 1}}$
-\\ $ = z/(z^2+2zcos(4\pi/5 + 1))$
-\\ $ = z^{-1}/{1 + z^{-1}2cos(4\pi/5) + z^{-2}}$
+\ Report Item 6
+\ $H(z) = \frac{z}{{(z+e^{-i8\pi/10})(z+e^{i8\pi/10})}}$
+\\ $ = \frac{z}{z^2 + ze^{-i8\pi/10} + ze^{i8\pi/10} + 1}$
+\\ $ = \frac{z}{z^2+2zcos(4\pi/5) + 1}$
+\\ $ = \frac{z^{-1}}{1 + z^{-1}2cos(4\pi/5) + z^{-2}}$
 \\ $ a = [1,2cos(4\pi/5),1], b = [0,1,0]$
+\includegraphics[scale = .5]{report6}
 \end{figure}
 
 
