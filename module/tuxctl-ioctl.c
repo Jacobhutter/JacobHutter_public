@@ -75,10 +75,12 @@ void tuxctl_handle_packet (struct tty_struct* tty, unsigned char* packet)
 	unsigned char a;
 	unsigned char b;
 	unsigned char c;
-
-		if(tux.do_not_enter) // if busy processing previous request do not enter
+	a = packet[0]; /* Avoid printk() sign extending the 8-bit */
+		if(tux.do_not_enter){ // if busy processing previous request do not enter
+			if(a == MTCP_ACK)
+				tux.acknowledged--;
 		 	return;
-
+}
 
 
     a = packet[0]; /* Avoid printk() sign extending the 8-bit */
