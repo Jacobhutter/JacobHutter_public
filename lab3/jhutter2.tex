@@ -42,6 +42,7 @@
 \maketitle
 
 \begin{figure}[H]
+\Report Item 1
 \lstinputlisting[language=Matlab]{myDFTConv.m}
 \includegraphics[scale = .5]{report1}
 \\ Because of the use of fft and ifft, the time coplexity is also $O(Nlog(N))$.
@@ -50,6 +51,7 @@
 
 
 \begin{figure}[H]
+\Report Item 2
 \lstinputlisting[language=Matlab]{sys1.m}
 \includegraphics[scale = .5]{report2}
 \\ Notice that this function is in the order of $-e^x$ 
@@ -59,40 +61,47 @@ depends on past or current inputs.
 \end{figure}
 
 \begin{figure}[H]
+\Report Item 3
 \lstinputlisting[language=Matlab]{sys2.m}
 \includegraphics[scale = .5]{report3}
+\\ With $a = 2$ and $x(n) = (1,0,0,....)$, or the delta function, we can see that the equation is not linear because of $x(n)^{2}$. The system is causal becasue of the fact that the finite difference equation output only depends on past or current inputs. Because the output graph is in the form of $e^x$ the equation is unnstable.
+\includegraphics[scale = .5]{report3_2}
+\\ With $a = 0.5$, the equation is not linear,causal,and is stable because $\lim_{x_n\to\infty} y_n = 0$.
+\\ (can you find the output to either system by convolving x(n) with h(n)?)
 \end{figure}
 
 \begin{figure}[H]
+\Report Item 4
 \includegraphics[scale = .5]{report4_1}
-\ We can see on the interval from $\omega = 0 to \pi$, that there is only one point where the magnitude is not zero. Therefore, there is a spike at that point.
+\ We can see on the interval from $\omega$ = $0$ to $\pi$, that there is only one point where the magnitude is not zero. Therefore, there is a spike at that point.
 \includegraphics[scale = .5]{report4_2}
 \ We can see on the interval from $\omega = 0 to \pi $ that there is a minimum at $\omega = 0$ and a maximum at ~ $\omega = \pi/4$ so the graph is increasing until that point.
 \end{figure}
 
 \begin{figure}[H]
+\Report Item 5
 \lstinputlisting[language=Matlab]{pzplot_impz.m}
-\includegraphics[scale = .5]{report5_1} \
-\ With $a = [1,0,0,0,0,0,0]$ and $b =[2,0,5,4,0,0,-3]$
+\includegraphics[scale = .5]{report5_1}
+\\ With $a = [1,0,0,0,0,0,0]$ and $b =[2,0,5,4,0,0,-3]$
 \ There are no poles on the unit circle so the system is most likely stable.
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[scale = .5]{report5_2} \
-\ With $a = [1,0,0,0]$ and $b = [3,2,0,-3]$
+\includegraphics[scale = .5]{report5_2} 
+\\ With $a = [1,0,0,0]$ and $b = [3,2,0,-3]$
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[scale = .5]{report5_3} \
-\ With $a = [12,1,0,4,0,0,0,0]$ and $b =[0,0,0,1,0,0,1,-2]$
+\includegraphics[scale = .5]{report5_3}
+\\ With $a = [12,1,0,4,0,0,0,0]$ and $b =[0,0,0,1,0,0,1,-2]$
 \end{figure}
 
 \begin{figure}[H]
-\ $H(z) = z/{(z+e^{-i8\pi/10})(z+^{i8\pi/10})}$
-\\ $ = z/{z(z + e^{-i8\pi/10} + e^{i8\pi/10})}$
-\\ $ = 1/(z+2cos(4\pi/5))$
-\\ $ = (z^{-1})/(1 + z^{-1}2cos(4\pi/5))$
-\\ $ a = [1,2cos(4\pi/5)], b = [0,1]$
+\ $H(z) = z/{(z+e^{-i8\pi/10})(z+e^{i8\pi/10})}$
+\\ $ = z/{z^2 + ze^{-i8\pi/10} + ze^{i8\pi/10 + 1}}$
+\\ $ = z/(z^2+2zcos(4\pi/5 + 1))$
+\\ $ = z^{-1}/{1 + z^{-1}2cos(4\pi/5) + z^{-2}}$
+\\ $ a = [1,2cos(4\pi/5),1], b = [0,1,0]$
 \end{figure}
 
 
