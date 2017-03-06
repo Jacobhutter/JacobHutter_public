@@ -68,7 +68,7 @@ depends on past or current inputs.
 \end{figure}
 \begin{figure}[H]
 \includegraphics[scale = .5]{report3_2}
-\\ With $a = 0.5$, the equation is not linear,causal,and is stable because $\lim_{x_n\to\infty} y_n = 0$.
+\\ With $a = 0.5$, the equation is not linear, causal, and is stable because $\lim_{x_n\to\infty} y_n = 0$.
 \\ (can you find the output to either system by convolving x(n) with h(n)?)
 \end{figure}
 
@@ -85,27 +85,28 @@ depends on past or current inputs.
 \lstinputlisting[language=Matlab]{pzplot_impz.m}
 \includegraphics[scale = .5]{report5_1}
 \\ With $a = [1,0,0,0,0,0,0]$ and $b =[2,0,5,4,0,0,-3]$
-\ There are no poles on the unit circle so the system is most likely stable.
+\ There are no poles on the unit circle so the system is stable.
 \end{figure}
 
 \begin{figure}[H]
 \includegraphics[scale = .5]{report5_2}
-\\ With $a = [1,0,0,0]$ and $b = [3,2,0,-3]$
+\\ With $a = [1,0,0,0]$ and $b = [3,2,0,-3]$, there are no poles outside the unit circle. Therefore, the system is stable.
 \end{figure}
 
 \begin{figure}[H]
 \includegraphics[scale = .5]{report5_3}
-\\ With $a = [12,1,0,4,0,0,0,0]$ and $b =[0,0,0,1,0,0,1,-2]$
+\\ With $a = [12,1,0,4,0,0,0,0]$ and $b =[0,0,0,1,0,0,1,-2]$, there are no poles outside the unit circle. Therefore, the system is stable.
 \end{figure}
 
 \begin{figure}[H]
 \ Report Item 6
-\ $H(z) = \frac{z}{{(z+e^{-i8\pi/10})(z+e^{i8\pi/10})}}$
-\\ $ = \frac{z}{z^2 + ze^{-i8\pi/10} + ze^{i8\pi/10} + 1}$
+\\ $H(z) = \frac{z}{{(z+e^{\frac{-i8\pi}{10}})(z+e^{\frac{i8\pi}{10}})}}$
+\\ $ = \frac{z}{z^2 + ze^{\frac{-i8\pi}{10}} + ze^{\frac{i8\pi}{10}} + 1}$
 \\ $ = \frac{z}{z^2+2zcos(4\pi/5) + 1}$
 \\ $ = \frac{z^{-1}}{1 + z^{-1}2cos(4\pi/5) + z^{-2}}$
 \\ $ a = [1,2cos(4\pi/5),1], b = [0,1,0]$
 \includegraphics[scale = .5]{report6}
+\\ The system is not BIBO stable, if we have a bounded input $z = -e^{\frac{+-i8\pi}{10}}$ then the output approaches infinity so the system is not BIBO stable. The system is stable when $|z| > e^{\frac{i8\pi}{10}}$ and unstable when $|z|\leqe^{\frac{i8\pi}{10}}$.
 \end{figure}
 
 
