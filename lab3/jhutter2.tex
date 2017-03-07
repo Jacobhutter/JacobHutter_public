@@ -106,7 +106,7 @@ depends on past or current inputs.
 \\ $ = \frac{z^{-1}}{1 + z^{-1}2cos(4\pi/5) + z^{-2}}$
 \\ $ a = [1,2cos(4\pi/5),1], b = [0,1,0]$
 \includegraphics[scale = .5]{report6}
-\\ The system is not BIBO stable, we have two poles on the unit circle.  The system is stable when $|z| < e^{\frac{\pm i8\pi}{10}}$ and unstable when $|z| =  - e^{\frac{\pm i8\pi}{10}}$.
+\\ The system is not BIBO stable, we have two poles on the unit circle.  The system is stable when $x[n]$ does not have poles that overlap with our poles from $h[n]$. The sysem is unstable when $|z| =  - e^{\frac{\pm i8\pi}{10}}$ or whenever $x[n]$ has poles that overlap with the poles from $h[n]$.
 \end{figure}
 
 
