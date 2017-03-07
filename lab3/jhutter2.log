@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.12)  7 MAR 2017 08:33
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.12)  7 MAR 2017 08:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -276,7 +276,7 @@ _1.png> <./report4_2.png>] [7 <./report5_1.jpg>] [8 <./report5_2.jpg> <./report
 Here is how much of TeX's memory you used:
  3424 strings out of 495063
  47863 string characters out of 3182201
- 360560 words of memory out of 3000000
+ 359560 words of memory out of 3000000
  6570 multiletter control sequences out of 15000+200000
  6675 words of font info for 24 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
