@@ -55,7 +55,7 @@
 \lstinputlisting[language=Matlab]{sys1.m}
 \includegraphics[scale = .5]{report2}
 \\ Notice that this function is in the order of a negative exponential, 
-therefore, it is not stable $\lim_{N\to\infty} y_n = -\infty$.
+therefore, it is not stable $\lim_{N\to\infty} y_n = -\infty$. Because the system is LSI, we can also say that the sum of $|h[n]|$ over all integers N does not converge to a finite sum.
 The system is causal, however, by the finite difference equation, output only 
 depends on past or current inputs.
 \end{figure}
@@ -104,7 +104,7 @@ depends on past or current inputs.
 \\ $ = \frac{z}{z^2 + ze^{\frac{-i8\pi}{10}} + ze^{\frac{i8\pi}{10}} + 1}$
 \\ $ = \frac{z}{z^2+2zcos(4\pi/5) + 1}$
 \\ $ = \frac{z^{-1}}{1 + z^{-1}2cos(4\pi/5) + z^{-2}}$
-\\ $ a = [1,2cos(4\pi/5),1], b = [0,1,0]$
+\\ $ a = [1,2cos(4\pi/5),1], b = [0,1,0], N = 35$
 \includegraphics[scale = .5]{report6}
 \\ The system is not BIBO stable, we have two poles on the unit circle.  The system is stable when $x[n]$ does not have poles that overlap with our poles from $h[n]$. The sysem is unstable when $|z| =  - e^{\frac{\pm i8\pi}{10}}$ or whenever $x[n]$ has poles that overlap with the poles from $h[n]$.
 \end{figure}
