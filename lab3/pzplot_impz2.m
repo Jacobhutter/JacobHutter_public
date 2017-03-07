@@ -4,9 +4,7 @@ N = 35;
 
 figure;
 subplot(121);
-
 pzplot(S);
-grid on;
 subplot(122);
 impz(b,a,N);
 

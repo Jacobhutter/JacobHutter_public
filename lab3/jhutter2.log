@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.12)  7 MAR 2017 09:30
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.12)  7 MAR 2017 09:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -269,7 +269,7 @@ _1.png> <./report4_2.png>] [7 <./report5_1.jpg>] [8 <./report5_2.jpg> <./report
 Here is how much of TeX's memory you used:
  3428 strings out of 495063
  47922 string characters out of 3182201
- 385868 words of memory out of 3000000
+ 383868 words of memory out of 3000000
  6571 multiletter control sequences out of 15000+200000
  6675 words of font info for 24 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -287,7 +287,7 @@ ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
 ic/amsfonts/cm/cmsy8.pfb>
-Output written on jhutter2.pdf (9 pages, 365763 bytes).
+Output written on jhutter2.pdf (9 pages, 365657 bytes).
 PDF statistics:
  99 PDF objects out of 1000 (max. 8388607)
  62 compressed objects within 1 object stream
