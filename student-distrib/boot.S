@@ -27,6 +27,20 @@ _start:
 continue:
 	# Load the GDT here
     lgdt gdt_desc_ptr
+	# load idt
+		lidt idt_desc_ptr
+
+		# caller save regs
+		pushl %eax
+		pushl %ecx
+    pushl %edx
+
+		call build_idt
+
+		popl %edx
+		popl %ecx # caller save regs
+		popl %eax
+
 
 	# Load CS with the new descriptor value
 	ljmp    $KERNEL_CS, $keep_going
@@ -56,4 +70,3 @@ keep_going:
 halt:
 	hlt
 	jmp     halt
-
