@@ -12,9 +12,10 @@
 	.long MULTIBOOT_HEADER_MAGIC
 	.long MULTIBOOT_HEADER_FLAGS
 	.long -(MULTIBOOT_HEADER_MAGIC+MULTIBOOT_HEADER_FLAGS)
-
-# Entrypoint to the kernel
+    # Entrypoint to the kernel
 .globl  start, _start
+
+
 
 .align 4
 start:
@@ -24,7 +25,8 @@ _start:
 	jmp     continue
 
 continue:
-	# Load the GDT
+	# Load the GDT here
+    lgdt gdt_desc_ptr
 
 	# Load CS with the new descriptor value
 	ljmp    $KERNEL_CS, $keep_going
