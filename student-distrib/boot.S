@@ -28,7 +28,7 @@ continue:
 	# Load the GDT here
     lgdt gdt_desc_ptr
 	# load idt
-		lidt idt_desc_ptr
+
 
 		# caller save regs
 		pushl %eax
@@ -41,6 +41,7 @@ continue:
 		popl %ecx # caller save regs
 		popl %eax
 
+		lidt idt_desc_ptr
 
 	# Load CS with the new descriptor value
 	ljmp    $KERNEL_CS, $keep_going
