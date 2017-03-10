@@ -1,14 +1,15 @@
 #ifndef _INTERRUPT_TABLE_H
 #define _INTERRUPT_TABLE_H // double inclusion guards
+#include "interrupt_handler.h"
 #define SYS_CALL 0x80
 #define EXCEPTION_LIMIT 32
 #define REAL_TIME_CLOCK 0x28
 #define KBD 0x21
-#define SEQ_INTERRUPTS 18
+#define SEQ_INTERRUPTS 19
 
 extern void build_idt();
 
-extern void (*interrupt_jt[SEQ_INTERRUPTS]) () = {
+static void (*interrupt_jt[SEQ_INTERRUPTS+3]) () = { // three extra non sequential interrupts
 	DIVIDE_ERROR,
 	RESERVED,
 	NMI_INTERRUPT,
@@ -27,7 +28,10 @@ extern void (*interrupt_jt[SEQ_INTERRUPTS]) () = {
 	FLOATING_POINT_ERROR,
 	ALIGNMENT_CHECK,
 	MACHINE_CHECK,
-	FLOATING_POINT_EXCEPTION
-}
+	FLOATING_POINT_EXCEPTION,
+	RTC,
+	KEYBOARD,
+	SYSTEM_CALL
+};
 
 #endif /* _INTERRUPT_TABLE_H */

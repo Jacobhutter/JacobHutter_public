@@ -1,6 +1,6 @@
 //
 //  interrupt_handler.h
-//  
+//
 //
 //  Created by Cameron Long on 3/9/17.
 //
@@ -17,7 +17,7 @@ extern void OVERFLOW();
 extern void BOUND_RANGE_EXCEEDED();
 extern void INVALID_OPCODE();
 extern void DEVICE_NOT_AVAILABLE();
-extern void DOUBLE_FALUT();
+extern void DOUBLE_FAULT();
 extern void COPROCESSOR_SEGMENT_OVERRUN();
 extern void INVALID_TSS();
 extern void SEGMENT_NOT_PRESENT();
@@ -28,5 +28,7 @@ extern void FLOATING_POINT_ERROR();
 extern void ALIGNMENT_CHECK();
 extern void MACHINE_CHECK();
 extern void FLOATING_POINT_EXCEPTION();
-
+extern void RTC();
+extern void KEYBOARD();
+extern void SYSTEM_CALL();
 #endif /* interrupt_handler_h */
