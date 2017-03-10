@@ -1,18 +1,18 @@
 /* Consult x86 ISA manual */
 /* Appendix D */
+#include "lib.h"
 
 #include "interrupt_handler.h"
 
 void DIVIDE_ERROR() {
     printf("DIVIDE_ERROR");
-    while(1) {
-    }
+    while(1);
 }
 
-void RSERVED() {
+void RESERVED() {
     printf("RESERVED");
-    while (1) {
-    }
+    while (1);
+
 }
 
 void NMI_INTERRUPT() {
@@ -51,7 +51,7 @@ void DEVICE_NOT_AVAILABLE() {
     }
 }
 
-void DOUBLE_FALUT() {
+void DOUBLE_FAULT() {
     printf("DOUBLE_FAULT");
     while (1) {
     }
@@ -79,21 +79,21 @@ void STACK_SEGMENT_FAULT() {
     printf("STACK_SEGMENT_FAULT");
     while (1) {
     }
-    
+
 }
 
 void GENERAL_PROTECTION() {
     printf("GENERAL_PROTECTION");
     while (1) {
     }
-    
+
 }
 
 void PAGE_FAULT() {
     printf("PAGE_FAULT");
     while(1) {
     }
-    
+
 }
 
 void FLOATING_POINT_ERROR() {
@@ -121,13 +121,19 @@ void FLOATING_POINT_EXCEPTION() {
 }
 
 void RTC() {
-    
+  printf("RTC\n");
+  while(1);
+
 }
 
 void KEYBOARD() {
-    
+  printf("KEYBOARD\n");
+  while(1);
+
 }
 
 void SYSTEM_CALL() {
-    
+  printf("SYSTEM CALL\n");
+  while(1);
+
 }
