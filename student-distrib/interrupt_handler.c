@@ -1,7 +1,9 @@
 /* Consult x86 ISA manual */
 /* Appendix D */
 #include "lib.h"
+
 #include "interrupt_handler.h"
+
 void DIVIDE_ERROR() {
     printf("DIVIDE_ERROR");
     while(1);
@@ -127,6 +129,7 @@ void RTC() {
 void KEYBOARD() {
   printf("KEYBOARD\n");
   while(1);
+
 }
 
 void SYSTEM_CALL() {
