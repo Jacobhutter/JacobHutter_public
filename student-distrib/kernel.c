@@ -20,6 +20,7 @@ void
 entry (unsigned long magic, unsigned long addr)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	multiboot_info_t *mbi;
 
 	/* Clear the screen. */
@@ -169,6 +170,8 @@ entry (unsigned long magic, unsigned long addr)
 	/* Spin (nicely, so we don't chew up cycles) */
 	asm volatile(".1: hlt; jmp .1;");
 =======
+=======
+>>>>>>> da5e7b720f9b3170d50f6919028f61e492a5567e
     multiboot_info_t *mbi;
     
     /* Clear the screen. */
@@ -317,5 +320,8 @@ entry (unsigned long magic, unsigned long addr)
     
     /* Spin (nicely, so we don't chew up cycles) */
     asm volatile(".1: hlt; jmp .1;");
+<<<<<<< HEAD
+>>>>>>> da5e7b720f9b3170d50f6919028f61e492a5567e
+=======
 >>>>>>> da5e7b720f9b3170d50f6919028f61e492a5567e
 }
