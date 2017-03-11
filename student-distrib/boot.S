@@ -21,15 +21,13 @@
 start:
 _start:
 	# Make sure interrupts are off
-	cli
+	#cli
 	jmp     continue
 
 continue:
 	# Load the GDT here
     lgdt gdt_desc_ptr
-	# load idt
-
-
+		
 		# caller save regs
 		/*pushl %eax
 		pushl %ecx
@@ -41,7 +39,7 @@ continue:
 		popl %ecx # caller save regs
 		popl %eax*/
 
-		lidt idt_desc_ptr
+		#lidt idt_desc_ptr
 
 	# Load CS with the new descriptor value
 	ljmp    $KERNEL_CS, $keep_going

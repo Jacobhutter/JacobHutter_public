@@ -4,30 +4,30 @@
 
 #include "i8259.h"
 #include "lib.h"
-
 /* Interrupt masks to determine which interrupts
  * are enabled and disabled */
-uint8_t master_mask; /* IRQs 0-7 */
-uint8_t slave_mask; /* IRQs 8-15 */
 
+ uint8_t master_mask = 0xFF; /* IRQs 0-7 */
+ uint8_t slave_mask = 0xFF; /* IRQs 8-15 */
 /* Initialize the 8259 PIC */
 void
 i8259_init(void)
 {
-  outb(MASTER_8259_PORT,ICW1); // out initialization control word 1 to master_mask
-  outb(SLAVE_8259_PORT,ICW1); // same for slave
+  outb(ICW1,MASTER_8259_PORT); // out initialization control word 1 to master_mask
+  outb(ICW1,SLAVE_8259_PORT); // same for slave
 
-  outb(MASTER_8259_PORT_data,ICW2_MASTER);
-  outb(SLAVE_8259_PORT_data,ICW2_SLAVE);
+  outb(ICW2_MASTER,MASTER_8259_PORT_data);
+  outb(ICW2_SLAVE,SLAVE_8259_PORT_data);
 
-  outb(MASTER_8259_PORT_data,ICW3_MASTER);
-  outb(SLAVE_8259_PORT_data,ICW3_SLAVE);
+  outb(ICW3_MASTER,MASTER_8259_PORT_data);
+  outb(ICW3_SLAVE,SLAVE_8259_PORT_data);
 
-  outb(MASTER_8259_PORT_data,ICW4); // finish up sending data
-  outb(SLAVE_8259_PORT_data,ICW4);
+  outb(ICW4,MASTER_8259_PORT_data); // finish up sending data
+  outb(ICW4,SLAVE_8259_PORT_data);
 
-  outb(MASTER_8259_PORT_data,0xFF); // mask all interrupts
-  outb(SLAVE_8259_PORT_data,0xFF);
+  //outb(0xFF,MASTER_8259_PORT_data); // mask all interrupts
+  //outb(0xFF,SLAVE_8259_PORT_data);
+  enable_irq(2); // is the slave irq port?
 
 }
 
@@ -35,43 +35,45 @@ i8259_init(void)
 void
 enable_irq(uint32_t irq_num)
 {
+  if(irq_num < 0 || irq_num > 15)
+    return;
+
   uint16_t port;
-  uint8_t value;
   // enable port on master
 
   if(irq_num < 8) { // interrupt request is from master
     port = MASTER_8259_PORT_data;
+    master_mask = ~(1<<irq_num) & master_mask;
+    outb(master_mask,port);
   }
   else{ // interrupt request is from slave
     irq_num -= 8;
-    port = MASTER_8259_PORT_data;
-    value = inb(port) & ~(1<<irq_num); // get mask and put into port
-    outb(port,value); // enable master port
-    port = SLAVE_8259_PORT_data; // start to enable slave port
+    port = SLAVE_8259_PORT_data;
+    slave_mask = ~(1<<irq_num) & slave_mask; // get mask and put into port
+    outb(slave_mask,port); // enable master port
   }
-  value = inb(port) & ~(1<<irq_num); // get mask and put into port
-  outb(port,value);
+
 }
 
 /* Disable (mask) the specified IRQ */
 void
 disable_irq(uint32_t irq_num)
 {
+  if(irq_num < 0 || irq_num > 15)
+    return;
   uint16_t port;
-  uint8_t value;
 
   if(irq_num < 8){
     port = MASTER_8259_PORT_data;
+    master_mask = master_mask | (1<<irq_num);
+    outb(master_mask,port);
   }
   else{
     irq_num -= 8;
-    port = MASTER_8259_PORT_data;
-    value = inb(port) | (1 << irq_num);
-    outb(port,value); // mask out master irq
     port = SLAVE_8259_PORT_data;
+    slave_mask = slave_mask | (1<<irq_num);
+    outb(slave_mask,port); // mask out master irq
   }
-  value = inb(port) | (1 << irq_num); // mask out slave port if previously master or else just master
-  outb(port,value);
 }
 
 /* Send end-of-interrupt signal for the specified IRQ */
@@ -79,9 +81,9 @@ void
 send_eoi(uint32_t irq_num)
 {
   if(irq_num>=8){ // if irq is on slave, eoi to both
-    outb(SLAVE_8259_PORT,EOI);
-    outb(MASTER_8259_PORT,EOI);
+    outb(EOI|(irq_num - 8),SLAVE_8259_PORT); // sub 8 to get actual eoi
+    outb(EOI+2,MASTER_8259_PORT); // + 2 because of we need to or with irq2 which is slave
   }
   else
-    outb(MASTER_8259_PORT,EOI); // else just master
+    outb(EOI|irq_num,MASTER_8259_PORT); // else just master
 }

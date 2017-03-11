@@ -7,8 +7,7 @@
 //
 
 #ifndef interrupt_handler_h
-#define interrupt_handler_h
-
+#define interrupt_handler_h/*
 extern void DIVIDE_ERROR();
 extern void RESERVED();
 extern void NMI_INTERRUPT();
@@ -30,5 +29,5 @@ extern void MACHINE_CHECK();
 extern void FLOATING_POINT_EXCEPTION();
 extern void RTC();
 extern void KEYBOARD();
-extern void SYSTEM_CALL();
+extern void SYSTEM_CALL();*/
 #endif /* interrupt_handler_h */
