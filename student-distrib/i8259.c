@@ -14,20 +14,35 @@ uint8_t slave_mask; /* IRQs 8-15 */
 void
 i8259_init(void)
 {
-  outb(MASTER_8259_PORT,ICW1); // out initialization control word 1 to master_mask
-  outb(SLAVE_8259_PORT,ICW1); // same for slave
-
-  outb(MASTER_8259_PORT_data,ICW2_MASTER);
-  outb(SLAVE_8259_PORT_data,ICW2_SLAVE);
-
-  outb(MASTER_8259_PORT_data,ICW3_MASTER);
-  outb(SLAVE_8259_PORT_data,ICW3_SLAVE);
-
-  outb(MASTER_8259_PORT_data,ICW4); // finish up sending data
-  outb(SLAVE_8259_PORT_data,ICW4);
-
-  outb(MASTER_8259_PORT_data,0xFF); // mask all interrupts
-  outb(SLAVE_8259_PORT_data,0xFF);
+    outb(ICW1,MASTER_8259_PORT); // out initialization control word 1 to master_mask
+    outb(ICW1,SLAVE_8259_PORT); // same for slave
+    
+    outb(ICW2_MASTER,MASTER_8259_PORT_data);
+    outb(ICW2_SLAVE,SLAVE_8259_PORT_data);
+    
+    outb(ICW3_MASTER,MASTER_8259_PORT_data);
+    outb(ICW3_SLAVE,SLAVE_8259_PORT_data);
+    
+    outb(ICW4,MASTER_8259_PORT_data); // finish up sending data
+    outb(ICW4,SLAVE_8259_PORT_data);
+    
+    outb(0xFF,MASTER_8259_PORT_data); // mask all interrupts
+    outb(0xFF,SLAVE_8259_PORT_data);
+    
+//  outb(MASTER_8259_PORT,ICW1); // out initialization control word 1 to master_mask
+//  outb(SLAVE_8259_PORT,ICW1); // same for slave
+//
+//  outb(MASTER_8259_PORT_data,ICW2_MASTER);
+//  outb(SLAVE_8259_PORT_data,ICW2_SLAVE);
+//
+//  outb(MASTER_8259_PORT_data,ICW3_MASTER);
+//  outb(SLAVE_8259_PORT_data,ICW3_SLAVE);
+//
+//  outb(MASTER_8259_PORT_data,ICW4); // finish up sending data
+//  outb(SLAVE_8259_PORT_data,ICW4);
+//
+//  outb(MASTER_8259_PORT_data,0xFF); // mask all interrupts
+//  outb(SLAVE_8259_PORT_data,0xFF);
 
 }
 
@@ -46,11 +61,11 @@ enable_irq(uint32_t irq_num)
     irq_num -= 8;
     port = MASTER_8259_PORT_data;
     value = inb(port) & ~(1<<irq_num); // get mask and put into port
-    outb(port,value); // enable master port
+    outb(value, port); // enable master port
     port = SLAVE_8259_PORT_data; // start to enable slave port
   }
   value = inb(port) & ~(1<<irq_num); // get mask and put into port
-  outb(port,value);
+  outb(value,port);
 }
 
 /* Disable (mask) the specified IRQ */
@@ -67,11 +82,11 @@ disable_irq(uint32_t irq_num)
     irq_num -= 8;
     port = MASTER_8259_PORT_data;
     value = inb(port) | (1 << irq_num);
-    outb(port,value); // mask out master irq
+    outb(value, port); // mask out master irq
     port = SLAVE_8259_PORT_data;
   }
   value = inb(port) | (1 << irq_num); // mask out slave port if previously master or else just master
-  outb(port,value);
+  outb(value, port);
 }
 
 /* Send end-of-interrupt signal for the specified IRQ */
@@ -79,9 +94,9 @@ void
 send_eoi(uint32_t irq_num)
 {
   if(irq_num>=8){ // if irq is on slave, eoi to both
-    outb(SLAVE_8259_PORT,EOI);
-    outb(MASTER_8259_PORT,EOI);
+    outb(EOI, SLAVE_8259_PORT);
+    outb(EOI, MASTER_8259_PORT);
   }
   else
-    outb(MASTER_8259_PORT,EOI); // else just master
+    outb(EOI, MASTER_8259_PORT); // else just master
 }
