@@ -158,11 +158,9 @@ entry (unsigned long magic, unsigned long addr)
 	printf("Enabling Interrupts\n");
 
 	sti();
-<<<<<<< HEAD
-=======
 	int a = 1/0;
 
->>>>>>> parent of a7a7e89... no comp
+
 	/* Execute the first program (`shell') ... */
 
 	/* Spin (nicely, so we don't chew up cycles) */
