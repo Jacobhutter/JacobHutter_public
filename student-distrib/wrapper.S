@@ -12,6 +12,10 @@ _DIVIDE_ERROR:
   popal
   iret
 _RESERVED:
+pushal
+call RESERVED
+popal
+iret
 _NMI_INTERRUPT:
 _BREAKPOINT:
 _OVERFLOW:
@@ -31,4 +35,8 @@ _MACHINE_CHECK:
 _FLOATING_POINT_EXCEPTION:
 _RTC:
 _KEYBOARD:
+pushal
+call KEYBOARD
+popal
+iret
 _SYSTEM_CALL:
