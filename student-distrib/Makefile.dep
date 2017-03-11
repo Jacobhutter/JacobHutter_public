@@ -1,0 +1,12 @@
+boot.o: boot.S multiboot.h x86_desc.h types.h
+wrapper.o: wrapper.S wrapper.h interrupt_handler.h
+x86_desc.o: x86_desc.S x86_desc.h types.h
+i8259.o: i8259.c i8259.h types.h lib.h
+interrupt_handler.o: interrupt_handler.c lib.h types.h \
+  interrupt_handler.h
+interrupt_table.o: interrupt_table.c interrupt_table.h x86_desc.h types.h \
+  wrapper.h interrupt_handler.h
+kernel.o: kernel.c multiboot.h types.h x86_desc.h lib.h i8259.h debug.h \
+  interrupt_table.h keyboard.h wrapper.h interrupt_handler.h
+keyboard.o: keyboard.c keyboard.h i8259.h types.h
+lib.o: lib.c lib.h types.h

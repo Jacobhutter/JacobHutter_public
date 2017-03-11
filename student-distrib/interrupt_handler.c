@@ -125,7 +125,7 @@ void RTC() {
 }
 
 void KEYBOARD() {
-  printf("SYSTEM CALL\n");
+  printf("KEYBOARD\n");
   while(1);
 }
 
