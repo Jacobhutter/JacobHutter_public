@@ -11,7 +11,7 @@
 #define RTC_B       0x0B
 #define RTC_C       0x0C
 #define RTC_A_INIT  0x2F
-#define RTC_B_INIT  0x6E
+#define RTC_B_INIT  0x66
 
 extern void rtc_init();
 

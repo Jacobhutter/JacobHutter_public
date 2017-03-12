@@ -166,12 +166,14 @@ void FLOATING_POINT_EXCEPTION() {
 }
 
 void RTC() {
-   uint32_t reg_c;
+    uint32_t reg_c;
     uint32_t period_mask = 0x00000040;
 
-    reg_c = inb(RTC_C);
+    reg_c = inb(RTC_DATA);
+    test_interrupts();
     if((reg_c & period_mask) != 0) {
-        test_interrupts();
+
+        //test_interrupts();
     }
     send_eoi(RTC_IRQ);
 }
@@ -179,19 +181,19 @@ void RTC() {
 #define KEYBOARD_PORT 0x60
 
 void KEYBOARD() {
-  // write eoi
-  unsigned char status;
-  char key;
+    // write eoi
+    uint32_t status;
+    uint32_t key;
 
-  status = inb(KEYBOARD_ADDR);
-  if(status & 0x01){
-    key = inb(KEYBOARD_PORT);
-    if(key < 0)
-      return;
-    putc(keyboard_map[(int)key]);
-  }
+    status = inb(KEYBOARD_ADDR);
+    if(status & 0x01){
+        key = inb(KEYBOARD_PORT);
+        if(key < 0)
+            return;
+        putc(keyboard_map[key]);
+    }
 
-  send_eoi(kbd_eoi); // 1 is the irq for keyboard
+    send_eoi(kbd_eoi); // 1 is the irq for keyboard
 }
 
 void SYSTEM_CALL() {

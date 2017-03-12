@@ -12,6 +12,5 @@
 #include "rtc.h"
 #include "lib.h"
 #include "i8259.h"
-#include "interrupt_handler.h"
 
 #endif /* interrupt_handler_h */

@@ -1,6 +1,5 @@
 #include "interrupt_table.h"
-#include "x86_desc.h"
-#include "wrapper.h"
+
 /*
  * notes taken from : https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
  * based on vol. 3 sys programming:
