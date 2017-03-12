@@ -503,13 +503,14 @@ strncmp(const int8_t* s1, const int8_t* s2, uint32_t n)
 	}
 	return 0;
 }
-unsigned char * vid = 0xB8000; // start of video memory
+unsigned char * vid = (unsigned char *)0xB8000; // start of video memory
 #define screensize  25*80
 void
 bsod(){
   int i = 0;
   for(i =0; i< screensize*2; i++){
-    vid[i] = 139; // literally no idea just picked a random number and a cool pattern happened
+    //if(i%2 == 1)
+      vid[i] = 139; // literally no idea just picked a random number and a cool pattern happened
   }
 
 }

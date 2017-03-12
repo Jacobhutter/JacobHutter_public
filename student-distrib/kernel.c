@@ -141,7 +141,7 @@ entry (unsigned long magic, unsigned long addr)
 	build_idt();
 	printf("Enabling Interrupts\n");
 	sti();
-	int a = 1/0;
+	//int a = 1/0;
 	/* Execute the first program (`shell') ... */
 	/* Spin (nicely, so we don't chew up cycles) */
 	asm volatile(".1: hlt; jmp .1;");
