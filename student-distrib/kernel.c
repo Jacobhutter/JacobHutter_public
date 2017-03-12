@@ -137,9 +137,11 @@ entry (unsigned long magic, unsigned long addr)
 	/* Do not enable the following until after you have set up your
 	 * IDT correctly otherwise QEMU will triple fault and simple close
 	 * without showing you any output */
+
 	build_idt();
 	printf("Enabling Interrupts\n");
 	sti();
+	//int a = 1/0;
 	/* Execute the first program (`shell') ... */
 	/* Spin (nicely, so we don't chew up cycles) */
 	asm volatile(".1: hlt; jmp .1;");

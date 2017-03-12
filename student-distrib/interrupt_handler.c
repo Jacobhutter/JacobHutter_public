@@ -1,6 +1,8 @@
 /* Consult x86 ISA manual */
 /* Appendix D */
-
+//#include "lib.h"
+//#include "i8259.h"
+#include "interrupt_handler.h"
 
 uint32_t kbd_eoi = 1;
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
@@ -45,7 +47,9 @@ unsigned char keyboard_map[128] =
 };
 
 void DIVIDE_ERROR() {
+    bsod();
     printf("DIVIDE_ERROR");
+    cli(); // dont want keyboard to interfere
     while(1);
 }
 
@@ -130,6 +134,7 @@ void GENERAL_PROTECTION() {
 }
 
 void PAGE_FAULT() {
+    bsod();
     printf("PAGE_FAULT");
     while(1) {
     }
@@ -161,7 +166,7 @@ void FLOATING_POINT_EXCEPTION() {
 }
 
 void RTC() {
-    uint32_t reg_c;
+   uint32_t reg_c;
     uint32_t period_mask = 0x00000040;
 
     reg_c = inb(RTC_C);
@@ -177,7 +182,7 @@ void KEYBOARD() {
   // write eoi
   unsigned char status;
   char key;
-  
+
   status = inb(KEYBOARD_ADDR);
   if(status & 0x01){
     key = inb(KEYBOARD_PORT);
@@ -185,7 +190,7 @@ void KEYBOARD() {
       return;
     putc(keyboard_map[(int)key]);
   }
-  
+
   send_eoi(kbd_eoi); // 1 is the irq for keyboard
 }
 
