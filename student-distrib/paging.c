@@ -11,6 +11,14 @@ unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
 unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
 unsigned int kernel_table[kB] __attribute__((aligned(4 * kB)));
 
+/*
+ * initPaging
+ *   DESCRIPTION: Initializes paging
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: Makes page direcotry and and tables.
+ */
 void initPaging() {
 	unsigned int i;
 	
@@ -32,6 +40,7 @@ void initPaging() {
 		page_table1[i] = (i * 0x1000) | 0x01;
 		kernel_table[i] = ((i * 0x1000) + 4 * MB) | 0x01;
 	}
+	page_table1[0] = 0;
 
 	page_directory1[0] = (unsigned int)page_table1 | 0x01;
 	page_directory1[1] = (unsigned int)kernel_table | 0x01;
