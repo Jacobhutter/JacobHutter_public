@@ -36,7 +36,7 @@ void build_idt(){
 		idt[KBD].size = 1;
 		idt[KBD].reserved1 = 1;
 		idt[KBD].reserved2 = 1;
-		idt[KBD].reserved3 = 1;
+		idt[KBD].reserved3 = 0;
 		idt[KBD].reserved4 = 0;
 		idt[KBD].present = 1;
 		idt[KBD].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
