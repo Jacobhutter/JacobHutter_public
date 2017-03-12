@@ -8,6 +8,7 @@
 #include "debug.h"
 #include "interrupt_table.h"
 #include "keyboard.h"
+#include "rtc.h"
 #include "wrapper.h"
 /* Macros. */
 /* Check if the bit BIT in FLAGS is set. */
@@ -131,6 +132,7 @@ entry (unsigned long magic, unsigned long addr)
 	 * PIC, any other initialization stuff... */
 	 // keyboard intialization
 	 keyboard_init();
+	 rtc_init();
 	/* Enable interrupts */
 	/* Do not enable the following until after you have set up your
 	 * IDT correctly otherwise QEMU will triple fault and simple close
