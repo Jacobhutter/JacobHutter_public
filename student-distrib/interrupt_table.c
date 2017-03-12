@@ -28,6 +28,15 @@ void build_idt(){
     for(i = 0; i < SEQ_INTERRUPTS; i++) {
       SET_IDT_ENTRY(idt[i], EXCEPTION_TABLE + 4*i);
   }
+    idt[REAL_TIME_CLOCK].dpl = 0;
+    idt[REAL_TIME_CLOCK].reserved0 = 0;
+    idt[REAL_TIME_CLOCK].size = 1;
+    idt[REAL_TIME_CLOCK].reserved1 = 1;
+    idt[REAL_TIME_CLOCK].reserved2 = 1;
+    idt[REAL_TIME_CLOCK].reserved3 = 0;
+    idt[REAL_TIME_CLOCK].reserved4 = 0;
+    idt[REAL_TIME_CLOCK].present = 1;
+    idt[REAL_TIME_CLOCK].seg_selector = KERNEL_CS; 
     // set entry for Real time clock
     SET_IDT_ENTRY(idt[REAL_TIME_CLOCK],_RTC);
     // set entry for keyboard

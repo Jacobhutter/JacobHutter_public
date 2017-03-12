@@ -1,8 +1,7 @@
 /* Consult x86 ISA manual */
 /* Appendix D */
-#include "lib.h"
-#include "i8259.h"
-#include "interrupt_handler.h"
+
+
 uint32_t kbd_eoi = 1;
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
 unsigned char keyboard_map[128] =
@@ -165,9 +164,14 @@ void FLOATING_POINT_EXCEPTION() {
 }
 
 void RTC() {
-  printf("RTC\n");
-  while(1);
+    uint32_t reg_c;
+    uint32_t period_mask = 0x00000040;
 
+    reg_c = inb(RTC_C);
+    if((reg_c & period_mask) != 0) {
+        test_interrupts();
+    }
+    send_eoi(RTC_IRQ);
 }
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_PORT 0x60
@@ -176,7 +180,7 @@ void KEYBOARD() {
   // write eoi
   unsigned char status;
   char key;
-  send_eoi(kbd_eoi); // 1 is the irq for keyboard
+  
   status = inb(KEYBOARD_ADDR);
   if(status & 0x01){
     key = inb(KEYBOARD_PORT);
@@ -184,7 +188,8 @@ void KEYBOARD() {
       return;
     putc(keyboard_map[(int)key]);
   }
-  return;
+  
+  send_eoi(kbd_eoi); // 1 is the irq for keyboard
 }
 
 void SYSTEM_CALL() {
