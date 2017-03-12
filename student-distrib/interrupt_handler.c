@@ -170,10 +170,9 @@ void RTC() {
     uint32_t period_mask = 0x00000040;
 
     reg_c = inb(RTC_DATA);
-    test_interrupts();
     if((reg_c & period_mask) != 0) {
 
-        //test_interrupts();
+        test_interrupts();
     }
     send_eoi(RTC_IRQ);
 }

@@ -3,12 +3,11 @@
 void rtc_init() {
 	uint32_t junk;
 
-	outb(RTC_ADDR, RTC_A);
-	outb(RTC_DATA, RTC_A_INIT);
-	outb(RTC_ADDR, RTC_B);
-	outb(RTC_DATA, RTC_B_INIT);
-	outb(RTC_ADDR, RTC_C);
+	outb(RTC_A, RTC_ADDR);
+	outb(RTC_A_INIT, RTC_DATA);
+	outb(RTC_B, RTC_ADDR);
+	outb(RTC_B_INIT, RTC_DATA);
+	outb(RTC_C, RTC_ADDR);
 	junk = inb(RTC_DATA);
 	enable_irq(RTC_IRQ);
-	//disable_irq(RTC_IRQ);
 }
