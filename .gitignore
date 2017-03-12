@@ -1,10 +1,4 @@
 student-distrib/*.o
 
-
-
-
-*.img
-
-
 *.dep
 
