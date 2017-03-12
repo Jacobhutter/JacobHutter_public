@@ -46,7 +46,9 @@ unsigned char keyboard_map[128] =
 };
 
 void DIVIDE_ERROR() {
+    bsod();
     printf("DIVIDE_ERROR");
+    cli(); // dont want keyboard to interfere
     while(1);
 }
 
@@ -131,6 +133,7 @@ void GENERAL_PROTECTION() {
 }
 
 void PAGE_FAULT() {
+    bsod();
     printf("PAGE_FAULT");
     while(1) {
     }
