@@ -4,6 +4,7 @@
 #include "i8259.h"
 #include "interrupt_handler.h"
 uint32_t kbd_eoi = 1;
+//https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
 unsigned char keyboard_map[128] =
 {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
@@ -166,6 +167,8 @@ void RTC() {
 
 }
 #define KEYBOARD_ADDR 0x64
+#define KEYBOARD_PORT 0x60
+
 void KEYBOARD() {
   // write eoi
   unsigned char status;
@@ -173,10 +176,10 @@ void KEYBOARD() {
   send_eoi(kbd_eoi); // 1 is the irq for keyboard
   status = inb(KEYBOARD_ADDR);
   if(status & 0x01){
-    key = inb(0x60);
+    key = inb(KEYBOARD_PORT);
     if(key < 0)
       return;
-    putc(keyboard_map[key]);
+    putc(keyboard_map[(int)key]);
   }
   return;
 }
