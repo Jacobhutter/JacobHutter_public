@@ -1,8 +1,7 @@
 #ifndef PAGING_H
 #define PAGING_H
 
+/* Initializes paging */
 void initPaging();
-
-void myFunction();
 
 #endif /* PAGING_H */

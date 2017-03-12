@@ -148,7 +148,7 @@ entry (unsigned long magic, unsigned long addr)
 	/* Init the PIC */
 	i8259_init();
 
-	initPaging();
+	
 
 	/* Initialize devices, memory, filesystem, enable device interrupts on the
 	 * PIC, any other initialization stuff... */
@@ -158,10 +158,14 @@ entry (unsigned long magic, unsigned long addr)
 	 * IDT correctly otherwise QEMU will triple fault and simple close
 	 * without showing you any output */
 	 build_idt();
+	initPaging();
 	printf("Enabling Interrupts\n");
-
 	sti();
-	int a = 1/0;
+	// int a = 1/0;
+
+	unsigned int *a;
+	a = 0;
+	*a = 5;
 
 	/* Execute the first program (`shell') ... */
 
