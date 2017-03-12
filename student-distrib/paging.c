@@ -30,7 +30,7 @@ void initPaging() {
 		 * Accessable only by kernel
 		 */
 		page_table1[i] = (i * 0x1000) | 0x01;
-		kernel_table[i] = (i * 0x1000) | 0x01;
+		kernel_table[i] = ((i * 0x1000) + 4 * MB) | 0x01;
 	}
 
 	page_directory1[0] = (unsigned int)page_table1 | 0x01;
@@ -43,5 +43,5 @@ void initPaging() {
 
 void myFunction() {
 
-	
+
 }
