@@ -53,7 +53,7 @@ void DIVIDE_ERROR() {
 void RESERVED() {
     printf("RESERVED");
     while (1);
-
+    
 }
 
 void NMI_INTERRUPT() {
@@ -120,21 +120,21 @@ void STACK_SEGMENT_FAULT() {
     printf("STACK_SEGMENT_FAULT");
     while (1) {
     }
-
+    
 }
 
 void GENERAL_PROTECTION() {
     printf("GENERAL_PROTECTION");
     while (1) {
     }
-
+    
 }
 
 void PAGE_FAULT() {
     printf("PAGE_FAULT");
     while(1) {
     }
-
+    
 }
 
 void FLOATING_POINT_ERROR() {
@@ -162,30 +162,30 @@ void FLOATING_POINT_EXCEPTION() {
 }
 
 void RTC() {
-  printf("RTC\n");
-  while(1);
-
+    printf("RTC\n");
+    while(1);
+    
 }
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_PORT 0x60
 
 void KEYBOARD() {
-  // write eoi
-  unsigned char status;
-  char key;
-  send_eoi(kbd_eoi); // 1 is the irq for keyboard
-  status = inb(KEYBOARD_ADDR);
-  if(status & 0x01){
-    key = inb(KEYBOARD_PORT);
-    if(key < 0)
-      return;
-    putc(keyboard_map[(int)key]);
-  }
-  return;
+    // write eoi
+    unsigned char status;
+    char key;
+    send_eoi(kbd_eoi); // 1 is the irq for keyboard
+    status = inb(KEYBOARD_ADDR);
+    if(status & 0x01){
+        key = inb(KEYBOARD_PORT);
+        if(key < 0)
+            return;
+        putc(keyboard_map[(int)key]);
+    }
+    return;
 }
 
 void SYSTEM_CALL() {
-  printf("SYSTEM CALL\n");
-  while(1);
-
+    printf("SYSTEM CALL\n");
+    while(1);
+    
 }
