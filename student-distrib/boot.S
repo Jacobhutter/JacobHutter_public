@@ -31,7 +31,7 @@ continue:
 
 
 		# caller save regs
-		/*pushl %eax
+		pushl %eax
 		pushl %ecx
     pushl %edx
 
@@ -39,7 +39,7 @@ continue:
 
 		popl %edx
 		popl %ecx # caller save regs
-		popl %eax*/
+		popl %eax
 
 		lidt idt_desc_ptr
 

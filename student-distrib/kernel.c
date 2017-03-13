@@ -7,8 +7,7 @@
 #include "lib.h"
 #include "i8259.h"
 #include "debug.h"
-#include "interrupt_table.h"
-#include "paging.h"
+
 /* Macros. */
 /* Check if the bit BIT in FLAGS is set. */
 #define CHECK_FLAG(flags,bit)   ((flags) & (1 << (bit)))
@@ -148,8 +147,6 @@ entry (unsigned long magic, unsigned long addr)
 	/* Init the PIC */
 	i8259_init();
 
-	
-
 	/* Initialize devices, memory, filesystem, enable device interrupts on the
 	 * PIC, any other initialization stuff... */
 
@@ -157,15 +154,8 @@ entry (unsigned long magic, unsigned long addr)
 	/* Do not enable the following until after you have set up your
 	 * IDT correctly otherwise QEMU will triple fault and simple close
 	 * without showing you any output */
-	 build_idt();
-	initPaging();
 	printf("Enabling Interrupts\n");
 	sti();
-	// int a = 1/0;
-
-	unsigned int *a;
-	a = 0;
-	*a = 5;
 
 	/* Execute the first program (`shell') ... */
 

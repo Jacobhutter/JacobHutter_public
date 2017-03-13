@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -d /mnt/tmpmp3 ]; then
-rm -rf /mnt/tmpmp3
+rmdir /mnt/tmpmp3
 fi
 
 if [ -d /tmp/mp3 ]; then
