@@ -3,4 +3,11 @@ student-distrib/*.o
 *.dep
 
 
+<<<<<<< HEAD
 .DS_Store
+=======
+
+*.o
+
+*.o
+>>>>>>> jgallen2
