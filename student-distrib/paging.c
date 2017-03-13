@@ -46,7 +46,7 @@ void initPaging() {
 		 */
 		// Only enables video memory
 		if (i * PAGE_OFF >= VIDEO &&
-		        i * PAGE_OFF < VIDEO + (NUM_ROWS * NUM_COLS)) {
+		        i * PAGE_OFF < VIDEO + ((NUM_ROWS * NUM_COLS) << 1)) {
 			page_table1[i] = (i * PAGE_OFF) | 0x01;
 		}
 	}
