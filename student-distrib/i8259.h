@@ -29,6 +29,16 @@
  * to declare the interrupt finished */
 #define EOI             0x60
 
+/* Slave PIC number and IRQ boundaries. */
+#define CASCADED_SLAVE 2
+#define MAX_IRQS 16
+#define MASTER_IRQS 8
+#define ALL_MASKED 0xFF
+
+/* macros for enabling and disabling IRQ ports */
+#define SET_HIGH(mask, pos) (mask) = (mask) & ~(1<<(pos))
+#define SET_LOW(mask, pos) (mask) = (mask) | (1<<(pos))
+
 /* Externally-visible functions */
 
 /* Initialize both PICs */

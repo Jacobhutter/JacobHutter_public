@@ -165,13 +165,23 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 
+/* RTC() (Handler)
+ * DESCRIPTION:  Handler function called by RTC interrupt
+ * INPUTS:       None
+ * OUTPUTS:      Calls test_interrupts, which floods screen
+ * RETURNS:      None
+ * SIDE EFFECTS: Sends EOI to PIC to end interrupt
+ */
 void RTC() {
     uint32_t reg_c;
+
+    // mask only the periodic interrupt bit
     uint32_t period_mask = 0x00000040;
 
     reg_c = inb(RTC_DATA);
     if((reg_c & period_mask) != 0) {
 
+        // we have found a periodic interrupt
         test_interrupts();
     }
     send_eoi(RTC_IRQ);
