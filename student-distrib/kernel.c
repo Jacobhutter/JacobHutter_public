@@ -10,6 +10,7 @@
 #include "interrupt_table.h"
 #include "paging.h"
 #include "keyboard.h"
+#include "rtc.h"
 
 /* Macros. */
 /* Check if the bit BIT in FLAGS is set. */
@@ -148,7 +149,6 @@ multiboot_info_t *mbi;
     }
     
     build_idt();
-
     
     /* Init the PIC */
     i8259_init();
@@ -156,6 +156,7 @@ multiboot_info_t *mbi;
     /* Initialize devices, memory, filesystem, enable device interrupts on the
      * PIC, any other initialization stuff... */
     keyboard_init();
+    rtc_init();
     initPaging();
 
     /* Enable interrupts */
@@ -165,10 +166,10 @@ multiboot_info_t *mbi;
     printf("Enabling Interrupts\n");
     sti();
     // int a = 1/0;
-    
-    unsigned int *a;
-    a = 0;
-    *a = 5;
+//    
+//    unsigned int *a;
+//    a = 0;
+//    *a = 5;
     /* Execute the first program (`shell') ... */
     
     /* Spin (nicely, so we don't chew up cycles) */

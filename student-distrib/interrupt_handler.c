@@ -3,6 +3,7 @@
 #include "lib.h"
 #include "i8259.h"
 #include "interrupt_handler.h"
+#include "rtc.h"
 
 #define kbd_eoi 1
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
@@ -197,7 +198,7 @@ void RTC() {
 void KEYBOARD() {
     // write eoi
     uint32_t status;
-    uint32_t key;
+    char key;
 
     status = inb(KEYBOARD_ADDR);
     if(status & 0x01){

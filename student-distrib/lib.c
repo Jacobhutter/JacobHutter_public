@@ -551,6 +551,17 @@ strncpy(int8_t* dest, const int8_t* src, uint32_t n)
 	return dest;
 }
 
+unsigned char * vid = (unsigned char *)0xB8000; // start of video memory
+#define screensize  25*80
+void
+bsod(){
+    int i = 0;
+    for(i =0; i< screensize*2; i++){
+        vid[i] = 139; // literally no idea just picked a random number and a cool pattern happened
+    }
+    
+}
+
 /*
 * void test_interrupts(void)
 *   Inputs: void
