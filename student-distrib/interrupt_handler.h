@@ -12,6 +12,10 @@
 #include "lib.h"
 #include "i8259.h"
 #include "rtc.h"
+#define KEYBOARD_ADDR 0x64
+#define KEYBOARD_PORT 0x60
+#define odd_mask 0x01
+#define kbd_eoi 1
 
 extern void DIVIDE_ERROR();
 extern void RESERVED();

@@ -7,7 +7,6 @@
 #define REAL_TIME_CLOCK 0x28
 #define KBD 0x21
 #define SEQ_INTERRUPTS 19
-
 extern void build_idt();
 
 

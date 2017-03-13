@@ -1,6 +1,6 @@
 //
 //  keyboard.c
-//  
+//
 //
 //  Created by Cameron Long on 3/10/17.
 //
@@ -8,8 +8,13 @@
 
 #include "keyboard.h"
 
-void keyboard_init() {
-    
-    outb(1, KEYBOARD_IRQ);
-}
 
+/* void keyboard_init()
+* INPUT: NONE
+* OUTPUT: NONE
+* RETURN VALUE: void
+* DESCRIPTION: allows pic to recognize keyboard inputs
+*/
+void keyboard_init() {
+    outb(kbd_irq_line, KEYBOARD_IRQ);
+}
