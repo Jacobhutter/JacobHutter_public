@@ -6,13 +6,9 @@
 
 /* Interrupt masks to determine which interrupts
  * are enabled and disabled */
-<<<<<<< HEAD
-uint8_t master_mask = 0xFF; /* IRQs 0-7 */
-uint8_t slave_mask = 0xFF; /* IRQs 8-15 */
-=======
-static volatile uint8_t global_master_mask; // = 0xFF; /* IRQs 0-7 */
-static volatile uint8_t global_slave_mask; //= 0xFF; /* IRQs 8-15 */
->>>>>>> origin/tklem2
+
+static volatile uint8_t global_master_mask = 0xFF; /* IRQs 0-7 */
+static volatile uint8_t global_slave_mask = 0xFF; /* IRQs 8-15 */
 
 /* i8259_init() 
  * DESCRIPTION:  Intialize slave and master PICs
