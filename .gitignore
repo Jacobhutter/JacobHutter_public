@@ -1,0 +1,12 @@
+student-distrib/*.o
+
+student-distrib/*.img
+
+student-distrib/bootimg
+
+*.img
+
+
+*.o
+
+*.o
