@@ -136,6 +136,7 @@ void GENERAL_PROTECTION() {
 
 void PAGE_FAULT() {
     unsigned long regVal;
+    bsod();
     printf("PAGE_FAULT");
     asm("movl %%cr2, %0;" : "=r" (regVal) : );
     // Prints Address that caused fault
@@ -143,6 +144,7 @@ void PAGE_FAULT() {
         printf(" Tried to access NULL pointer");
     else
         printf(" Address 0x%x caused PAGE_FAULT\n", regVal);
+    cli(); // dont want keyboard to interfere
     while(1) {
     }
 }
@@ -188,7 +190,7 @@ void RTC() {
     if((reg_c & period_mask) != 0) {
 
         // we have found a periodic interrupt
-        //test_interrupts();
+        test_interrupts();
     }
     send_eoi(RTC_IRQ);
 }
