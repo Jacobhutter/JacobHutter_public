@@ -9,6 +9,10 @@
 #ifndef interrupt_handler_h
 #define interrupt_handler_h
 
+#include "lib.h"
+#include "i8259.h"
+#include "rtc.h"
+
 extern void DIVIDE_ERROR();
 extern void RESERVED();
 extern void NMI_INTERRUPT();

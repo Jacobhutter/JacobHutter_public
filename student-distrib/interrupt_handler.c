@@ -1,11 +1,11 @@
 /* Consult x86 ISA manual */
 /* Appendix D */
-#include "lib.h"
-#include "i8259.h"
-#include "interrupt_handler.h"
-#include "rtc.h"
 
-#define kbd_eoi 1
+
+#include "interrupt_handler.h"
+
+uint32_t kbd_eoi = 1;
+
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
 unsigned char keyboard_map[128] =
 {
@@ -188,7 +188,7 @@ void RTC() {
     if((reg_c & period_mask) != 0) {
 
         // we have found a periodic interrupt
-        test_interrupts();
+        //test_interrupts();
     }
     send_eoi(RTC_IRQ);
 }
@@ -197,18 +197,18 @@ void RTC() {
 
 void KEYBOARD() {
     // write eoi
-    uint32_t status;
+    unsigned char status;
     char key;
+
+    send_eoi(kbd_eoi); // 1 is the irq for keyboard
 
     status = inb(KEYBOARD_ADDR);
     if(status & 0x01){
         key = inb(KEYBOARD_PORT);
         if(key < 0)
             return;
-        putc(keyboard_map[key]);
+        putc(keyboard_map[(uint32_t) key]);
     }
-
-    send_eoi(kbd_eoi); // 1 is the irq for keyboard
 }
 
 void SYSTEM_CALL() {

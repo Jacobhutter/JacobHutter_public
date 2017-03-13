@@ -11,6 +11,7 @@
 #include "paging.h"
 #include "keyboard.h"
 #include "rtc.h"
+#include "wrapper.h"
 
 /* Macros. */
 /* Check if the bit BIT in FLAGS is set. */
@@ -148,8 +149,6 @@ multiboot_info_t *mbi;
         ltr(KERNEL_TSS);
     }
     
-    build_idt();
-    
     /* Init the PIC */
     i8259_init();
     
@@ -157,19 +156,21 @@ multiboot_info_t *mbi;
      * PIC, any other initialization stuff... */
     keyboard_init();
     rtc_init();
-    initPaging();
 
     /* Enable interrupts */
     /* Do not enable the following until after you have set up your
      * IDT correctly otherwise QEMU will triple fault and simple close
      * without showing you any output */
+    build_idt();
+    initPaging();
+
     printf("Enabling Interrupts\n");
     sti();
     // int a = 1/0;
-//    
-//    unsigned int *a;
-//    a = 0;
-//    *a = 5;
+    
+    unsigned int *a;
+    a = 0;
+    *a = 5;
     /* Execute the first program (`shell') ... */
     
     /* Spin (nicely, so we don't chew up cycles) */
