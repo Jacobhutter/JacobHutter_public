@@ -51,7 +51,7 @@ void initPaging() {
 		}
 	}
 	// NULL Doesn't exist
-	// page_table1[0] = 0;
+    page_table1[0] = 0;
 
 	page_directory1[0] = (unsigned int)page_table1 | 0x01;
 	// Maps 4MB page for kernel to 4MB
