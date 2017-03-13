@@ -134,8 +134,14 @@ void GENERAL_PROTECTION() {
 }
 
 void PAGE_FAULT() {
-    bsod();
+    unsigned long regVal;
     printf("PAGE_FAULT");
+    asm("movl %%cr2, %0;" : "=r" (regVal) : );
+    // Prints Address that caused fault
+    if (regVal == 0)
+        printf(" Tried to access NULL pointer");
+    else
+        printf(" Address 0x%x caused PAGE_FAULT\n", regVal);
     while(1) {
     }
     
