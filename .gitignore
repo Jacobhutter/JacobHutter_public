@@ -2,3 +2,5 @@ student-distrib/*.o
 
 *.dep
 
+
+.DS_Store
