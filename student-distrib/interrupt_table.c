@@ -1,6 +1,5 @@
 #include "interrupt_table.h"
-#include "x86_desc.h"
-#include "wrapper.h"
+
 /*
  * notes taken from : https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
  * based on vol. 3 sys programming:
@@ -26,8 +25,18 @@ void build_idt(){
     }
     // set IDT table entries for first set of sequential interrupts
     for(i = 0; i < SEQ_INTERRUPTS; i++) {
-        SET_IDT_ENTRY(idt[i], EXCEPTION_TABLE + 4*i);
-    }
+      SET_IDT_ENTRY(idt[i], EXCEPTION_TABLE + 4*i);
+  }
+    idt[REAL_TIME_CLOCK].dpl = 0;
+    idt[REAL_TIME_CLOCK].reserved0 = 0;
+    idt[REAL_TIME_CLOCK].size = 1;
+    idt[REAL_TIME_CLOCK].reserved1 = 1;
+    idt[REAL_TIME_CLOCK].reserved2 = 1;
+    idt[REAL_TIME_CLOCK].reserved3 = 0;
+    idt[REAL_TIME_CLOCK].reserved4 = 0;
+    idt[REAL_TIME_CLOCK].present = 1;
+    idt[REAL_TIME_CLOCK].seg_selector = KERNEL_CS; 
+
     // set entry for Real time clock
     SET_IDT_ENTRY(idt[REAL_TIME_CLOCK],_RTC);
     // set entry for keyboard

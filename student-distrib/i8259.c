@@ -4,76 +4,118 @@
 #include "i8259.h"
 #include "lib.h"
 
-#define cascaded_slave 2
-#define max_irqs 16
-#define master_irqs 8
 /* Interrupt masks to determine which interrupts
  * are enabled and disabled */
+<<<<<<< HEAD
 uint8_t master_mask = 0xFF; /* IRQs 0-7 */
 uint8_t slave_mask = 0xFF; /* IRQs 8-15 */
+=======
+static volatile uint8_t global_master_mask; // = 0xFF; /* IRQs 0-7 */
+static volatile uint8_t global_slave_mask; //= 0xFF; /* IRQs 8-15 */
+>>>>>>> origin/tklem2
 
-/* Initialize the 8259 PIC */
+/* i8259_init() 
+ * DESCRIPTION:  Intialize slave and master PICs
+ * INPUTS:       None
+ * OUTPUTS:      None
+ * RETURNS:      None
+ * SIDE EFFECTS: Leaves all IRQ ports masked except for IRQ 2 to handle slave
+ */
 void
 i8259_init(void)
 {
-    outb(ICW1,MASTER_8259_PORT); // out initialization control word 1 to master_mask
-    outb(ICW1,SLAVE_8259_PORT); // same for slave
-    outb(ICW2_MASTER,MASTER_8259_PORT_data);
-    outb(ICW2_SLAVE,SLAVE_8259_PORT_data);
-    outb(ICW3_MASTER,MASTER_8259_PORT_data);
-    outb(ICW3_SLAVE,SLAVE_8259_PORT_data);
-    outb(ICW4,MASTER_8259_PORT_data); // finish up sending data
-    outb(ICW4,SLAVE_8259_PORT_data);
-    //outb(0xFF,MASTER_8259_PORT_data); // mask all interrupts
-    //outb(0xFF,SLAVE_8259_PORT_data);
-    enable_irq(cascaded_slave); // is the slave irq port?
+    global_master_mask = ALL_MASKED;
+    global_slave_mask = ALL_MASKED;
+    
+    // Mask all interrupts
+    outb(global_master_mask, MASTER_8259_PORT_data);
+    outb(global_slave_mask, SLAVE_8259_PORT_data);
+
+    // Output control words to master
+    outb(ICW1,        MASTER_8259_PORT); 
+    outb(ICW2_MASTER, MASTER_8259_PORT_data);
+    outb(ICW3_MASTER, MASTER_8259_PORT_data);
+    outb(ICW4,        MASTER_8259_PORT_data);
+
+    // Output control words to slave
+    outb(ICW1,       SLAVE_8259_PORT); 
+    outb(ICW2_SLAVE, SLAVE_8259_PORT_data);
+    outb(ICW3_SLAVE, SLAVE_8259_PORT_data);
+    outb(ICW4,       SLAVE_8259_PORT_data);
+
+    enable_irq(CASCADED_SLAVE);
 }
-/* Enable (unmask) the specified IRQ */
+/* Enable_irq
+ * DESCRIPTION:  Enables exactly one IRQ port
+ * INPUTS:       irq_num - IRQ port to be enabled
+ * OUTPUTS:      None
+ * RETURNS:      None
+ * SIDE EFFECTS: Allows interrupts from one device
+ */
 void
 enable_irq(uint32_t irq_num)
 {
-    if(irq_num < 0 || irq_num >= max_irqs)
+
+    // check for invalid IRQ number
+    if(irq_num < 0 || irq_num >= MAX_IRQS)
         return;
-    uint16_t port;
-    // enable port on master
-    if(irq_num < master_irqs) { // interrupt request is from master
-        port = MASTER_8259_PORT_data;
-        outb(~(1<<irq_num) & master_mask,port);
+
+    // IRQ number describes port on master
+    if(irq_num < MASTER_IRQS) {
+        SET_HIGH(global_master_mask, irq_num);
+        outb(global_master_mask, MASTER_8259_PORT_data);
     }
-    else{ // interrupt request is from slave
-        irq_num -= master_irqs;
-        port = SLAVE_8259_PORT_data;
-        // get mask and put into port
-        outb(~(1<<irq_num) & slave_mask,port); // enable master port
+    // IRQ number describes port on slave
+    else { 
+        irq_num -= MASTER_IRQS;
+        SET_HIGH(global_slave_mask, irq_num);
+        outb(global_slave_mask, SLAVE_8259_PORT_data);
     }
 }
-/* Disable (mask) the specified IRQ */
+
+/* Enable_irq
+ * DESCRIPTION:  Enables exactly one IRQ port
+ * INPUTS:       irq_num - IRQ port to be enabled
+ * OUTPUTS:      None
+ * RETURNS:      None
+ * SIDE EFFECTS: Allows interrupts from one device
+ */
 void
 disable_irq(uint32_t irq_num)
 {
-    if(irq_num < 0 || irq_num >= max_irqs)
+    if(irq_num < 0 || irq_num >= MAX_IRQS)
         return;
-    uint16_t port;
-    if(irq_num < master_irqs){
-        port = MASTER_8259_PORT_data;
-        master_mask = master_mask | (1<<irq_num);
-        outb(master_mask,port);
+
+    // IRQ number describes port on master
+    if(irq_num < MASTER_IRQS) {
+        SET_LOW(global_master_mask, irq_num);
+        outb(global_master_mask, MASTER_8259_PORT_data);
     }
-    else{
-        irq_num -= master_irqs;
-        port = SLAVE_8259_PORT_data;
-        slave_mask = slave_mask | (1<<irq_num);
-        outb(slave_mask,port); // mask out master irq
+    // IRQ number describes port on slave
+    else { 
+        irq_num -= MASTER_IRQS;
+        SET_LOW(global_slave_mask, irq_num);
+        outb(global_slave_mask, SLAVE_8259_PORT_data);
     }
 }
-/* Send end-of-interrupt signal for the specified IRQ */
+/* Send_eoi
+ * DESCRIPTION:  Sends End-of-Interrupt signal to PIC
+ * INPUTS:       irq_num - IRQ line that wants to end service
+ * OUTPUTS:      None
+ * RETURNS:      None
+ * SIDE EFFECTS: Permits other interrupts to occur after execution
+ */
 void
 send_eoi(uint32_t irq_num)
 {
-    if(irq_num>master_irqs){ // if irq is on slave, eoi to both
-        outb(EOI|(irq_num - master_irqs),SLAVE_8259_PORT); // sub 8 to get actual eoi irq
-        outb(EOI|cascaded_slave,MASTER_8259_PORT); // + 2 because of we need to or with irq2 which is slave
+    // IRQ is one slave 
+    if(irq_num >= MASTER_IRQS){ 
+        // Let slave know that device has no more to send
+        outb(EOI|(irq_num - MASTER_IRQS), SLAVE_8259_PORT); 
+        // Let master know that slave is no longer in need of interrupt
+        outb(EOI|CASCADED_SLAVE,MASTER_8259_PORT); 
     }
+    /* IRQ is on master */
     else
-        outb(EOI|irq_num,MASTER_8259_PORT); // else just master
+        outb(EOI|irq_num,MASTER_8259_PORT); 
 }

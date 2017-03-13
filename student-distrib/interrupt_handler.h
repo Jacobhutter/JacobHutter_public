@@ -9,4 +9,8 @@
 #ifndef interrupt_handler_h
 #define interrupt_handler_h
 
+#include "rtc.h"
+#include "lib.h"
+#include "i8259.h"
+
 #endif /* interrupt_handler_h */

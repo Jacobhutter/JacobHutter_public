@@ -483,7 +483,6 @@ memmove(void* dest, const void* src, uint32_t n)
  *					indicates the opposite.
  *	Function: compares string 1 and string 2 for equality
  */
-
 int32_t
 strncmp(const int8_t* s1, const int8_t* s2, uint32_t n)
 {
@@ -502,6 +501,18 @@ strncmp(const int8_t* s1, const int8_t* s2, uint32_t n)
         }
     }
     return 0;
+}
+
+unsigned char * vid = (unsigned char *)0xB8000; // start of video memory
+#define screensize  25*80
+void
+bsod(){
+  int i = 0;
+  for(i =0; i< screensize*2; i++){
+    //if(i%2 == 1)
+      vid[i] = 139; // literally no idea just picked a random number and a cool pattern happened
+  }
+
 }
 
 /*
