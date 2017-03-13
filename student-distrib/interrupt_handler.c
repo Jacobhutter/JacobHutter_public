@@ -1,10 +1,10 @@
 /* Consult x86 ISA manual */
 /* Appendix D */
-//#include "lib.h"
-//#include "i8259.h"
+#include "lib.h"
+#include "i8259.h"
 #include "interrupt_handler.h"
 
-uint32_t kbd_eoi = 1;
+#define kbd_eoi 1
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
 unsigned char keyboard_map[128] =
 {
@@ -134,11 +134,16 @@ void GENERAL_PROTECTION() {
 }
 
 void PAGE_FAULT() {
-    bsod();
+    unsigned long regVal;
     printf("PAGE_FAULT");
+    asm("movl %%cr2, %0;" : "=r" (regVal) : );
+    // Prints Address that caused fault
+    if (regVal == 0)
+        printf(" Tried to access NULL pointer");
+    else
+        printf(" Address 0x%x caused PAGE_FAULT\n", regVal);
     while(1) {
     }
-
 }
 
 void FLOATING_POINT_ERROR() {
