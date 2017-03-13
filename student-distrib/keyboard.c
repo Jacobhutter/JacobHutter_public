@@ -1,5 +1,15 @@
+//
+//  keyboard.c
+//  
+//
+//  Created by Cameron Long on 3/10/17.
+//
+// http://arjunsreedharan.org/post/99370248137/kernel-201-lets-write-a-kernel-with-keyboard
+
 #include "keyboard.h"
-#define irq_kbd 1 // keyboard is irq line 1
-void keyboard_init(){
-  enable_irq(irq_kbd);
+
+void keyboard_init() {
+    
+    outb(1, KEYBOARD_IRQ);
 }
+

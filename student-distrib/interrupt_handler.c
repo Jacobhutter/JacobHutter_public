@@ -1,9 +1,12 @@
 /* Consult x86 ISA manual */
 /* Appendix D */
-#include "lib.h"
-#include "i8259.h"
+
+
 #include "interrupt_handler.h"
+
 uint32_t kbd_eoi = 1;
+
+//https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
 unsigned char keyboard_map[128] =
 {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
@@ -45,7 +48,9 @@ unsigned char keyboard_map[128] =
 };
 
 void DIVIDE_ERROR() {
+    bsod();
     printf("DIVIDE_ERROR");
+    cli(); // dont want keyboard to interfere
     while(1);
 }
 
@@ -130,10 +135,16 @@ void GENERAL_PROTECTION() {
 }
 
 void PAGE_FAULT() {
+    unsigned long regVal;
     printf("PAGE_FAULT");
+    asm("movl %%cr2, %0;" : "=r" (regVal) : );
+    // Prints Address that caused fault
+    if (regVal == 0)
+        printf(" Tried to access NULL pointer");
+    else
+        printf(" Address 0x%x caused PAGE_FAULT\n", regVal);
     while(1) {
     }
-
 }
 
 void FLOATING_POINT_ERROR() {
@@ -160,25 +171,44 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 
+/* RTC() (Handler)
+ * DESCRIPTION:  Handler function called by RTC interrupt
+ * INPUTS:       None
+ * OUTPUTS:      Calls test_interrupts, which floods screen
+ * RETURNS:      None
+ * SIDE EFFECTS: Sends EOI to PIC to end interrupt
+ */
 void RTC() {
-  printf("RTC\n");
-  while(1);
+    uint32_t reg_c;
 
+    // mask only the periodic interrupt bit
+    uint32_t period_mask = 0x00000040;
+
+    reg_c = inb(RTC_DATA);
+    if((reg_c & period_mask) != 0) {
+
+        // we have found a periodic interrupt
+        //test_interrupts();
+    }
+    send_eoi(RTC_IRQ);
 }
 #define KEYBOARD_ADDR 0x64
+#define KEYBOARD_PORT 0x60
+
 void KEYBOARD() {
-  // write eoi
-  unsigned char status;
-  char key;
-  send_eoi(kbd_eoi); // 1 is the irq for keyboard
-  status = inb(KEYBOARD_ADDR);
-  if(status & 0x01){
-    key = inb(0x60);
-    if(key < 0)
-      return;
-    putc(keyboard_map[key]);
-  }
-  return;
+    // write eoi
+    unsigned char status;
+    char key;
+
+    send_eoi(kbd_eoi); // 1 is the irq for keyboard
+
+    status = inb(KEYBOARD_ADDR);
+    if(status & 0x01){
+        key = inb(KEYBOARD_PORT);
+        if(key < 0)
+            return;
+        putc(keyboard_map[(uint32_t) key]);
+    }
 }
 
 void SYSTEM_CALL() {
