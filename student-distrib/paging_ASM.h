@@ -1,3 +1,7 @@
+/* paging_ASM.h - Defines used in working with paging
+ * vim:ts=4 noexpandtab
+ */
+
 #ifndef PAGING_ASM_H
 #define PAGING_ASM_H
 

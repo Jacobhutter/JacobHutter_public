@@ -6,6 +6,10 @@
 #ifndef _I8259_H
 #define _I8259_H
 
+/* i8259.h - Defines used in working with PIC
+ * vim:ts=4 noexpandtab
+ */
+
 #include "types.h"
 
 /* Ports that each PIC sits on */

@@ -1,10 +1,6 @@
-//
-//  interrupt_handler.h
-//
-//
-//  Created by Cameron Long on 3/9/17.
-//
-//
+/* interrupt_handler.h - Defines used in handling interrupts
+ * vim:ts=4 noexpandtab
+ */
 
 #ifndef interrupt_handler_h
 #define interrupt_handler_h
