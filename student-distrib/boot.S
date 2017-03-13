@@ -41,7 +41,7 @@ continue:
 		popl %ecx # caller save regs
 		popl %eax*/
 
-		#lidt idt_desc_ptr
+		lidt idt_desc_ptr
 
 	# Load CS with the new descriptor value
 	ljmp    $KERNEL_CS, $keep_going
