@@ -218,7 +218,7 @@ void PAGE_FAULT() {
     if (regVal == 0)
         printf(" Tried to access NULL pointer");
     else
-        printf(" Address 0x%x caused PAGE_FAULT\n", regVal);
+        printf(" Address 0x%#x caused PAGE_FAULT\n", regVal);
     cli(); // dont want keyboard to interfere
     while(1) {
     }

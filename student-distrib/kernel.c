@@ -20,7 +20,7 @@
 /* Check if MAGIC is valid and print the Multiboot information structure
  pointed by ADDR. */
 
-static module_t* bb;
+static unsigned int bb;
 
 /* void entry (unsigned long magic, unsigned long addr)
 * INPUT: magic and addr
@@ -65,7 +65,7 @@ multiboot_info_t *mbi;
         int mod_count = 0;
         int i;
         module_t* mod = (module_t*)mbi->mods_addr;
-        bb = mod;
+        bb = mod->mod_start;
         while(mod_count < mbi->mods_count) {
             printf("Module %d loaded at address: 0x%#x\n", mod_count, (unsigned int)mod->mod_start);
             printf("Module %d ends at address: 0x%#x\n", mod_count, (unsigned int)mod->mod_end);
@@ -177,16 +177,16 @@ multiboot_info_t *mbi;
      * IDT correctly otherwise QEMU will triple fault and simple close
      * without showing you any output */
     build_idt();
-
-    init_file_system(bb->mod_start);
     
     /*initialize paging */
     initPaging();
 
-    // module_t* mod = (module_t*)mbi->mods_addr;
-    // init_file_system(bb->mod_start);
+    init_file_system(bb);
 
     printf("Enabling Interrupts\n");
+
+    clear();
+    test1();
 
     /* Execute the first program (`shell') ... */
 
