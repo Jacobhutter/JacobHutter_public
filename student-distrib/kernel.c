@@ -165,7 +165,7 @@ multiboot_info_t *mbi;
 
     /* initializes keyboard */
     keyboard_init();
-    
+
     /*initializes real time clock (2hz currently) */
     rtc_init();
 
@@ -174,12 +174,16 @@ multiboot_info_t *mbi;
      * IDT correctly otherwise QEMU will triple fault and simple close
      * without showing you any output */
     build_idt();
-    
+
     /*initialize paging */
     initPaging();
 
+
     printf("Enabling Interrupts\n");
 
+    black_screen();
+    char prompt[] = "[SLEEP_DEPRIVED]:";
+    puts(prompt);
     /* Execute the first program (`shell') ... */
 
     /* Spin (nicely, so we don't chew up cycles) */

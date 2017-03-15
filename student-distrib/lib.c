@@ -550,10 +550,19 @@ strncpy(int8_t* dest, const int8_t* src, uint32_t n)
 
 	return dest;
 }
-
 unsigned char * vid = (unsigned char *)0xB8000; // start of video memory
 #define screensize  25*80
 #define fill 139
+
+void
+black_screen(){
+  int i = 0;
+  for(i = 0; i < screensize * 2; i++){
+    if(i%2 == 0)
+      vid[i] = ' ';
+  }
+}
+
 /*
 * void bsod();
 * INPUT: NONE
