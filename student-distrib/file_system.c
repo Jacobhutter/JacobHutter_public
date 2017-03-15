@@ -31,9 +31,9 @@ int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
 
 	// Runs through list to find file name
 	for (i = 0; i < dir_entries; i++) {
-		
+
 		// If the names are equal, copy and return
-		if(check_string(fname, (char*)curr)) {
+		if (check_string(fname, (char*)curr)) {
 			*dentry = *curr;
 			return 0;
 		}
@@ -44,7 +44,7 @@ int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
 }
 
 int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
-	
+
 	dentry_t* curr;
 
 	// Tried to access file that didn't exist
@@ -71,7 +71,7 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
 
 
 	init_inode_addr = boot_block_addr + MEM_BLOCK;
-	init_data_addr = boot_block_addr + (MEM_BLOCK + num_inode * MEM_BLOCK); 
+	init_data_addr = boot_block_addr + (MEM_BLOCK + num_inode * MEM_BLOCK);
 
 	if (inode >= num_inode)
 		return -1;
@@ -83,10 +83,15 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
 void test1() {
 	dentry_t temp;
 	int i;
-	for (i = 0; i < dir_entries; i++) {
-	read_dentry_by_index(i, &temp);
-	print_file_name(&(temp.file_name));
-}
+	// for (i = 0; i < dir_entries; i++) {
+	// 	read_dentry_by_index(i, &temp);
+	// 	print_file_name(&(temp.file_name));
+	// }
+
+	i = read_dentry_by_name("frame0.txt", &temp);
+
+	if (i >= 0)
+		print_file_name(&(temp.file_name));
 
 
 	// print_file_name("Hello000000000000000000000000000");
@@ -108,7 +113,7 @@ int check_string(char* s1, char* s2) {
 	int i;
 
 	for (i = 0; i < 32; i++)
-		if (s1[i] != s2[i]) return 0;
+		if ((s1[i] != s2[i]) && ((s1[i] == 4 && s2[i] == 0) || (s1[i] == 0 && s2[i] == 4))) return 0;
 
 	return 1;
 }
