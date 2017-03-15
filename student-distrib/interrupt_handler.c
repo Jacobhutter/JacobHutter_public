@@ -281,7 +281,7 @@ void RTC() {
     if((reg_c & period_mask) != 0) {
 
         // we have found a periodic interrupt
-        test_interrupts();
+        // test_interrupts();
     }
     send_eoi(RTC_IRQ);
 }
