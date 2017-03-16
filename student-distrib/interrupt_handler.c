@@ -3,7 +3,7 @@
 
 
 #include "interrupt_handler.h"
-
+#include "keyboard.h"
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
 /*
 * keyboard_map()
@@ -306,7 +306,8 @@ void KEYBOARD() {
         key = inb(KEYBOARD_PORT);
         if(key < 0)
             return;
-        putc(keyboard_map[(uint32_t) key]);
+        keyboard_write(keyboard_map[(uint32_t) key]);
+        //putc(keyboard_map[(uint32_t) key]);
     }
 }
 /*

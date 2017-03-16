@@ -164,7 +164,7 @@ multiboot_info_t *mbi;
     sti();
 
     /* initializes keyboard */
-    keyboard_init();
+    keyboard_open();
 
     /*initializes real time clock (2hz currently) */
     rtc_init();
@@ -179,11 +179,11 @@ multiboot_info_t *mbi;
     initPaging();
 
 
-    printf("Enabling Interrupts\n");
+    //printf("Enabling Interrupts\n");
 
-    black_screen();
-    char prompt[] = "[SLEEP_DEPRIVED]:";
-    puts(prompt);
+    //black_screen();
+    //char prompt[] = "[SLEEP_DEPRIVED]:";
+    //puts(prompt);
     /* Execute the first program (`shell') ... */
 
     /* Spin (nicely, so we don't chew up cycles) */
