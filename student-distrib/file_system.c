@@ -55,10 +55,6 @@ int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
 	// One offset for boot block
 	curr = boot_block_addr + (index + 1) * BLOCK_OFF;
 
-	// printf("0x%#x, 0x%#x\n", boot_block_addr, curr);
-
-
-
 	*dentry = *curr;
 
 	return 0;
@@ -88,10 +84,14 @@ void test1() {
 	// 	print_file_name(&(temp.file_name));
 	// }
 
-	i = read_dentry_by_name("frame0.txt", &temp);
+	// printf("Hello\n");
+
+	i = read_dentry_by_name("frame1.txt", &temp);
 
 	if (i >= 0)
 		print_file_name(&(temp.file_name));
+
+	// printf("%d\n", check_string("", ""));
 
 
 	// print_file_name("Hello000000000000000000000000000");
@@ -112,8 +112,12 @@ void print_file_name(char* a) {
 int check_string(char* s1, char* s2) {
 	int i;
 
-	for (i = 0; i < 32; i++)
-		if ((s1[i] != s2[i]) && ((s1[i] == 4 && s2[i] == 0) || (s1[i] == 0 && s2[i] == 4))) return 0;
+	for (i = 0; i < 32; i++) {
+		if (s1[i] == '%') return 1;
+		if ((s1[i] != s2[i])){
+		 return 0;
+		}
+	}
 
 	return 1;
 }
