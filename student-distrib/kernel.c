@@ -12,6 +12,7 @@
 #include "keyboard.h"
 #include "rtc.h"
 #include "wrapper.h"
+#include "file_system.h"
 
 /* Macros. */
 /* Check if the bit BIT in FLAGS is set. */

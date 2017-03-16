@@ -4,7 +4,7 @@
 #define BLOCK_OFF 16 /* Integer offset for each block */
 
 #define MEM_BLOCK 4096 /* 4kB */
-#define MEM_BLOCK 1024 /* Integer offset for each memory space */
+#define kB 1024 /* Integer offset for each memory space */
 
 static unsigned long* boot_block_addr;
 static unsigned long num_inode, data_blocks, dir_entries;
@@ -62,15 +62,32 @@ int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
 
 int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length) {
 
-	int* init_inode_addr;
-	char* init_data_addr;
+	// int* init_inode_addr, inode_addr;
+	// char* init_data_addr, data_addr;
+	// int block_length, data_num, min, i;
 
 
-	init_inode_addr = boot_block_addr + MEM_BLOCK;
-	init_data_addr = boot_block_addr + (MEM_BLOCK + num_inode * MEM_BLOCK);
+	// init_inode_addr = boot_block_addr + kB;
+	// init_data_addr = boot_block_addr + (kB + num_inode * kB);
 
-	if (inode >= num_inode)
-		return -1;
+	// if (inode >= num_inode)
+	// 	return -1;
+
+	// inode_addr = init_inode_addr + (inode * kB);
+
+	// block_length = *inode_addr;
+
+	// min = (length > block_length) ? block_length : length;
+
+	// i = 0;
+	// while (i < min) {
+	// 	data_num = inode_addr[i + 1];
+	// 	if (data_num >= data_blocks)
+	// 		return -1;
+
+
+
+	// }
 
 
 	return -1;
@@ -79,17 +96,17 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
 void test1() {
 	dentry_t temp;
 	int i;
-	// for (i = 0; i < dir_entries; i++) {
-	// 	read_dentry_by_index(i, &temp);
-	// 	print_file_name(&(temp.file_name));
-	// }
+	for (i = 0; i < dir_entries; i++) {
+		read_dentry_by_index(i, &temp);
+		print_file_name(&(temp.file_name));
+	}
 
 	// printf("Hello\n");
 
-	i = read_dentry_by_name("frame1.txt", &temp);
+	// i = read_dentry_by_name("frame1.txt", &temp);
 
-	if (i >= 0)
-		print_file_name(&(temp.file_name));
+	// if (i >= 0)
+	// 	print_file_name(&(temp.file_name));
 
 	// printf("%d\n", check_string("", ""));
 
