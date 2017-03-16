@@ -28,7 +28,7 @@
 void
 entry (unsigned long magic, unsigned long addr)
 {
-multiboot_info_t *mbi;
+    multiboot_info_t *mbi;
 
     /* Clear the screen. */
     clear();
@@ -167,7 +167,7 @@ multiboot_info_t *mbi;
     keyboard_init();
 
     /*initializes real time clock (2hz currently) */
-    rtc_init();
+    (void)rtc_init();
 
     /* Enable interrupts */
     /* Do not enable the following until after you have set up your
@@ -180,6 +180,8 @@ multiboot_info_t *mbi;
 
     printf("Enabling Interrupts\n");
     /* Execute the first program (`shell') ... */
+
+    test_rtc();
 
     /* Spin (nicely, so we don't chew up cycles) */
     asm volatile(".1: hlt; jmp .1;");

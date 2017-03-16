@@ -13,7 +13,7 @@
 * output: none
 * return value: unsigned char for the character for that scan code
 */
-unsigned char keyboard_map[128] =
+static unsigned char keyboard_map[128] =
 {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
     '9', '0', '-', '=', '\b',	/* Backspace */
@@ -52,6 +52,9 @@ unsigned char keyboard_map[128] =
     0,	/* F12 Key */
     0,	/* All other keys are undefined */
 };
+
+static volatile int32_t ticks_limit;
+static volatile int32_t rtc_wait_status = 0;
 
 /* DIVIDE_ERROR()
 * INPUTS : NONE
@@ -264,6 +267,17 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 
+// ADD HELPER FUNCTION DEFINITION HERE.
+void set_rtc_freq(int32_t freq) {
+    ticks_limit = RTC_BASE_FREQ / freq;
+}
+
+// ADD HELPER FUNCTION DEFINITION HERE.
+void rtc_wait() {
+    rtc_wait_status = 1;
+    while(rtc_wait_status);
+}
+
 /* RTC() (Handler)
  * DESCRIPTION:  Handler function called by RTC interrupt
  * INPUTS:       None
@@ -273,6 +287,7 @@ void FLOATING_POINT_EXCEPTION() {
  */
 void RTC() {
     uint32_t reg_c;
+    static uint32_t ticks = -1;
 
     // mask only the periodic interrupt bit
     uint32_t period_mask = 0x00000040;
@@ -281,7 +296,14 @@ void RTC() {
     if((reg_c & period_mask) != 0) {
 
         // we have found a periodic interrupt
-        test_interrupts();
+        ticks++;
+
+        if(ticks % ticks_limit == 0) {
+            rtc_wait_status = 0;
+        }
+        if(ticks >= RTC_BASE_FREQ) {
+            ticks = 0;
+        }
     }
     send_eoi(RTC_IRQ);
 }
