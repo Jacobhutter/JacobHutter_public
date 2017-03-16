@@ -182,7 +182,8 @@ multiboot_info_t *mbi;
     /*initialize paging */
     initPaging();
 
-    init_file_system(bb);
+    /* initializing file system */
+    init_file_system((unsigned long *)bb);
 
     printf("Enabling Interrupts\n");
 
