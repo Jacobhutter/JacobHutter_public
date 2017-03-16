@@ -47,6 +47,11 @@ void test_rtc() {
 	int freqs[RTC_TESTCASES] = {16, 2, 45, 1, 2048, -2, 8, 1024};
     int i, j; //testing for RTC driver
 
+    for(j = 0; j < 16; j++) {
+        (void)rtc_read();
+        printf("%d ", j);
+    }
+    printf("\n");
 	for(i = 0; i < RTC_TESTCASES; i++) {
         if(rtc_write(freqs[i]) == 0) {
             for(j = 0; j < 16; j++) {
