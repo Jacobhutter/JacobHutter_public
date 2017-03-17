@@ -6,12 +6,36 @@
 #define screen_height 25
 #define screen_width 80
 #define vga_mem 0xB8000
-#define green 2
+#define GREEN 2
 #define screen_area screen_width*screen_height*2
 unsigned char kbd_buffer[128*2]; // keyboard buffer of 128 bytes including new line
 unsigned char frame_buffer[25*80*2];
+unsigned char dummy_buffer[25*80*2];
+
 volatile int index;
 
+void scroll(){
+  int i;
+  memcpy((void *)dummy_buffer+(screen_width*2),(const void *)frame_buffer,screen_area-(screen_width*2));
+  for(i = 0; i < screen_width*2; i++){
+    if(i%2 == 0)
+      dummy_buffer[i] = ' ';
+    else
+      dummy_buffer[i] = 0;
+  }
+  memcpy((void *)frame_buffer,(const void *)dummy_buffer, screen_area);
+  display_screen();
+  index = 0;
+}
+void clear_kbd_buf(){
+ int i;
+ for(i = 0; i< buffer_size; i++){
+   if(i%2 == 0)
+     kbd_buffer[i] = ' ';
+   else
+     kbd_buffer[i] = GREEN;
+ }
+}
 void buffer_to_screen(){
   memcpy((void *)frame_buffer,(const void *)kbd_buffer, index);
 }
@@ -31,7 +55,7 @@ void keyboard_open() {
       if(i %2 == 0)
         kbd_buffer[i] = ' '; // char
       else
-        kbd_buffer[i] = green; // color
+        kbd_buffer[i] = GREEN; // color
     }
     for(i =0; i<screen_area;i++){
       if(i%2==0)
@@ -44,19 +68,25 @@ void keyboard_open() {
 }
 
 void keyboard_write(unsigned char keypress){
-  if(index == buffer_size -2){
-    kbd_buffer[index] = '\n';
-    index = index + 2;
-    buffer_to_screen();
-    display_screen();
-    int i;
-    for(i = 0; i < buffer_size; i++){
-      if(i %2 == 0)
-        kbd_buffer[i] = ' '; // char
+  int i;
+  if(index == buffer_size && keypress != '\n' && keypress != '\b')
+    return;
+
+  if(index == screen_width*2){
+    memcpy((void *)dummy_buffer+(screen_width*4),(const void *)frame_buffer+(screen_width*2),screen_area-(screen_width*4));
+    for(i = screen_width*2; i<screen_width*4; i++){
+      if(i%2 == 0)
+        dummy_buffer[i] = ' ';
       else
-        kbd_buffer[i] = green; // color
+        dummy_buffer[i] = 0;
     }
-    index = 0;
+    memcpy((void *)frame_buffer,(const void *)dummy_buffer, screen_area);
+    display_screen();
+  }
+
+  if(keypress == '\n'){
+    scroll();
+    clear_kbd_buf();
     return;
   }
   if(keypress == '\b'){ // if sent in \b
@@ -72,4 +102,15 @@ void keyboard_write(unsigned char keypress){
   index = index + 2;
   buffer_to_screen();
   display_screen();
+}
+/*extern int32_t ece391_write (int32_t fd, const void* buf, int32_t nbytes);*/
+
+int32_t terminal_write(const void* buf, int32_t nbytes){
+  return 0;
+}
+
+/*extern int32_t ece391_read (int32_t fd, void* buf, int32_t nbytes);*/
+
+int32_t terminal_read(void* buf, int32_t nbytes){
+  return 0;
 }

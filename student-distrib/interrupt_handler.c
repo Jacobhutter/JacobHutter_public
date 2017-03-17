@@ -299,16 +299,19 @@ void KEYBOARD() {
     unsigned char status;
     char key;
 
-    send_eoi(kbd_eoi); // 1 is the irq for keyboard
 
     status = inb(KEYBOARD_ADDR);
     if(status & odd_mask){
         key = inb(KEYBOARD_PORT);
-        if(key < 0)
-            return;
+        if(key < 0){
+          send_eoi(kbd_eoi); // 1 is the irq for keyboard
+          return;
+        }
         keyboard_write(keyboard_map[(uint32_t) key]);
         //putc(keyboard_map[(uint32_t) key]);
     }
+    send_eoi(kbd_eoi); // 1 is the irq for keyboard
+
 }
 /*
 * SYSTEM_CALL()
