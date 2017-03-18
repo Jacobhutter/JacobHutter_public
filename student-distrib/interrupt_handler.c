@@ -13,8 +13,8 @@
 * output: none
 * return value: unsigned char for the character for that scan code
 */
-unsigned char keyboard_map[128] =
-{
+unsigned char keyboard_map[3][128] =
+{{
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
     '9', '0', '-', '=', '\b',	/* Backspace */
     '\t',			/* Tab */
@@ -51,7 +51,82 @@ unsigned char keyboard_map[128] =
     0,	/* F11 Key */
     0,	/* F12 Key */
     0,	/* All other keys are undefined */
-};
+},
+{
+    0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
+    '9', '0', '-', '=', '\b',	/* Backspace */
+    '\t',			/* Tab */
+    'Q', 'W', 'E', 'R',	/* 19 */
+    'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\n',	/* Enter key */
+    0,			/* 29   - Control */
+    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';',	/* 39 */
+    '\'', '`',   0,		/* Left shift */
+    '\\', 'Z', 'X', 'C', 'V', 'B', 'N',			/* 49 */
+    'M', ',', '.', '/',   0,				/* Right shift */
+    '*',
+    0,	/* Alt */
+    ' ',	/* Space bar */
+    0,	/* Caps lock */
+    0,	/* 59 - F1 key ... > */
+    0,   0,   0,   0,   0,   0,   0,   0,
+    0,	/* < ... F10 */
+    0,	/* 69 - Num lock*/
+    0,	/* Scroll Lock */
+    0,	/* Home key */
+    0,	/* Up Arrow */
+    0,	/* Page Up */
+    '-',
+    0,	/* Left Arrow */
+    0,
+    0,	/* Right Arrow */
+    '+',
+    0,	/* 79 - End key*/
+    0,	/* Down Arrow */
+    0,	/* Page Down */
+    0,	/* Insert Key */
+    0,	/* Delete Key */
+    0,   0,   0,
+    0,	/* F11 Key */
+    0,	/* F12 Key */
+    0,	/* All other keys are undefined */
+},{
+    0,  27, '!', '@', '#', '$', '%', '^', '&', '*',	/* 9 */
+    '(', ')', '_', '+', '\b',	/* Backspace */
+    '\t',			/* Tab */
+    'Q', 'W', 'E', 'R',	/* 19 */
+    'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '\n',	/* Enter key */
+    0,			/* 29   - Control */
+    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';',	/* 39 */
+    '\'', '"',   0,		/* Left shift */
+    '\\', 'Z', 'X', 'C', 'V', 'B', 'N',			/* 49 */
+    'M', '<', '>', '?',   0,				/* Right shift */
+    '*',
+    0,	/* Alt */
+    ' ',	/* Space bar */
+    0,	/* Caps lock */
+    0,	/* 59 - F1 key ... > */
+    0,   0,   0,   0,   0,   0,   0,   0,
+    0,	/* < ... F10 */
+    0,	/* 69 - Num lock*/
+    0,	/* Scroll Lock */
+    0,	/* Home key */
+    0,	/* Up Arrow */
+    0,	/* Page Up */
+    '-',
+    0,	/* Left Arrow */
+    0,
+    0,	/* Right Arrow */
+    '+',
+    0,	/* 79 - End key*/
+    0,	/* Down Arrow */
+    0,	/* Page Down */
+    0,	/* Insert Key */
+    0,	/* Delete Key */
+    0,   0,   0,
+    0,	/* F11 Key */
+    0,	/* F12 Key */
+    0,	/* All other keys are undefined */
+}};
 
 /* DIVIDE_ERROR()
 * INPUTS : NONE
@@ -286,6 +361,12 @@ void RTC() {
     send_eoi(RTC_IRQ);
 }
 
+
+
+uint32_t CAPS_ON = 0;
+uint32_t RSHIFT_ON = 0; // BOIIIIIIIIII
+uint32_t LSHIFT_ON = 0; // BOIIIIIIIIII
+uint8_t DECISION;
 /*
 * KEYBOARD()
 * DESCRIPTION: sends output to screen when key is pressed,
@@ -298,19 +379,56 @@ void KEYBOARD() {
     // write eoi
     unsigned char status;
     char key;
+    status = inb(KEYBOARD_ADDR); // get status of interrupt
 
-
-    status = inb(KEYBOARD_ADDR);
-    if(status & odd_mask){
-        key = inb(KEYBOARD_PORT);
-        if(key < 0){
-          send_eoi(kbd_eoi); // 1 is the irq for keyboard
-          return;
+    if(status & ODD_MASK){ // check odd
+            key = inb(KEYBOARD_PORT);
+            if(key == CAPS_LOCK){
+                CAPS_ON += 1;
+                CAPS_ON %= 2;
+                send_eoi(kbd_eoi); // 1 is the irq for keyboard
+                return;
+            }
+            if(key == RIGHT_SHIFT){
+                RSHIFT_ON += 1;
+                RSHIFT_ON %= 2;
+                send_eoi(kbd_eoi); // 1 is the irq for keyboard
+                return;
+            }
+            if(key == LEFT_SHIFT){
+                LSHIFT_ON += 1;
+                LSHIFT_ON %= 2;
+                send_eoi(kbd_eoi); // 1 is the irq for keyboard
+                return;
+            }
+            if((uint8_t)key == 182){ // release of RIGHT_SHIFT is a negative number
+                RSHIFT_ON -= 1;
+                send_eoi(kbd_eoi); // 1 is the irq for keyboard
+                return;
+            }
+            if((uint8_t)key == 170){ // release of LEFT_SHIFT is a negative number
+                LSHIFT_ON -= 1;
+                send_eoi(kbd_eoi); // 1 is the irq for keyboard
+                return;
+            }
+            DECISION  = RSHIFT_ON|LSHIFT_ON ? 2 : CAPS_ON; // if RSHIFT_on or LSHIFT_ON assign a 2 else assign a 0 or 1 based on caps lock
+            if(key < 0){ // filter out upstroke
+                /*int i;
+                char str[8];
+                for(i = 0; i<8; i++){
+                    if(key<0)
+                        str[i] = '1';
+                    else
+                        str[i] = '0';
+                    key = key << 1;
+                }
+                puts(str);*/
+                send_eoi(kbd_eoi); // 1 is the irq for keyboard
+                return;
+            }
+            keyboard_write(keyboard_map[DECISION][(uint32_t) key]);
         }
-        keyboard_write(keyboard_map[(uint32_t) key]);
-        //putc(keyboard_map[(uint32_t) key]);
-    }
-    send_eoi(kbd_eoi); // 1 is the irq for keyboard
+        send_eoi(kbd_eoi); // 1 is the irq for keyboard
 
 }
 /*
