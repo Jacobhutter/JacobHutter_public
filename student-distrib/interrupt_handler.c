@@ -367,6 +367,12 @@ uint32_t CAPS_ON = 0;
 uint32_t RSHIFT_ON = 0; // BOIIIIIIIIII
 uint32_t LSHIFT_ON = 0; // BOIIIIIIIIII
 uint8_t DECISION;
+uint8_t CONTROL_ON = 0;
+void shortcuts(char key){
+
+
+
+}
 /*
 * KEYBOARD()
 * DESCRIPTION: sends output to screen when key is pressed,
@@ -383,6 +389,10 @@ void KEYBOARD() {
 
     if(status & ODD_MASK){ // check odd
             key = inb(KEYBOARD_PORT);
+            if(key == CONTROL)
+                CONTROL_ON = 1;
+            if((uint8_t)key == 157)
+                CONTROL_ON = 0;
             if(key == CAPS_LOCK){
                 CAPS_ON += 1;
                 CAPS_ON %= 2;
@@ -401,32 +411,22 @@ void KEYBOARD() {
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            if((uint8_t)key == 182){ // release of RIGHT_SHIFT is a negative number
+            if((uint8_t)key == _RIGHT_SHIFT){ // release of RIGHT_SHIFT is a negative number
                 RSHIFT_ON -= 1;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            if((uint8_t)key == 170){ // release of LEFT_SHIFT is a negative number
+            if((uint8_t)key == _LEFT_SHIFT){ // release of LEFT_SHIFT is a negative number
                 LSHIFT_ON -= 1;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            DECISION  = RSHIFT_ON|LSHIFT_ON ? 2 : CAPS_ON; // if RSHIFT_on or LSHIFT_ON assign a 2 else assign a 0 or 1 based on caps lock
+            DECISION  = RSHIFT_ON|LSHIFT_ON ? SHIFT_ON : CAPS_ON; // if RSHIFT_on or LSHIFT_ON assign a 2 else assign a 0 or 1 based on caps lock
             if(key < 0){ // filter out upstroke
-                /*int i;
-                char str[8];
-                for(i = 0; i<8; i++){
-                    if(key<0)
-                        str[i] = '1';
-                    else
-                        str[i] = '0';
-                    key = key << 1;
-                }
-                puts(str);*/
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            keyboard_write(keyboard_map[DECISION][(uint32_t) key]);
+            keyboard_write(keyboard_map[DECISION][(uint32_t) key],CONTROL_ON);
         }
         send_eoi(kbd_eoi); // 1 is the irq for keyboard
 
