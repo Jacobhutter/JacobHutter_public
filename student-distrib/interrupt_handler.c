@@ -356,7 +356,10 @@ void RTC() {
     if((reg_c & period_mask) != 0) {
 
         // we have found a periodic interrupt
-        //test_interrupts();
+        /*unsigned char test[128];
+        unsigned char it[1];
+        it[0] = (terminal_read(test,128)) + '0';
+        terminal_write((void *)it,1);*/
     }
     send_eoi(RTC_IRQ);
 }
@@ -368,11 +371,6 @@ uint32_t RSHIFT_ON = 0; // BOIIIIIIIIII
 uint32_t LSHIFT_ON = 0; // BOIIIIIIIIII
 uint8_t DECISION;
 uint8_t CONTROL_ON = 0;
-void shortcuts(char key){
-
-
-
-}
 /*
 * KEYBOARD()
 * DESCRIPTION: sends output to screen when key is pressed,
