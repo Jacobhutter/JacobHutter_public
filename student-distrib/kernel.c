@@ -188,7 +188,8 @@ multiboot_info_t *mbi;
     printf("Enabling Interrupts\n");
 
     clear();
-    test1();
+    list_all_files();
+
 
     /* Execute the first program (`shell') ... */
 
