@@ -178,6 +178,8 @@ multiboot_info_t *mbi;
     /*initialize paging */
     initPaging();
 
+    test_terminal();
+
     //char test[] = "ABCDEFghiJKLMNOPqrsTUVwxy Z \nABCDEFghiJKLMNOPqrsTUVwxy Z \nABCDEFghiJKLMNOPqrsTUVwxy Z \nABCDEFghiJKLMNOPqrsTUVwxy Z \n";
     //terminal_write((const void *)test,29*4);
     //printf("Enabling Interrupts\n");

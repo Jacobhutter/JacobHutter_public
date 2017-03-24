@@ -355,6 +355,7 @@ void RTC() {
     reg_c = inb(RTC_DATA);
     if((reg_c & period_mask) != 0) {
 
+        //printf("test");
         // we have found a periodic interrupt
         /*unsigned char test[128];
         unsigned char it[1];

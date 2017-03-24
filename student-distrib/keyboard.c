@@ -192,8 +192,19 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
             memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
         }
         INTERRUPT_MAP[(INDEX/2)+i] = 1; // map current index to show that it was filled by interrupt
-        insert_char(((unsigned char *)buf)[i]);
-        INDEX += 2;
+        if(((unsigned char *)buf)[i] == '\n'){
+            scroll();
+            clear_kbd_buf();
+            clear_INTERRUPT_MAP();
+            OLD_KEYPRESSES = 0; // make user enter in fresh entry
+            int k = 0;
+            for(k = 0; k< BUFFER_LIMIT; k++)
+              old_kbd_buffer[k] = ' ';
+        }
+        else{
+            insert_char(((unsigned char *)buf)[i]);
+            INDEX += 2;
+        }
     }
     display_screen();
 
@@ -204,13 +215,66 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
 
 int32_t terminal_read(void* buf, int32_t nbytes){
   if(nbytes < 0 || nbytes > BUFFER_LIMIT)
-    return -1;
+    return -1; // valid entry?
+  if(OLD_KEYPRESSES == 0)
+    return -1; // no entry was made by user
   memcpy(buf,(const void *)old_kbd_buffer,nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes);
   int32_t retval = 0;
   retval = nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes;
-  OLD_KEYPRESSES = 0;
-  int i = 0;
-  for(i = 0; i< BUFFER_LIMIT; i++)
-    old_kbd_buffer[i] = ' ';
   return retval;
+}
+
+void test_terminal(){
+    int t_length=-1;
+    unsigned char sol_buf[128];
+    unsigned char test_buf[] = "What is your name? \n";
+    terminal_write((const void*)test_buf,(int32_t)20);
+    while(t_length == -1)
+        t_length = terminal_read((void *)test_buf,(int32_t)128); // read up to one buffer size
+    unsigned char new_test_buf[] = " sounds like a great name! What is your favorite color?\n";
+    terminal_write((const void *)test_buf,(int32_t)t_length);
+    terminal_write((const void *)new_test_buf,(int32_t)strlen((int8_t *)new_test_buf));
+    t_length = -1;
+    while(t_length == -1)
+        t_length = terminal_read((void *)test_buf,(int32_t)128);
+    terminal_write((const void *)test_buf,(int32_t)t_length);
+    unsigned int color_length = t_length;
+    terminal_write((const void *)" has ",(int32_t)5);
+    if(color_length >= 10){
+        sol_buf[1] = (color_length%10) + '0'; // i to a
+        sol_buf[0] = (color_length/10) + '0';
+        t_length = 2;
+    }
+    else{
+        sol_buf[0] = color_length + '0';
+        t_length = 1;
+    }
+    memcpy((void *)sol_buf + t_length, (const void *)" letters in it, there are ",26);
+    int j,i,sol = 26;
+    if(color_length == 0)
+        sol = 0;
+    while(color_length>1){
+        sol *= 26;
+        color_length--;
+    }
+    i = 1;
+    int count = 1;
+    while(1){ // how many digits is sol?
+        if(sol - i > 0){
+            i *= 10;
+            count++;
+        }
+        else
+            break;
+    }
+    i /= 10;
+    j = 1;
+    count--;
+    for(j = 0; j < count; j++){
+        sol_buf[t_length + j + 26] = (sol / i) + '0';
+        sol %= i;
+        i /= 10;
+    }
+    memcpy((void *)sol_buf + t_length+26+count, (const void *)" different words to make out of that many letters! \n",50);
+    terminal_write((const void *)sol_buf,t_length+26 + count + 50);
 }
