@@ -1,4 +1,4 @@
-/* x86_desc.h - Defines for various x86 descriptors, descriptor tables,
+/* x86_desc.h - Defines for various x86 descriptors, descriptor tables, 
  * and selectors
  * vim:ts=4 noexpandtab
  */
@@ -114,26 +114,7 @@ typedef struct __attribute__((packed)) tss_t {
 /* Some external descriptors declared in .S files */
 extern x86_desc_t gdt_desc;
 
-extern void _DIVIDE_ERROR();
-extern void _RESERVED();
-extern void _NMI_INTERRUPT();
-extern void _BREAKPOINT();
-extern void _OVERFLOW();
-extern void _BOUND_RANGE_EXCEEDED();
-extern void _INVALID_OPCODE();
-extern void _DEVICE_NOT_AVAILABLE();
-extern void _DOUBLE_FAULT();
-extern void _COPROCESSOR_SEGMENT_OVERRUN();
-extern void _INVALID_TSS();
-extern void _SEGMENT_NOT_PRESENT();
-extern void _STACK_SEGMENT_FAULT();
-extern void _GENERAL_PROTECTION();
-extern void _PAGE_FAULT();
-extern void _FLOATING_POINT_ERROR();
-extern void _ALIGNMENT_CHECK();
-extern void _MACHINE_CHECK();
-extern void _FLOATING_POINT_EXCEPTION();
-
+extern void * EXCEPTION_TABLE();
 extern void _RTC();
 extern void _SYSTEM_CALL();
 extern void _KEYBOARD();

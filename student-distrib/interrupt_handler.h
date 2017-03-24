@@ -10,8 +10,15 @@
 #include "rtc.h"
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_PORT 0x60
-#define odd_mask 0x01
+#define ODD_MASK 0x01
+#define CAPS_LOCK 58
+#define LEFT_SHIFT 42
+#define RIGHT_SHIFT 54
+#define _RIGHT_SHIFT 182
+#define _LEFT_SHIFT 170
+#define SHIFT_ON 2
 #define kbd_eoi 1
+#define CONTROL 29
 
 extern void DIVIDE_ERROR();
 extern void RESERVED();
