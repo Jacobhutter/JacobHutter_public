@@ -7,6 +7,8 @@
 #define BUFFER_LIMIT 128
 #define SCREEN_HEIGHT 25
 #define SCREEN_WIDTH 80
+#define MAX_WIDTH_INDEX 79
+#define MAX_HEIGHT_INDEX 24
 #define VGA_MEM 0xB8000
 #define GREEN 2
 #define BLACK 0
@@ -19,27 +21,93 @@ volatile uint32_t INDEX = 0;
 volatile uint32_t KEYPRESSES = 0;
 volatile uint8_t OLD_KEYPRESSES = 0;
 volatile uint32_t INTERRUPT_MAP[SCREEN_AREA/2];
+volatile uint8_t SYS_CALL_MAP[SCREEN_WIDTH][SCREEN_HEIGHT];
+volatile uint32_t screen_x;
+volatile uint32_t screen_y;
 
-void scroll(){
-  int i;
-  memcpy((void *)dummy_buffer+(SCREEN_WIDTH*VGA_CONVENTION),(const void *)frame_buffer,SCREEN_AREA-(SCREEN_WIDTH*VGA_CONVENTION));
-  for(i = 0; i < SCREEN_WIDTH*VGA_CONVENTION; i++){
-    if(i%2 == 0)
-      dummy_buffer[i] = ' ';
-    else
-      dummy_buffer[i] = 0;
-  }
-  memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
-  display_screen();
 
-  INDEX = 0;
-  KEYPRESSES = 0;
-}
 void clear_kbd_buf(){
     int i;
     for(i = 0; i< BUFFER_LIMIT; i++)
         kbd_buffer[i] = ' ';
 }
+
+void scroll(){
+    int i;
+    memcpy((void *)dummy_buffer,(const void *)frame_buffer+(SCREEN_WIDTH*VGA_CONVENTION),SCREEN_AREA-(SCREEN_WIDTH*VGA_CONVENTION));
+
+    for(i = SCREEN_AREA-(SCREEN_WIDTH*VGA_CONVENTION); i < SCREEN_AREA; i++){
+        if(i%2 == 0)
+            dummy_buffer[i] = ' ';
+        else
+            dummy_buffer[i] = BLACK;
+    }
+
+    memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
+}
+/*
+* void put_at_coord(uint8_t c);
+*   Inputs: uint_8* c = character to print
+*   Return Value: void
+*	Function: Output a character to the console
+*/
+
+void
+put_at_coord(uint8_t c)
+{
+    if(c == '\n' || c == '\r') {
+        if(screen_y == MAX_HEIGHT_INDEX){
+            scroll();
+        }
+        else
+            screen_y++;
+        screen_x=0;
+        KEYPRESSES = 0; // no keypresses recoreded
+        clear_kbd_buf(); // clear the keyboard buffer
+        display_screen();
+        return;
+    }
+
+
+    if(c == '\b'){
+        KEYPRESSES--;
+        if(screen_x == 0){
+            screen_x = MAX_WIDTH_INDEX;
+            --screen_y;
+        }
+        else{
+            screen_x--;
+            screen_x %= SCREEN_WIDTH;
+            screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
+        }
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = ' ';
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+    }
+    else{
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = c;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        screen_x++;
+        if(screen_x == SCREEN_WIDTH && screen_y == MAX_HEIGHT_INDEX){
+            scroll();
+            screen_y = MAX_HEIGHT_INDEX;
+        }
+        else
+            screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
+        screen_x %= SCREEN_WIDTH;
+        KEYPRESSES++;
+    }
+    return;
+}
+
+void clear_SYS_CALL_MAP(){
+    int i,j;
+    for(i = 0; i < SCREEN_WIDTH; i++){
+        for(j = 0; j < SCREEN_HEIGHT; j++){
+            SYS_CALL_MAP[i][j] = 0;
+        }
+    }
+}
+
 
 void clear_frame_buf(){
     int i;
@@ -74,13 +142,17 @@ void display_screen(){
 */
 void keyboard_open() {
     /* index of screen we are displaying */
-    INDEX = 0;
+    screen_x = 0;
+    screen_y = 0;
 
     /* number of keypresses we have seen */
     KEYPRESSES = 0;
 
     /* lets keyboard write know what was previously put on screen */
     clear_INTERRUPT_MAP();
+
+    /**/
+    clear_SYS_CALL_MAP();
 
     /* clear the keyboard buffer */
     clear_kbd_buf();
@@ -103,8 +175,11 @@ void keyboard_open() {
 */
 void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
 
-    int i;
     /* CONTROL SHIFT L seen */
+    if(keypress == '\b' && screen_x == 0 && KEYPRESSES == 0){
+        return;
+    }
+
     if(CONTROL_ON == 1 && keypress == 'L'){
         keyboard_open();
         return;
@@ -115,63 +190,10 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
         return;
 
 
-    /* if newline is seen, scroll and clear our current keyboard buffer */
-    if(keypress == '\n'){
-        memcpy((void *)old_kbd_buffer,(const void*)kbd_buffer,BUFFER_LIMIT);// save old kbd buffer
-        OLD_KEYPRESSES = KEYPRESSES;
-        scroll();
-        clear_kbd_buf();
-        clear_INTERRUPT_MAP();
-        return;
-    }
-
-
-    /* if backspace is seen, check to see if at index zero and then remove */
-    if(keypress == '\b'){
-        if(INDEX == 0)
-            return;
-        /* is previous entry remnants of interrupt or keyboard press? */
-        if(INTERRUPT_MAP[(INDEX/2) - 1] != 0){ // interrupt has happened and is last char
-            frame_buffer[INDEX - 1] = BLACK;
-            frame_buffer[INDEX - VGA_CONVENTION] = ' ';
-            INTERRUPT_MAP[(INDEX/2) - 1] = 0; // show that space is no longer occupied by sys call char
-            INDEX = INDEX - 2;
-        }
-        else{
-            frame_buffer[INDEX - 1] = BLACK;
-            frame_buffer[INDEX - VGA_CONVENTION] = ' ';
-            kbd_buffer[KEYPRESSES - 1] = ' ';
-            INDEX = INDEX - 2;
-            KEYPRESSES--;
-        }
-
-        display_screen();
-        return;
-    }
-
-
-    /* we have come to the end of a line on terminal, move screen down and continue typing until limit is hit */
-    if(INDEX == SCREEN_WIDTH*VGA_CONVENTION){
-        memcpy((void *)dummy_buffer,(const void *)frame_buffer,SCREEN_WIDTH*2); // copy over first row
-        memcpy((void *)dummy_buffer+(SCREEN_WIDTH*4),(const void *)frame_buffer+(SCREEN_WIDTH*VGA_CONVENTION),SCREEN_AREA-(SCREEN_WIDTH*4)); // shift additonal row
-        for(i = SCREEN_WIDTH*VGA_CONVENTION; i<SCREEN_WIDTH*4; i++){
-            if(i%2 == 0)
-                dummy_buffer[i] = ' ';
-            else
-                dummy_buffer[i] = BLACK;
-        }
-        memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
-        display_screen();
-    }
-
-
-  kbd_buffer[KEYPRESSES] = keypress;
-  KEYPRESSES++;
-  insert_char(keypress);
-  INDEX = INDEX + 2;
-  display_screen();
+    put_at_coord(keypress);
+    display_screen();
+    return;
 }
-/*extern int32_t ece391_write (int32_t fd, const void* buf, int32_t nbytes);*/
 
 int32_t terminal_write(const void* buf, int32_t nbytes){
     if(nbytes <= 0)
