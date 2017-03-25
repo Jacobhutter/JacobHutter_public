@@ -36,13 +36,13 @@ int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
 	int i;
 
 	// Gets address of first dentry
-	curr = boot_block_addr + BLOCK_OFF;
+	curr = (dentry_t*)(boot_block_addr + BLOCK_OFF);
 
 	// Runs through list to find file name
 	for (i = 0; i < dir_entries; i++) {
 
 		// If the names are equal, copy and return
-		if (check_string(fname, (char*)curr)) {
+		if (check_string(fname, (uint8_t*)curr)) {
 			*dentry = *curr;
 			return 0;
 		}
@@ -71,7 +71,7 @@ int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
 
 	// Gets address of dentry
 	// One offset for boot block
-	curr = boot_block_addr + (index + 1) * BLOCK_OFF;
+	curr = (dentry_t*)(boot_block_addr + (index + 1) * BLOCK_OFF);
 
 	*dentry = *curr;
 
@@ -87,18 +87,22 @@ int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
  *			 length - number of bytes to read
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
- *   SIDE EFFECTS: Copies data of length bytes to bufffer
+ *   SIDE EFFECTS: Copies data of length bytes to buffer
  */
 int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length) {
 
 	int* init_inode_addr, *inode_addr;
 	char* init_data_addr, *data_addr;
 	int block_length, data_num, min, i, j, k;
+	int data_offset;
 
+	data_offset = offset / MEM_BLOCK;
+
+	offset %= MEM_BLOCK;
 
 	// Gets start of inode blocks and data blocks
-	init_inode_addr = boot_block_addr + kB;
-	init_data_addr = boot_block_addr + (kB + num_inode * kB);
+	init_inode_addr = (int*)(boot_block_addr + kB);
+	init_data_addr = (char*)(boot_block_addr + (kB + num_inode * kB));
 
 	if (inode >= num_inode)
 		return -1;
@@ -118,7 +122,7 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
 	// Runs until read all blocks
 	while (i < length) {
 		// Gets the data block number
-		data_num = *(inode_addr + k);
+		data_num = *(inode_addr + k + data_offset);
 		// Checks for invalid data
 		if (data_num >= data_blocks)
 			return i; // Returns number of bytes read
@@ -245,37 +249,44 @@ int32_t dir_read() {
 	int i;
 	for (i = 0; i < dir_entries; i++) {
 		read_dentry_by_index(i, &curr);
-		print_file_name(&(curr.file_name));
+		print_file_name((char*)&(curr.file_name));
 	}
 
 	return 0;
 }
 
+// Gets file size in bytes
+unsigned long get_file_size(dentry_t file) {
+	unsigned long * inode_addr = (boot_block_addr + kB) + (file.i_node_num * kB);
+
+	return *inode_addr;
+}
+
 void test1() {
-	dentry_t temp;
-	int i, j;
+	// dentry_t temp;
+	// int i, j;
 	// for (i = 0; i < dir_entries; i++) {
 	// 	read_dentry_by_index(i, &temp);
 	// 	print_file_name(&(temp.file_name));
 	// }
 
-	char buf[275];
-	printf("\n\n");
+	// char buf[275];
+	// printf("\n\n");
 
 	// printf("Hello\n");
 
-	i = read_dentry_by_name("frame1.txt", &temp);
+	// i = read_dentry_by_name("frame1.txt", &temp);
 
 	// if (i >= 0)
 	// 	print_file_name(&(temp.file_name));
 
-	if (i >= 0) {
-		read_data(temp.i_node_num, 0, buf, 275);
-	}
+	// if (i >= 0) {
+	// 	read_data(temp.i_node_num, 0, buf, 275);
+	// }
 
-	for (i = 0; i < 11; i++)
-		for (j = 0; j < 25; j++)
-			printf("%c", buf[i * 25 + j]);
+	// for (i = 0; i < 11; i++)
+	// 	for (j = 0; j < 25; j++)
+	// 		printf("%c", buf[i * 25 + j]);
 
 	// printf("\n");
 
@@ -317,7 +328,7 @@ void print_file_name(char* a) {
  *   RETURN VALUE: 1 if equal, 0 if not
  *   SIDE EFFECTS: none
  */
-int check_string(char* s1, char* s2) {
+int check_string(const uint8_t* s1, uint8_t* s2) {
 	int i;
 
 	// Runs through string to see if equal
@@ -338,7 +349,55 @@ void list_all_files() {
 		read_dentry_by_index(i, &curr);
 		size = *(boot_block_addr + kB + (curr.i_node_num * kB));
 		printf("File name: ");
-		print_file_name(&(curr.file_name));
+		print_file_name((char*)&(curr.file_name));
 		printf(" , File type: %d, file size: %d\n", curr.file_type, size);
 	}
+}
+
+void read_file_by_dentry(dentry_t file) {
+	int size, read_size, i, j;
+	unsigned char buffer[kB];
+
+	clear();
+
+	size = (int)get_file_size(file);
+
+	j = 0;
+	while (size > 0) {
+		// Reads smallest amount of bytes
+		read_size = (size > kB) ? kB : size;
+
+		size -= kB;
+
+		read_data(file.i_node_num, j * kB, buffer, read_size);
+
+		for (i = 0; i < read_size; i++)
+			printf("%c", buffer[i]);
+
+		j++;
+
+	}
+	printf("\nFile name: ");
+	print_file_name(file.file_name);
+
+}
+
+void read_file_by_name(char* name) {
+	dentry_t file;
+
+	// Gets the dentry
+	if (read_dentry_by_name((uint8_t*)name, &file) == -1)
+		return;
+
+	read_file_by_dentry(file);
+
+}
+
+void read_file_by_index(uint32_t index) {
+	dentry_t file;
+
+	if (read_dentry_by_index(index, &file) == -1)
+		return;
+
+	read_file_by_dentry(file);
 }

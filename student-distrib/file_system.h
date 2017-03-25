@@ -64,17 +64,25 @@ int32_t dir_write();
 /* Reads files in directory */
 int32_t dir_read();
 
+unsigned long get_file_size(dentry_t);
+
 void test1();
 
 /* Prints file name to screen */
 void print_file_name(char*);
 
 /* Checks two string if they're equal */
-int check_string(char* s1, char* s2);
+int check_string(const uint8_t* s1, uint8_t* s2);
 
 void init_file_descriptor(file_descriptor_t*);
 
 void list_all_files();
+
+void read_file_by_dentry(dentry_t);
+
+void read_file_by_name(char*);
+
+void read_file_by_index(uint32_t);
 
 
 #endif /* FILE_SYSTEM_H */
