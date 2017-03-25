@@ -17,9 +17,8 @@ unsigned char old_kbd_buffer[BUFFER_LIMIT] = "";
 unsigned char kbd_buffer[BUFFER_LIMIT]; // keyboard buffer of 128 bytes including new line
 unsigned char frame_buffer[SCREEN_AREA];
 unsigned char dummy_buffer[SCREEN_AREA];
-volatile uint32_t INDEX = 0;
-volatile uint32_t KEYPRESSES = 0;
-volatile uint8_t OLD_KEYPRESSES = 0;
+volatile uint32_t KEYPRESSES;
+volatile uint32_t OLD_KEYPRESSES;
 volatile uint32_t INTERRUPT_MAP[SCREEN_AREA/2];
 volatile uint8_t SYS_CALL_MAP[SCREEN_WIDTH][SCREEN_HEIGHT];
 volatile uint32_t screen_x;
@@ -45,13 +44,64 @@ void scroll(){
 
     memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
 }
+
+/*
+* void system_at_coord(uint8_t c);
+*   Inputs: uint_8* c = character to print
+*   Return Value: void
+*	Function: Output a character to the console
+*/
+void
+system_at_coord(uint8_t c)
+{
+    if(c == '\n' || c == '\r') {
+        if(screen_y == MAX_HEIGHT_INDEX){
+            scroll();
+        }
+        else
+            screen_y++;
+        screen_x=0;
+        display_screen();
+        return;
+    }
+
+
+    if(c == '\b'){
+        if(screen_x == 0){
+            screen_x = MAX_WIDTH_INDEX;
+            --screen_y;
+        }
+        else{
+            screen_x--;
+            screen_x %= SCREEN_WIDTH;
+            screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
+        }
+        if(!SYS_CALL_MAP[screen_x][screen_y])
+            KEYPRESSES--;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = ' ';
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+    }
+    else{
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = c;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        screen_x++;
+        if(screen_x == SCREEN_WIDTH && screen_y == MAX_HEIGHT_INDEX){
+            scroll();
+            screen_y = MAX_HEIGHT_INDEX;
+        }
+        else
+            screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
+        screen_x %= SCREEN_WIDTH;
+    }
+    return;
+}
+
 /*
 * void put_at_coord(uint8_t c);
 *   Inputs: uint_8* c = character to print
 *   Return Value: void
 *	Function: Output a character to the console
 */
-
 void
 put_at_coord(uint8_t c)
 {
@@ -61,6 +111,10 @@ put_at_coord(uint8_t c)
         }
         else
             screen_y++;
+        /* when enter is pressed, we need to store our state for terminal read */
+        OLD_KEYPRESSES = KEYPRESSES;
+        memcpy((void *)old_kbd_buffer,(const void *)kbd_buffer,BUFFER_LIMIT);
+
         screen_x=0;
         KEYPRESSES = 0; // no keypresses recoreded
         clear_kbd_buf(); // clear the keyboard buffer
@@ -70,7 +124,11 @@ put_at_coord(uint8_t c)
 
 
     if(c == '\b'){
-        KEYPRESSES--;
+        if(!SYS_CALL_MAP[screen_x][screen_y]){
+            KEYPRESSES--;
+            kbd_buffer[KEYPRESSES] = ' ';
+        }
+
         if(screen_x == 0){
             screen_x = MAX_WIDTH_INDEX;
             --screen_y;
@@ -94,7 +152,9 @@ put_at_coord(uint8_t c)
         else
             screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         screen_x %= SCREEN_WIDTH;
+        kbd_buffer[KEYPRESSES] = c;
         KEYPRESSES++;
+
     }
     return;
 }
@@ -119,16 +179,6 @@ void clear_frame_buf(){
     }
 }
 
-void clear_INTERRUPT_MAP(){
-    int i;
-    for(i = 0; i <SCREEN_AREA/2; i++)
-        INTERRUPT_MAP[i] = 0;
-}
-
-void insert_char(unsigned char keypress){
-    frame_buffer[INDEX] = keypress;
-    frame_buffer[INDEX+1] = GREEN;
-}
 
 void display_screen(){
     memcpy((void *)VGA_MEM,(const void *)frame_buffer,SCREEN_AREA);
@@ -146,12 +196,10 @@ void keyboard_open() {
     screen_y = 0;
 
     /* number of keypresses we have seen */
+    OLD_KEYPRESSES = 0;
     KEYPRESSES = 0;
 
-    /* lets keyboard write know what was previously put on screen */
-    clear_INTERRUPT_MAP();
-
-    /**/
+    /* lets program know whether a char was placed by user or sys call */
     clear_SYS_CALL_MAP();
 
     /* clear the keyboard buffer */
@@ -181,6 +229,8 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
     }
 
     if(CONTROL_ON == 1 && keypress == 'L'){
+        //char test[] = "aaaaaaaaaafj;dlsafjkdsfdlksajfkd;safkdjsa;fdjslakfjdsl;afdkjsa;fdjskajfdsa;fkdsajf;dsjafkdjkasjfdkl;afskldjsalfkjdsalfjdkslajflds;ajfldsjafkdjsal;fjdksa;fdjka;fjdksa;jfkldsjaflkdsjaf;dlkafkdjskafjdsalf;dajfklsajfkldjsalkfjsakl;fjsadl;fksajfds;afjkl;sdajfldksjafl;dsakjflsdajflk;dsaflkdsajfkldsa;kdsjakfljdsalfjdsla;fjdklsjafldsajfkldsa;f";
+        //terminal_write((const void *)test,(int32_t)strlen(test));
         keyboard_open();
         return;
     }
@@ -195,38 +245,21 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
     return;
 }
 
+/*
+* terminal_write
+* INPUTS: const void * buf, int32_t nbytes
+* OUTPUTS: prints unlimited chars to buffer
+* RETURN VALUE: success 0 or fail -1
+* DESCRIPTION: Takes a buffer of size nybtes and writes it to the frame buffer without altering current kbd operations
+*/
 int32_t terminal_write(const void* buf, int32_t nbytes){
     if(nbytes <= 0)
         return -1;
 
-    int i,j;
-    for(i = 0; i<nbytes; i++){
-        if(INDEX != 0 && (INDEX%(SCREEN_WIDTH*VGA_CONVENTION)) == 0){
-            int modulate = INDEX/(SCREEN_WIDTH*VGA_CONVENTION); // number of rows offset
-            memcpy((void *)dummy_buffer + (2*SCREEN_WIDTH)*(modulate - 1),(const void *)frame_buffer+((2*SCREEN_WIDTH)*(modulate - 1)),SCREEN_WIDTH*2); // copy over first row
-            memcpy((void *)dummy_buffer+(SCREEN_WIDTH*2)*(modulate + 1),(const void *)frame_buffer+(SCREEN_WIDTH*VGA_CONVENTION)*(modulate),SCREEN_AREA-(SCREEN_WIDTH*2)*(modulate + 1)); // shift additonal row
-            for(j = (SCREEN_WIDTH*VGA_CONVENTION)*(modulate); j<((SCREEN_WIDTH*2)*(modulate+1)); j++){
-                if(j%2 == 0)
-                    dummy_buffer[j] = ' ';
-                else
-                    dummy_buffer[j] = BLACK;
-            }
-            memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
-        }
-        INTERRUPT_MAP[(INDEX/2)+i] = 1; // map current index to show that it was filled by interrupt
-        if(((unsigned char *)buf)[i] == '\n'){
-            scroll();
-            clear_kbd_buf();
-            clear_INTERRUPT_MAP();
-            OLD_KEYPRESSES = 0; // make user enter in fresh entry
-            int k = 0;
-            for(k = 0; k< BUFFER_LIMIT; k++)
-              old_kbd_buffer[k] = ' ';
-        }
-        else{
-            insert_char(((unsigned char *)buf)[i]);
-            INDEX += 2;
-        }
+    int i;
+    for(i = 0; i < nbytes; i++){
+        SYS_CALL_MAP[screen_x][screen_y] = 1; // mark position as placed by sys call
+        system_at_coord(((unsigned char*)buf)[i]);
     }
     display_screen();
 
@@ -236,22 +269,24 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
 /*extern int32_t ece391_read (int32_t fd, void* buf, int32_t nbytes);*/
 
 int32_t terminal_read(void* buf, int32_t nbytes){
+
   if(nbytes < 0 || nbytes > BUFFER_LIMIT)
     return -1; // valid entry?
-  if(OLD_KEYPRESSES == 0)
-    return -1; // no entry was made by user
+  while(OLD_KEYPRESSES == 0);
+
   memcpy(buf,(const void *)old_kbd_buffer,nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes);
   int32_t retval = 0;
   retval = nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes;
+  OLD_KEYPRESSES = 0; // reset user entry
   return retval;
 }
 
 void test_terminal(){
-    int t_length=-1;
+    int t_length = -1;
     unsigned char sol_buf[128];
     unsigned char test_buf[] = "What is your name? \n";
     terminal_write((const void*)test_buf,(int32_t)20);
-    while(t_length == -1)
+    //while(t_length == -1)
         t_length = terminal_read((void *)test_buf,(int32_t)128); // read up to one buffer size
     unsigned char new_test_buf[] = " sounds like a great name! What is your favorite color?\n";
     terminal_write((const void *)test_buf,(int32_t)t_length);
