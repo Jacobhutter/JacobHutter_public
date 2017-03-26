@@ -24,6 +24,20 @@ volatile uint8_t SYS_CALL_MAP[SCREEN_WIDTH][SCREEN_HEIGHT];
 volatile uint32_t screen_x;
 volatile uint32_t screen_y;
 
+/* void update_cursor(int row, int col)
+ * by Dark Fiber
+ */
+void update_cursor(int row, int col)
+{
+   unsigned short position=(row*80) + col;
+
+   // cursor LOW port to vga INDEX register
+   outb(0x0F, 0x3D4);
+   outb((unsigned char)(position&0xFF),0x3D5);
+   // cursor HIGH port to vga INDEX register
+   outb(0x0E,0x3D4);
+   outb((unsigned char )((position>>8)&0xFF),0x3D5);
+}
 
 void clear_kbd_buf(){
     int i;
@@ -39,7 +53,7 @@ void scroll(){
         if(i%2 == 0)
             dummy_buffer[i] = ' ';
         else
-            dummy_buffer[i] = BLACK;
+            dummy_buffer[i] = GREEN;
     }
 
     memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
@@ -175,7 +189,7 @@ void clear_frame_buf(){
         if(i%2 == 0)
           frame_buffer[i] = ' ';
         else
-          frame_buffer[i] = BLACK;
+          frame_buffer[i] = GREEN;
     }
 }
 
@@ -194,6 +208,8 @@ void keyboard_open() {
     /* index of screen we are displaying */
     screen_x = 0;
     screen_y = 0;
+
+    update_cursor(screen_y,screen_x);
 
     /* number of keypresses we have seen */
     OLD_KEYPRESSES = 0;
@@ -241,6 +257,7 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
 
 
     put_at_coord(keypress);
+    update_cursor(screen_y,screen_x);
     display_screen();
     return;
 }
@@ -261,6 +278,7 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
         SYS_CALL_MAP[screen_x][screen_y] = 1; // mark position as placed by sys call
         system_at_coord(((unsigned char*)buf)[i]);
     }
+    update_cursor(screen_y,screen_x);
     display_screen();
 
     return 0;
