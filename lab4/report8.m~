@@ -1,0 +1,30 @@
+
+y = load('speechsig.mat');
+x = y.x;
+xnoise = y.xnoise;
+
+N = 128;
+w = fftshift((0:N-1)/N*2*pi); % define omega as you would for FFT
+w(1:N/2) = w(1:N/2) - 2*pi;   %
+
+xnoisew = fftshift(fft(xnoise,128));
+
+h = hamming(N);
+hw = fftshift(fft(h,128));
+figure;
+plot(
+xnoisewh = xnoisew .* hw;
+
+xnoise = ifft(ifftshift(xnoisewh),length(xnoise));
+soundsc(real(xnoise));
+
+%r = rectwin(128);
+%rw = fftshift(fft(r,N));
+%plot(w,abs(rw));
+
+%xnoisewr = xnoisew .* rw;
+
+%xnoise = ifft(ifftshift(xnoisewr));
+
+
+%soundsc(real(xnoise));
