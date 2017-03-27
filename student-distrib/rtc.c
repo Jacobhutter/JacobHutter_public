@@ -1,5 +1,7 @@
 #include "rtc.h"
 #define RTC_TESTCASES 8
+#define RTC_TESTNUMS  16
+#define RTC_ERROR_LEN 18
 
 /* rtc_init()
  * DESCRIPTION:  Intitializes the real-time clock
@@ -44,23 +46,32 @@ int32_t rtc_close() {
 }
 
 void test_rtc() {
-	int freqs[RTC_TESTCASES] = {16, 2, 45, 1, 2048, -2, 8, 1024};
-    int i, j; //testing for RTC driver
+	int freqs[RTC_TESTCASES] = {2, 16, 45, 1, 2048, -2, 8, 1024};
+    int i, j; 
+    uint8_t letter;
+    uint8_t err_message[RTC_ERROR_LEN] = "Invalid frequency!";
 
-    for(j = 0; j < 16; j++) {
+    // Checking for initial frequency
+    for(j = 0; j < RTC_TESTNUMS; j++) {
+        letter = 'a' + j;
         (void)rtc_read();
-        printf("%d ", j);
+        terminal_write(&letter, SIZEOF_CHAR);
     }
-    printf("\n");
+    letter = '\n';
+    terminal_write(&letter, SIZEOF_CHAR);
+
+    // Should be no change at this transition
 	for(i = 0; i < RTC_TESTCASES; i++) {
         if(rtc_write(freqs[i]) == 0) {
             for(j = 0; j < 16; j++) {
+                letter = 'a' + j;
                 (void)rtc_read();
-                printf("%d ", j);
+                terminal_write(&letter, SIZEOF_CHAR);
             }
         } else {
-            printf("Invalid frequency!");
+            terminal_write((void*)err_message, RTC_ERROR_LEN*SIZEOF_CHAR);
         }
-        printf("\n");
-    }
+        letter = '\n';
+    	terminal_write(&letter, SIZEOF_CHAR);
+   	}
 }

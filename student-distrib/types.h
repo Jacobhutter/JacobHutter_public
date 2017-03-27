@@ -8,6 +8,9 @@
 #define _TYPES_H
 
 #define NULL 0
+#define SIZEOF_CHAR 2
+#define SIZEOF_SHORT 4
+#define SIZEOF_INT 8
 
 #ifndef ASM
 

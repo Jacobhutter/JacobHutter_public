@@ -164,11 +164,8 @@ entry (unsigned long magic, unsigned long addr)
     sti();
 
     /* initializes keyboard */
-<<<<<<< HEAD
     keyboard_open();
-=======
-    keyboard_init();
->>>>>>> origin/3-rtc-driver
+
 
     /*initializes real time clock (2hz currently) */
     (void)rtc_init();

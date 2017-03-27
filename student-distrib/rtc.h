@@ -8,6 +8,8 @@
 #include "lib.h"
 #include "i8259.h"
 #include "interrupt_handler.h"
+#include "keyboard.h"
+#include "types.h"
 
 #define RTC_IRQ     8
 
