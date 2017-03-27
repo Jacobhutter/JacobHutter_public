@@ -167,11 +167,10 @@ entry (unsigned long magic, unsigned long addr)
 
     sti();
 
-    /* initializes keyboard */
-
+    /* initializes terminal */
     terminal_open();
 
-    /*initializes real time clock (2hz currently) */
+    /* initializes real time clock */
     (void)rtc_open();
 
     /* Enable interrupts */
@@ -187,20 +186,20 @@ entry (unsigned long magic, unsigned long addr)
     init_file_system((unsigned long *)bb);
 
 
-    //list_all_files();
-    // test1();
 
+    /* uncomment for terminal test */
     //test_terminal();
 
+    /* uncomment one to test file system */
+    //list_all_files();
+    // test1();
     //read_file_by_name("sigtest");
     //read_file_by_name("frame0.txt");
+    //read_file_by_name("frame1.txt");
     //read_file_by_name("verylargetextwithverylongname.txt");
+    //read_file_by_index(10);
 
-
-    //  read_file_by_index(10);
-
-    /* Execute the first program (`shell') ... */
-
+    /* uncomment to test rtc */
     //test_rtc();
 
     /* Spin (nicely, so we don't chew up cycles) */

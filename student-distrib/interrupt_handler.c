@@ -397,7 +397,7 @@ void RTC() {
             ticks = 0;
         }
     }
-    
+
 }
 
 
@@ -416,6 +416,7 @@ uint8_t CONTROL_ON = 0;
 * RETURN VALUE: NONE
 * http://arjunsreedharan.org/post/99370248137/kernel-201-lets-write-a-kernel-with-keyboard
 */
+#define NUM_ENTRIES 128
 void KEYBOARD() {
     // write eoi
     unsigned char status;
@@ -424,7 +425,10 @@ void KEYBOARD() {
 
     if(status & ODD_MASK){ // check odd
             key = inb(KEYBOARD_PORT);
-
+            if(key > NUM_ENTRIES){ // check for out of range scancodes
+                send_eoi(kbd_eoi);
+                return;
+            }
             if(key == CONTROL){
                 CONTROL_ON = 1;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
