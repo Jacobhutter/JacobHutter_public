@@ -128,6 +128,9 @@ unsigned char keyboard_map[3][128] =
     0,	/* All other keys are undefined */
 }};
 
+static volatile int32_t ticks_limit;
+static volatile int32_t rtc_wait_status = 0;
+
 /* DIVIDE_ERROR()
 * INPUTS : NONE
 * OUTPUTS : PRINTS TO SCREEN
@@ -339,26 +342,62 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 
+/* set_rtc_freq()
+ * DESCRIPTION:  Set frequency of RTC clock
+ *               Error checking is handled in rtc_write()
+ * INPUTS:       frequency of emulated RTC
+ * OUTPUTS:      None
+ * RETURNS:      None
+ * SIDE EFFECTS: Changes the total number of ticks needed to unset
+ *               rtc_wait_status
+ * NOTE:         May be refactored later to allow multiple processes
+ *               to have different RTC frequencies
+ */
+void set_rtc_freq(int32_t freq) {
+    ticks_limit = RTC_BASE_FREQ / freq;
+}
+
+/* rtc_wait()
+ * DESCRIPTION:  Wait for next RTC interrupt
+ * INPUTS:       None
+ * OUTPUTS:      None
+ * RETURNS:      None
+ * SIDE EFFECTS: Forces caller to wait for RTC interrupt
+ */
+void rtc_wait() {
+    rtc_wait_status = 1;
+    while(rtc_wait_status);
+}
+
 /* RTC() (Handler)
  * DESCRIPTION:  Handler function called by RTC interrupt
+ *               RTC hardware frequency will always be kept at 1024 Hz
+ *               Function will count ticks to simulate a kernel freq
  * INPUTS:       None
- * OUTPUTS:      Calls test_interrupts, which floods screen
+ * OUTPUTS:      None
  * RETURNS:      None
  * SIDE EFFECTS: Sends EOI to PIC to end interrupt
+ *               Increments file scope tick counter
  */
 void RTC() {
     uint32_t reg_c;
+    static uint32_t ticks = -1;
 
     // mask only the periodic interrupt bit
     uint32_t period_mask = 0x00000040;
 
+    send_eoi(RTC_IRQ);
     reg_c = inb(RTC_DATA);
     if((reg_c & period_mask) != 0) {
-
-        //printf("test");
-        // we have found a periodic interrupt
+        ticks++;
+        if(ticks % ticks_limit == 0) {
+            rtc_wait_status = 0;
+        }
+        if(ticks >= RTC_BASE_FREQ) {
+            ticks = 0;
+        }
     }
-    send_eoi(RTC_IRQ);
+    
 }
 
 

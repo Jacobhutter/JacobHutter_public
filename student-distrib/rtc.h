@@ -7,6 +7,9 @@
 
 #include "lib.h"
 #include "i8259.h"
+#include "interrupt_handler.h"
+#include "keyboard.h"
+#include "types.h"
 
 #define RTC_IRQ     8
 
@@ -23,9 +26,15 @@
  * Starts clock and enables periodic and alarm interrupts
  * Alarm interrupts will be a possibility for extra credit
  */
-#define RTC_A_INIT  0x2F
+#define RTC_A_INIT  0x26
 #define RTC_B_INIT  0x66
+#define RTC_BASE_FREQ  1024 /* to virtualize RTC */
+#define RTC_INIT_FREQ  2
 
-extern void rtc_init();
+extern int32_t rtc_init();
+extern int32_t rtc_read();
+extern int32_t rtc_write (int32_t freq);
+extern int32_t rtc_close();
+extern void test_rtc();
 
 #endif
