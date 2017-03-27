@@ -178,7 +178,7 @@ multiboot_info_t *mbi;
     /*initialize paging */
     initPaging();
 
-    test_terminal();
+    //test_terminal();
 
 
     //puts(prompt);
