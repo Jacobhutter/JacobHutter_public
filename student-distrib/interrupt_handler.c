@@ -357,10 +357,6 @@ void RTC() {
 
         //printf("test");
         // we have found a periodic interrupt
-        /*unsigned char test[128];
-        unsigned char it[1];
-        it[0] = (terminal_read(test,128)) + '0';
-        terminal_write((void *)it,1);*/
     }
     send_eoi(RTC_IRQ);
 }
@@ -372,6 +368,7 @@ uint32_t RSHIFT_ON = 0; // BOIIIIIIIIII
 uint32_t LSHIFT_ON = 0; // BOIIIIIIIIII
 uint8_t DECISION;
 uint8_t CONTROL_ON = 0;
+
 /*
 * KEYBOARD()
 * DESCRIPTION: sends output to screen when key is pressed,
@@ -388,35 +385,43 @@ void KEYBOARD() {
 
     if(status & ODD_MASK){ // check odd
             key = inb(KEYBOARD_PORT);
-            if(key == CONTROL)
+
+            if(key == CONTROL){
                 CONTROL_ON = 1;
-            if((uint8_t)key == 157)
+                send_eoi(kbd_eoi); // 1 is the irq for keyboard
+                return;
+            }
+            if((uint8_t)key == _CONTROL){
                 CONTROL_ON = 0;
+                send_eoi(kbd_eoi); // 1 is the irq for keyboard
+                return;
+            }
             if(key == CAPS_LOCK){
-                CAPS_ON += 1;
+                CAPS_ON += 1; // this method allows us to track keyrpesses but not releases
                 CAPS_ON %= 2;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
             if(key == RIGHT_SHIFT){
-                RSHIFT_ON += 1;
-                RSHIFT_ON %= 2;
+                RSHIFT_ON = 1;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
             if(key == LEFT_SHIFT){
-                LSHIFT_ON += 1;
-                LSHIFT_ON %= 2;
+
+                LSHIFT_ON = 1;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
             if((uint8_t)key == _RIGHT_SHIFT){ // release of RIGHT_SHIFT is a negative number
-                RSHIFT_ON -= 1;
+
+                RSHIFT_ON = 0;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
             if((uint8_t)key == _LEFT_SHIFT){ // release of LEFT_SHIFT is a negative number
-                LSHIFT_ON -= 1;
+
+                LSHIFT_ON = 0;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }

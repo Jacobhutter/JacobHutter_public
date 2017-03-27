@@ -20,6 +20,8 @@
 #define kbd_eoi 1
 #define CONTROL 29
 
+#define _CONTROL 157
+
 extern void DIVIDE_ERROR();
 extern void RESERVED();
 extern void NMI_INTERRUPT();
