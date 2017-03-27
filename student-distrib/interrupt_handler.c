@@ -342,12 +342,28 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 
-// ADD HELPER FUNCTION DEFINITION HERE.
+/* rtc_wait()
+ * DESCRIPTION:  Set frequency of RTC clock
+ *               Error checking is handled in rtc_write()
+ * INPUTS:       None
+ * OUTPUTS:      None
+ * RETURNS:      None
+ * SIDE EFFECTS: Changes the total number of ticks needed to unset
+ *               rtc_wait_status
+ * NOTE:         May be refactored later to allow multiple processes
+ *               to have different RTC frequencies
+ */
 void set_rtc_freq(int32_t freq) {
     ticks_limit = RTC_BASE_FREQ / freq;
 }
 
-// ADD HELPER FUNCTION DEFINITION HERE.
+/* rtc_wait()
+ * DESCRIPTION:  Wait for next RTC interrupt
+ * INPUTS:       None
+ * OUTPUTS:      None
+ * RETURNS:      None
+ * SIDE EFFECTS: Forces caller to wait for RTC interrupt
+ */
 void rtc_wait() {
     rtc_wait_status = 1;
     while(rtc_wait_status);
@@ -355,10 +371,13 @@ void rtc_wait() {
 
 /* RTC() (Handler)
  * DESCRIPTION:  Handler function called by RTC interrupt
+ *               RTC hardware frequency will always be kept at 1024 Hz
+ *               Function will count ticks to simulate a kernel freq
  * INPUTS:       None
- * OUTPUTS:      Calls test_interrupts, which floods screen
+ * OUTPUTS:      None
  * RETURNS:      None
  * SIDE EFFECTS: Sends EOI to PIC to end interrupt
+ *               Increments file scope tick counter
  */
 void RTC() {
     uint32_t reg_c;
@@ -367,6 +386,7 @@ void RTC() {
     // mask only the periodic interrupt bit
     uint32_t period_mask = 0x00000040;
 
+    send_eoi(RTC_IRQ);
     reg_c = inb(RTC_DATA);
     if((reg_c & period_mask) != 0) {
         
@@ -378,7 +398,7 @@ void RTC() {
             ticks = 0;
         }
     }
-    send_eoi(RTC_IRQ);
+    
 }
 
 
