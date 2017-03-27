@@ -12,7 +12,7 @@
 #define VGA_MEM 0xB8000
 #define GREEN 2
 #define BLACK 0
-#define NULL 0x0
+// #define NULL 0x0
 #define SCREEN_AREA SCREEN_WIDTH*SCREEN_HEIGHT*VGA_CONVENTION
 unsigned char old_kbd_buffer[BUFFER_LIMIT] = "";
 unsigned char kbd_buffer[BUFFER_LIMIT]; // keyboard buffer of 128 bytes including new line

@@ -425,10 +425,10 @@ void KEYBOARD() {
 
     if(status & ODD_MASK){ // check odd
             key = inb(KEYBOARD_PORT);
-            if(key > NUM_ENTRIES){ // check for out of range scancodes
-                send_eoi(kbd_eoi);
-                return;
-            }
+            // if(key > (unsigned char)NUM_ENTRIES){ // check for out of range scancodes
+            //     send_eoi(kbd_eoi);
+            //     return;
+            // }
             if(key == CONTROL){
                 CONTROL_ON = 1;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
