@@ -12,6 +12,7 @@
 #include "keyboard.h"
 #include "rtc.h"
 #include "wrapper.h"
+#include "file_system.h"
 
 /* Macros. */
 /* Check if the bit BIT in FLAGS is set. */
@@ -19,6 +20,8 @@
 
 /* Check if MAGIC is valid and print the Multiboot information structure
  pointed by ADDR. */
+
+static unsigned int bb;
 
 /* void entry (unsigned long magic, unsigned long addr)
 * INPUT: magic and addr
@@ -63,6 +66,7 @@ multiboot_info_t *mbi;
         int mod_count = 0;
         int i;
         module_t* mod = (module_t*)mbi->mods_addr;
+        bb = mod->mod_start;
         while(mod_count < mbi->mods_count) {
             printf("Module %d loaded at address: 0x%#x\n", mod_count, (unsigned int)mod->mod_start);
             printf("Module %d ends at address: 0x%#x\n", mod_count, (unsigned int)mod->mod_end);
@@ -179,11 +183,23 @@ multiboot_info_t *mbi;
     /*initialize paging */
     initPaging();
 
+    /* initializing file system */
+    init_file_system((unsigned long *)bb);
 
-    //test_terminal();
+    printf("Enabling Interrupts\n");
+
+    clear();
+    list_all_files();
+    // test1();
+
+    // read_file_by_name("sigtest");
+    // read_file_by_name("frame0.txt");
+    // read_file_by_name("verylargetextwithverylongname.txt");
 
 
-    //puts(prompt);
+    // read_file_by_index(10);
+
+
     /* Execute the first program (`shell') ... */
 
     /* Spin (nicely, so we don't chew up cycles) */
