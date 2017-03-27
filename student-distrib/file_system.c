@@ -6,9 +6,19 @@
 #define MEM_BLOCK 4096 /* 4kB */
 #define kB 1024 /* Integer offset for each memory space */
 
+#define MAX_NAME 32
+
 static unsigned long* boot_block_addr;
 static unsigned long num_inode, data_blocks, dir_entries;
 
+/*
+ * init_file_system
+ *   DESCRIPTION: Initializes file system driver
+ *   INPUTS: addr - pointer to start of file system
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 on success, -1 on failure
+ *   SIDE EFFECTS: Adds data to global vars
+ */
 void init_file_system(unsigned long * addr) {
 	boot_block_addr = addr;
 	dir_entries = *boot_block_addr;
@@ -149,17 +159,13 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
 
 /*
  * file_open
- *   DESCRIPTION: Initializes file system driver
- *   INPUTS: addr - pointer to start of file system
+ *   DESCRIPTION: Opens file
+ *   INPUTS: file - name of file to open
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: Adds data to global vars
  */
-int32_t file_open(unsigned long* addr) {
-	boot_block_addr = addr;
-	dir_entries = *boot_block_addr;
-	num_inode = *(boot_block_addr + 1);
-	data_blocks = *(boot_block_addr + 2);
+int32_t file_open(uint8_t* file) {
 
 	return 0;
 }
@@ -167,140 +173,143 @@ int32_t file_open(unsigned long* addr) {
 /*
  * file_close
  *   DESCRIPTION: Closes file system driver
- *   INPUTS: none
+ *   INPUTS: fd - file descriptor
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t file_close() {
+int32_t file_close(int32_t fd) {
 	return 0;
 }
 
 /*
  * file_read
  *   DESCRIPTION: Reads from file system
- *   INPUTS: none
+ *   INPUTS: fd - file descriptor
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t file_read() {
+int32_t file_read(int32_t fd) {
 	return -1;
 }
 
 /*
  * file_write
  *   DESCRIPTION: Does nothing, read only file system
- *   INPUTS: none
+ *   INPUTS: fd - file descriptor
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t file_write() {
+int32_t file_write(int32_t fd) {
 	return -1;
 }
 
 /*
  * dir_open
  *   DESCRIPTION: Opens directory
- *   INPUTS: none
+ *   INPUTS: directory - directory to open
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_open() {
+int32_t dir_open(uint8_t* directory) {
 	return 0;
 }
 
 /*
  * dir_close
  *   DESCRIPTION: Closes directory
- *   INPUTS: none
+ *   INPUTS: fd - file descriptor
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_close() {
+int32_t dir_close(int32_t fd) {
 	return 0;
 }
 
 /*
  * dir_wrtie
  *   DESCRIPTION: Does nothing, read only file system
- *   INPUTS: none
+ *   INPUTS: fd - file descriptor
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_write() {
+int32_t dir_write(int32_t fd) {
 	return -1;
 }
 
 /*
  * dir_read
  *   DESCRIPTION: Reads files in directory
- *   INPUTS: none
+ *   INPUTS: fd - file descriptor
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_read() {
-	dentry_t curr;
-	int i;
-	for (i = 0; i < dir_entries; i++) {
-		read_dentry_by_index(i, &curr);
-		print_file_name((char*)&(curr.file_name));
-	}
+int32_t dir_read(int32_t fd) {
+	// dentry_t curr;
+	// int i;
+	// for (i = 0; i < dir_entries; i++) {
+	// 	read_dentry_by_index(i, &curr);
+	// 	print_file_name((char*)&(curr.file_name));
+	// }
 
 	return 0;
 }
 
-// Gets file size in bytes
+/*
+ * get_file_size
+ *   DESCRIPTION: Gets file size in bytes
+ *   INPUTS: file - dentry of file
+ *   OUTPUTS: none
+ *   RETURN VALUE: size of file in bytes
+ *   SIDE EFFECTS: none
+ */
 unsigned long get_file_size(dentry_t file) {
 	unsigned long * inode_addr = (boot_block_addr + kB) + (file.i_node_num * kB);
 
 	return *inode_addr;
 }
 
-void test1() {
-	// dentry_t temp;
-	// int i, j;
-	// for (i = 0; i < dir_entries; i++) {
-	// 	read_dentry_by_index(i, &temp);
-	// 	print_file_name(&(temp.file_name));
-	// }
+// void test1() {
+// 	// dentry_t temp;
+// 	// int i, j;
+// 	// for (i = 0; i < dir_entries; i++) {
+// 	// 	read_dentry_by_index(i, &temp);
+// 	// 	print_file_name(&(temp.file_name));
+// 	// }
 
-	// char buf[275];
-	// printf("\n\n");
+// 	// char buf[275];
+// 	// printf("\n\n");
 
-	// printf("Hello\n");
+// 	// printf("Hello\n");
 
-	// i = read_dentry_by_name("frame1.txt", &temp);
+// 	// i = read_dentry_by_name("frame1.txt", &temp);
 
-	// if (i >= 0)
-	// 	print_file_name(&(temp.file_name));
+// 	// if (i >= 0)
+// 	// 	print_file_name(&(temp.file_name));
 
-	// if (i >= 0) {
-	// 	read_data(temp.i_node_num, 0, buf, 275);
-	// }
+// 	// if (i >= 0) {
+// 	// 	read_data(temp.i_node_num, 0, buf, 275);
+// 	// }
 
-	// for (i = 0; i < 11; i++)
-	// 	for (j = 0; j < 25; j++)
-	// 		printf("%c", buf[i * 25 + j]);
+// 	// for (i = 0; i < 11; i++)
+// 	// 	for (j = 0; j < 25; j++)
+// 	// 		printf("%c", buf[i * 25 + j]);
 
-	// printf("\n");
+// 	// printf("\n");
 
-	// printf("%d\n", check_string("", ""));
-
-
-	// print_file_name("Hello000000000000000000000000000");
+// 	// printf("%d\n", check_string("", ""));
 
 
-}
+// 	// print_file_name("Hello000000000000000000000000000");
 
-void init_file_descriptor(file_descriptor_t* f) {
-	f->mask = 3;
-}
+
+// }
 
 /*
  * print_file_name
@@ -314,7 +323,7 @@ void print_file_name(char* a) {
 
 	int i;
 
-	for (i = 0; i < 32; i++)
+	for (i = 0; i < MAX_NAME; i++)
 		printf("%c", a[i]);
 
 }
@@ -332,7 +341,7 @@ int check_string(const uint8_t* s1, uint8_t* s2) {
 	int i;
 
 	// Runs through string to see if equal
-	for (i = 0; i < 32; i++) {
+	for (i = 0; i < MAX_NAME; i++) {
 		if (s1[i] == '%') return 1;
 		if ((s1[i] != s2[i])) {
 			return 0;
@@ -342,19 +351,37 @@ int check_string(const uint8_t* s1, uint8_t* s2) {
 	return 1;
 }
 
+/*
+ * list_all_files
+ *   DESCRIPTION: Lists files and size in current directory
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
+ */
 void list_all_files() {
 	dentry_t curr;
 	int i, size;
 	for (i = 0; i < dir_entries; i++) {
 		read_dentry_by_index(i, &curr);
+		// Gets file size
 		size = *(boot_block_addr + kB + (curr.i_node_num * kB));
+		
 		printf("File name: ");
 		print_file_name((char*)&(curr.file_name));
 		printf(" , File type: %d, file size: %d\n", curr.file_type, size);
 	}
 }
 
-void read_file_by_dentry(dentry_t file) {
+/*
+ * read_file_by_dentry
+ *   DESCRIPTION: Reads file specified by dentry
+ *   INPUTS: file - file to read from
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 on success, -1 on failure
+ *   SIDE EFFECTS: none
+ */
+uint32_t read_file_by_dentry(dentry_t file) {
 	int size, read_size, i, j;
 	unsigned char buffer[kB];
 
@@ -369,7 +396,8 @@ void read_file_by_dentry(dentry_t file) {
 
 		size -= kB;
 
-		read_data(file.i_node_num, j * kB, buffer, read_size);
+		if (read_data(file.i_node_num, j * kB, buffer, read_size) != 0)
+			return -1;
 
 		for (i = 0; i < read_size; i++)
 			printf("%c", buffer[i]);
@@ -380,24 +408,44 @@ void read_file_by_dentry(dentry_t file) {
 	printf("\nFile name: ");
 	print_file_name(file.file_name);
 
+	return 0;
+
 }
 
-void read_file_by_name(char* name) {
+/*
+ * read_file_by_name
+ *   DESCRIPTION: Reads file specified by name
+ *   INPUTS: name - name of file to read from
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 on success, -1 on failure
+ *   SIDE EFFECTS: none
+ */
+uint32_t read_file_by_name(char* name) {
 	dentry_t file;
 
 	// Gets the dentry
 	if (read_dentry_by_name((uint8_t*)name, &file) == -1)
-		return;
+		return -1;
 
-	read_file_by_dentry(file);
+	return read_file_by_dentry(file);
 
 }
 
-void read_file_by_index(uint32_t index) {
+/*
+ * read_file_by_index
+ *   DESCRIPTION: Reads file specified by index
+ *   INPUTS: name - index of file to read from
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 on success, -1 on failure
+ *   SIDE EFFECTS: none
+ */
+uint32_t read_file_by_index(uint32_t index) {
 	dentry_t file;
 
+	// Gets dentry
 	if (read_dentry_by_index(index, &file) == -1)
-		return;
+		return -1;
 
-	read_file_by_dentry(file);
+	return read_file_by_dentry(file);
+
 }

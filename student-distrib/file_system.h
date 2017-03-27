@@ -4,6 +4,7 @@
 #include "lib.h"
 #include "types.h"
 
+// denttry block in file system
 typedef struct dentry
 {
 	char file_name[32];
@@ -12,23 +13,7 @@ typedef struct dentry
 	char reserved[24];
 } dentry_t;
 
-typedef struct file_info
-{
-	unsigned long file_ops;
-	unsigned long inode;
-	unsigned long file_position;
-	unsigned long flags;
-	
-} file_info_t;
-
-typedef struct file_descriptor
-{
-	file_info_t table[8];
-	char mask;
-	
-} file_descriptor_t;
-
-
+/* Initializes file system driver */
 void init_file_system(unsigned long *);
 
 /* Gets dentry based off name */
@@ -40,33 +25,34 @@ int32_t read_dentry_by_index(uint32_t, dentry_t*);
 /* Reads data from file system */
 int32_t read_data(uint32_t, uint32_t, uint8_t*, uint32_t);
 
-/* Initializes file system driver */
-int32_t file_open(unsigned long*);
+/* Opens file */
+int32_t file_open(uint8_t*);
 
 /* Closes file system driver */
-int32_t file_close();
+int32_t file_close(int32_t);
 
 /* Reads from file system */
-int32_t file_read();
+int32_t file_read(int32_t);
 
 /* Does nothing, read only file system */
-int32_t file_write();
+int32_t file_write(int32_t);
 
 /* Opens directory */
-int32_t dir_open();
+int32_t dir_open(uint8_t*);
 
 /* Closes directory */
-int32_t dir_close();
+int32_t dir_close(int32_t);
 
 /* Does nothing, read only file system */
-int32_t dir_write();
+int32_t dir_write(int32_t);
 
 /* Reads files in directory */
-int32_t dir_read();
+int32_t dir_read(int32_t);
 
+/* Gets file size in bytes */
 unsigned long get_file_size(dentry_t);
 
-void test1();
+// void test1();
 
 /* Prints file name to screen */
 void print_file_name(char*);
@@ -74,15 +60,16 @@ void print_file_name(char*);
 /* Checks two string if they're equal */
 int check_string(const uint8_t* s1, uint8_t* s2);
 
-void init_file_descriptor(file_descriptor_t*);
-
+/* Lists files and size in current directory */
 void list_all_files();
 
-void read_file_by_dentry(dentry_t);
+/* Reads file specified by dentry */
+uint32_t read_file_by_dentry(dentry_t);
 
-void read_file_by_name(char*);
+/* Reads file specified by name */
+uint32_t read_file_by_name(char*);
 
-void read_file_by_index(uint32_t);
-
+/* Reads file specified by index */
+uint32_t read_file_by_index(uint32_t);
 
 #endif /* FILE_SYSTEM_H */

@@ -188,11 +188,11 @@ multiboot_info_t *mbi;
     printf("Enabling Interrupts\n");
 
     clear();
-    // list_all_files();
+    list_all_files();
     // test1();
 
     // read_file_by_name("sigtest");
-    read_file_by_name("frame0.txt");
+    // read_file_by_name("frame0.txt");
     // read_file_by_name("verylargetextwithverylongname.txt");
 
 

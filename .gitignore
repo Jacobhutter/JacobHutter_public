@@ -2,3 +2,5 @@ student-distrib/*.o
 
 *.dep
 
+
+student-distrib/output.txt
