@@ -335,9 +335,13 @@ void print_file_name(char* a) {
  */
 int check_string(const uint8_t* s1, uint8_t* s2) {
     int i;
+    int length = (strlen(s1) > 32) ? 32 : strlen(s1);
+//    terminal_write((const void*) s1, 32);
+//    terminal_write((const void*) "\n", 1);
+//    terminal_write((const void*) s2, 32);
     
     // Runs through string to see if equal
-    for (i = 0; i < MAX_NAME; i++) {
+    for (i = 0; i < length; i++) {
         if (s1[i] == '%') return 1;
         if ((s1[i] != s2[i])) {
             return 0;
@@ -357,12 +361,16 @@ int check_string(const uint8_t* s1, uint8_t* s2) {
  */
 void list_all_files() {
     dentry_t curr;
+    int i, size, temp;
     for (i = 0; i < dir_entries; i++) {
         read_dentry_by_index(i, &curr);
         // Gets file size
         size = *(boot_block_addr + kB + (curr.i_node_num * kB));
+        temp = curr.file_type + 48;
         terminal_write("File name: ", 11);
         print_file_name((char*)&(curr.file_name));
+        terminal_write(" , File type: ", 14);
+        terminal_write((const void*) (&temp), 1);
         terminal_write(", file size: ", 13);
         printInt(size);
         terminal_write("\n", 1);
@@ -380,6 +388,7 @@ void list_all_files() {
  *   SIDE EFFECTS: none
  */
 uint32_t read_file_by_dentry(dentry_t file) {
+    int size, read_size, j;
     unsigned char buffer[kB];
     
     size = (int)get_file_size(file);
@@ -401,6 +410,7 @@ uint32_t read_file_by_dentry(dentry_t file) {
     }
     terminal_write("\nFile name: ", 12);
     print_file_name(file.file_name);
+    terminal_write("\n", 1);
     
     return 0;
     
@@ -419,6 +429,7 @@ uint32_t read_file_by_name(char* name) {
     // Gets the dentry
     if (read_dentry_by_name((uint8_t*)name, &file) == -1)
         return -1;
+
     return read_file_by_dentry(file);
     
 }
@@ -449,9 +460,16 @@ intToChar(int a) {
 }
 
 void printInt(int num) {
+    int temp;
+    
+    temp = num + 48;
     if (num < 10) {
+        terminal_write((const void*) (&temp), 1);
         return;
     }
     
     printInt(num / 10);
+    temp = num % 10;
+    temp += 48;
+    terminal_write((const void*) (&temp), 1);
 }
