@@ -128,6 +128,9 @@ unsigned char keyboard_map[3][128] =
     0,	/* All other keys are undefined */
 }};
 
+static volatile int32_t ticks_limit;
+static volatile int32_t rtc_wait_status = 0;
+
 /* DIVIDE_ERROR()
 * INPUTS : NONE
 * OUTPUTS : PRINTS TO SCREEN
@@ -339,6 +342,17 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 
+// ADD HELPER FUNCTION DEFINITION HERE.
+void set_rtc_freq(int32_t freq) {
+    ticks_limit = RTC_BASE_FREQ / freq;
+}
+
+// ADD HELPER FUNCTION DEFINITION HERE.
+void rtc_wait() {
+    rtc_wait_status = 1;
+    while(rtc_wait_status);
+}
+
 /* RTC() (Handler)
  * DESCRIPTION:  Handler function called by RTC interrupt
  * INPUTS:       None
@@ -348,19 +362,22 @@ void FLOATING_POINT_EXCEPTION() {
  */
 void RTC() {
     uint32_t reg_c;
+    static uint32_t ticks = -1;
 
     // mask only the periodic interrupt bit
     uint32_t period_mask = 0x00000040;
 
     reg_c = inb(RTC_DATA);
     if((reg_c & period_mask) != 0) {
+        
+        ticks++;
 
-        //printf("test");
-        // we have found a periodic interrupt
-        /*unsigned char test[128];
-        unsigned char it[1];
-        it[0] = (terminal_read(test,128)) + '0';
-        terminal_write((void *)it,1);*/
+        if(ticks % ticks_limit == 0) {
+            rtc_wait_status = 0;
+        }
+        if(ticks >= RTC_BASE_FREQ) {
+            ticks = 0;
+        }
     }
     send_eoi(RTC_IRQ);
 }
