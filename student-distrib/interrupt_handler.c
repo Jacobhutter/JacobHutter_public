@@ -342,10 +342,10 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 
-/* rtc_wait()
+/* set_rtc_freq()
  * DESCRIPTION:  Set frequency of RTC clock
  *               Error checking is handled in rtc_write()
- * INPUTS:       None
+ * INPUTS:       frequency of emulated RTC
  * OUTPUTS:      None
  * RETURNS:      None
  * SIDE EFFECTS: Changes the total number of ticks needed to unset
