@@ -7,6 +7,7 @@
 #define kB 1024 /* Integer offset for each memory space */
 
 #define MAX_NAME 32
+#define BASE 10
 
 static unsigned long* boot_block_addr;
 static unsigned long num_inode, data_blocks, dir_entries;
@@ -106,8 +107,10 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
     int block_length, data_num, min, i, j, k;
     int data_offset;
 
+    // Gets offset of data block
     data_offset = offset / MEM_BLOCK;
 
+    // Gets offset of where to read in memeory
     offset %= MEM_BLOCK;
 
     // Gets start of inode blocks and data blocks
@@ -322,6 +325,7 @@ unsigned long get_file_size(dentry_t file) {
 void print_file_name(char* a) {
 
     terminal_write((const void *) a, (int32_t) MAX_NAME);
+
 }
 
 /*
@@ -335,10 +339,7 @@ void print_file_name(char* a) {
  */
 int check_string(const uint8_t* s1, uint8_t* s2) {
     int i;
-    int length = (strlen((const int8_t*)s1) > 32) ? 32 : strlen((const int8_t*)s1);
-//    terminal_write((const void*) s1, 32);
-//    terminal_write((const void*) "\n", 1);
-//    terminal_write((const void*) s2, 32);
+    int length = (strlen((const int8_t*)s1) > MAX_NAME) ? MAX_NAME : strlen((const int8_t*)s1);
 
     // Runs through string to see if equal
     for (i = 0; i < length; i++) {
@@ -367,6 +368,7 @@ void list_all_files() {
         // Gets file size
         size = *(boot_block_addr + kB + (curr.i_node_num * kB));
         temp = curr.file_type + 48;
+        // Prints out file descriptions
         terminal_write("File name: ", 11);
         print_file_name((char*)&(curr.file_name));
         terminal_write(" , File type: ", 14);
@@ -398,16 +400,20 @@ uint32_t read_file_by_dentry(dentry_t file) {
         // Reads smallest amount of bytes
         read_size = (size > kB) ? kB : size;
 
+        // Updates needed read left 
         size -= kB;
 
+        // Reads data
         if (read_data(file.i_node_num, j * kB, buffer, read_size) != 0)
             return -1;
 
+        // Prints current buffer to screen
         terminal_write((const void*) buffer, (int32_t) read_size);
 
         j++;
 
     }
+    // Writes file name to screen
     terminal_write("\nFile name: ", 12);
     print_file_name(file.file_name);
     terminal_write("\n", 1);
@@ -478,13 +484,13 @@ void printInt(int num) {
     int temp;
 
     temp = num + 48;
-    if (num < 10) {
+    if (num < BASE) {
         terminal_write((const void*) (&temp), 1);
         return;
     }
 
-    printInt(num / 10);
-    temp = num % 10;
+    printInt(num / BASE);
+    temp = num % BASE;
     temp += 48;
     terminal_write((const void*) (&temp), 1);
 }

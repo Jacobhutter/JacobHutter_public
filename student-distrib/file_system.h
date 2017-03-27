@@ -73,9 +73,10 @@ uint32_t read_file_by_name(char*);
 /* Reads file specified by index */
 uint32_t read_file_by_index(uint32_t);
 
-char
-intToChar(int a);
+/* Convert integer digit to ASCII character */
+char intToChar(int a);
 
+/* Print integer to console */
 void printInt(int num);
 
 #endif /* FILE_SYSTEM_H */

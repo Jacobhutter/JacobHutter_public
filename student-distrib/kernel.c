@@ -191,13 +191,13 @@ entry (unsigned long magic, unsigned long addr)
     //test_terminal();
 
     /* uncomment one to test file system */
-    //list_all_files();
+    // list_all_files();
     // test1();
-    //read_file_by_name("sigtest");
-    //read_file_by_name("frame0.txt");
+    // read_file_by_name("sigtest");
+    // read_file_by_name("frame0.txt");
     //read_file_by_name("frame1.txt");
-    //read_file_by_name("verylargetextwithverylongname.txt");
-    //read_file_by_index(10);
+    // read_file_by_name("verylargetextwithverylongname.txt");
+    // read_file_by_index(10);
 
     /* uncomment to test rtc */
     //test_rtc();
