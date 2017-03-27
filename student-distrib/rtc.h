@@ -31,7 +31,7 @@
 #define RTC_BASE_FREQ  1024 /* to virtualize RTC */
 #define RTC_INIT_FREQ  2
 
-extern int32_t rtc_init();
+extern int32_t rtc_open();
 extern int32_t rtc_read();
 extern int32_t rtc_write (int32_t freq);
 extern int32_t rtc_close();

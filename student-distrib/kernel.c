@@ -172,7 +172,7 @@ entry (unsigned long magic, unsigned long addr)
     terminal_open();
 
     /*initializes real time clock (2hz currently) */
-    (void)rtc_init();
+    (void)rtc_open();
 
     /* Enable interrupts */
     /* Do not enable the following until after you have set up your

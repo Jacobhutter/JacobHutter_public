@@ -3,7 +3,7 @@
 #define RTC_TESTNUMS  16
 #define RTC_ERROR_LEN 18
 
-/* rtc_init()
+/* rtc_open()
  * DESCRIPTION:  Intitializes the real-time clock
  * INPUTS:       None
  * OUTPUTS:      None
@@ -11,7 +11,7 @@
  * SIDE EFFECTS: Intializes RTC to generate interrupts at 2 Hz
  *
  */
-int32_t rtc_init() {
+int32_t rtc_open() {
 	uint32_t junk; // Sanity check to make sure that interrupts are enabled
 
 	outb(RTC_A, RTC_ADDR);

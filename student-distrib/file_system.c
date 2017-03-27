@@ -452,13 +452,28 @@ uint32_t read_file_by_index(uint32_t index) {
     return read_file_by_dentry(file);
 
 }
-
+/*
+ * intToChar
+ *   DESCRIPTION: Convert integer digit to ASCII character
+ *   INPUTS: a - integer digit to convert
+ *   OUTPUTS: none
+ *   RETURN VALUE: equivalent ASCII character
+ *   SIDE EFFECTS: none
+ */
 char
 intToChar(int a) {
     // Adds 48 to get integer offset
     return (char)(a + 48);
 }
 
+/*
+ * printInt
+ *   DESCRIPTION: Print integer to console
+ *   INPUTS: num - integer to be printed to console
+ *   OUTPUTS: integer to console
+ *   RETURN VALUE: Void
+ *   SIDE EFFECTS: none
+ */
 void printInt(int num) {
     int temp;
 
