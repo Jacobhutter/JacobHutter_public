@@ -76,4 +76,6 @@ uint32_t read_file_by_index(uint32_t);
 char
 intToChar(int a);
 
+void printInt(int num);
+
 #endif /* FILE_SYSTEM_H */

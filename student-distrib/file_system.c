@@ -320,9 +320,7 @@ unsigned long get_file_size(dentry_t file) {
  *   SIDE EFFECTS: Prints file name to screen
  */
 void print_file_name(char* a) {
-    
-    int i;
-    
+
     terminal_write((const void *) a, (int32_t) MAX_NAME);
 }
 
@@ -359,16 +357,12 @@ int check_string(const uint8_t* s1, uint8_t* s2) {
  */
 void list_all_files() {
     dentry_t curr;
-    int i, size;
     for (i = 0; i < dir_entries; i++) {
         read_dentry_by_index(i, &curr);
         // Gets file size
         size = *(boot_block_addr + kB + (curr.i_node_num * kB));
-        
         terminal_write("File name: ", 11);
         print_file_name((char*)&(curr.file_name));
-        printf(" , File type: ", 14);
-        terminal_write((const void*) &(curr.file_type + 48), 1);
         terminal_write(", file size: ", 13);
         printInt(size);
         terminal_write("\n", 1);
@@ -386,7 +380,6 @@ void list_all_files() {
  *   SIDE EFFECTS: none
  */
 uint32_t read_file_by_dentry(dentry_t file) {
-    int size, read_size, i, j;
     unsigned char buffer[kB];
     
     size = (int)get_file_size(file);
@@ -423,11 +416,9 @@ uint32_t read_file_by_dentry(dentry_t file) {
  */
 uint32_t read_file_by_name(char* name) {
     dentry_t file;
-    
     // Gets the dentry
     if (read_dentry_by_name((uint8_t*)name, &file) == -1)
         return -1;
-    
     return read_file_by_dentry(file);
     
 }
@@ -459,11 +450,8 @@ intToChar(int a) {
 
 void printInt(int num) {
     if (num < 10) {
-        terminal_write((const void*) &(num + 48), 1);
         return;
     }
     
     printInt(num / 10);
-    
-    terminal_write((const void*) &((num % 10) + 48), 1);
 }
