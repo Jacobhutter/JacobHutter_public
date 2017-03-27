@@ -3,6 +3,7 @@
 
 #include "lib.h"
 #include "types.h"
+#include "keyboard.h"
 
 // denttry block in file system
 typedef struct dentry
@@ -71,5 +72,8 @@ uint32_t read_file_by_name(char*);
 
 /* Reads file specified by index */
 uint32_t read_file_by_index(uint32_t);
+
+char
+intToChar(int a);
 
 #endif /* FILE_SYSTEM_H */

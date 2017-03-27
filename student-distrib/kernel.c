@@ -185,15 +185,15 @@ multiboot_info_t *mbi;
 
     /* initializing file system */
     init_file_system((unsigned long *)bb);
+//    terminal_write("hello", 5);
 
-    printf("Enabling Interrupts\n");
+//    printf("Enabling Interrupts\n");
 
-    clear();
-    list_all_files();
+    //list_all_files();
     // test1();
 
     // read_file_by_name("sigtest");
-    // read_file_by_name("frame0.txt");
+     read_file_by_name("frame0.txt");
     // read_file_by_name("verylargetextwithverylongname.txt");
 
 
