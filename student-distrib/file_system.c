@@ -24,11 +24,11 @@ void init_file_system(unsigned long * addr) {
     dir_entries = *boot_block_addr;
     num_inode = *(boot_block_addr + 1);
     data_blocks = *(boot_block_addr + 2);
-    
+
     // printf("%d, %d, %d\n", dir_entries, num_inode, data_blocks);
-    
+
     // printf("0x%#x, 0x%#x\n", boot_block_addr, curr);
-    
+
 }
 
 /*
@@ -41,16 +41,16 @@ void init_file_system(unsigned long * addr) {
  *   SIDE EFFECTS: Copies dentry_t with name fname to dentry
  */
 int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
-    
+
     dentry_t* curr;
     int i;
-    
+
     // Gets address of first dentry
     curr = (dentry_t*)(boot_block_addr + BLOCK_OFF);
-    
+
     // Runs through list to find file name
     for (i = 0; i < dir_entries; i++) {
-        
+
         // If the names are equal, copy and return
         if (check_string(fname, (uint8_t*)curr)) {
             *dentry = *curr;
@@ -72,19 +72,19 @@ int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
  *   SIDE EFFECTS: Copies dentry_t with inode index to dentry
  */
 int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
-    
+
     dentry_t* curr;
-    
+
     // Tried to access file that didn't exist
     if (index >= dir_entries)
         return -1;
-    
+
     // Gets address of dentry
     // One offset for boot block
     curr = (dentry_t*)(boot_block_addr + (index + 1) * BLOCK_OFF);
-    
+
     *dentry = *curr;
-    
+
     return 0;
 }
 
@@ -100,33 +100,33 @@ int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
  *   SIDE EFFECTS: Copies data of length bytes to buffer
  */
 int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length) {
-    
+
     int* init_inode_addr, *inode_addr;
     char* init_data_addr, *data_addr;
     int block_length, data_num, min, i, j, k;
     int data_offset;
-    
+
     data_offset = offset / MEM_BLOCK;
-    
+
     offset %= MEM_BLOCK;
-    
+
     // Gets start of inode blocks and data blocks
     init_inode_addr = (int*)(boot_block_addr + kB);
     init_data_addr = (char*)(boot_block_addr + (kB + num_inode * kB));
-    
+
     if (inode >= num_inode)
         return -1;
-    
+
     // Gets inode block
     inode_addr = init_inode_addr + (inode * kB);
-    
+
     // Gets length of block
     block_length = *inode_addr;
-    
+
     // Idk if needed, come back later
     min = (length > block_length) ? block_length : length;
-    
-    
+
+
     i = 0;
     k = 1;
     // Runs until read all blocks
@@ -152,8 +152,8 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
         // Increments inode index
         k++;
     }
-    
-    
+
+
     return 0;
 }
 
@@ -166,7 +166,7 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
  *   SIDE EFFECTS: Adds data to global vars
  */
 int32_t file_open(uint8_t* file) {
-    
+
     return 0;
 }
 
@@ -257,7 +257,7 @@ int32_t dir_read(int32_t fd) {
     // 	read_dentry_by_index(i, &curr);
     // 	print_file_name((char*)&(curr.file_name));
     // }
-    
+
     return 0;
 }
 
@@ -271,7 +271,7 @@ int32_t dir_read(int32_t fd) {
  */
 unsigned long get_file_size(dentry_t file) {
     unsigned long * inode_addr = (boot_block_addr + kB) + (file.i_node_num * kB);
-    
+
     return *inode_addr;
 }
 
@@ -335,11 +335,11 @@ void print_file_name(char* a) {
  */
 int check_string(const uint8_t* s1, uint8_t* s2) {
     int i;
-    int length = (strlen(s1) > 32) ? 32 : strlen(s1);
+    int length = (strlen((const int8_t*)s1) > 32) ? 32 : strlen((const int8_t*)s1);
 //    terminal_write((const void*) s1, 32);
 //    terminal_write((const void*) "\n", 1);
 //    terminal_write((const void*) s2, 32);
-    
+
     // Runs through string to see if equal
     for (i = 0; i < length; i++) {
         if (s1[i] == '%') return 1;
@@ -347,7 +347,7 @@ int check_string(const uint8_t* s1, uint8_t* s2) {
             return 0;
         }
     }
-    
+
     return 1;
 }
 
@@ -374,8 +374,8 @@ void list_all_files() {
         terminal_write(", file size: ", 13);
         printInt(size);
         terminal_write("\n", 1);
-        
-        
+
+
     }
 }
 
@@ -390,30 +390,30 @@ void list_all_files() {
 uint32_t read_file_by_dentry(dentry_t file) {
     int size, read_size, j;
     unsigned char buffer[kB];
-    
+
     size = (int)get_file_size(file);
-    
+
     j = 0;
     while (size > 0) {
         // Reads smallest amount of bytes
         read_size = (size > kB) ? kB : size;
-        
+
         size -= kB;
-        
+
         if (read_data(file.i_node_num, j * kB, buffer, read_size) != 0)
             return -1;
-        
+
         terminal_write((const void*) buffer, (int32_t) read_size);
-        
+
         j++;
-        
+
     }
     terminal_write("\nFile name: ", 12);
     print_file_name(file.file_name);
     terminal_write("\n", 1);
-    
+
     return 0;
-    
+
 }
 
 /*
@@ -431,7 +431,7 @@ uint32_t read_file_by_name(char* name) {
         return -1;
 
     return read_file_by_dentry(file);
-    
+
 }
 
 /*
@@ -444,13 +444,13 @@ uint32_t read_file_by_name(char* name) {
  */
 uint32_t read_file_by_index(uint32_t index) {
     dentry_t file;
-    
+
     // Gets dentry
     if (read_dentry_by_index(index, &file) == -1)
         return -1;
-    
+
     return read_file_by_dentry(file);
-    
+
 }
 
 char
@@ -461,13 +461,13 @@ intToChar(int a) {
 
 void printInt(int num) {
     int temp;
-    
+
     temp = num + 48;
     if (num < 10) {
         terminal_write((const void*) (&temp), 1);
         return;
     }
-    
+
     printInt(num / 10);
     temp = num % 10;
     temp += 48;
