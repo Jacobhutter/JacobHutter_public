@@ -47,7 +47,6 @@
 \begin{figure}[H]
 \includegraphics[scale = .5]{1_lpf_20}
 \includegraphics[scale = .5]{1_lpf_40}
-\\ Notice that the magnitude response shows some attenuation and non-vertical edges that would not be present in an ideal model of a filter. This is not possible in a setting with a discrete amount of samples because the jump from low to high or vice versa happens instantaneously.
 \end{figure}
 
 \begin{figure}[H]
@@ -57,6 +56,7 @@
 \begin{figure}[H]
 \includegraphics[scale = .5]{1_bpf_20}
 \includegraphics[scale = .5]{1_bpf_40}
+\\ Notice that the magnitude response shows some attenuation and non-vertical edges that would not be present in an ideal model of a filter. This is not possible in a setting with a discrete amount of samples because the jump from low to high or vice versa happens instantaneously.
 \end{figure}
 
 
@@ -96,7 +96,7 @@
 \includegraphics[scale = .5]{report5_2}
 \end{figure}
 \begin{figure}[H]
-\\By the spectrogram we can see that(M = 5) there are frequencies ranging from 10 to 50 hz at 2.5 to 4 seconds. Then there are also 80 to 100 hz at 6 to 10 seconds. With M =30, We see frequencies 10hz at 1:2 seconds, 20hz at 2.5:4 seconds, 10hz at 4:6 seconds, and 50 and 85 hz at 6:10 seconds. When we increase M to 30 our minimum frequency to be distinguished goes down and therefore the frequency bands are more distinguishable. Note that $N\Delta t = \frac{1/fmin}$, increasing N will decrease fmin.
+\\By the spectrogram we can see that(M = 5) there are frequencies ranging from 10 to 50 hz at 2.5 to 4 seconds. Then there are also 80 to 100 hz at 6 to 10 seconds. With M =30, We see frequencies 10hz at 1:2 seconds, 20hz at 2.5:4 seconds, 10hz at 4:6 seconds, and 50 and 85 hz at 6:10 seconds. When we increase M to 30 our minimum frequency to be distinguished goes down and therefore the frequency bands are more distinguishable. Note that $N\Delta t = \frac{1}{fmin}$, increasing N will decrease fmin.
 \end{figure}
 
 \begin{figure}[H]
@@ -136,7 +136,7 @@ In the spectrogram we can see noise distributed among the low frequency bands.
 \begin{figure}[H]
 \includegraphics[scale = .5]{report7_3}
 \includegraphics[scale = .5]{report7_4}
-\\ I tried to filter out all of the noise outside of the lowest frequency but with such a small band of desired frequency, creating a sinc of that small width is hard. Therefore some noise still remains.
+\\ I tried to filter out all of the noise outside of the lowest frequency but with such a small band of desired frequency, creating a sinc of that small width is hard so some noise still remains.
 Also, the desired sound is quieter after filtering. Overall, the filter helped, but could be better.
 \end{figure}
 
@@ -152,7 +152,7 @@ Also, the desired sound is quieter after filtering. Overall, the filter helped, 
 \includegraphics[scale = .5]{report8_1}
 \includegraphics[scale = .5]{report8_2}
 \\ With the rectangular window treated spectrogram, the dark spots have a higher intensity but are less spread out than the hamming window. The magnitude dies off
-quicker. 
+quicker.
 \end{figure}
 
 \end{document}
