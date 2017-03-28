@@ -10,8 +10,13 @@ plot(w,abs(y_w));
 ylabel('magnitude');
 xlabel('radians');
 title('magnitude spectrum of sound1.wav before filter');
-
-
+m = 5000;
+d = 5;
+p = 1024;
+mySTDFT(y',m,d,p,fs);
+        
+        
+        
 f= [0 .4 .5 1];
 a = [1 1 0 0];
 b = firpm(50,f,a);
@@ -28,3 +33,4 @@ y = ifft(ifftshift(y_w));
 soundsc(y);
 filename = 'filtered1.wav';
 audiowrite(filename,y,fs);
+mySTDFT(y',m,d,p,fs);
