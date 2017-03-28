@@ -108,24 +108,36 @@
 \end{figure}
 
 \begin{figure}[H]
-\\ Before filter
+Before filter, I used paramaters $M = 5000$, $P = 1024$, $D = 5$. The signal and sampling frequency are given to us.
 \includegraphics[scale = .5]{report6_1}
 \includegraphics[scale = .5]{report6_2}
 \end{figure}
 
 \begin{figure}[H]
-\\ Notice that noise in the higher frequencies of the spectrogram are cleaned. Because the frequencies are mutally exclusive, the filter works well.
 \includegraphics[scale = .5]{report6_3}
 \includegraphics[scale = .5]{report6_4}
+\\ Notice that noise in the higher frequencies of the spectrogram are cleaned. Because the frequencies are mutally exclusive, the filter works well.
 \end{figure}
 
 \begin{figure}[H]
+\color{red}
+\underline{\textbf{Report Item 7}}
+\color{black}
 \lstinputlisting[language=Matlab]{report7.m}
 \end{figure}
 
 \begin{figure}[H]
 \includegraphics[scale = .5]{report7_1}
+\includegraphics[scale = .5]{report7_2}
+\\Before filter, I used paramaters $M = 5000$, $P = 1024$, $D = 5$. The signal and sampling frequency are given to us.
+In the spectrogram we can see noise distributed among the low frequency bands.
+\end{figure}
+
+\begin{figure}[H]
 \includegraphics[scale = .5]{report7_3}
+\includegraphics[scale = .5]{report7_4}
+\\ I tried to filter out all of the noise outside of the lowest frequency but with such a small band of desired frequency, creating a sinc of that small width is hard. Therefore some noise still remains.
+Also, the desired sound is quieter after filtering. Overall, the filter helped, but could be better.
 \end{figure}
 
 \begin{figure}[H]

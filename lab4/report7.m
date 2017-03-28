@@ -5,14 +5,16 @@ w = fftshift((0:N-1)/N*2*pi); % define omega as you would for FFT
 w(1:N/2) = w(1:N/2) - 2*pi;   %
 
 yw = fftshift(fft(y));
-ys = spectrogram(y);
 figure;
 plot(w,abs(yw));
 title('sound2.wav magnitude response prior to filtering');
 xlabel('radians');
 ylabel('magnitude');
 figure;
-imagesc(abs(ys));
+m = 5000;
+d = 5;
+p = 1024;
+mySTDFT(y',m,d,p,fs);
 
 f= [0 .1 .2 1];
 a = [1 0 0 0];
@@ -28,9 +30,8 @@ title('magnitude spectrum of sound2.wav after filter');
 
 
 y = ifft(ifftshift(yw));
-ys = spectrogram(y);
 figure;
-imagesc(abs(ys));
+mySTDFT(y',m,d,p,fs);
 soundsc(y);
 filename = 'filtered2.wav';
 audiowrite(filename,y,fs);
