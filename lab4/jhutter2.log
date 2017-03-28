@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  27 MAR 2017 22:03
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  27 MAR 2017 23:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**jhutter2.tex
+**jhutter2
 (./jhutter2.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
@@ -417,35 +417,59 @@ Underfull \hbox (badness 10000) in paragraph at lines 137--141
 [][]
  []
 
-(./report8.m) [2] [3 <./1_lpf_20.jpg> <./1_lpf_40.jpg>] [4 <./1_hpf_20.jpg> <./
-1_hpf_40.jpg>] [5 <./1_bpf_20.jpg> <./1_bpf_40.jpg>] [6 <./report2.jpg>]
-[7 <./report3.jpg>] [8 <./report4.jpg> <./report4i.jpg>] [9 <./report5.jpg> <./
-report5_2.jpg>] [10] [11 <./report6_1.jpg> <./report6_2.jpg>] [12 <./report6_3.
-jpg> <./report6_4.jpg>] [13] [14 <./report7_1.jpg> <./report7_2.jpg>] [15 <./re
-port7_3.jpg> <./report7_4.jpg>] [16] (./jhutter2.aux) ) 
+(./report8.m) <report8_1.jpg, id=33, 562.1pt x 421.575pt>
+File: report8_1.jpg Graphic file (type jpg)
+ <use report8_1.jpg>
+Package pdftex.def Info: report8_1.jpg used on input line 145.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+<report8_2.jpg, id=34, 562.1pt x 421.575pt>
+File: report8_2.jpg Graphic file (type jpg)
+ <use report8_2.jpg>
+Package pdftex.def Info: report8_2.jpg used on input line 146.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--148
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--148
+
+ []
+
+
+LaTeX Warning: Float too large for page by 257.81783pt on input line 148.
+
+[2] [3 <./1_lpf_20.jpg> <./1_lpf_40.jpg>] [4 <./1_hpf_20.jpg> <./1_hpf_40.jpg>]
+[5 <./1_bpf_20.jpg> <./1_bpf_40.jpg>] [6 <./report2.jpg>] [7 <./report3.jpg>]
+[8 <./report4.jpg> <./report4i.jpg>] [9 <./report5.jpg> <./report5_2.jpg>]
+[10] [11 <./report6_1.jpg> <./report6_2.jpg>] [12 <./report6_3.jpg> <./report6_
+4.jpg>] [13] [14 <./report7_1.jpg> <./report7_2.jpg>] [15 <./report7_3.jpg> <./
+report7_4.jpg>] [16 <./report8_1.jpg> <./report8_2.jpg>] (./jhutter2.aux) ) 
 Here is how much of TeX's memory you used:
- 3555 strings out of 495063
- 49579 string characters out of 3182201
- 905202 words of memory out of 3000000
- 6676 multiletter control sequences out of 15000+200000
+ 3571 strings out of 495063
+ 49795 string characters out of 3182201
+ 964202 words of memory out of 3000000
+ 6690 multiletter control sequences out of 15000+200000
  6983 words of font info for 25 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,7n,39p,534b,2088s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on jhutter2.pdf (16 pages, 636583 bytes).
+ 38i,7n,39p,530b,2088s stack positions out of 5000i,500n,10000p,200000b,50000s
+</us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on jhutter2.pdf (16 pages, 702370 bytes).
 PDF statistics:
- 120 PDF objects out of 1000 (max. 8388607)
+ 122 PDF objects out of 1000 (max. 8388607)
  70 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 111 words of extra memory for PDF output out of 10000 (max. 10000000)
 
