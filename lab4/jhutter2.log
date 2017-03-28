@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  27 MAR 2017 21:10
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  27 MAR 2017 22:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -340,16 +340,6 @@ Type  H <return>  for immediate help.
 l.107 \\ T
           he audio file when played at real time is 15 seconds.
 ? 
-
-! LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.111 \\ B
-          efore filter
-? 
 <report6_1.jpg, id=25, 585.18625pt x 438.63875pt>
 File: report6_1.jpg Graphic file (type jpg)
  <use report6_1.jpg>
@@ -362,58 +352,68 @@ File: report6_2.jpg Graphic file (type jpg)
 Package pdftex.def Info: report6_2.jpg used on input line 113.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
 
-Overfull \hbox (0.56471pt too wide) in paragraph at lines 111--114
-[]\OT1/cmr/m/n/10 Before fil-ter []
+Underfull \hbox (badness 10000) in paragraph at lines 111--114
+[]\OT1/cmr/m/n/10 Before fil-ter, I used para-maters $\OML/cmm/m/it/10 M \OT1/c
+mr/m/n/10 = 5000$, $\OML/cmm/m/it/10 P \OT1/cmr/m/n/10 = 1024$,
  []
 
 
-! LaTeX Error: There's no line here to end.
+Underfull \hbox (badness 4927) in paragraph at lines 111--114
+\OML/cmm/m/it/10 D \OT1/cmr/m/n/10 = 5$. The sig-nal and sam-pling fre-quency a
+re given to us.
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.117 \\ N
-          otice that noise in the higher frequencies of the spectrogram are ...
 
-? 
+Underfull \hbox (badness 10000) in paragraph at lines 111--114
+[]
+ []
+
 <report6_3.jpg, id=27, 585.18625pt x 438.63875pt>
 File: report6_3.jpg Graphic file (type jpg)
  <use report6_3.jpg>
-Package pdftex.def Info: report6_3.jpg used on input line 118.
+Package pdftex.def Info: report6_3.jpg used on input line 117.
 (pdftex.def)             Requested size: 292.5924pt x 219.31883pt.
 
 <report6_4.jpg, id=28, 562.1pt x 421.575pt>
 File: report6_4.jpg Graphic file (type jpg)
  <use report6_4.jpg>
-Package pdftex.def Info: report6_4.jpg used on input line 119.
+Package pdftex.def Info: report6_4.jpg used on input line 118.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
 
-Underfull \hbox (badness 4036) in paragraph at lines 117--120
-[]\OT1/cmr/m/n/10 Notice that noise in the higher fre-quen-cies of the spec-tro
--gram are
- []
-
-
-Underfull \hbox (badness 4995) in paragraph at lines 117--120
-\OT1/cmr/m/n/10 cleaned. Be-cause the fre-quen-cies are mu-tally ex-clu-sive, t
-he fil-ter
+Underfull \hbox (badness 10000) in paragraph at lines 117--120
+[][]
  []
 
 (./report7.m) <report7_1.jpg, id=29, 585.18625pt x 438.63875pt>
 File: report7_1.jpg Graphic file (type jpg)
 
 <use report7_1.jpg>
-Package pdftex.def Info: report7_1.jpg used on input line 127.
+Package pdftex.def Info: report7_1.jpg used on input line 130.
 (pdftex.def)             Requested size: 292.5924pt x 219.31883pt.
- <report7_3.jpg, id=30, 585.18625pt x 438.63875pt>
+ <report7_2.jpg, id=30, 562.1pt x 421.575pt>
+File: report7_2.jpg Graphic file (type jpg)
+
+<use report7_2.jpg>
+Package pdftex.def Info: report7_2.jpg used on input line 131.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--134
+[][]
+ []
+
+<report7_3.jpg, id=31, 585.18625pt x 438.63875pt>
 File: report7_3.jpg Graphic file (type jpg)
-
-<use report7_3.jpg>
-Package pdftex.def Info: report7_3.jpg used on input line 128.
+ <use report7_3.jpg>
+Package pdftex.def Info: report7_3.jpg used on input line 137.
 (pdftex.def)             Requested size: 292.5924pt x 219.31883pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 127--129
+<report7_4.jpg, id=32, 562.1pt x 421.575pt>
+File: report7_4.jpg Graphic file (type jpg)
+ <use report7_4.jpg>
+Package pdftex.def Info: report7_4.jpg used on input line 138.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 137--141
 [][]
  []
 
@@ -421,31 +421,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 127--129
 1_hpf_40.jpg>] [5 <./1_bpf_20.jpg> <./1_bpf_40.jpg>] [6 <./report2.jpg>]
 [7 <./report3.jpg>] [8 <./report4.jpg> <./report4i.jpg>] [9 <./report5.jpg> <./
 report5_2.jpg>] [10] [11 <./report6_1.jpg> <./report6_2.jpg>] [12 <./report6_3.
-jpg> <./report6_4.jpg>] [13] [14 <./report7_1.jpg> <./report7_3.jpg>] [15]
-(./jhutter2.aux) ) 
+jpg> <./report6_4.jpg>] [13] [14 <./report7_1.jpg> <./report7_2.jpg>] [15 <./re
+port7_3.jpg> <./report7_4.jpg>] [16] (./jhutter2.aux) ) 
 Here is how much of TeX's memory you used:
- 3547 strings out of 495063
- 49434 string characters out of 3182201
- 900607 words of memory out of 3000000
- 6670 multiletter control sequences out of 15000+200000
+ 3555 strings out of 495063
+ 49579 string characters out of 3182201
+ 905202 words of memory out of 3000000
+ 6676 multiletter control sequences out of 15000+200000
  6983 words of font info for 25 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  38i,7n,39p,534b,2088s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
-0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmsy8.pfb>
-Output written on jhutter2.pdf (15 pages, 599183 bytes).
+</usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on jhutter2.pdf (16 pages, 636583 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
- 68 compressed objects within 1 object stream
+ 120 PDF objects out of 1000 (max. 8388607)
+ 70 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 91 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 101 words of extra memory for PDF output out of 10000 (max. 10000000)
 
