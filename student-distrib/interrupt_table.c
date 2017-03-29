@@ -82,15 +82,15 @@ void build_idt(){
     SET_IDT_ENTRY(idt[KBD],_KEYBOARD);
 
     // set entry for system calls
-    idt[KBD].dpl = 3;
-    idt[KBD].reserved0 = 0;
-    idt[KBD].size = 1;
-    idt[KBD].reserved1 = 1;
-    idt[KBD].reserved2 = 1;
-    idt[KBD].reserved3 = 1;
-    idt[KBD].reserved4 = 0;
-    idt[KBD].present = 1;
-    idt[KBD].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    idt[SYS_CALL].dpl = 3;
+    idt[SYS_CALL].reserved0 = 0;
+    idt[SYS_CALL].size = 1;
+    idt[SYS_CALL].reserved1 = 1;
+    idt[SYS_CALL].reserved2 = 1;
+    idt[SYS_CALL].reserved3 = 1;
+    idt[SYS_CALL].reserved4 = 0;
+    idt[SYS_CALL].present = 1;
+    idt[SYS_CALL].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
     SET_IDT_ENTRY(idt[SYS_CALL],_SYSTEM_CALL);
 
     // load interrupt descriptor table
