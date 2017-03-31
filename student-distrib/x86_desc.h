@@ -113,7 +113,16 @@ typedef struct __attribute__((packed)) tss_t {
 
 /* Some external descriptors declared in .S files */
 extern x86_desc_t gdt_desc;
-
+extern int32_t HALT(uint8_t status);
+extern int32_t EXECUTE(const uint8_t* command);
+extern int32_t READ(int32_t fd, void* buf, int32_t nbytes);
+extern int32_t WRITE(int32_t fd, const void* buf, int32_t nbytes);
+extern int32_t OPEN(const uint8_t* filename);
+extern int32_t CLOSE(int32_t fd);
+extern int32_t GETARGS(uint8_t* buf, int32_t nbytes);
+extern int32_t VIDMAP(uint8_t** screen_start);
+extern int32_t SET_HANDLER(int32_t signum, void* handler_address);
+extern int32_t SIGRETURN(void);
 extern void * EXCEPTION_TABLE();
 extern void _DIVIDE_ERROR();
 extern void _RESERVED();
