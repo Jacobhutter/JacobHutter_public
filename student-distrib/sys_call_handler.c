@@ -1,6 +1,7 @@
 #include "sys_call_handler.h"
 
 int32_t HALT (uint8_t status){
+    terminal_write((const void *)"test halt",(int32_t)9);
     return 0;
 }
 int32_t EXECUTE (const uint8_t* command){

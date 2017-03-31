@@ -189,11 +189,15 @@ entry (unsigned long magic, unsigned long addr)
 
     /* uncomment for terminal test */
     //test_terminal();
-
+    terminal_write("testing sys call1", 16);
+    asm volatile(" movl $1, %eax \n\
+         int $0x80     \n\
+        ");
+    terminal_write("testing sys call2", 16);
     /* uncomment one to test file system */
     // list_all_files();
     // test1();
-    read_file_by_name("sigtest");
+    //read_file_by_name("sigtest");
     // read_file_by_name("frame0.txt");
     //read_file_by_name("frame1.txt");
     // read_file_by_name("verylargetextwithverylongname.txt");
