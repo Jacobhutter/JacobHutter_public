@@ -3,4 +3,5 @@
 #include "wrapper.h"
 #include "x86_desc.h"
 #include "keyboard.h"
+#include "lib.h"
 #endif

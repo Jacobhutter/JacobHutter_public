@@ -4,7 +4,6 @@
 #include "lib.h"
 #define VGA_CONVENTION 2
 #define BUFFER_SIZE  128*VGA_CONVENTION
-#define BUFFER_LIMIT 128
 #define SCREEN_HEIGHT 25
 #define SCREEN_WIDTH 80
 #define MAX_WIDTH_INDEX 79

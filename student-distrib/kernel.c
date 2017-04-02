@@ -8,6 +8,7 @@
 #include "i8259.h"
 #include "debug.h"
 #include "interrupt_table.h"
+#include "sys_call_handler.h"
 #include "paging.h"
 #include "keyboard.h"
 #include "rtc.h"
@@ -189,11 +190,14 @@ entry (unsigned long magic, unsigned long addr)
 
     /* uncomment for terminal test */
     //test_terminal();
-    terminal_write("testing sys call1", 16);
-    asm volatile(" movl $1, %eax \n\
+    const uint8_t command[] = "SHELL abc";
+    EXECUTE(command);
+    /*terminal_write("testing sys call1", 16);
+    asm volatile(" movl $2, %eax \n\
          int $0x80     \n\
         ");
-    terminal_write("testing sys call2", 16);
+    terminal_write("testing sys call2", 16);*/
+
     /* uncomment one to test file system */
     // list_all_files();
     // test1();

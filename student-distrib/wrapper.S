@@ -232,10 +232,10 @@ _KEYBOARD:
 */
 _SYSTEM_CALL:
     pushal
-
-    pushl %ebx
-    pushl %ecx # push args
+    
     pushl %edx
+    pushl %ecx # push args
+    pushl %ebx
 
     call *jump_table(,%eax,4) # call jump table entry
 

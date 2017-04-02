@@ -10,6 +10,7 @@
 #define KEYBOARD_DATA 0x60
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_IRQ 0x21
+#define BUFFER_LIMIT 128
 
 #define KBD_IRQ_LINE 1
 
