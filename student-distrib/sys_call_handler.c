@@ -46,6 +46,7 @@ int32_t EXECUTE (const uint8_t* command) {
     file_size = get_file_size(file);
 
     /* TODO: Set up paging and load file */
+    load_shell();
 
     /* are we at our limit for processes */
     if (process_cont.mask = 0xFF)

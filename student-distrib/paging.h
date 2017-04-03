@@ -7,4 +7,6 @@
 /* Initializes paging */
 void initPaging();
 
+void load_shell();
+
 #endif /* PAGING_H */

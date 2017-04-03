@@ -5,6 +5,8 @@
 #define MB 1048576
 #define KERNEL_ADDR 0x0400000
 
+#define SHELL_ADDR 0x0800000
+
 #define PAGE_OFF 0x1000
 
 #define VIDEO 0xB8000
@@ -16,6 +18,9 @@ unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
 
 // Alligns page table to 4kB
 unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
+
+unsigned int shell_pd[kB] __attribute__((aligned(4 * kB)));
+
 
 /*
  * initPaging
@@ -62,4 +67,23 @@ void initPaging() {
 	// Enables paging
 	enablePaging();
 
+}
+
+void load_shell() {
+	unsigned int i;
+
+	for (i = 0; i < kB; i++) {
+		if (i * PAGE_OFF >= VIDEO &&
+		        i * PAGE_OFF < VIDEO + ((NUM_ROWS * NUM_COLS) << 1)) {
+			shell_pd[i] = (i * PAGE_OFF) | 0x01;
+		}
+	}
+
+	shell_pd[0] = 0;
+
+	shell_pd[0] = (unsigned int)page_table1 | 0x01;
+	shell_pd[1] = KERNEL_ADDR | 0x081;
+	shell_pd[64] = SHELL_ADDR | 0x081;
+
+	loadPageDirectory(shell_pd); 
 }

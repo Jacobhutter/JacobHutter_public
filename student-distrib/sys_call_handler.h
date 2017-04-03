@@ -5,6 +5,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "file_system.h"
+#include "paging.h"
 
 typedef struct process {
 	unsigned long* operations;
