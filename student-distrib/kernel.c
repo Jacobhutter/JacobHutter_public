@@ -190,7 +190,9 @@ entry (unsigned long magic, unsigned long addr)
 
     /* uncomment for terminal test */
     //test_terminal();
-    const uint8_t command[] = "SHELL abc";
+    const uint8_t command[] = "shell abc";
+    // const uint8_t command[] = "frame0.txt";
+
     EXECUTE(command);
     /*terminal_write("testing sys call1", 16);
     asm volatile(" movl $2, %eax \n\

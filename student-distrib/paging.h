@@ -4,9 +4,11 @@
 #ifndef PAGING_H
 #define PAGING_H
 
+#include "lib.h"
+
 /* Initializes paging */
 void initPaging();
 
-void load_shell();
+int32_t load_process();
 
 #endif /* PAGING_H */

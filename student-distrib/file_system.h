@@ -79,4 +79,6 @@ char intToChar(int a);
 /* Print integer to console */
 void printInt(int num);
 
+int check_ELF(dentry_t file);
+
 #endif /* FILE_SYSTEM_H */

@@ -21,9 +21,11 @@ int32_t EXECUTE (const uint8_t* command) {
     uint8_t* end;
     dentry_t file;
     unsigned long file_size;
+    int process_num;
+
 
     /* if command is NULL return fail */
-    if (!command)
+    if (command == NULL)
         return -1;
 
     /* seperate out command vs args */
@@ -42,15 +44,32 @@ int32_t EXECUTE (const uint8_t* command) {
 
     to_execute[end - start] = TERMINATOR;
 
-    /* check for valid entry filename*/
-    if (read_dentry_by_name(to_execute, &file) == -1)
+
+    // Checks if file exists
+    if (read_dentry_by_name(to_execute, &file) == -1) {
+        terminal_write((const void*) to_execute, end - start);
+        terminal_write(": command not found\n", 20);
         return -1;
+    }
 
+    // Checks if executable
+    if (!check_ELF(file)) {
+        terminal_write((const void*) to_execute, end - start);
+        terminal_write(": file not executable\n", 22);
+        return -1;
+    }
     file_size = get_file_size(file);
-
-
-    /*Set up paging and load file */
-    load_shell();
+    
+    /* Sets up new page for process */
+    process_num = load_process();
+    if (process_num == -1) {
+        terminal_write("Error: Too many processes\n", 26);
+        return -1;
+    }
+    
+    terminal_write("Gucci\n", 6);
+    
+    /* TODO: Load file */
 
     /* create new pcb for current task */
     PCB_t * process;
