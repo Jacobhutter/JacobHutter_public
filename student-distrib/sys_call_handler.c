@@ -1,19 +1,19 @@
 #include "sys_call_handler.h"
 
+int32_t stdio_open(const uint8_t * filename){return -1;}
+int32_t stdio_close(int32_t fd){return -1;}
+int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
+int32_t stdout_write(int32_t fd,const char* buf,int32_t nbytes){return -1;}
+
 int32_t HALT (uint8_t status) {
     terminal_write((const void *)"test halt", (int32_t)9);
     return 0;
 }
 
-#define TERMINATOR '\0'
-#define SPACE ' '
-PCB_t process_cont;
-
+PCB_ADDR = _8Mb;
 int32_t EXECUTE (const uint8_t* command) {
-    /* Tests the algorithm used to parse the command */
-    // terminal_write((const void *)command, strlen(command));
-    // terminal_write("\n", 1);
 
+    /* Tests the algorithm used to parse the command */
     int i = 0;
     uint8_t * arg;
     int8_t to_execute[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
@@ -22,9 +22,11 @@ int32_t EXECUTE (const uint8_t* command) {
     dentry_t file;
     unsigned long file_size;
 
+    /* if command is NULL return fail */
     if (!command)
         return -1;
 
+    /* seperate out command vs args */
     while (*start != TERMINATOR && *start == SPACE)
         start++;
 
@@ -40,20 +42,43 @@ int32_t EXECUTE (const uint8_t* command) {
 
     to_execute[end - start] = TERMINATOR;
 
+    /* check for valid entry filename*/
     if (read_dentry_by_name(to_execute, &file) == -1)
         return -1;
 
     file_size = get_file_size(file);
 
-    /* TODO: Set up paging and load file */
+
+    /*Set up paging and load file */
     load_shell();
 
-    /* are we at our limit for processes */
-    if (process_cont.mask = 0xFF)
-        return -1;
+    /* create new pcb for current task */
+    PCB_t * process;
+
+    /* set task equal to task address at the current page */
+    PCB_ADDR -= _8Kb; // get next available address to place a PCB in kernel page
+    process = PCB_ADDR;
+
+    file_t stdin; // initialize std int
+    stdin.file_position = 0;
+    stdin.operations.open = &stdio_open;
+    stdin.operations.close = &stdio_close;
+    stdin.operations.read = &stdin_read;
+    stdin.operations.write = &WRITE;
+
+    file_t stdout; // initialize stdout
+    stdin.file_position = 1;
+    stdout.operations.open = &stdio_open;
+    stdout.operations.close = &stdio_close;
+    stdout.operations.write = &stdout_write;
+    stdout.operations.read = &READ;
+
+    process->file_descriptor[0] = stdin;
+    process->file_descriptor[1] = stdout;
+    process->mask = 0x3; // show that file_descriptor has stdin and std out
 
     /* if open slot available, find it and occupy it */
-    uint8_t dynamic_mask = 0x01;
+    /* uint8_t dynamic_mask = 0x01;
     for (i = 0; i < 8; i++) {
         if (!(dynamic_mask & process_cont.mask)) {
             process_cont.mask = process_cont.mask | dynamic_mask; // add process to list
@@ -63,7 +88,7 @@ int32_t EXECUTE (const uint8_t* command) {
             break;
         }
         dynamic_mask = dynamic_mask << 1;
-    }
+    }*/
 
     // terminal_write(to_execute, strlen(to_execute));
     // terminal_write("\n", 1);
