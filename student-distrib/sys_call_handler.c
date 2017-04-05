@@ -21,32 +21,40 @@ int32_t EXECUTE (const uint8_t* command) {
     uint8_t* end;
     dentry_t file;
     unsigned long file_size;
+    int process_num;
 
-    if (!command)
-        return -1;
+// terminal_write("fuck", 4);
+    // if (!command)
+    //     return -1;
 
-    while (*start != TERMINATOR && *start == SPACE)
-        start++;
+    // while (*start != TERMINATOR && *start == SPACE)
+    //     start++;
 
-    if (*start == TERMINATOR)
-        return -1;
+    // if (*start == TERMINATOR)
+    //     return -1;
 
-    end = start;
+    // end = start;
 
-    while (*end != TERMINATOR && *end != SPACE)
-        end++;
+    // while (*end != TERMINATOR && *end != SPACE)
+    //     end++;
 
-    memcpy((void*)to_execute, (const void*)command, end - start);
+    // memcpy((void*)to_execute, (const void*)command, end - start);
 
-    to_execute[end - start] = TERMINATOR;
+    // to_execute[end - start] = TERMINATOR;
 
-    if (read_dentry_by_name(to_execute, &file) == -1)
-        return -1;
+    // if (read_dentry_by_name(to_execute, &file) == -1)
+    //     return -1;
 
-    file_size = get_file_size(file);
+    // file_size = get_file_size(file);
+
+    // terminal_write("fuck", 4);
 
     /* TODO: Set up paging and load file */
-    load_shell();
+    process_num = load_process();
+    if (process_num == -1) {
+        terminal_write("Too many processes\n", 19);
+        return -1;
+    }
 
     /* are we at our limit for processes */
     if (process_cont.mask = 0xFF)

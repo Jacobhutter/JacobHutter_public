@@ -5,7 +5,7 @@
 #define MB 1048576
 #define KERNEL_ADDR 0x0400000
 
-#define SHELL_ADDR 0x0800000
+#define INIT_ADDR 0x0800000
 
 #define PAGE_OFF 0x1000
 
@@ -13,13 +13,18 @@
 #define NUM_COLS 80
 #define NUM_ROWS 25
 
+#define MAX_PROCESS 2
+
 // Alligns page directory to 4kB
 unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
 
 // Alligns page table to 4kB
 unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
 
-unsigned int shell_pd[kB] __attribute__((aligned(4 * kB)));
+unsigned int process0_pd[kB] __attribute__((aligned(4 * kB)));
+unsigned int process1_pd[kB] __attribute__((aligned(4 * kB)));
+
+unsigned char process_mask;
 
 
 /*
@@ -32,6 +37,7 @@ unsigned int shell_pd[kB] __attribute__((aligned(4 * kB)));
  */
 void initPaging() {
 	unsigned int i;
+	process_mask = 0;
 
 	// Reference: http://wiki.osdev.org/Setting_Up_Paging
 	for (i = 0; i < kB; i++) {
@@ -69,21 +75,53 @@ void initPaging() {
 
 }
 
-void load_shell() {
-	unsigned int i;
+int32_t load_process() {
+	int i, process_id;
+	unsigned int *directory;
+	unsigned char mask = 0x01;
+
+	for (i = 0; i < 8; i++) {
+		// Checks for open process
+		if ((process_mask & (mask << i)) == 0)
+			break;
+		// If all processes are filled
+		if (i == 7)
+			return -1;
+	}
+
+	// Decides which process to start
+	switch (i) {
+		case 0:
+			directory = process0_pd;
+			break;
+
+		case 1:
+			directory = process1_pd;
+			break;
+
+		default:
+			return -1;
+	}
+
+	// Sets process to in use
+	process_mask |= (mask << i);
+
+	process_id = i;
 
 	for (i = 0; i < kB; i++) {
 		if (i * PAGE_OFF >= VIDEO &&
 		        i * PAGE_OFF < VIDEO + ((NUM_ROWS * NUM_COLS) << 1)) {
-			shell_pd[i] = (i * PAGE_OFF) | 0x01;
+			directory[i] = (i * PAGE_OFF) | 0x01;
 		}
 	}
 
-	shell_pd[0] = 0;
+	directory[0] = 0;
 
-	shell_pd[0] = (unsigned int)page_table1 | 0x01;
-	shell_pd[1] = KERNEL_ADDR | 0x081;
-	shell_pd[64] = SHELL_ADDR | 0x081;
+	directory[0] = (unsigned int)page_table1 | 0x01;
+	directory[1] = KERNEL_ADDR | 0x081;
+	directory[64] = (INIT_ADDR + (4 * MB) * process_id) | 0x081;
 
-	loadPageDirectory(shell_pd); 
+	loadPageDirectory(directory); 
+
+	return process_id;
 }
