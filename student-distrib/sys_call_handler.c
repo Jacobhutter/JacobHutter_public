@@ -23,42 +23,50 @@ int32_t EXECUTE (const uint8_t* command) {
     unsigned long file_size;
     int process_num;
 
-// terminal_write("fuck", 4);
-    // if (!command)
-    //     return -1;
+    if (command == NULL)
+        return -1;
 
-    // while (*start != TERMINATOR && *start == SPACE)
-    //     start++;
+    while (*start != TERMINATOR && *start == SPACE)
+        start++;
 
-    // if (*start == TERMINATOR)
-    //     return -1;
+    if (*start == TERMINATOR)
+        return -1;
 
-    // end = start;
+    end = start;
 
-    // while (*end != TERMINATOR && *end != SPACE)
-    //     end++;
+    while (*end != TERMINATOR && *end != SPACE)
+        end++;
 
-    // memcpy((void*)to_execute, (const void*)command, end - start);
+    memcpy((void*)to_execute, (const void*)command, end - start);
 
-    // to_execute[end - start] = TERMINATOR;
+    to_execute[end - start] = TERMINATOR;
 
-    // if (read_dentry_by_name(to_execute, &file) == -1)
-    //     return -1;
-
-    // file_size = get_file_size(file);
-
-    // terminal_write("fuck", 4);
-
-    /* TODO: Set up paging and load file */
-    process_num = load_process();
-    if (process_num == -1) {
-        terminal_write("Too many processes\n", 19);
+    // Checks if file exists
+    if (read_dentry_by_name(to_execute, &file) == -1) {
+        terminal_write((const void*) to_execute, end - start);
+        terminal_write(": command not found\n", 20);
         return -1;
     }
 
-    /* are we at our limit for processes */
-    if (process_cont.mask = 0xFF)
+    // Checks if executable
+    if (!check_ELF(file)) {
+        terminal_write((const void*) to_execute, end - start);
+        terminal_write(": file not executable\n", 22);
         return -1;
+    }
+    file_size = get_file_size(file);
+
+    /* Sets up new page for process */
+    process_num = load_process();
+    if (process_num == -1) {
+        terminal_write("Error: Too many processes\n", 26);
+        return -1;
+    }
+
+    terminal_write("Gucci\n", 6);
+
+    /* TODO: Load file */
+
 
     /* if open slot available, find it and occupy it */
     uint8_t dynamic_mask = 0x01;

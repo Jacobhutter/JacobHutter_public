@@ -12,6 +12,8 @@
 static unsigned long* boot_block_addr;
 static unsigned long num_inode, data_blocks, dir_entries;
 
+static unsigned char ELF[] = {0x7f, 0x45, 0x4c, 0x46}; 
+
 /*
  * init_file_system
  *   DESCRIPTION: Initializes file system driver
@@ -493,4 +495,17 @@ void printInt(int num) {
     temp = num % BASE;
     temp += 48;
     terminal_write((const void*) (&temp), 1);
+}
+
+int check_ELF(dentry_t file) {
+    unsigned char buffer[4];
+    int i;
+
+    read_data(file.i_node_num, 0, buffer, 4);
+
+    for (i = 0; i < 4; i++)
+        if (buffer[i] != ELF[i])
+            return 0;
+
+    return 1;
 }
