@@ -1,5 +1,9 @@
 #include "sys_call_handler.h"
 
+#define KERNEL_STACK _8Mb
+
+unsigned long init_PCB_addr = _8Mb - _4Kb;
+
 int32_t stdio_open(const uint8_t * filename){return -1;}
 int32_t stdio_close(int32_t fd){return -1;}
 int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
@@ -10,7 +14,6 @@ int32_t HALT (uint8_t status) {
     return 0;
 }
 
-PCB_ADDR = _8Mb;
 int32_t EXECUTE (const uint8_t* command) {
 
     /* Tests the algorithm used to parse the command */
@@ -20,7 +23,7 @@ int32_t EXECUTE (const uint8_t* command) {
     uint8_t* start = command;
     uint8_t* end;
     dentry_t file;
-    unsigned long file_size;
+    unsigned long file_size, PCB_addr;
     int process_num;
 
 
@@ -75,8 +78,12 @@ int32_t EXECUTE (const uint8_t* command) {
     PCB_t * process;
 
     /* set task equal to task address at the current page */
-    PCB_ADDR -= _8Kb; // get next available address to place a PCB in kernel page
-    process = PCB_ADDR;
+    // PCB_ADDR -= _8Kb; // get next available address to place a PCB in kernel page
+    // process = PCB_ADDR;
+
+    // Gets address to place PCB for current process
+    PCB_addr = init_PCB_addr - (_4Kb * process_num);
+    process = PCB_addr;
 
     file_t stdin; // initialize std int
     stdin.file_position = 0;
