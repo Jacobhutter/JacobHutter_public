@@ -80,16 +80,12 @@ int32_t EXECUTE (const uint8_t* command) {
         return -1;
     }
 
-    terminal_write("Gucci\n", 6);
+
 
     /* TODO: Load file */
 
     /* create new pcb for current task */
     PCB_t * process;
-
-    /* set task equal to task address at the current page */
-    // PCB_ADDR -= _8Kb; // get next available address to place a PCB in kernel page
-    // process = PCB_ADDR;
 
     // Gets address to place PCB for current process
     PCB_addr = init_PCB_addr - (_4Kb * process_num);
@@ -115,13 +111,34 @@ int32_t EXECUTE (const uint8_t* command) {
     process->file_descriptor[1] = stdout;
     process->mask = 0x3; // show that file_descriptor has stdin and std out
 
-    /* put current esp and ebp into the pcb */
+    /* put current esp and ebp into the pcb and tss*/
     asm volatile ("movl %%esp, %0  \n\
                    movl %%ebp, %1  \n\
                   "
-                 :"=r" (process->esp_holder), "=r" (process->ebp_holder)
+                 :"=r" (process->esp_holder),"=r" (process->ebp_holder)
                  );
+    tss.esp0 = _8Mb - 4; // account for inability to access last element of kernel page 0:79999...
+    tss.ss0 = KERNEL_CS;
+    terminal_write("Gucci\n", 6);
+    /* TODO: initiate context switch*/
 
+    /*http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3*/
+    asm volatile(" \
+    cli; \
+    mov $0x23, %eax; \
+    mov %ax, %ds; \
+    mov %ax, %es; \
+    mov %ax, %fs; \
+    mov %ax, %gs; \
+                  \
+    mov %esp, %eax; \
+    pushl $0x23; \
+    pushl %eax; \
+    pushf; \
+    pushl $0x1B; \
+    /* push eip */
+    iret; \
+    ");
     return 0;
 }
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {

@@ -277,7 +277,9 @@ void STACK_SEGMENT_FAULT() {
 * DESCRIPTION: spins in here infinitely when user throws exception
 */
 void GENERAL_PROTECTION() {
+    bsod();
     printf("GENERAL_PROTECTION");
+
     while (1) {
     }
 
