@@ -119,7 +119,7 @@ int32_t load_process() {
 
 	directory[0] = (unsigned int)page_table1 | 0x01;
 	directory[1] = KERNEL_ADDR | 0x081;
-	directory[64] = (INIT_ADDR + (4 * MB) * process_id) | 0x081;
+	directory[32] = (INIT_ADDR + (4 * MB) * process_id) | 0x081;
 
 	loadPageDirectory(directory); 
 

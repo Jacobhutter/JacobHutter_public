@@ -80,9 +80,8 @@ int32_t EXECUTE (const uint8_t* command) {
         return -1;
     }
 
-
-
     /* TODO: Load file */
+    // load_file(file);
 
     /* create new pcb for current task */
     PCB_t * process;
