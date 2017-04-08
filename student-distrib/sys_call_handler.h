@@ -32,6 +32,8 @@ typedef struct file {
 typedef struct PCB {
 	file_t file_descriptor[8];
 	uint8_t mask;
+	uint8_t process_id;
+	uint8_t parent_process;
 } PCB_t;
 
 #endif

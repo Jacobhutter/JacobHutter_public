@@ -102,6 +102,7 @@ int32_t EXECUTE (const uint8_t* command) {
     process->file_descriptor[0] = stdin;
     process->file_descriptor[1] = stdout;
     process->mask = 0x3; // show that file_descriptor has stdin and std out
+    process->process_id = process_num; // Sets id
 
     /* if open slot available, find it and occupy it */
     /* uint8_t dynamic_mask = 0x01;
