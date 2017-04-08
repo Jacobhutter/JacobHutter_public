@@ -4,10 +4,21 @@
 
 unsigned long init_PCB_addr = _8Mb - _4Kb;
 
+/*////////////////////////////////////////////////////////////////////////////*/
+                    /* functions for stdio */
+/*////////////////////////////////////////////////////////////////////////////*/
 int32_t stdio_open(const uint8_t * filename){return -1;}
 int32_t stdio_close(int32_t fd){return -1;}
 int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
+int32_t stdin_write(int32_t fd, const char* buf, int32_t nbytes){
+    return terminal_write((const void *)buf,nbytes);
+}
 int32_t stdout_write(int32_t fd,const char* buf,int32_t nbytes){return -1;}
+int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){
+    return terminal_read(buf,nbytes);
+}
+/*////////////////////////////////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////*/
 
 int32_t HALT (uint8_t status) {
     terminal_write((const void *)"test halt", (int32_t)9);
@@ -16,11 +27,10 @@ int32_t HALT (uint8_t status) {
 
 int32_t EXECUTE (const uint8_t* command) {
 
-    /* Tests the algorithm used to parse the command */
-    int i = 0;
-    uint8_t * arg;
-    int8_t to_execute[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
-    uint8_t* start = command;
+    /*parse the command */
+    //uint8_t * arg;
+    uint8_t to_execute[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
+    uint8_t* start = (uint8_t *)command;
     uint8_t* end;
     dentry_t file;
     unsigned long file_size, PCB_addr;
@@ -62,64 +72,74 @@ int32_t EXECUTE (const uint8_t* command) {
         return -1;
     }
     file_size = get_file_size(file);
-    
+
     /* Sets up new page for process */
     process_num = load_process();
     if (process_num == -1) {
         terminal_write("Error: Too many processes\n", 26);
         return -1;
     }
-    
-    terminal_write("Gucci\n", 6);
-    
+
+
+
     /* TODO: Load file */
 
     /* create new pcb for current task */
     PCB_t * process;
 
-    /* set task equal to task address at the current page */
-    // PCB_ADDR -= _8Kb; // get next available address to place a PCB in kernel page
-    // process = PCB_ADDR;
-
     // Gets address to place PCB for current process
     PCB_addr = init_PCB_addr - (_4Kb * process_num);
-    process = PCB_addr;
+    process = (PCB_t *)PCB_addr;
 
     file_t stdin; // initialize std int
-    stdin.file_position = 0;
+    stdin.file_position = -1;
     stdin.operations.open = &stdio_open;
     stdin.operations.close = &stdio_close;
     stdin.operations.read = &stdin_read;
-    stdin.operations.write = &WRITE;
+    stdin.operations.write = &stdin_write;
+    stdin.flags = IN_USE;
 
     file_t stdout; // initialize stdout
-    stdin.file_position = 1;
+    stdin.file_position = -1;
     stdout.operations.open = &stdio_open;
     stdout.operations.close = &stdio_close;
     stdout.operations.write = &stdout_write;
-    stdout.operations.read = &READ;
+    stdout.operations.read = &stdout_read;
+    stdout.flags = IN_USE;
 
     process->file_descriptor[0] = stdin;
     process->file_descriptor[1] = stdout;
     process->mask = 0x3; // show that file_descriptor has stdin and std out
     process->process_id = process_num; // Sets id
 
-    /* if open slot available, find it and occupy it */
-    /* uint8_t dynamic_mask = 0x01;
-    for (i = 0; i < 8; i++) {
-        if (!(dynamic_mask & process_cont.mask)) {
-            process_cont.mask = process_cont.mask | dynamic_mask; // add process to list
-            process_t cur_running;
-            // init process
-            process_cont.file_descriptor[i] = cur_running;
-            break;
-        }
-        dynamic_mask = dynamic_mask << 1;
-    }*/
+    /* put current esp and ebp into the pcb and tss*/
+    asm volatile ("movl %%esp, %0  \n\
+                   movl %%ebp, %1  \n\
+                  "
+                 :"=r" (process->esp_holder),"=r" (process->ebp_holder)
+                 );
+    tss.esp0 = _8Mb - 4; // account for inability to access last element of kernel page 0:79999...
+    tss.ss0 = KERNEL_CS;
+    terminal_write("Gucci\n", 6);
+    /* TODO: initiate context switch*/
 
-    // terminal_write(to_execute, strlen(to_execute));
-    // terminal_write("\n", 1);
-
+    /*http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3*/
+    asm volatile(" \
+    cli; \
+    mov $0x23, %eax; \
+    mov %ax, %ds; \
+    mov %ax, %es; \
+    mov %ax, %fs; \
+    mov %ax, %gs; \
+                  \
+    mov %esp, %eax; \
+    pushl $0x23; \
+    pushl %eax; \
+    pushf; \
+    pushl $0x1B; \
+    /* push eip */
+    iret; \
+    ");
     return 0;
 }
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {

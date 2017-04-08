@@ -14,7 +14,7 @@
 #define _8Kb 8192
 #define _4Kb 4096
 #define _1Kb 1024
-
+#define IN_USE 1
 typedef struct fops{
 	int32_t (* open)(const uint8_t *);
 	int32_t (* close)(int32_t);
@@ -30,6 +30,8 @@ typedef struct file {
 } file_t;
 
 typedef struct PCB {
+	uint32_t esp_holder;
+	uint32_t ebp_holder;
 	file_t file_descriptor[8];
 	uint8_t mask;
 	uint8_t process_id;
