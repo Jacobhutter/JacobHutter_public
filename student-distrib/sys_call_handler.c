@@ -66,7 +66,7 @@ int32_t EXECUTE (const uint8_t* command) {
     }
 
     // Checks if executable
-    if (!check_ELF(file)) {
+    if (check_ELF(file)) {
         terminal_write((const void*) to_execute, end - start);
         terminal_write(": file not executable\n", 22);
         return -1;
@@ -81,7 +81,7 @@ int32_t EXECUTE (const uint8_t* command) {
     }
 
     /* TODO: Load file */
-    // load_file(file);
+    load_file(file);
 
     /* create new pcb for current task */
     PCB_t * process;
@@ -136,7 +136,6 @@ int32_t EXECUTE (const uint8_t* command) {
     pushl %eax; \
     pushf; \
     pushl $0x1B; \
-    /* push eip */
     iret; \
     ");
     return 0;

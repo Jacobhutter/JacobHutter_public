@@ -499,38 +499,44 @@ void printInt(int num) {
     terminal_write((const void*) (&temp), 1);
 }
 
+/*
+ * INSERT FUNCTION HEADER HERE.
+ */ 
 int check_ELF(dentry_t file) {
     unsigned char buffer[4];
     int i;
 
     read_data(file.i_node_num, 0, buffer, 4);
 
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++) {
         if (buffer[i] != ELF[i])
-            return 0;
+            return -1;
+    }
 
-    return 1;
+    return 0;
 }
 
+/*
+ * INSERT FUNCTION HEADER HERE.
+ */
 void load_file(dentry_t file) {
 
-    int* init_inode_addr, *inode_addr;
-    char* init_data_addr, *data_addr;
-    int file_size, i, inode;
+    int* init_inode_addr, *inode_addr, *init_data_addr, *data_addr;
+    int bytes_rem, i, inode;
 
     inode = file.i_node_num;
 
     // Gets start of inode blocks and data blocks
     init_inode_addr = (int*)(boot_block_addr + kB);
-    init_data_addr = (char*)(boot_block_addr + (kB + num_inode * kB));
+    init_data_addr = (int*)(init_inode_addr + num_inode * kB);
 
     if (inode >= num_inode)
         return;
 
-    // Gets inode block
+    // Gets inode block of file
     inode_addr = init_inode_addr + (inode * kB);
 
-    file_size = *inode_addr;
+    bytes_rem = *inode_addr;
     inode_addr++;
 
     i = 0;
@@ -538,20 +544,19 @@ void load_file(dentry_t file) {
     // unsigned long *temp;
     // temp = (unsigned long*)PROGRAM_ADDR;
     // *temp = 5;
-    while (file_size > 0) {
-
-        if (file_size - (4 * kB) >= 4 * kB) {
-            memcpy((void*)(PROGRAM_ADDR + i * (4 * kB)),
-                   (const void*)(*inode_addr), 4 * kB);
-            file_size -= (4 * kB);
-            inode_addr++;
-            i++;
+    while (bytes_rem > 0) {
+        data_addr = init_data_addr + (*inode_addr) * kB;
+        if (bytes_rem > MEM_BLOCK ) {
+            memcpy((void*)(PROGRAM_ADDR + i * MEM_BLOCK),
+                   (const void*)data_addr, MEM_BLOCK);
+            bytes_rem -= MEM_BLOCK;
         } else {
-            memcpy((void *)(PROGRAM_ADDR + i * (4 * kB)),
-                   (const void *)(*inode_addr), file_size);
-            file_size -= (4 * kB);
+            memcpy((void *)(PROGRAM_ADDR + i * MEM_BLOCK),
+                   (const void *)data_addr, bytes_rem);
+            bytes_rem = 0;
         }
-        file_size = 0;
+        inode_addr++; // address of next memory block
+        i++; // index of block to copy to virtual mem
     }
 
     return;

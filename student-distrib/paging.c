@@ -13,18 +13,24 @@
 #define NUM_COLS 80
 #define NUM_ROWS 25
 
+// PDE low-bit settings
+#define PRESENT 0x01
+#define PAGE_EXT 0x080
+#define RW_ENABLE 0x02
+#define USER_ENABLE 0x04
+
 #define MAX_PROCESS 2
 
 // Alligns page directory to 4kB
-unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
+static unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
 
 // Alligns page table to 4kB
-unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
+static unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
 
-unsigned int process0_pd[kB] __attribute__((aligned(4 * kB)));
-unsigned int process1_pd[kB] __attribute__((aligned(4 * kB)));
+// static unsigned int process0_pd[kB] __attribute__((aligned(4 * kB)));
+// static unsigned int process1_pd[kB] __attribute__((aligned(4 * kB)));
 
-unsigned char process_mask;
+static unsigned char process_mask = 0; // No processes running at boot time
 
 
 /*
@@ -58,15 +64,15 @@ void initPaging() {
 		// Only enables video memory
 		if (i * PAGE_OFF >= VIDEO &&
 		        i * PAGE_OFF < VIDEO + ((NUM_ROWS * NUM_COLS) << 1)) {
-			page_table1[i] = (i * PAGE_OFF) | 0x01;
+			page_table1[i] = (i * PAGE_OFF) | PRESENT;
 		}
 	}
 	// NULL Doesn't exist
     page_table1[0] = 0;
 
-	page_directory1[0] = (unsigned int)page_table1 | 0x01;
+	page_directory1[0] = (unsigned int)page_table1 | PRESENT;
 	// Maps 4MB page for kernel to 4MB
-	page_directory1[1] = KERNEL_ADDR | 0x081;
+	page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
 
 	// Loads page directory
 	loadPageDirectory(page_directory1);
@@ -74,54 +80,54 @@ void initPaging() {
 	enablePaging();
 
 }
+/*
+ * NEED FUNCTION HEADER HERE
+ * Gist: Add entry to PD
+ * New PD has mapped virtual 128MB to kernel 4MB
+ */
+
 
 int32_t load_process() {
 	int i, process_id;
-	unsigned int *directory;
 	unsigned char mask = 0x01;
 
-	for (i = 0; i < 8; i++) {
+	for (i = 0; i < MAX_PROCESS; i++) {
 		// Checks for open process
 		if ((process_mask & (mask << i)) == 0)
 			break;
-		// If all processes are filled
-		if (i == 7)
-			return -1;
 	}
 
-	// Decides which process to start
-	switch (i) {
-		case 0:
-			directory = process0_pd;
-			break;
-
-		case 1:
-			directory = process1_pd;
-			break;
-
-		default:
-			return -1;
-	}
-
+	if (i >= MAX_PROCESS)
+		return -1;
 	// Sets process to in use
 	process_mask |= (mask << i);
 
 	process_id = i;
 
-	for (i = 0; i < kB; i++) {
-		if (i * PAGE_OFF >= VIDEO &&
-		        i * PAGE_OFF < VIDEO + ((NUM_ROWS * NUM_COLS) << 1)) {
-			directory[i] = (i * PAGE_OFF) | 0x01;
-		}
-	}
+	// Below redundant?
 
-	directory[0] = 0;
+	// for (i = 0; i < kB; i++) {
+	// 	if (i * PAGE_OFF >= VIDEO &&
+	// 	        i * PAGE_OFF < VIDEO + ((NUM_ROWS * NUM_COLS) << 1)) {
+	// 		page_table1[i] = (i * PAGE_OFF) | PRESENT;
+	// 	}
+	// }
 
-	directory[0] = (unsigned int)page_table1 | 0x01;
-	directory[1] = KERNEL_ADDR | 0x081;
-	directory[32] = (INIT_ADDR + (4 * MB) * process_id) | 0x081;
+	// page_table1[0] = 0;
 
-	loadPageDirectory(directory); 
+	// // Enable present bit
+	// directory[0] = (unsigned int)page_table1 | PRESENT;
+	// // Addresses starting at 4MB (kernel)
+	// directory[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
+
+	// Addresses starting at 128MB (user program)
+	// Base address of 128 MB corresponds to index 128 MB/4 MB = 32
+	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT | PAGE_EXT | USER_ENABLE ;
+
+	// Flush the TLB
+	loadPageDirectory(page_directory1); 
 
 	return process_id;
 }
+
+/* TO DO: A process un-set function for halt system call. */
