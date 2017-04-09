@@ -15,7 +15,7 @@ end
     c = time_shifts; % output 3
     imagesc(c,b,abs(a));
     ylabel('Frequency');
-    xlabel('time shifts');
+    xlabel('Time');
     str = sprintf('Spectrogram at M = %f',M);
     title(str);
 end

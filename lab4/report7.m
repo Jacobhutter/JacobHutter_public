@@ -16,8 +16,8 @@ d = 5;
 p = 1024;
 mySTDFT(y',m,d,p,fs);
 
-f= [0 .1 .2 1];
-a = [1 0 0 0];
+f= [0 .3 .4 1];
+a = [1 1 0 0];
 b = firpm(50,f,a);
 b_w = fftshift(fft(b,length(y)))'; % get filter
 
