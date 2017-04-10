@@ -169,6 +169,15 @@ int32_t EXECUTE (const uint8_t* command) {
     return 0;
 }
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
+    
+    unsigned long regVal;
+    PCB_t* process;
+
+    // Gets top of process stack
+    asm("movl %%esp, %0;" : "=r" (regVal) : );
+    // Gets top of process
+    process = (PCB_t *)(regVal & _4Kb_MASK);
+
     // stdin
     if (fd == 0)
         return terminal_read(buf,nbytes);
@@ -177,7 +186,7 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
     if (fd == 1)
         return -1;
 
-    return 0;
+    return (process->file_descriptor[fd]).operations.read(fd, buf, nbytes);
 }
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     unsigned long regVal;
@@ -195,8 +204,10 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     // stdout
     if (fd == 1) 
         return terminal_write(buf,nbytes);
+
+
     
-    return 0;
+    return (process->file_descriptor[fd]).operations.write(fd, buf, nbytes);
 }
 int32_t OPEN (const uint8_t* filename) {
     unsigned long regVal;
