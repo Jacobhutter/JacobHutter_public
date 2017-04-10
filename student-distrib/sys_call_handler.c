@@ -20,6 +20,17 @@ int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){
 /*////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
 
+static fops_t file_jump_table = {
+    .open = &file_open,
+    .close = &file_close,
+    .read = &file_read,
+    .write = &file_write
+};
+// file_jump_table.open = &file_open;
+// file_jump_table.close = &file_close;
+// file_jump_table.read = &file_read;
+// file_jump_table.write = &file_write; 
+
 int32_t HALT (uint8_t status) {
     terminal_write((const void *)"test halt", (int32_t)9);
     return 0;
@@ -38,7 +49,7 @@ int32_t EXECUTE (const uint8_t* command) {
 
 
     /* if command is NULL return fail */
-    if (command == NULL)
+    if (command == NULL) 
         return -1;
 
     /* seperate out command vs args */
@@ -155,12 +166,25 @@ int32_t EXECUTE (const uint8_t* command) {
     return 0;
 }
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
+    // stdin
+    if (fd == 0)
+        return terminal_read(buf,nbytes);
 
-    return terminal_read(buf,nbytes);
+    // stdout
+    if (fd == 1)
+        return -1;
 
+    return 0;
 }
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
-    terminal_write(buf,nbytes);
+    // stdin
+    if (fd == 0)
+        return -1;
+
+    // stdout
+    if (fd == 1) 
+        return terminal_write(buf,nbytes);
+    
     return 0;
 }
 int32_t OPEN (const uint8_t* filename) {
@@ -169,18 +193,19 @@ int32_t OPEN (const uint8_t* filename) {
     int i, fd;
     PCB_t* process;
     dentry_t file;
+    file_t new_entry;
 
     if (read_dentry_by_name(filename, &file) == -1)
         return -1;
 
     // Gets top of process stack
     asm("movl %%esp, %0;" : "=r" (regVal) : );
-    regVal += _4Kb;
-    process = (PCB_t *)regVal;
+    process = (PCB_t *)(regVal & _4Kb_MASK);
 
     for (i = 0; i < 8; i++) {
         if ((process->mask & (mask << i)) == 0)
             break;
+        // All files in use
         if (i == 7)
             return -1;
     }
@@ -189,9 +214,10 @@ int32_t OPEN (const uint8_t* filename) {
     // Sets file as in use
     process->mask |= (mask << fd);
 
-    // TODO: Load file info into table
-
-
+    // TODO: Add correct jump table
+    new_entry.inode = file.i_node_num;
+    new_entry.file_position = 0;
+    new_entry.flags = 0;
 
     return fd;
 }
