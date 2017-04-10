@@ -81,6 +81,8 @@ void printInt(int num);
 
 int check_ELF(dentry_t);
 
+uint32_t get_start(dentry_t);
+
 void load_file(dentry_t);
 
 #endif /* FILE_SYSTEM_H */

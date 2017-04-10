@@ -117,27 +117,45 @@ int32_t EXECUTE (const uint8_t* command) {
                   "
                  :"=r" (process->esp_holder),"=r" (process->ebp_holder)
                  );
-    tss.esp0 = _8Mb - 4; // account for inability to access last element of kernel page 0:79999...
-    tss.ss0 = KERNEL_CS;
-    terminal_write("Gucci\n", 6);
-    /* TODO: initiate context switch*/
+    tss.esp0 = _8Mb - _4Kb * (process_num) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
+    tss.ss0 = KERNEL_DS;
+    uint32_t start_point = get_start(file);
 
-    /*http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3*/
-    asm volatile(" \
-    cli; \
-    mov $0x23, %eax; \
-    mov %ax, %ds; \
-    mov %ax, %es; \
-    mov %ax, %fs; \
-    mov %ax, %gs; \
-                  \
-    mov %esp, %eax; \
-    pushl $0x23; \
-    pushl %eax; \
-    pushf; \
-    pushl $0x1B; \
-    iret; \
-    ");
+
+
+    /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
+
+    /*
+    * according to intel manual:
+    * IRET stack for privelage level switches:
+    * SS(stack segment) -> 2B is user data segment
+    * ESP(start of stack for user program) -> should be 0x83FFFF0
+    * EFLAGS
+    * CS -> user code segment 0x23
+    * EIP -> from ELF
+    * * note we pop from stack to alter eflags in order to ensure i/o privelage level is set to 3
+    */
+    asm volatile(
+                  "cli  \n\
+                  movw $0x2B, %%ax \n\
+                  movw %%ax, %%ds \n\
+                  movw %%ax, %%es \n\
+                  movw %%ax, %%fs \n\
+                  movw %%ax, %%gs \n\
+                  pushl $0x2B   \n\
+                  pushl $0x83FFFF0 \n\
+                  pushf     \n\
+                  popl %%edx \n\
+                  orl $0x3000,%%edx \n\
+                  pushl %%edx \n\
+                  pushl $0x23 \n\
+                  pushl %0 \n\
+                  iret    \n\
+                  "
+                  : /*output*/
+                  : "r" (start_point) /*input*/
+                  );
+
     return 0;
 }
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
