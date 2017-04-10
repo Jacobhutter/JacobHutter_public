@@ -231,8 +231,15 @@ _KEYBOARD:
 *
 */
 _SYSTEM_CALL:
-    pushal
-    
+    pushl %ebx
+    pushl %ecx
+    pushl %edx
+    pushl %edi
+    pushl %esi
+    pushl %esp
+    pushl %ebp
+    pushfl
+
     pushl %edx
     pushl %ecx # push args
     pushl %ebx
@@ -240,5 +247,12 @@ _SYSTEM_CALL:
     call *jump_table(,%eax,4) # call jump table entry
 
     addl $12,%esp # remove args
-    popal
+    popfl
+    popl %ebp
+    popl %esp
+    popl %esi
+    popl %edi
+    popl %edx
+    popl %ecx
+    popl %ebx
     iret

@@ -347,7 +347,7 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
 int32_t terminal_read(void* buf, int32_t nbytes){
 
     /* check for valid entry */
-    if(nbytes < 0 || nbytes > BUFFER_LIMIT || buf == NULL)
+    if(nbytes < 0 || buf == NULL)
         return -1;
 
     /* demand new entry from user upon call to read (first case scenario) */
@@ -355,7 +355,7 @@ int32_t terminal_read(void* buf, int32_t nbytes){
 
     /* wait for user to hit enter */
     while(OLD_KEYPRESSES == 0){
-        
+
     }
 
     /* move the kbd buffer over to the given buffer with length min(OLD_KEYPRESSES,nbytes) */
