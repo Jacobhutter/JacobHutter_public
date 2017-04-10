@@ -20,16 +20,19 @@ int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){
 /*////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
 
-static fops_t file_jump_table = {
+static const fops_t file_jump_table = {
     .open = &file_open,
     .close = &file_close,
     .read = &file_read,
     .write = &file_write
 };
-// file_jump_table.open = &file_open;
-// file_jump_table.close = &file_close;
-// file_jump_table.read = &file_read;
-// file_jump_table.write = &file_write; 
+
+static const fops_t dir_jump_table = {
+    .open = &dir_open,
+    .close = &dir_close,
+    .read = &dir_read,
+    .write = &dir_write    
+};
 
 int32_t HALT (uint8_t status) {
     terminal_write((const void *)"test halt", (int32_t)9);
@@ -177,6 +180,14 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
     return 0;
 }
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
+    unsigned long regVal;
+    PCB_t* process;
+
+    // Gets top of process stack
+    asm("movl %%esp, %0;" : "=r" (regVal) : );
+    // Gets top of process
+    process = (PCB_t *)(regVal & _4Kb_MASK);
+
     // stdin
     if (fd == 0)
         return -1;
@@ -200,6 +211,7 @@ int32_t OPEN (const uint8_t* filename) {
 
     // Gets top of process stack
     asm("movl %%esp, %0;" : "=r" (regVal) : );
+    // Gets top of process
     process = (PCB_t *)(regVal & _4Kb_MASK);
 
     for (i = 0; i < 8; i++) {
@@ -214,14 +226,39 @@ int32_t OPEN (const uint8_t* filename) {
     // Sets file as in use
     process->mask |= (mask << fd);
 
-    // TODO: Add correct jump table
+    switch (file.file_type) {
+        case 0: break; // Need to fix RTC functions
+
+        case 1: 
+            new_entry.operations = dir_jump_table;
+            break;
+
+        case 2:
+            new_entry.operations = file_jump_table;
+            break;
+    }
+
     new_entry.inode = file.i_node_num;
     new_entry.file_position = 0;
     new_entry.flags = 0;
 
+    process->file_descriptor[fd] = new_entry;
+
     return fd;
 }
 int32_t CLOSE (int32_t fd) {
+    PCB_t* process;
+    unsigned long regVal;
+    uint8_t mask = 0x01;
+
+    // Gets top of process stack
+    asm("movl %%esp, %0;" : "=r" (regVal) : );
+    // Gets top of process
+    process = (PCB_t *)(regVal & _4Kb_MASK);
+
+    // Clears bit at fd
+    process->mask &= ~(mask << fd);
+
     return 0;
 }
 int32_t GETARGS (uint8_t* buf, int32_t nbytes) {

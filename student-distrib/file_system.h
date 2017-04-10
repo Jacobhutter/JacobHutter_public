@@ -27,28 +27,28 @@ int32_t read_dentry_by_index(uint32_t, dentry_t*);
 int32_t read_data(uint32_t, uint32_t, uint8_t*, uint32_t);
 
 /* Opens file */
-int32_t file_open(uint8_t*);
+int32_t file_open(const uint8_t *);
 
 /* Closes file system driver */
 int32_t file_close(int32_t);
 
 /* Reads from file system */
-int32_t file_read(int32_t);
+int32_t file_read(int32_t, void *,int32_t);
 
 /* Does nothing, read only file system */
-int32_t file_write(int32_t);
+int32_t file_write(int32_t, const char *,int32_t);
 
 /* Opens directory */
-int32_t dir_open(uint8_t*);
+int32_t dir_open(const uint8_t *);
 
 /* Closes directory */
 int32_t dir_close(int32_t);
 
 /* Does nothing, read only file system */
-int32_t dir_write(int32_t);
+int32_t dir_write(int32_t, const char *,int32_t);
 
 /* Reads files in directory */
-int32_t dir_read(int32_t);
+int32_t dir_read(int32_t, void *,int32_t);
 
 /* Gets file size in bytes */
 unsigned long get_file_size(dentry_t);

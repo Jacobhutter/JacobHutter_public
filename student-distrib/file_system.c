@@ -172,7 +172,7 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: Adds data to global vars
  */
-int32_t file_open(uint8_t* file) {
+int32_t file_open(const uint8_t * file) {
 
     return 0;
 }
@@ -197,7 +197,7 @@ int32_t file_close(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t file_read(int32_t fd) {
+int32_t file_read(int32_t fd, void * buf, int32_t nbytes) {
     return -1;
 }
 
@@ -209,7 +209,7 @@ int32_t file_read(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t file_write(int32_t fd) {
+int32_t file_write(int32_t fd, const char * buf, int32_t nbytes) {
     return -1;
 }
 
@@ -221,7 +221,7 @@ int32_t file_write(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_open(uint8_t* directory) {
+int32_t dir_open(const uint8_t * directory) {
     return 0;
 }
 
@@ -245,7 +245,7 @@ int32_t dir_close(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_write(int32_t fd) {
+int32_t dir_write(int32_t fd, const char * buf, int32_t nbytes) {
     return -1;
 }
 
@@ -257,7 +257,7 @@ int32_t dir_write(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_read(int32_t fd) {
+int32_t dir_read(int32_t fd, void * buf, int32_t nbytes) {
     // dentry_t curr;
     // int i;
     // for (i = 0; i < dir_entries; i++) {
