@@ -501,7 +501,7 @@ void printInt(int num) {
 
 /*
  * INSERT FUNCTION HEADER HERE.
- */ 
+ */
 int check_ELF(dentry_t file) {
     unsigned char buffer[4];
     int i;
@@ -516,6 +516,18 @@ int check_ELF(dentry_t file) {
     return 0;
 }
 
+/*
+ * INSERT FUNCTION HEADER HERE.
+ */
+uint32_t get_start(dentry_t file){
+  unsigned char buffer[4];
+  read_data(file.i_node_num, 24, buffer, 4);
+
+  uint32_t retval = *((uint32_t*)buffer);
+
+  return retval;
+
+}
 /*
  * INSERT FUNCTION HEADER HERE.
  */
