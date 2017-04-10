@@ -121,8 +121,6 @@ int32_t EXECUTE (const uint8_t* command) {
     tss.ss0 = KERNEL_DS;
     uint32_t start_point = get_start(file);
 
-
-
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
 
     /*
@@ -165,7 +163,36 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     return 0;
 }
 int32_t OPEN (const uint8_t* filename) {
-    return 0;
+    unsigned long regVal;
+    uint8_t mask = 0x01;
+    int i, fd;
+    PCB_t* process;
+    dentry_t file;
+
+    if (read_dentry_by_name(filename, &file) == -1)
+        return -1;
+    
+    // Gets top of process stack
+    asm("movl %%esp, %0;" : "=r" (regVal) : );
+    regVal += _4Kb;
+    process = (PCB_t *)regVal;
+
+    for (i = 0; i < 8; i++) {
+        if ((process->mask & (mask << i)) == 0)
+            break;
+        if (i == 7)
+            return -1;
+    }
+    fd = i;
+
+    // Sets file as in use
+    process->mask |= (mask << fd);
+
+    // TODO: Load file info into table
+
+
+    
+    return fd;
 }
 int32_t CLOSE (int32_t fd) {
     return 0;
