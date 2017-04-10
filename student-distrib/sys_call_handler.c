@@ -66,7 +66,7 @@ int32_t EXECUTE (const uint8_t* command) {
     }
 
     // Checks if executable
-    if (check_ELF(file)) {
+    if (check_ELF(file) == -1) {
         terminal_write((const void*) to_execute, end - start);
         terminal_write(": file not executable\n", 22);
         return -1;
