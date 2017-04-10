@@ -10,7 +10,11 @@
 
 #define TERMINATOR '\0'
 #define SPACE ' '
-#define _8Mb 0x0800000
+#define PRG_START 0x08048000
+#define _128Mb 0x8000000
+#define _8Mb   0x0800000
+#define _4Mb   0x0400000
+#define _1Mb   0x0100000
 #define _8Kb 8192
 #define _4Kb 4096
 #define _1Kb 1024

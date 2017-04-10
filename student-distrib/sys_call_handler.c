@@ -57,7 +57,6 @@ int32_t EXECUTE (const uint8_t* command) {
 
     to_execute[end - start] = TERMINATOR;
 
-
     // Checks if file exists
     if (read_dentry_by_name(to_execute, &file) == -1) {
         terminal_write((const void*) to_execute, end - start);
@@ -80,7 +79,7 @@ int32_t EXECUTE (const uint8_t* command) {
         return -1;
     }
 
-    /* TODO: Load file */
+
     load_file(file);
 
     /* create new pcb for current task */
@@ -108,7 +107,7 @@ int32_t EXECUTE (const uint8_t* command) {
 
     process->file_descriptor[0] = stdin;
     process->file_descriptor[1] = stdout;
-    process->mask = 0x3; // show that file_descriptor has stdin and std out
+    process->mask = 0x3; // show that file_descriptor array has stdin and std out
     process->process_id = process_num; // Sets id
 
     /* put current esp and ebp into the pcb and tss*/
@@ -117,42 +116,43 @@ int32_t EXECUTE (const uint8_t* command) {
                   "
                  :"=r" (process->esp_holder),"=r" (process->ebp_holder)
                  );
-    tss.esp0 = _8Mb - _4Kb * (process_num) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
+    tss.esp0 = _8Mb - (_4Kb * (process_num)) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
     tss.ss0 = KERNEL_DS;
     uint32_t start_point = get_start(file);
-
+    uint32_t user_stack = _128Mb + _4Mb - 4;
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
 
     /*
     * according to intel manual:
     * IRET stack for privelage level switches:
     * SS(stack segment) -> 2B is user data segment
-    * ESP(start of stack for user program) -> should be 0x83FFFF0
-    * EFLAGS
+    * ESP(start of stack for user program) -> program image starts at 0x08048000, it is 4Mb, so stack should start there?
+    * EFLAGS -> remove from stack and alter to ensure trap flag is set saying we are in a user sys call
     * CS -> user code segment 0x23
     * EIP -> from ELF
     * * note we pop from stack to alter eflags in order to ensure i/o privelage level is set to 3
     */
+
     asm volatile(
-                  "cli  \n\
+                  "cli             \n\
                   movw $0x2B, %%ax \n\
-                  movw %%ax, %%ds \n\
-                  movw %%ax, %%es \n\
-                  movw %%ax, %%fs \n\
-                  movw %%ax, %%gs \n\
-                  pushl $0x2B   \n\
-                  pushl $0x83FFFF0 \n\
-                  pushf     \n\
-                  popl %%edx \n\
-                  orl $0x3000,%%edx \n\
-                  pushl %%edx \n\
-                  pushl $0x23 \n\
-                  pushl %0 \n\
-                  iret    \n\
+                  movw %%ax, %%ds  \n\
+                  movw %%ax, %%es  \n\
+                  movw %%ax, %%fs  \n\
+                  movw %%ax, %%gs  \n\
+                  pushl $0x002B      \n\
+                  pushl %1         \n\
+                  pushf            \n\
+                  popl %%edx       \n\
+                  orl $0x0200,%%edx \n\
+                  pushl %%edx      \n\
+                  pushl $0x0023      \n\
+                  pushl %0         \n\
+                  iret             \n\
                   "
-                  : /*output*/
-                  : "r" (start_point) /*input*/
-                  );
+                  :
+                  : "r" (start_point), "r"(user_stack)
+              );
 
     return 0;
 }
@@ -171,7 +171,7 @@ int32_t OPEN (const uint8_t* filename) {
 
     if (read_dentry_by_name(filename, &file) == -1)
         return -1;
-    
+
     // Gets top of process stack
     asm("movl %%esp, %0;" : "=r" (regVal) : );
     regVal += _4Kb;
@@ -191,7 +191,7 @@ int32_t OPEN (const uint8_t* filename) {
     // TODO: Load file info into table
 
 
-    
+
     return fd;
 }
 int32_t CLOSE (int32_t fd) {

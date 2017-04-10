@@ -116,16 +116,16 @@ int32_t load_process() {
 	// page_table1[0] = 0;
 
 	// // Enable present bit
-	// directory[0] = (unsigned int)page_table1 | PRESENT;
+	 //page_directory1[0] = (unsigned int)page_table1 | PRESENT;
 	// // Addresses starting at 4MB (kernel)
-	// directory[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
+     //page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
 
 	// Addresses starting at 128MB (user program)
 	// Base address of 128 MB corresponds to index 128 MB/4 MB = 32
 	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT | PAGE_EXT | USER_ENABLE ;
 
 	// Flush the TLB
-	loadPageDirectory(page_directory1); 
+	loadPageDirectory(page_directory1);
 
 	return process_id;
 }
