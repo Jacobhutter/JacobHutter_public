@@ -524,6 +524,14 @@ uint32_t get_start(dentry_t file){
   read_data(file.i_node_num, 24, buffer, 4);
 
   uint32_t retval = *((uint32_t*)buffer);
+  /*int i=0;
+  for(i =0; i < 32; i++){
+      if((int32_t)retval<0)
+        terminal_write("1",1);
+      else
+        terminal_write("0",1);
+        retval = retval<< 1;
+  }*/
 
   return retval;
 

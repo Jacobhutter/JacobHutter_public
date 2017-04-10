@@ -119,47 +119,48 @@ int32_t EXECUTE (const uint8_t* command) {
     tss.esp0 = _8Mb - (_4Kb * (process_num)) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
     tss.ss0 = KERNEL_DS;
     uint32_t start_point = get_start(file);
-    uint32_t user_stack = _128Mb + _4Mb - 4;
+    uint32_t user_stack = _128Mb + _4Mb;
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
 
     /*
     * according to intel manual:
     * IRET stack for privelage level switches:
     * SS(stack segment) -> 2B is user data segment
-    * ESP(start of stack for user program) -> program image starts at 0x08048000, it is 4Mb, so stack should start there?
+    * ESP(start of stack for user program) -> program image starts at 0x08048000,128mb plus 4mb pls 8 kb, so stack should start there?
     * EFLAGS -> remove from stack and alter to ensure trap flag is set saying we are in a user sys call
     * CS -> user code segment 0x23
     * EIP -> from ELF
-    * * note we pop from stack to alter eflags in order to ensure i/o privelage level is set to 3
+    * iret
     */
 
     asm volatile(
                   "cli             \n\
                   movw $0x2B, %%ax \n\
                   movw %%ax, %%ds  \n\
-                  movw %%ax, %%es  \n\
-                  movw %%ax, %%fs  \n\
-                  movw %%ax, %%gs  \n\
-                  pushl $0x002B      \n\
-                  pushl %1         \n\
+                  push $0x2B       \n\
+                  push %1          \n\
                   pushf            \n\
-                  popl %%edx       \n\
-                  orl $0x0200,%%edx \n\
-                  pushl %%edx      \n\
-                  pushl $0x0023      \n\
-                  pushl %0         \n\
+                  pop %%edx        \n\
+                  or $0x200,%%edx  \n\
+                  push %%edx       \n\
+                  push $0x23       \n\
+                  push %0          \n\
                   iret             \n\
                   "
                   :
                   : "r" (start_point), "r"(user_stack)
+                  : "%eax","%edx"
               );
 
     return 0;
 }
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
-    return 0;
+
+    return terminal_read(buf,nbytes);
+
 }
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
+    terminal_write(buf,nbytes);
     return 0;
 }
 int32_t OPEN (const uint8_t* filename) {

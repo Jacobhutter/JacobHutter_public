@@ -122,7 +122,7 @@ int32_t load_process() {
 
 	// Addresses starting at 128MB (user program)
 	// Base address of 128 MB corresponds to index 128 MB/4 MB = 32
-	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT | PAGE_EXT | USER_ENABLE ;
+	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT | PAGE_EXT | USER_ENABLE | RW_ENABLE ;
 
 	// Flush the TLB
 	loadPageDirectory(page_directory1);
