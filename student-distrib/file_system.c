@@ -161,7 +161,7 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
     }
 
 
-    return 0;
+    return i;
 }
 
 /*
@@ -198,7 +198,28 @@ int32_t file_close(int32_t fd) {
  *   SIDE EFFECTS: none
  */
 int32_t file_read(int32_t fd, void * buf, int32_t nbytes) {
-    return -1;
+    unsigned long regVal;
+    unsigned long bytes_read;
+    PCB_t* process;
+    file_t file;
+
+    // Gets top of process stack
+    asm("movl %%esp, %0;" : "=r" (regVal) : );
+    // Gets top of process
+    process = (PCB_t *)(regVal & _4Kb_MASK);
+
+    file = process->file_descriptor[fd];
+
+    bytes_read = read_data(file.inode, file.file_position, (uint8_t *)buf, nbytes);
+
+    if (bytes_read == -1)
+        return -1;
+
+    file.file_position += bytes_read;
+
+    process->file_descriptor[fd] = file;
+
+    return bytes_read;
 }
 
 /*
