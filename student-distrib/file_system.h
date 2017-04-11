@@ -4,6 +4,7 @@
 #include "lib.h"
 #include "types.h"
 #include "keyboard.h"
+#include "sys_call_handler.h"
 
 // denttry block in file system
 typedef struct dentry
