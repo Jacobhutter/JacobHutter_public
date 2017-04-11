@@ -31,16 +31,39 @@ static const fops_t dir_jump_table = {
     .open = &dir_open,
     .close = &dir_close,
     .read = &dir_read,
-    .write = &dir_write    
+    .write = &dir_write
 };
 
 int32_t HALT (uint8_t status) {
     PCB_t* process;
+    PCB_t* parent;
+
+
     process = get_PCB();
+    if(process->parent_process == -1){
+        terminal_write((const void *)"tried to halt head",(int32_t)18);
+        return -1;
+    }
+    /* switch pages to parent process*/
     unload_process(process->parent_process);
-    terminal_write((const void *)"test halt", (int32_t)9);
+
+    /* get parent using process number */
+    parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
+    tss.esp0 = /*parent->esp_holder;*/ _8Mb - (_4Kb * (parent->process_id)) - 4;
+
+    asm volatile("movl %1, %%esp \n\
+                  movl %0, %%ebp \n\
+                 jmp *to_kernel \n\
+                 "
+                 :"=r" (parent->ebp_holder), "=r"(parent->esp_holder)
+                );
+    //terminal_write((const void *)"test halt", (int32_t)9);
+
+
+
 
     while(1);
+
     return 0;
 }
 
@@ -57,7 +80,7 @@ int32_t EXECUTE (const uint8_t* command) {
 
 
     /* if command is NULL return fail */
-    if (command == NULL) 
+    if (command == NULL)
         return -1;
 
     /* seperate out command vs args */
@@ -99,14 +122,23 @@ int32_t EXECUTE (const uint8_t* command) {
     }
 
 
+
+
     load_file(file);
 
     /* create new pcb for current task */
     PCB_t * process;
 
+
     // Gets address to place PCB for current process
     PCB_addr = init_PCB_addr - (_4Kb * process_num);
     process = (PCB_t *)PCB_addr;
+
+    // head process
+    if(process_num == 0)
+        process->parent_process = -1; // this is parent_process so say -1
+    else
+        process->parent_process = 0; // say shell is the parent
 
     file_t stdin; // initialize std int
     stdin.file_position = -1;
@@ -127,6 +159,7 @@ int32_t EXECUTE (const uint8_t* command) {
     process->file_descriptor[0] = stdin;
     process->file_descriptor[1] = stdout;
     process->mask = 0x3; // show that file_descriptor array has stdin and std out
+
     process->process_id = process_num; // Sets id
 
     /* put current esp and ebp into the pcb and tss*/
@@ -135,10 +168,11 @@ int32_t EXECUTE (const uint8_t* command) {
                   "
                  :"=r" (process->esp_holder),"=r" (process->ebp_holder)
                  );
+
     tss.esp0 = _8Mb - (_4Kb * (process_num)) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
     tss.ss0 = KERNEL_DS;
     uint32_t start_point = get_start(file);
-    uint32_t user_stack = _128Mb + _4Mb;
+    uint32_t user_stack = _128Mb + _4Mb; //
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
 
     /*
@@ -165,6 +199,9 @@ int32_t EXECUTE (const uint8_t* command) {
                   push $0x23       \n\
                   push %0          \n\
                   iret             \n\
+                  to_kernel:       \n\
+                  leave            \n\
+                  ret              \n\
                   "
                   :
                   : "r" (start_point), "r"(user_stack)
@@ -174,7 +211,7 @@ int32_t EXECUTE (const uint8_t* command) {
     return 0;
 }
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
-    
+
     unsigned long regVal;
     PCB_t* process;
 
@@ -207,11 +244,11 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
         return -1;
 
     // stdout
-    if (fd == 1) 
+    if (fd == 1)
         return terminal_write(buf,nbytes);
 
 
-    
+
     return (process->file_descriptor[fd]).operations.write(fd, buf, nbytes);
 }
 int32_t OPEN (const uint8_t* filename) {
@@ -245,7 +282,7 @@ int32_t OPEN (const uint8_t* filename) {
     switch (file.file_type) {
         case 0: break; // Need to fix RTC functions
 
-        case 1: 
+        case 1:
             new_entry.operations = dir_jump_table;
             break;
 
