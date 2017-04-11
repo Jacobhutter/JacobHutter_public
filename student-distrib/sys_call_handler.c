@@ -35,7 +35,12 @@ static const fops_t dir_jump_table = {
 };
 
 int32_t HALT (uint8_t status) {
+    PCB_t* process;
+    process = get_PCB();
+    unload_process(process->parent_process);
     terminal_write((const void *)"test halt", (int32_t)9);
+
+    while(1);
     return 0;
 }
 
@@ -283,4 +288,14 @@ int32_t SET_HANDLER (int32_t signum, void* handler_address) {
 }
 int32_t SIGRETURN (void) {
     return 0;
+}
+
+PCB_t * get_PCB() {
+    unsigned long regVal;
+
+    // Gets top of process stack
+    asm("movl %%esp, %0;" : "=r" (regVal) : );
+    // Gets top of process stack
+    return (PCB_t *)(regVal & _4Kb_MASK);;
+
 }

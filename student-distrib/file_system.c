@@ -30,10 +30,6 @@ void init_file_system(unsigned long * addr) {
     num_inode = *(boot_block_addr + 1);
     data_blocks = *(boot_block_addr + 2);
 
-    // printf("%d, %d, %d\n", dir_entries, num_inode, data_blocks);
-
-    // printf("0x%#x, 0x%#x\n", boot_block_addr, curr);
-
 }
 
 /*

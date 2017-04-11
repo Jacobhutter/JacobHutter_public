@@ -44,4 +44,6 @@ typedef struct PCB {
 	uint8_t parent_process;
 } PCB_t;
 
+PCB_t * get_PCB();
+
 #endif

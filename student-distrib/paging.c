@@ -130,4 +130,17 @@ int32_t load_process() {
 	return process_id;
 }
 
-/* TO DO: A process un-set function for halt system call. */
+/* TODO: A process un-set function for halt system call. */
+
+int32_t unload_process(uint8_t parent_id) {
+
+	if (parent_id >= MAX_PROCESS)
+		return -1;
+
+	page_directory1[32] = (INIT_ADDR + (4 * MB) * parent_id) | PRESENT | PAGE_EXT | USER_ENABLE | RW_ENABLE ;
+
+	// Flush the TLB
+	loadPageDirectory(page_directory1);
+
+	return 0;
+}

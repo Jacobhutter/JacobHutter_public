@@ -11,4 +11,6 @@ void initPaging();
 
 int32_t load_process();
 
+int32_t unload_process(uint8_t);
+
 #endif /* PAGING_H */
