@@ -40,7 +40,7 @@ int32_t HALT (uint8_t status) {
 
 
     process = get_PCB(); // get process to halt
-    
+
 
     if(process->parent_process == -1){
         terminal_write((const void *)"tried to halt head",(int32_t)18);
@@ -53,21 +53,20 @@ int32_t HALT (uint8_t status) {
     /* get parent using process number */
     parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
 
-    tss.esp0 =  _8Mb - (_4Kb * (parent->process_id)) - 4;
+    tss.esp0 = _8Mb - (_4Kb * (parent->process_id)) - 4;
 
-    asm volatile("movl %1, %%esp  \n\
-                  movl %0, %%ebp  \n\
-                  movl %2, %%eax  \n\
-                  leave           \n\
-                  ret             \n\
+    asm volatile("movl %1, %%esp   \n\
+                  movl %0, %%ebp   \n\
+                  movl %2, %%eax   \n\
+                  jmp halt_child   \n\
                  "
                  :
                  :"r" (parent->ebp_holder), "r"(parent->esp_holder), "r"((uint32_t)status)
+                 :"%esp","%eax","%ebp"
                  );
     //terminal_write((const void *)"test halt", (int32_t)9);
 
 
-    while(1);
 
     return 0;
 }
@@ -206,8 +205,23 @@ int32_t EXECUTE (const uint8_t* command) {
                   : "r" (start_point), "r"(user_stack)
                   : "%eax","%edx"
               );
+    asm volatile("halt_child:");
 
+    asm volatile ("movl %0, %%esp  \n\
+                   movl %1, %%ebp  \n\
+                  "
+                  :
+                  :"r" (process->esp_holder),"r" (process->ebp_holder)
+                  :"%esp","%ebp"
+                 );
+
+
+
+
+   //terminal_write("arrived in execute",18);
+   //while(1);
     return 0;
+
 }
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
 
