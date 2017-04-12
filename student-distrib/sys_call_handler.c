@@ -38,16 +38,17 @@ int32_t HALT (uint8_t status) {
     PCB_t* process;
     PCB_t* parent;
 
-
+    // while(1);
     process = get_PCB(); // get process to halt
 
 
+    // TODO: Make it restart shell instead
     if(process->parent_process == -1){
         terminal_write((const void *)"tried to halt head",(int32_t)18);
         return -1;
     }
 
-    /* switch pages to parent process*/
+    /* switch pages to parent process */
     unload_process(process->parent_process);
 
     /* get parent using process number */
@@ -66,8 +67,6 @@ int32_t HALT (uint8_t status) {
                  );
     //terminal_write((const void *)"test halt", (int32_t)9);
 
-
-
     return 0;
 }
 
@@ -77,8 +76,9 @@ int32_t EXECUTE (const uint8_t* command) {
     uint8_t* start = (uint8_t *)command;
     uint8_t* end;
     dentry_t file;
-    unsigned long file_size, PCB_addr;
+    unsigned long file_size, PCB_addr, parent_num;
     int process_num;
+    PCB_t* parent_PCB;
 
 
     /* if command is NULL return fail */
@@ -123,10 +123,13 @@ int32_t EXECUTE (const uint8_t* command) {
         return -1;
     }
 
-
-
-
     load_file(file);
+
+    // Get current process num
+    parent_PCB = get_PCB();
+    parent_num = (unsigned long)parent_PCB;
+    parent_num /= _4Kb;
+    parent_num = 255 - parent_num;
 
     /* create new pcb for current task */
     PCB_t * process;
@@ -140,7 +143,8 @@ int32_t EXECUTE (const uint8_t* command) {
     if(process_num == 0)
         process->parent_process = -1; // this is parent_process so say -1
     else
-        process->parent_process = 0; // say shell is the parent
+        process->parent_process = (int8_t)parent_num; // say shell is the parent
+    
     file_t stdin; // initialize std int
     stdin.file_position = -1;
     stdin.operations.open = &stdio_open;

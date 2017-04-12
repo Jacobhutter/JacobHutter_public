@@ -282,6 +282,8 @@ int32_t dir_read(int32_t fd, void * buf, int32_t nbytes) {
     //  print_file_name((char*)&(curr.file_name));
     // }
 
+    list_all_files();
+
     return 0;
 }
 
