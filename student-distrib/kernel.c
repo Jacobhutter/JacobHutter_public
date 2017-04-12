@@ -186,6 +186,8 @@ entry (unsigned long magic, unsigned long addr)
     /* initializing file system */
     init_file_system((unsigned long *)bb);
 
+    init_stdio();
+
 
 
     /* uncomment for terminal test */

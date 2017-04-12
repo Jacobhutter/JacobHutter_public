@@ -49,12 +49,9 @@ static const fops_t stdout_j_table = {
     .write = &stdout_write
 };
 
-// static const file_t stdin = {
-//     .operations = stdin_j_table,
-//     .inode = -1,
-//     .file_position = -1,
-//     .flags = IN_USE
-// };
+static file_t stdin;
+static file_t stdout;
+
 
 int32_t HALT (uint8_t status) {
     PCB_t* process;
@@ -165,23 +162,6 @@ int32_t EXECUTE (const uint8_t* command) {
         process->parent_process = -1; // this is parent_process so say -1
     else
         process->parent_process = (int8_t)parent_num; // say shell is the parent
-
-    file_t stdin; // initialize std int
-    stdin.file_position = -1;
-    // stdin.operations.open = &stdio_open;
-    // stdin.operations.close = &stdio_close;
-    // stdin.operations.read = &stdin_read;
-    // stdin.operations.write = &stdin_write;
-    stdin.operations = stdin_j_table;
-    stdin.flags = IN_USE;
-
-    file_t stdout; // initialize stdout
-    stdout.file_position = -1;
-    stdout.operations.open = &stdio_open;
-    stdout.operations.close = &stdio_close;
-    stdout.operations.write = &stdout_write;
-    stdout.operations.read = &stdout_read;
-    stdout.flags = IN_USE;
 
     process->file_descriptor[0] = stdin;
     process->file_descriptor[1] = stdout;
@@ -367,4 +347,16 @@ PCB_t * get_PCB() {
     // Gets top of process stack
     return (PCB_t *)(regVal & _4Kb_MASK);;
 
+}
+
+void init_stdio() {
+    stdin.file_position = -1;
+    stdin.operations = stdin_j_table;
+    stdin.flags = IN_USE;
+
+    stdout.file_position = -1;
+    stdout.operations = stdout_j_table;
+    stdout.flags = IN_USE;
+
+    return;
 }
