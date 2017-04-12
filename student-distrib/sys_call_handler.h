@@ -44,6 +44,9 @@ typedef struct PCB {
 	int8_t parent_process;
 } PCB_t;
 
+/* global pcb */
+PCB_t * cur_process;
+////////////////////
 PCB_t * get_PCB();
 
 #endif

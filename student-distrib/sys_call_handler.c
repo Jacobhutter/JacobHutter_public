@@ -38,7 +38,7 @@ int32_t HALT (uint8_t status) {
     PCB_t* process;
     PCB_t* parent;
 
-    // while(1);
+
     process = get_PCB(); // get process to halt
 
 
@@ -55,23 +55,23 @@ int32_t HALT (uint8_t status) {
     parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
 
     tss.esp0 = _8Mb - (_4Kb * (parent->process_id)) - 4;
-
-    asm volatile("movl %1, %%esp   \n\
-                  movl %0, %%ebp   \n\
+    asm volatile("movl %0, %%esp   \n\
+                  movl %1, %%ebp   \n\
                   movl %2, %%eax   \n\
                   jmp halt_child   \n\
                  "
-                 :
-                 :"r" (parent->ebp_holder), "r"(parent->esp_holder), "r"((uint32_t)status)
+                 : /*no outputs*/
+                 :"r" (process->esp_holder), "r"(process->ebp_holder), "r"((int32_t)status)
                  :"%esp","%eax","%ebp"
                  );
-    //terminal_write((const void *)"test halt", (int32_t)9);
 
     return 0;
 }
 
 int32_t EXECUTE (const uint8_t* command) {
 
+    uint32_t start_point; // = get_start(file);
+    uint32_t user_stack; // = _128Mb + _4Mb; //
     uint8_t to_execute[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
     uint8_t* start = (uint8_t *)command;
     uint8_t* end;
@@ -144,7 +144,7 @@ int32_t EXECUTE (const uint8_t* command) {
         process->parent_process = -1; // this is parent_process so say -1
     else
         process->parent_process = (int8_t)parent_num; // say shell is the parent
-    
+
     file_t stdin; // initialize std int
     stdin.file_position = -1;
     stdin.operations.open = &stdio_open;
@@ -164,8 +164,10 @@ int32_t EXECUTE (const uint8_t* command) {
     process->file_descriptor[0] = stdin;
     process->file_descriptor[1] = stdout;
     process->mask = 0x3; // show that file_descriptor array has stdin and std out
-
     process->process_id = process_num; // Sets id
+
+    start_point = get_start(file);
+    user_stack = _128Mb + _4Mb; //
 
     /* put current esp and ebp into the pcb and tss*/
     asm volatile ("movl %%esp, %0  \n\
@@ -176,8 +178,7 @@ int32_t EXECUTE (const uint8_t* command) {
 
     tss.esp0 = _8Mb - (_4Kb * (process_num)) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
     tss.ss0 = KERNEL_DS;
-    uint32_t start_point = get_start(file);
-    uint32_t user_stack = _128Mb + _4Mb; //
+
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
 
     /*
@@ -210,20 +211,14 @@ int32_t EXECUTE (const uint8_t* command) {
                   : "%eax","%edx"
               );
     asm volatile("halt_child:");
-
-    asm volatile ("movl %0, %%esp  \n\
-                   movl %1, %%ebp  \n\
-                  "
-                  :
-                  :"r" (process->esp_holder),"r" (process->ebp_holder)
-                  :"%esp","%ebp"
-                 );
-
-
-
-
+    //terminal_write("here!",5);
+    //while(1);
+    asm volatile("leave         \n\
+                  ret           \n\
+                  ");
    //terminal_write("arrived in execute",18);
    //while(1);
+
     return 0;
 
 }
