@@ -39,27 +39,32 @@ int32_t HALT (uint8_t status) {
     PCB_t* parent;
 
 
-    process = get_PCB();
+    process = get_PCB(); // get process to halt
+    
+
     if(process->parent_process == -1){
         terminal_write((const void *)"tried to halt head",(int32_t)18);
         return -1;
     }
+
     /* switch pages to parent process*/
     unload_process(process->parent_process);
 
     /* get parent using process number */
     parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
-    tss.esp0 = /*parent->esp_holder;*/ _8Mb - (_4Kb * (parent->process_id)) - 4;
 
-    asm volatile("movl %1, %%esp \n\
-                  movl %0, %%ebp \n\
-                 jmp *to_kernel \n\
+    tss.esp0 =  _8Mb - (_4Kb * (parent->process_id)) - 4;
+
+    asm volatile("movl %1, %%esp  \n\
+                  movl %0, %%ebp  \n\
+                  movl %2, %%eax  \n\
+                  leave           \n\
+                  ret             \n\
                  "
-                 :"=r" (parent->ebp_holder), "=r"(parent->esp_holder)
-                );
+                 :
+                 :"r" (parent->ebp_holder), "r"(parent->esp_holder), "r"((uint32_t)status)
+                 );
     //terminal_write((const void *)"test halt", (int32_t)9);
-
-
 
 
     while(1);
@@ -69,8 +74,6 @@ int32_t HALT (uint8_t status) {
 
 int32_t EXECUTE (const uint8_t* command) {
 
-    /*parse the command */
-    //uint8_t * arg;
     uint8_t to_execute[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
     uint8_t* start = (uint8_t *)command;
     uint8_t* end;
@@ -139,7 +142,6 @@ int32_t EXECUTE (const uint8_t* command) {
         process->parent_process = -1; // this is parent_process so say -1
     else
         process->parent_process = 0; // say shell is the parent
-
     file_t stdin; // initialize std int
     stdin.file_position = -1;
     stdin.operations.open = &stdio_open;
@@ -199,9 +201,6 @@ int32_t EXECUTE (const uint8_t* command) {
                   push $0x23       \n\
                   push %0          \n\
                   iret             \n\
-                  to_kernel:       \n\
-                  leave            \n\
-                  ret              \n\
                   "
                   :
                   : "r" (start_point), "r"(user_stack)
