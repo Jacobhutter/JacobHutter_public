@@ -9,6 +9,7 @@ unsigned long init_PCB_addr = _8Mb - _4Kb;
 /*////////////////////////////////////////////////////////////////////////////*/
 int32_t stdio_open(const uint8_t * filename){return -1;}
 int32_t stdio_close(int32_t fd){return -1;}
+
 int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
 int32_t stdin_write(int32_t fd, const char* buf, int32_t nbytes){
     return terminal_write((const void *)buf,nbytes);
@@ -34,11 +35,36 @@ static const fops_t dir_jump_table = {
     .write = &dir_write
 };
 
+static const fops_t stdin_j_table = {
+    .open = &stdio_open,
+    .close = &stdio_close,
+    .read = &stdin_read,
+    .write = &stdin_write
+};
+
+static const fops_t stdout_j_table = {
+    .open = &stdio_open,
+    .close = &stdio_close,
+    .read = &stdout_read,
+    .write = &stdout_write
+};
+
+// static const file_t stdin = {
+//     .operations = stdin_j_table,
+//     .inode = -1,
+//     .file_position = -1,
+//     .flags = IN_USE
+// };
+
 int32_t HALT (uint8_t status) {
     PCB_t* process;
     PCB_t* parent;
 
+<<<<<<< Updated upstream
 
+=======
+    while(1);
+>>>>>>> Stashed changes
     process = get_PCB(); // get process to halt
 
 
@@ -147,14 +173,15 @@ int32_t EXECUTE (const uint8_t* command) {
 
     file_t stdin; // initialize std int
     stdin.file_position = -1;
-    stdin.operations.open = &stdio_open;
-    stdin.operations.close = &stdio_close;
-    stdin.operations.read = &stdin_read;
-    stdin.operations.write = &stdin_write;
+    // stdin.operations.open = &stdio_open;
+    // stdin.operations.close = &stdio_close;
+    // stdin.operations.read = &stdin_read;
+    // stdin.operations.write = &stdin_write;
+    stdin.operations = stdin_j_table;
     stdin.flags = IN_USE;
 
     file_t stdout; // initialize stdout
-    stdin.file_position = -1;
+    stdout.file_position = -1;
     stdout.operations.open = &stdio_open;
     stdout.operations.close = &stdio_close;
     stdout.operations.write = &stdout_write;
@@ -258,8 +285,6 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     // stdout
     if (fd == 1)
         return terminal_write(buf,nbytes);
-
-
 
     return (process->file_descriptor[fd]).operations.write(fd, buf, nbytes);
 }
