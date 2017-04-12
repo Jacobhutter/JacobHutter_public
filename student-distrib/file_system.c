@@ -276,15 +276,50 @@ int32_t dir_write(int32_t fd, const char * buf, int32_t nbytes) {
  */
 int32_t dir_read(int32_t fd, void * buf, int32_t nbytes) {
     // dentry_t curr;
-    // int i;
-    // for (i = 0; i < dir_entries; i++) {
-    //  read_dentry_by_index(i, &curr);
-    //  print_file_name((char*)&(curr.file_name));
-    // }
 
-    list_all_files();
+    int32_t bytes_read = 0;
+    int j;
+    dentry_t curr;
+    char* name, *new_buf;
+    file_t file;
+    PCB_t* process;
 
-    return 0;
+    process = get_PCB();
+
+    file = process->file_descriptor[fd];
+
+    new_buf = (int8_t*)buf;
+
+    if (file.file_position == dir_entries) {
+        file.file_position = 0;
+        process->file_descriptor[fd] = file;
+        return 0;
+    }
+
+    // printInt(file.file_position);
+    read_dentry_by_index(file.file_position, &curr);
+
+    name = curr.file_name;
+
+    j = 0;
+    while (j < MAX_NAME) {
+        new_buf[bytes_read] = name[j];
+        j++;
+        bytes_read++;
+    }
+
+    if (file.file_position == dir_entries) {
+        file.file_position = 0;
+        process->file_descriptor[fd] = file;
+        return 0;
+    }
+
+    file.file_position++;
+
+    process->file_descriptor[fd] = file;
+
+    return MAX_NAME;
+
 }
 
 /*
@@ -538,21 +573,21 @@ int check_ELF(dentry_t file) {
 /*
  * INSERT FUNCTION HEADER HERE.
  */
-uint32_t get_start(dentry_t file){
-  unsigned char buffer[4];
-  read_data(file.i_node_num, 24, buffer, 4);
+uint32_t get_start(dentry_t file) {
+    unsigned char buffer[4];
+    read_data(file.i_node_num, 24, buffer, 4);
 
-  uint32_t retval = *((uint32_t*)buffer);
-  /*int i=0;
-  for(i =0; i < 32; i++){
-      if((int32_t)retval<0)
-        terminal_write("1",1);
-      else
-        terminal_write("0",1);
-        retval = retval<< 1;
-  }*/
+    uint32_t retval = *((uint32_t*)buffer);
+    /*int i=0;
+    for(i =0; i < 32; i++){
+        if((int32_t)retval<0)
+          terminal_write("1",1);
+        else
+          terminal_write("0",1);
+          retval = retval<< 1;
+    }*/
 
-  return retval;
+    return retval;
 
 }
 /*

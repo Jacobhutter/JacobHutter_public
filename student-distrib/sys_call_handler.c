@@ -52,7 +52,6 @@ static const fops_t stdout_j_table = {
 static file_t stdin;
 static file_t stdout;
 
-
 int32_t HALT (uint8_t status) {
     PCB_t* process;
     PCB_t* parent;

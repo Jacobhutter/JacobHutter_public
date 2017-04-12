@@ -46,7 +46,9 @@ typedef struct PCB {
 
 /* global pcb */
 PCB_t * cur_process;
-////////////////////
+
 PCB_t * get_PCB();
+
+void init_stdio();
 
 #endif

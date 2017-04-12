@@ -136,7 +136,7 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 
 	uint8_t mask = 0x01;
 
-	if (parent_id < 0 || parent_id >= MAX_PROCESS || process < 0 || process >= MAX_PROCESS)
+	if (parent_id < 0 || parent_id >= MAX_PROCESS || process >= MAX_PROCESS)
 		return -1;
 
 	// Frees process
