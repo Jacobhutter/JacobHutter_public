@@ -132,10 +132,16 @@ int32_t load_process() {
 
 /* TODO: A process un-set function for halt system call. */
 
-int32_t unload_process(int8_t parent_id) {
+int32_t unload_process(uint8_t process, int8_t parent_id) {
 
-	if (parent_id < 0 || parent_id >= MAX_PROCESS)
+	uint8_t mask = 0x01;
+
+	if (parent_id < 0 || parent_id >= MAX_PROCESS || process < 0 || process >= MAX_PROCESS)
 		return -1;
+
+	mask <<= process;
+
+	process_mask &= ~mask;
 
 	page_directory1[32] = (INIT_ADDR + (4 * MB) * parent_id) | PRESENT | PAGE_EXT | USER_ENABLE | RW_ENABLE;
 

@@ -60,11 +60,6 @@ int32_t HALT (uint8_t status) {
     PCB_t* process;
     PCB_t* parent;
 
-<<<<<<< Updated upstream
-
-=======
-    while(1);
->>>>>>> Stashed changes
     process = get_PCB(); // get process to halt
 
 
@@ -75,7 +70,7 @@ int32_t HALT (uint8_t status) {
     }
 
     /* switch pages to parent process */
-    unload_process(process->parent_process);
+    unload_process(process->process_id, process->parent_process);
 
     /* get parent using process number */
     parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
