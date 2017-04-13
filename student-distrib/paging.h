@@ -13,4 +13,6 @@ int32_t load_process();
 
 int32_t unload_process(uint8_t, int8_t);
 
+int32_t free_gucci(uint8_t);
+
 #endif /* PAGING_H */

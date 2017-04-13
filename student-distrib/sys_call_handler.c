@@ -61,8 +61,10 @@ int32_t HALT (uint8_t status) {
 
     // TODO: Make it restart shell instead
     if(process->parent_process == -1){
-        terminal_write((const void *)"tried to halt head",(int32_t)18);
-        return -1;
+       free_gucci(process->process_id); // allows us use id 0 again
+       terminal_open();
+       EXECUTE((const uint8_t *)"shell");
+       return 0;
     }
 
     /* switch pages to parent process */
@@ -80,7 +82,7 @@ int32_t HALT (uint8_t status) {
                  : /*no outputs*/
                  :"r" (process->esp_holder), "r"(process->ebp_holder), "r"((int32_t)status)
                  :"%esp","%eax","%ebp"
-                 );
+                );
 
     return 0;
 }
@@ -182,12 +184,12 @@ int32_t EXECUTE (const uint8_t* command) {
 
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
 
-    /*
+   /*
     * according to intel manual:
     * IRET stack for privelage level switches:
     * SS(stack segment) -> 2B is user data segment
     * ESP(start of stack for user program) -> program image starts at 0x08048000,128mb plus 4mb pls 8 kb, so stack should start there?
-    * EFLAGS -> remove from stack and alter to ensure trap flag is set saying we are in a user sys call
+    * EFLAGS -> remove from stack and alter to ensure trap flag is set saying we are in a user sys call, trap flag waits for int flag
     * CS -> user code segment 0x23
     * EIP -> from ELF
     * iret
@@ -210,15 +212,12 @@ int32_t EXECUTE (const uint8_t* command) {
                   :
                   : "r" (start_point), "r"(user_stack)
                   : "%eax","%edx"
-              );
-    asm volatile("halt_child:");
-    //terminal_write("here!",5);
-    //while(1);
-    asm volatile("leave         \n\
+                 );
+    asm volatile("halt_child:   \n\
+                  leave         \n\
                   ret           \n\
-                  ");
-   //terminal_write("arrived in execute",18);
-   //while(1);
+                  "
+                 );
 
     return 0;
 
