@@ -11,7 +11,7 @@
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_IRQ 0x21
 #define BUFFER_LIMIT 128
-
+#define PROMPT "391OS> "
 #define KBD_IRQ_LINE 1
 
 /* initializes the keyboard driver */

@@ -287,6 +287,7 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
         //char test[] = "aaaaaaaaaafj;dlsafjkdsfdlksajfkd;safkdjsa;fdjslakfjdsl;afdkjsa;fdjskajfdsa;fkdsajf;dsjafkdjkasjfdkl;afskldjsalfkjdsalfjdkslajflds;ajfldsjafkdjsal;fjdksa;fdjka;fjdksa;jfkldsjaflkdsjaf;dlkafkdjskafjdsalf;dajfklsajfkldjsalkfjsakl;fjsadl;fksajfds;afjkl;sdajfldksjafl;dsakjflsdajflk;dsaflkdsajfkldsa;kdsjakfljdsalfjdsla;fjdklsjafldsajfkldsa;f";
         //terminal_write((const void *)test,(int32_t)strlen(test));
         terminal_open();
+        terminal_write((const void *)PROMPT, (int32_t)7);
         return;
     }
 
