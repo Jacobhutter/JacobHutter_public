@@ -354,17 +354,16 @@ int32_t terminal_read(void* buf, int32_t nbytes){
     OLD_KEYPRESSES = 0;
 
     /* wait for user to hit enter */
-    while(OLD_KEYPRESSES == 0){
-
-    }
+    while(OLD_KEYPRESSES == 0);
 
     /* move the kbd buffer over to the given buffer with length min(OLD_KEYPRESSES,nbytes) */
-    memcpy(buf,(const void *)old_kbd_buffer,nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes);
+    memcpy(buf,(const void *)old_kbd_buffer,nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES+1 : nbytes+1);
 
     /* initializes return value */
     int32_t retval = 0;
     retval = nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes;
-
+    ((unsigned char *)buf)[retval] = '\n';
+    retval++;
     /* flush OLD_KEYPRESSES to demand new entry for each read */
     OLD_KEYPRESSES = 0;
 
