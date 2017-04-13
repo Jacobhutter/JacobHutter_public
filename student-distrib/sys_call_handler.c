@@ -10,14 +10,14 @@ unsigned long init_PCB_addr = _8Mb - _4Kb;
 int32_t stdio_open(const uint8_t * filename){return -1;}
 int32_t stdio_close(int32_t fd){return -1;}
 
-int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
-int32_t stdin_write(int32_t fd, const char* buf, int32_t nbytes){
-    return terminal_write((const void *)buf,nbytes);
+int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){
+        return terminal_read(buf,nbytes);
 }
-int32_t stdout_write(int32_t fd,const char* buf,int32_t nbytes){return -1;}
-int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){
-    return terminal_read(buf,nbytes);
+int32_t stdin_write(int32_t fd, const char* buf, int32_t nbytes){return -1;}
+int32_t stdout_write(int32_t fd,const char* buf,int32_t nbytes){
+        return terminal_write((const void *)buf,nbytes);
 }
+int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
 /*////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
 
@@ -232,14 +232,6 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
     // Gets top of process
     process = (PCB_t *)(regVal & _4Kb_MASK);
 
-    // stdin
-    if (fd == 0)
-        return terminal_read(buf,nbytes);
-
-    // stdout
-    if (fd == 1)
-        return -1;
-
     return (process->file_descriptor[fd]).operations.read(fd, buf, nbytes);
 }
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
@@ -250,14 +242,6 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     asm("movl %%esp, %0;" : "=r" (regVal) : );
     // Gets top of process
     process = (PCB_t *)(regVal & _4Kb_MASK);
-
-    // stdin
-    if (fd == 0)
-        return -1;
-
-    // stdout
-    if (fd == 1)
-        return terminal_write(buf,nbytes);
 
     return (process->file_descriptor[fd]).operations.write(fd, buf, nbytes);
 }
