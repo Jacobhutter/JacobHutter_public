@@ -9,6 +9,9 @@
 #define MAX_NAME 32
 #define BASE 10
 
+#define RTC_FILE "rtc"
+#define RTC_FILE_LEN 4
+
 #define PROGRAM_ADDR /*0x08000000*/ 0x08048000
 
 static unsigned long* boot_block_addr;
@@ -45,6 +48,14 @@ int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
 
     dentry_t* curr;
     int i;
+
+    // Create fake dentry for RTC, if requested
+    if (strncmp((int8_t*)fname, RTC_FILE, RTC_FILE_LEN) == 0) {
+        strcpy((int8_t*)(dentry->file_name), RTC_FILE);
+        dentry->file_type = 0;
+        dentry->i_node_num = 0;
+        return 0;
+    }
 
     // Gets address of first dentry
     curr = (dentry_t*)(boot_block_addr + BLOCK_OFF);
