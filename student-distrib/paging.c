@@ -80,12 +80,7 @@ void initPaging() {
 	enablePaging();
 
 }
-<<<<<<< HEAD
 
-// void load_shell() {
-	
-// }
-=======
 /*
  * NEED FUNCTION HEADER HERE
  * Gist: Add entry to PD
@@ -356,4 +351,4 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 
 	return 0;
 }
->>>>>>> 3.3.2
+

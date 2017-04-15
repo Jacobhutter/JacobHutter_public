@@ -3,22 +3,6 @@
 
 #include "wrapper.h"
 #include "x86_desc.h"
-<<<<<<< HEAD
-#include "file_system.h"
-
-typedef struct process {
-	unsigned long* operations;
-	int inode;
-	unsigned long file_position;
-	unsigned long flags;
-} process_t;
-
-typedef struct PCB {
-	process_t file_descriptor[8];
-	uint8_t mask;
-} PCB_t;
-
-=======
 #include "keyboard.h"
 #include "lib.h"
 #include "file_system.h"
@@ -67,6 +51,6 @@ PCB_t * cur_process;
 PCB_t * get_PCB();
 
 void init_stdio();
->>>>>>> 3.3.2
+
 
 #endif
