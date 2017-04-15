@@ -351,7 +351,7 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
     return 0;
 }
 
-/* int32_t VIDMAP
+/* int32_t GETARGS
  * inputs:
  * output:
  * function:
@@ -359,30 +359,13 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
 int32_t VIDMAP (uint8_t** screen_start) {
     return 0;
 }
-
-/* int32_t SET_HANDLER
- * inputs:
- * output:
- * function:
- */
 int32_t SET_HANDLER (int32_t signum, void* handler_address) {
     return 0;
 }
-
-/* int32_t SIGRETURN
- * inputs:
- * output:
- * function:
- */
 int32_t SIGRETURN (void) {
     return 0;
 }
 
-/* PCB_t get_PCB
- * inputs: none
- * output: a pointer to the top pcb currently at use
- * function: looks at the top of the pcb stack and returns the base pointer
- */
 PCB_t * get_PCB() {
     unsigned long regVal;
 
@@ -393,11 +376,6 @@ PCB_t * get_PCB() {
 
 }
 
-/* init_stdio
- * inputs: none
- * outputs: none
- * function: initializes the rest of the file categories besides fops
- */
 void init_stdio() {
     stdin.file_position = -1;
     stdin.operations = stdin_j_table;
