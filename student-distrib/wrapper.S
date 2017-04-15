@@ -244,8 +244,13 @@ _SYSTEM_CALL:
     pushl %edx
     pushl %ecx # push args
     pushl %ebx
-####### check for 0<= EAX <= 10
-####### if inalid just pop registers
+
+    cmpl $10, %eax
+    jg fake_ret
+
+    cmpl $0, %eax
+    jl fake_ret
+
     call *jump_table(,%eax,4) # call jump table entry
 
 fake_ret:
