@@ -9,10 +9,10 @@
 .text
 .globl _RTC,_KEYBOARD,_SYSTEM_CALL
 # exception table is called to give address of each entry in the table
-.globl 	_DIVIDE_ERROR,_RESERVED, _NMI_INTERRUPT, _BREAKPOINT, _OVERFLOW, _BOUND_RANGE_EXCEEDED, _INVALID_OPCODE, _DEVICE_NOT_AVAILABLE, _DOUBLE_FAULT, _COPROCESSOR_SEGMENT_OVERRUN, _INVALID_TSS, _SEGMENT_NOT_PRESENT, _STACK_SEGMENT_FAULT, _GENERAL_PROTECTION, _PAGE_FAULT, _FLOATING_POINT_ERROR, _ALIGNMENT_CHECK, _MACHINE_CHECK, _FLOATING_POINT_EXCEPTION
+.globl 	_DIVIDE_ERROR,_RESERVED, _NMI_INTERRUPT, _BREAKPOINT, _OVERFLOW, _BOUND_RANGE_EXCEEDED, _INVALID_OPCODE, _DEVICE_NOT_AVAILABLE, _DOUBLE_FAULT, _COPROCESSOR_SEGMENT_OVERRUN, _INVALID_TSS, _SEGMENT_NOT_PRESENT, _STACK_SEGMENT_FAULT, _GENERAL_PROTECTION, _PAGE_FAULT, _FLOATING_POINT_ERROR, _ALIGNMENT_CHECK, _MACHINE_CHECK, _FLOATING_POINT_EXCEPTION, fake_ret
 
 jump_table:
-    .long HALT,EXECUTE,READ,WRITE,OPEN,CLOSE,GETARGS,VIDMAP,SET_HANDLER,SIGRETURN
+    .long HALT,HALT,EXECUTE,READ,WRITE,OPEN,CLOSE,GETARGS,VIDMAP,SET_HANDLER,SIGRETURN
 
 
 /*
@@ -231,14 +231,31 @@ _KEYBOARD:
 *
 */
 _SYSTEM_CALL:
-    pushal
 
     pushl %ebx
-    pushl %ecx # push args
+    pushl %ecx
     pushl %edx
+    pushl %edi
+    pushl %esi
+    pushl %esp
+    pushl %ebp
+    pushfl
+
+    pushl %edx
+    pushl %ecx # push args
+    pushl %ebx
 
     call *jump_table(,%eax,4) # call jump table entry
-
+    fake_ret:
     addl $12,%esp # remove args
-    popal
+
+    popfl
+    popl %ebp
+    popl %esp
+    popl %esi
+    popl %edi
+    popl %edx
+    popl %ecx
+    popl %ebx
+
     iret

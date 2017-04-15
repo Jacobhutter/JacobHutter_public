@@ -10,8 +10,19 @@
 #define KEYBOARD_DATA 0x60
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_IRQ 0x21
-
+#define BUFFER_LIMIT 128
+#define PROMPT "391OS> "
 #define KBD_IRQ_LINE 1
+#define VGA_CONVENTION 2
+#define BUFFER_SIZE  128*VGA_CONVENTION
+#define SCREEN_HEIGHT 25
+#define SCREEN_WIDTH 80
+#define MAX_WIDTH_INDEX 79
+#define MAX_HEIGHT_INDEX 24
+#define VGA_MEM 0xB8000
+#define GREEN 2
+#define BLACK 0
+#define SCREEN_AREA SCREEN_WIDTH*SCREEN_HEIGHT*VGA_CONVENTION
 
 /* initializes the keyboard driver */
 extern void terminal_open();

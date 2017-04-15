@@ -9,8 +9,12 @@
 #define MAX_NAME 32
 #define BASE 10
 
+#define PROGRAM_ADDR /*0x08000000*/ 0x08048000
+
 static unsigned long* boot_block_addr;
 static unsigned long num_inode, data_blocks, dir_entries;
+
+static unsigned char ELF[] = {0x7f, 0x45, 0x4c, 0x46};
 
 /*
  * init_file_system
@@ -26,17 +30,13 @@ void init_file_system(unsigned long * addr) {
     num_inode = *(boot_block_addr + 1);
     data_blocks = *(boot_block_addr + 2);
 
-    // printf("%d, %d, %d\n", dir_entries, num_inode, data_blocks);
-
-    // printf("0x%#x, 0x%#x\n", boot_block_addr, curr);
-
 }
 
 /*
  * read_dentry_by_name
  *   DESCRIPTION: Gets dentry based off name
  *   INPUTS: fname - name of file
- *			 dentry - dentry_t to copy to
+ *           dentry - dentry_t to copy to
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: Copies dentry_t with name fname to dentry
@@ -67,7 +67,7 @@ int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
  * read_dentry_by_index
  *   DESCRIPTION: Gets dentry based off index
  *   INPUTS: index - index of dentry
- *			 dentry - dentry_t to copy to
+ *           dentry - dentry_t to copy to
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: Copies dentry_t with inode index to dentry
@@ -93,9 +93,9 @@ int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
  * read_data
  *   DESCRIPTION: Reads data from file system
  *   INPUTS: inode - inode to begin at
- *			 offset - offset of 1st data block to start reading from
- *			 buf - buffer to write data to
- *			 length - number of bytes to read
+ *           offset - offset of 1st data block to start reading from
+ *           buf - buffer to write data to
+ *           length - number of bytes to read
  *   OUTPUTS: none
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: Copies data of length bytes to buffer
@@ -157,7 +157,7 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
     }
 
 
-    return 0;
+    return i;
 }
 
 /*
@@ -168,7 +168,7 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: Adds data to global vars
  */
-int32_t file_open(uint8_t* file) {
+int32_t file_open(const uint8_t * file) {
 
     return 0;
 }
@@ -193,8 +193,29 @@ int32_t file_close(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t file_read(int32_t fd) {
-    return -1;
+int32_t file_read(int32_t fd, void * buf, int32_t nbytes) {
+    unsigned long regVal;
+    unsigned long bytes_read;
+    PCB_t* process;
+    file_t file;
+
+    // Gets top of process stack
+    asm("movl %%esp, %0;" : "=r" (regVal) : );
+    // Gets top of process
+    process = (PCB_t *)(regVal & _4Kb_MASK);
+
+    file = process->file_descriptor[fd];
+
+    bytes_read = read_data(file.inode, file.file_position, (uint8_t *)buf, nbytes);
+
+    if (bytes_read == -1)
+        return -1;
+
+    file.file_position += bytes_read;
+
+    process->file_descriptor[fd] = file;
+
+    return bytes_read;
 }
 
 /*
@@ -205,7 +226,7 @@ int32_t file_read(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t file_write(int32_t fd) {
+int32_t file_write(int32_t fd, const char * buf, int32_t nbytes) {
     return -1;
 }
 
@@ -217,7 +238,7 @@ int32_t file_write(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_open(uint8_t* directory) {
+int32_t dir_open(const uint8_t * directory) {
     return 0;
 }
 
@@ -241,7 +262,7 @@ int32_t dir_close(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_write(int32_t fd) {
+int32_t dir_write(int32_t fd, const char * buf, int32_t nbytes) {
     return -1;
 }
 
@@ -253,15 +274,52 @@ int32_t dir_write(int32_t fd) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: none
  */
-int32_t dir_read(int32_t fd) {
+int32_t dir_read(int32_t fd, void * buf, int32_t nbytes) {
     // dentry_t curr;
-    // int i;
-    // for (i = 0; i < dir_entries; i++) {
-    // 	read_dentry_by_index(i, &curr);
-    // 	print_file_name((char*)&(curr.file_name));
-    // }
 
-    return 0;
+    int32_t bytes_read = 0;
+    int j;
+    dentry_t curr;
+    char* name, *new_buf;
+    file_t file;
+    PCB_t* process;
+
+    process = get_PCB();
+
+    file = process->file_descriptor[fd];
+
+    new_buf = (int8_t*)buf;
+
+    if (file.file_position == dir_entries) {
+        file.file_position = 0;
+        process->file_descriptor[fd] = file;
+        return 0;
+    }
+
+    // printInt(file.file_position);
+    read_dentry_by_index(file.file_position, &curr);
+
+    name = curr.file_name;
+
+    j = 0;
+    while (j < MAX_NAME) {
+        new_buf[bytes_read] = name[j];
+        j++;
+        bytes_read++;
+    }
+
+    if (file.file_position == dir_entries) {
+        file.file_position = 0;
+        process->file_descriptor[fd] = file;
+        return 0;
+    }
+
+    file.file_position++;
+
+    process->file_descriptor[fd] = file;
+
+    return MAX_NAME;
+
 }
 
 /*
@@ -279,37 +337,37 @@ unsigned long get_file_size(dentry_t file) {
 }
 
 // void test1() {
-// 	// dentry_t temp;
-// 	// int i, j;
-// 	// for (i = 0; i < dir_entries; i++) {
-// 	// 	read_dentry_by_index(i, &temp);
-// 	// 	print_file_name(&(temp.file_name));
-// 	// }
+//  // dentry_t temp;
+//  // int i, j;
+//  // for (i = 0; i < dir_entries; i++) {
+//  //  read_dentry_by_index(i, &temp);
+//  //  print_file_name(&(temp.file_name));
+//  // }
 
-// 	// char buf[275];
-// 	// printf("\n\n");
+//  // char buf[275];
+//  // printf("\n\n");
 
-// 	// printf("Hello\n");
+//  // printf("Hello\n");
 
-// 	// i = read_dentry_by_name("frame1.txt", &temp);
+//  // i = read_dentry_by_name("frame1.txt", &temp);
 
-// 	// if (i >= 0)
-// 	// 	print_file_name(&(temp.file_name));
+//  // if (i >= 0)
+//  //  print_file_name(&(temp.file_name));
 
-// 	// if (i >= 0) {
-// 	// 	read_data(temp.i_node_num, 0, buf, 275);
-// 	// }
+//  // if (i >= 0) {
+//  //  read_data(temp.i_node_num, 0, buf, 275);
+//  // }
 
-// 	// for (i = 0; i < 11; i++)
-// 	// 	for (j = 0; j < 25; j++)
-// 	// 		printf("%c", buf[i * 25 + j]);
+//  // for (i = 0; i < 11; i++)
+//  //  for (j = 0; j < 25; j++)
+//  //      printf("%c", buf[i * 25 + j]);
 
-// 	// printf("\n");
+//  // printf("\n");
 
-// 	// printf("%d\n", check_string("", ""));
+//  // printf("%d\n", check_string("", ""));
 
 
-// 	// print_file_name("Hello000000000000000000000000000");
+//  // print_file_name("Hello000000000000000000000000000");
 
 
 // }
@@ -332,7 +390,7 @@ void print_file_name(char* a) {
  * check_string
  *   DESCRIPTION: Checks two string if they're equal
  *   INPUTS: s1 - first string
- *			 s2 - second string
+ *           s2 - second string
  *   OUTPUTS: none
  *   RETURN VALUE: 1 if equal, 0 if not
  *   SIDE EFFECTS: none
@@ -370,7 +428,7 @@ void list_all_files() {
         temp = curr.file_type + 48;
         // Prints out file descriptions
         terminal_write("File name: ", 11);
-        print_file_name((char*)&(curr.file_name));
+        print_file_name((char*) & (curr.file_name));
         terminal_write(" , File type: ", 14);
         terminal_write((const void*) (&temp), 1);
         terminal_write(", file size: ", 13);
@@ -400,7 +458,7 @@ uint32_t read_file_by_dentry(dentry_t file) {
         // Reads smallest amount of bytes
         read_size = (size > kB) ? kB : size;
 
-        // Updates needed read left 
+        // Updates needed read left
         size -= kB;
 
         // Reads data
@@ -493,4 +551,88 @@ void printInt(int num) {
     temp = num % BASE;
     temp += 48;
     terminal_write((const void*) (&temp), 1);
+}
+
+/*
+ * INSERT FUNCTION HEADER HERE.
+ */
+int check_ELF(dentry_t file) {
+    unsigned char buffer[4];
+    int i;
+
+    read_data(file.i_node_num, 0, buffer, 4);
+
+    for (i = 0; i < 4; i++) {
+        if (buffer[i] != ELF[i])
+            return -1;
+    }
+
+    return 0;
+}
+
+/*
+ * INSERT FUNCTION HEADER HERE.
+ */
+uint32_t get_start(dentry_t file) {
+    unsigned char buffer[4];
+    read_data(file.i_node_num, 24, buffer, 4);
+
+    uint32_t retval = *((uint32_t*)buffer);
+    /*int i=0;
+    for(i =0; i < 32; i++){
+        if((int32_t)retval<0)
+          terminal_write("1",1);
+        else
+          terminal_write("0",1);
+          retval = retval<< 1;
+    }*/
+
+    return retval;
+
+}
+/*
+ * INSERT FUNCTION HEADER HERE.
+ */
+void load_file(dentry_t file) {
+
+    int* init_inode_addr, *inode_addr, *init_data_addr, *data_addr;
+    int bytes_rem, i, inode;
+
+    inode = file.i_node_num;
+
+    // Gets start of inode blocks and data blocks
+    init_inode_addr = (int*)(boot_block_addr + kB);
+    init_data_addr = (int*)(init_inode_addr + num_inode * kB);
+
+    if (inode >= num_inode)
+        return;
+
+    // Gets inode block of file
+    inode_addr = init_inode_addr + (inode * kB);
+
+    bytes_rem = *inode_addr;
+    inode_addr++;
+
+    i = 0;
+
+    // unsigned long *temp;
+    // temp = (unsigned long*)PROGRAM_ADDR;
+    // *temp = 5;
+    while (bytes_rem > 0) {
+        data_addr = init_data_addr + (*inode_addr) * kB;
+        if (bytes_rem > MEM_BLOCK ) {
+            memcpy((void*)(PROGRAM_ADDR + i * MEM_BLOCK),
+                   (const void*)data_addr, MEM_BLOCK);
+            bytes_rem -= MEM_BLOCK;
+        } else {
+            memcpy((void *)(PROGRAM_ADDR + i * MEM_BLOCK),
+                   (const void *)data_addr, bytes_rem);
+            bytes_rem = 0;
+        }
+        inode_addr++; // address of next memory block
+        i++; // index of block to copy to virtual mem
+    }
+
+    return;
+
 }

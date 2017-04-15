@@ -2,18 +2,7 @@
 
 #include "keyboard.h"
 #include "lib.h"
-#define VGA_CONVENTION 2
-#define BUFFER_SIZE  128*VGA_CONVENTION
-#define BUFFER_LIMIT 128
-#define SCREEN_HEIGHT 25
-#define SCREEN_WIDTH 80
-#define MAX_WIDTH_INDEX 79
-#define MAX_HEIGHT_INDEX 24
-#define VGA_MEM 0xB8000
-#define GREEN 2
-#define BLACK 0
-// #define NULL 0x0
-#define SCREEN_AREA SCREEN_WIDTH*SCREEN_HEIGHT*VGA_CONVENTION
+
 unsigned char old_kbd_buffer[BUFFER_LIMIT] = "";
 unsigned char kbd_buffer[BUFFER_LIMIT]; // keyboard buffer of 128 bytes including new line
 unsigned char frame_buffer[SCREEN_AREA];
@@ -288,6 +277,7 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
         //char test[] = "aaaaaaaaaafj;dlsafjkdsfdlksajfkd;safkdjsa;fdjslakfjdsl;afdkjsa;fdjskajfdsa;fkdsajf;dsjafkdjkasjfdkl;afskldjsalfkjdsalfjdkslajflds;ajfldsjafkdjsal;fjdksa;fdjka;fjdksa;jfkldsjaflkdsjaf;dlkafkdjskafjdsalf;dajfklsajfkldjsalkfjsakl;fjsadl;fksajfds;afjkl;sdajfldksjafl;dsakjflsdajflk;dsaflkdsajfkldsa;kdsjakfljdsalfjdsla;fjdklsjafldsajfkldsa;f";
         //terminal_write((const void *)test,(int32_t)strlen(test));
         terminal_open();
+        terminal_write((const void *)PROMPT, (int32_t)7);
         return;
     }
 
@@ -348,7 +338,7 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
 int32_t terminal_read(void* buf, int32_t nbytes){
 
     /* check for valid entry */
-    if(nbytes < 0 || nbytes > BUFFER_LIMIT || buf == NULL)
+    if(nbytes < 0 || buf == NULL)
         return -1;
 
     /* demand new entry from user upon call to read (first case scenario) */
@@ -358,12 +348,13 @@ int32_t terminal_read(void* buf, int32_t nbytes){
     while(OLD_KEYPRESSES == 0);
 
     /* move the kbd buffer over to the given buffer with length min(OLD_KEYPRESSES,nbytes) */
-    memcpy(buf,(const void *)old_kbd_buffer,nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes);
+    memcpy(buf,(const void *)old_kbd_buffer,nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES+1 : nbytes+1);
 
     /* initializes return value */
     int32_t retval = 0;
     retval = nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes;
-
+    ((unsigned char *)buf)[retval] = '\n';
+    retval++;
     /* flush OLD_KEYPRESSES to demand new entry for each read */
     OLD_KEYPRESSES = 0;
 
