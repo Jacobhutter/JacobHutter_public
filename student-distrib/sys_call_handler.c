@@ -20,28 +20,28 @@ int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
 /*////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
 
-static const fops_t file_jump_table = {
+static fops_t file_jump_table = {
     .open = &file_open,
     .close = &file_close,
     .read = &file_read,
     .write = &file_write
 };
 
-static const fops_t dir_jump_table = {
+static fops_t dir_jump_table = {
     .open = &dir_open,
     .close = &dir_close,
     .read = &dir_read,
     .write = &dir_write
 };
 
-static const fops_t stdin_j_table = {
+static fops_t stdin_j_table = {
     .open = &stdio_open,
     .close = &stdio_close,
     .read = &stdin_read,
     .write = &stdin_write
 };
 
-static const fops_t stdout_j_table = {
+static fops_t stdout_j_table = {
     .open = &stdio_open,
     .close = &stdio_close,
     .read = &stdout_read,
@@ -247,7 +247,7 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
     // Gets top of process
     process = (PCB_t *)(regVal & _4Kb_MASK);
 
-    return (process->file_descriptor[fd]).operations.read(fd, buf, nbytes);
+    return (process->file_descriptor[fd]).operations->read(fd, buf, nbytes);
 }
 
 /* int32_t WRITE
@@ -264,7 +264,7 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     // Gets top of process
     process = (PCB_t *)(regVal & _4Kb_MASK);
 
-    return (process->file_descriptor[fd]).operations.write(fd, buf, nbytes);
+    return (process->file_descriptor[fd]).operations->write(fd, buf, nbytes);
 }
 
 /* int32_t OPEN
@@ -304,11 +304,11 @@ int32_t OPEN (const uint8_t* filename) {
         case 0: break; // Need to fix RTC functions
 
         case 1:
-            new_entry.operations = dir_jump_table;
+            new_entry.operations = &dir_jump_table;
             break;
 
         case 2:
-            new_entry.operations = file_jump_table;
+            new_entry.operations = &file_jump_table;
             break;
     }
 
@@ -400,11 +400,11 @@ PCB_t * get_PCB() {
  */
 void init_stdio() {
     stdin.file_position = -1;
-    stdin.operations = stdin_j_table;
+    stdin.operations = &stdin_j_table;
     stdin.flags = IN_USE;
 
     stdout.file_position = -1;
-    stdout.operations = stdout_j_table;
+    stdout.operations = &stdout_j_table;
     stdout.flags = IN_USE;
 
     return;
