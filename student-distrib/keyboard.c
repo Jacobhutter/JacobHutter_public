@@ -8,6 +8,7 @@ unsigned char kbd_buffer[BUFFER_LIMIT]; // keyboard buffer of 128 bytes includin
 unsigned char frame_buffer[SCREEN_AREA];
 unsigned char dummy_buffer[SCREEN_AREA];
 volatile uint32_t KEYPRESSES;
+volatile uint32_t buffer_wait = 0;
 volatile uint32_t OLD_KEYPRESSES;
 volatile uint32_t INTERRUPT_MAP[SCREEN_AREA/2];
 volatile uint8_t SYS_CALL_MAP[SCREEN_WIDTH][SCREEN_HEIGHT];
@@ -132,6 +133,7 @@ put_at_coord(uint8_t c)
         /* when enter is pressed, we need to store our state for terminal read */
         OLD_KEYPRESSES = KEYPRESSES;
         memcpy((void *)old_kbd_buffer,(const void *)kbd_buffer,BUFFER_LIMIT);
+        buffer_wait = 0;
 
         screen_x=0;
         KEYPRESSES = 0; // no keypresses recoreded
@@ -142,10 +144,8 @@ put_at_coord(uint8_t c)
 
 
     if(c == '\b' && KEYPRESSES > 0){
-        if(!SYS_CALL_MAP[screen_x][screen_y]){
-            KEYPRESSES--;
-            kbd_buffer[KEYPRESSES] = ' ';
-        }
+        KEYPRESSES--;
+        kbd_buffer[KEYPRESSES] = ' ';
 
         if(screen_x == 0){
             screen_x = MAX_WIDTH_INDEX;
@@ -345,7 +345,8 @@ int32_t terminal_read(void* buf, int32_t nbytes){
     OLD_KEYPRESSES = 0;
 
     /* wait for user to hit enter */
-    while(OLD_KEYPRESSES == 0);
+    buffer_wait = 1;
+    while(buffer_wait == 1);
 
     /* move the kbd buffer over to the given buffer with length min(OLD_KEYPRESSES,nbytes) */
     memcpy(buf,(const void *)old_kbd_buffer,nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES+1 : nbytes+1);
