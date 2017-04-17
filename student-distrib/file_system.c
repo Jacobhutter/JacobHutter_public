@@ -554,7 +554,12 @@ void printInt(int num) {
 }
 
 /*
- * INSERT FUNCTION HEADER HERE.
+ * check_ELF
+ *   DESCRIPTION: Checks if proccess is exectuable
+ *   INPUTS: feil - File to check
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 if true, -1 if false
+ *   SIDE EFFECTS: none
  */
 int check_ELF(dentry_t file) {
     unsigned char buffer[4];
@@ -571,7 +576,12 @@ int check_ELF(dentry_t file) {
 }
 
 /*
- * INSERT FUNCTION HEADER HERE.
+ * get_start
+ *   DESCRIPTION: Gets starting address of program
+ *   INPUTS: feil - File to check
+ *   OUTPUTS: none
+ *   RETURN VALUE: Program Address
+ *   SIDE EFFECTS: none
  */
 uint32_t get_start(dentry_t file) {
     unsigned char buffer[4];
@@ -590,8 +600,14 @@ uint32_t get_start(dentry_t file) {
     return retval;
 
 }
+
 /*
- * INSERT FUNCTION HEADER HERE.
+ * load_file
+ *   DESCRIPTION: Loads file into memory
+ *   INPUTS: feil - File to check
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
  */
 void load_file(dentry_t file) {
 

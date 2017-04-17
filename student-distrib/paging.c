@@ -82,12 +82,13 @@ void initPaging() {
 }
 
 /*
- * NEED FUNCTION HEADER HERE
- * Gist: Add entry to PD
- * New PD has mapped virtual 128MB to kernel 4MB
+ * load_process
+ *   DESCRIPTION: Called when to change to certain process
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: Process Number
+ *   SIDE EFFECTS: Maps memory for process
  */
-
-
 int32_t load_process() {
 	int i, process_id;
 	unsigned char mask = 0x01;
@@ -333,8 +334,15 @@ int32_t free_gucci(uint8_t process){
 	return 0;
 }
 
-/* TODO: A process un-set function for halt system call. */
-
+/*
+ * unload_process
+ *   DESCRIPTION: Called when to end certain process
+ *   INPUTS: process - process number to end
+ *			 parent_id - parent process
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 if success, -1 if failure
+ *   SIDE EFFECTS: Unloads process
+ */
 int32_t unload_process(uint8_t process, int8_t parent_id) {
 
 
