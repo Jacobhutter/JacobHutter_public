@@ -3,17 +3,15 @@
 #include "keyboard.h"
 #include "lib.h"
 
-unsigned char old_kbd_buffer[BUFFER_LIMIT] = "";
-unsigned char kbd_buffer[BUFFER_LIMIT]; // keyboard buffer of 128 bytes including new line
-unsigned char frame_buffer[SCREEN_AREA];
-unsigned char dummy_buffer[SCREEN_AREA];
-volatile uint32_t KEYPRESSES;
-volatile uint32_t buffer_wait = 0;
-volatile uint32_t OLD_KEYPRESSES;
-volatile uint32_t INTERRUPT_MAP[SCREEN_AREA/2];
-volatile uint8_t SYS_CALL_MAP[SCREEN_WIDTH][SCREEN_HEIGHT];
-volatile uint32_t screen_x;
-volatile uint32_t screen_y;
+static unsigned char old_kbd_buffer[BUFFER_LIMIT] = "";
+static unsigned char kbd_buffer[BUFFER_LIMIT]; // keyboard buffer of 128 bytes including new line
+static unsigned char frame_buffer[SCREEN_AREA];
+static unsigned char dummy_buffer[SCREEN_AREA];
+static volatile uint32_t keypresses = 0;
+static volatile uint32_t buffer_wait = 0;
+static volatile uint32_t old_keypresses = 0;
+static volatile uint32_t screen_x;
+static volatile uint32_t screen_y;
 
 /* void update_cursor(int row, int col)
  * Description: updates cursor to given x and y coordinates, most likely screen_y screen_x
@@ -95,8 +93,6 @@ system_at_coord(uint8_t c)
             screen_x %= SCREEN_WIDTH;
             screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         }
-        if(!SYS_CALL_MAP[screen_x][screen_y])
-            KEYPRESSES--;
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = ' ';
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
     }
@@ -131,21 +127,21 @@ put_at_coord(uint8_t c)
         else
             screen_y++;
         /* when enter is pressed, we need to store our state for terminal read */
-        OLD_KEYPRESSES = KEYPRESSES;
+        old_keypresses = keypresses;
         memcpy((void *)old_kbd_buffer,(const void *)kbd_buffer,BUFFER_LIMIT);
         buffer_wait = 0;
 
         screen_x=0;
-        KEYPRESSES = 0; // no keypresses recoreded
+        keypresses = 0; // no keypresses recoreded
         clear_kbd_buf(); // clear the keyboard buffer
         display_screen();
         return;
     }
 
 
-    if(c == '\b' && KEYPRESSES > 0){
-        KEYPRESSES--;
-        kbd_buffer[KEYPRESSES] = ' ';
+    if(c == '\b' && keypresses > 0){
+        keypresses--;
+        kbd_buffer[keypresses] = ' ';
 
         if(screen_x == 0){
             screen_x = MAX_WIDTH_INDEX;
@@ -170,28 +166,14 @@ put_at_coord(uint8_t c)
         else
             screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         screen_x %= SCREEN_WIDTH;
-        kbd_buffer[KEYPRESSES] = c;
-        KEYPRESSES++;
+        kbd_buffer[keypresses] = c;
+        keypresses++;
 
     }
     return;
 }
 
-/*
- * void clear_SYS_CALL_MAP()
- * DESCRIPTION: clears the map for program to see where system has put entry vs user
- * INPUTS: none
- * OUTPUTS: a cleared(zeroed) sys call map
- * RETURN VALUE: void
- */
-void clear_SYS_CALL_MAP(){
-    int i,j;
-    for(i = 0; i < SCREEN_WIDTH; i++){
-        for(j = 0; j < SCREEN_HEIGHT; j++){
-            SYS_CALL_MAP[i][j] = 0;
-        }
-    }
-}
+
 
 /*
  * void clear_frame_buf()
@@ -236,11 +218,8 @@ void terminal_open() {
     update_cursor(screen_y,screen_x);
 
     /* number of keypresses we have seen */
-    OLD_KEYPRESSES = 0;
-    KEYPRESSES = 0;
-
-    /* lets program know whether a char was placed by user or sys call */
-    clear_SYS_CALL_MAP();
+    old_keypresses = 0;
+    keypresses = 0;
 
     /* clear the keyboard buffer */
     clear_kbd_buf();
@@ -264,7 +243,7 @@ void terminal_open() {
 void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
 
     /* CONTROL SHIFT L seen */
-    if(keypress == '\b' && screen_x == 0 && KEYPRESSES == 0){
+    if(keypress == '\b' && screen_x == 0 && keypresses == 0){
         return;
     }
 
@@ -277,12 +256,12 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
         //char test[] = "aaaaaaaaaafj;dlsafjkdsfdlksajfkd;safkdjsa;fdjslakfjdsl;afdkjsa;fdjskajfdsa;fkdsajf;dsjafkdjkasjfdkl;afskldjsalfkjdsalfjdkslajflds;ajfldsjafkdjsal;fjdksa;fdjka;fjdksa;jfkldsjaflkdsjaf;dlkafkdjskafjdsalf;dajfklsajfkldjsalkfjsakl;fjsadl;fksajfds;afjkl;sdajfldksjafl;dsakjflsdajflk;dsaflkdsajfkldsa;kdsjakfljdsalfjdsla;fjdklsjafldsajfkldsa;f";
         //terminal_write((const void *)test,(int32_t)strlen(test));
         terminal_open();
-        terminal_write((const void *)PROMPT, (int32_t)7);
+        terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
         return;
     }
 
     /* we have hit our 128 keypress limit and next char is not a delete or newline */
-    if(KEYPRESSES == BUFFER_LIMIT && keypress != '\n' && keypress != '\b')
+    if(keypresses == BUFFER_LIMIT && keypress != '\n' && keypress != '\b')
         return;
 
     /* accept keyboard input and write to frame buffer */
@@ -315,7 +294,6 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
 
     /* for each buffer entry up to nbytes, place into frame buffer and mark location as placed by sys call */
     for(i = 0; i < nbytes; i++){
-        SYS_CALL_MAP[screen_x][screen_y] = 1;
         system_at_coord(((unsigned char*)buf)[i]);
         retval++;
     }
@@ -331,9 +309,9 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
 /*
  * terminal_read
  * INPUTS: void * buf, int32_t nbytes
- * OUTPUTS: copies over the smaller of nybtes or OLD_KEYPRESSES to the provided buffer from kbd buffer, not screen
+ * OUTPUTS: copies over the smaller of nybtes or old_keypresses to the provided buffer from kbd buffer, not screen
  * RETURN VALUE: number of bytes read or -1 on failure
- * DESCRIPTION: reads through kbd buffer and writes to given buffer of the smaller of two options and also clears the OLD_KEYPRESSES;
+ * DESCRIPTION: reads through kbd buffer and writes to given buffer of the smaller of two options and also clears the old_keypresses;
  */
 int32_t terminal_read(void* buf, int32_t nbytes){
 
@@ -342,22 +320,22 @@ int32_t terminal_read(void* buf, int32_t nbytes){
         return -1;
 
     /* demand new entry from user upon call to read (first case scenario) */
-    OLD_KEYPRESSES = 0;
+    old_keypresses = 0;
 
     /* wait for user to hit enter */
     buffer_wait = 1;
     while(buffer_wait == 1);
 
-    /* move the kbd buffer over to the given buffer with length min(OLD_KEYPRESSES,nbytes) */
-    memcpy(buf,(const void *)old_kbd_buffer,nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES+1 : nbytes+1);
+    /* move the kbd buffer over to the given buffer with length min(old_keypresses,nbytes) */
+    memcpy(buf,(const void *)old_kbd_buffer,nbytes > old_keypresses? old_keypresses+1 : nbytes+1);
 
     /* initializes return value */
     int32_t retval = 0;
-    retval = nbytes > OLD_KEYPRESSES? OLD_KEYPRESSES : nbytes;
+    retval = nbytes > old_keypresses? old_keypresses : nbytes;
     ((unsigned char *)buf)[retval] = '\n';
     retval++;
-    /* flush OLD_KEYPRESSES to demand new entry for each read */
-    OLD_KEYPRESSES = 0;
+    /* flush old_keypresses to demand new entry for each read */
+    old_keypresses = 0;
 
     return retval;
 }

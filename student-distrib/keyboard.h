@@ -30,5 +30,5 @@ extern void display_screen();
 extern void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON);
 extern int32_t terminal_write(const void* buf, int32_t nbytes);
 extern int32_t terminal_read(void* buf, int32_t nbytes);
-extern void test_terminal();
+//extern void test_terminal();
 #endif /* keyboard_h */
