@@ -325,6 +325,12 @@ oo+::-...................-------...................``.......`...```....---......
  ``````  `            ````````````.........-:::::-........```````````````..`..........````````..-:osyssssssssssssssssoossssssoooooo++o++oooo++++oo++ooo+++++++o++++++++++++/+ooooooooooosssyyysssssssossysyyyyyyhhyyyyyyyyyyyyyyyyyyyyssssssssysooooooo+oo+//++++++/++///////::/:::/:::-::::::::://:///::////+///++//////////////+/////++++++++ooooooossssyyssyyssyysosyhdmNMNNMNNNMNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmmmmmmmmmmmmmmmmNmmmmmmmmmmdddhhyyysso+//::::----------------/ymNMMMMMMMMMMNNNNNNNNNNNNNNNNNNNMd-
 ````````  `        `  ``````````...`....-:/++/-......````````````````````...`.........`````````.-:osysssssssssssssssssoosooooooooo+++ooo++oo+/++++++o+++oo+++++++++o++++++++++oo+++oooosssoosssssssssssssoossyyyyyysyyyyyyyssyyyyyyyyyyysysssssssssoooossoo++ooooo++//++++++++///::////:://///////////++++++++////////+////////////++//++++++oooooooosssssssssyyyyyyyyyhdNMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMNNNNNNNNNNNmmmmddddddhhyyyyyyyyyysssssyhmNMMMMMMMMMMMNNNNNNNNNNNNNNNNNNNMd-
 */
+
+/*int32_t free_gucci
+ * INPUT: a process numer to free
+ * OUTPUT: 0, success
+ * FUNCTION: sets out global mask to free the process that has been halted
+ */
 int32_t free_gucci(uint8_t process){
 	uint8_t mask = 0x01;
 	mask <<= process;
@@ -359,4 +365,3 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 
 	return 0;
 }
-

@@ -578,14 +578,14 @@ int check_ELF(dentry_t file) {
 /*
  * get_start
  *   DESCRIPTION: Gets starting address of program
- *   INPUTS: feil - File to check
+ *   INPUTS: file - File to check
  *   OUTPUTS: none
  *   RETURN VALUE: Program Address
  *   SIDE EFFECTS: none
  */
 uint32_t get_start(dentry_t file) {
     unsigned char buffer[4];
-    read_data(file.i_node_num, 24, buffer, 4);
+    read_data(file.i_node_num, 24, buffer, 4); // 24 is start point of elf start location, 4 is the num bytes we want aka 24-27 bytes
 
     uint32_t retval = *((uint32_t*)buffer);
     /*int i=0;

@@ -368,7 +368,7 @@ int32_t terminal_read(void* buf, int32_t nbytes){
  * RETURN VALUE: void
  * DESCRIPTION: a program to test the effectiveness of terminal driver
  */
-void test_terminal(){
+/*void test_terminal(){
     int t_length = -1;
     unsigned char sol_buf[BUFFER_LIMIT];
     char test_buf[] = "What is your name? \n";
@@ -423,4 +423,4 @@ void test_terminal(){
     }
     memcpy((void *)sol_buf + t_length+26+count, (const void *)" different words to make out of that many letters! \n",50); // 50 is the length of the string
     terminal_write((const void *)sol_buf,t_length+26 + count + 50); // 50 is th length of the above string, 26 is the original string
-}
+}*/

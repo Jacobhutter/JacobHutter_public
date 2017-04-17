@@ -76,7 +76,7 @@ int32_t HALT (uint8_t status) {
     /* get parent using process number */
     parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
 
-    tss.esp0 = _8Mb - (_4Kb * (parent->process_id)) - 4;
+    tss.esp0 = _8Mb - (_4Kb * (parent->process_id)) - 4; // 4 is because last elem is not included 0 -> (N-1)
     asm volatile("movl %0, %%esp   \n\
                   movl %1, %%ebp   \n\
                   movl %2, %%eax   \n\
@@ -132,14 +132,14 @@ int32_t EXECUTE (const uint8_t* command) {
     // Checks if file exists
     if (read_dentry_by_name(to_execute, &file) == -1) {
         terminal_write((const void*) to_execute, end - start);
-        terminal_write(": command not found\n", 20);
+        terminal_write(": command not found\n", 20); // 20 is length of string
         return -1;
     }
 
     // Checks if executable
     if (check_ELF(file) == -1) {
         terminal_write((const void*) to_execute, end - start);
-        terminal_write(": file not executable\n", 22);
+        terminal_write(": file not executable\n", 22); // 22 is length of string
         return -1;
     }
     file_size = get_file_size(file);
@@ -147,7 +147,7 @@ int32_t EXECUTE (const uint8_t* command) {
     /* Sets up new page for process */
     process_num = load_process();
     if (process_num == -1) {
-        terminal_write("Error: Too many processes\n", 26);
+        terminal_write("Error: Too many processes\n", 26); // 26 is length of string
         return -1;
     }
 
@@ -157,7 +157,7 @@ int32_t EXECUTE (const uint8_t* command) {
     parent_PCB = get_PCB();
     parent_num = (unsigned long)parent_PCB;
     parent_num /= _4Kb;
-    parent_num = 255 - parent_num;
+    parent_num = 255 - parent_num; // 255 is int max for 8 bit uinsigned int
 
     /* create new pcb for current task */
     PCB_t * process;
@@ -175,7 +175,7 @@ int32_t EXECUTE (const uint8_t* command) {
 
     process->file_descriptor[0] = stdin;
     process->file_descriptor[1] = stdout;
-    process->mask = 0x3; // show that file_descriptor array has stdin and std out
+    process->mask = 0x3; // show that file_descriptor array has stdin and std out ie 00000011
     process->process_id = process_num; // Sets id
 
     start_point = get_start(file);
@@ -274,7 +274,7 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
  */
 int32_t OPEN (const uint8_t* filename) {
     unsigned long regVal;
-    uint8_t mask = 0x01;
+    uint8_t mask = 0x01; // bitwise mask
     int i, fd;
     PCB_t* process;
     dentry_t file;
