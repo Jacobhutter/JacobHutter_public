@@ -141,7 +141,7 @@ put_at_coord(uint8_t c)
     }
 
 
-    if(c == '\b'){
+    if(c == '\b' && KEYPRESSES > 0){
         if(!SYS_CALL_MAP[screen_x][screen_y]){
             KEYPRESSES--;
             kbd_buffer[KEYPRESSES] = ' ';
@@ -159,7 +159,7 @@ put_at_coord(uint8_t c)
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = ' ';
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
     }
-    else{
+    else if (c != '\b'){
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = c;
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
         screen_x++;

@@ -4,5 +4,3 @@ student-distrib/*.o
 
 
 student-distrib/output.txt
-
-fsdir/output.txt

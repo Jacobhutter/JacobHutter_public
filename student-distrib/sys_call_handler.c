@@ -1,5 +1,4 @@
 #include "sys_call_handler.h"
-
 #define KERNEL_STACK _8Mb
 
 unsigned long init_PCB_addr = _8Mb - _4Kb;
@@ -59,6 +58,11 @@ static const fops_t rtc_jump_table = {
 static file_t stdin;
 static file_t stdout;
 
+/* int32_t HALT
+ * inputs: status, to be expanded to 32 bits and returned to user
+ * output: 0 dummy
+ * function: frees up the process in memory, and resets to parent process
+ */
 int32_t HALT (uint8_t status) {
     PCB_t* process;
     PCB_t* parent;
@@ -66,7 +70,6 @@ int32_t HALT (uint8_t status) {
     process = get_PCB(); // get process to halt
 
 
-    // TODO: Make it restart shell instead
     if(process->parent_process == -1){
        free_gucci(process->process_id); // allows us use id 0 again
        terminal_open();
@@ -91,9 +94,15 @@ int32_t HALT (uint8_t status) {
                  :"%esp","%eax","%ebp"
                 );
 
+
     return 0;
 }
 
+/* int32_t EXECUTE
+ * inputs: a string command to execute an ELF
+ * output: 0 dummy
+ * function: takes name of elf and possible arg, loads program into mem, makes a pcb and travels to ring 3
+ */
 int32_t EXECUTE (const uint8_t* command) {
 
     uint32_t start_point; // = get_start(file);
@@ -229,6 +238,12 @@ int32_t EXECUTE (const uint8_t* command) {
     return 0;
 
 }
+
+/* int32_t READ
+ * inputs: a file descriptor to tell what kind of read, buf to read into, and num bytes to read
+ * output: 0 dummy
+ * function: takes a given pcb and reads using general fd pcb methods
+ */
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
 
     unsigned long regVal;
@@ -241,6 +256,12 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
 
     return (process->file_descriptor[fd]).operations.read(fd, buf, nbytes);
 }
+
+/* int32_t WRITE
+ * inputs: a file descriptor to tell what kind of write, buf to write from, and num bytes to write
+ * output: 0 dummy
+ * function: takes a given pcb and writes using general fd pcb methods
+ */
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     unsigned long regVal;
     PCB_t* process;
@@ -252,6 +273,12 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
 
     return (process->file_descriptor[fd]).operations.write(fd, buf, nbytes);
 }
+
+/* int32_t OPEN
+ * inputs: a filename to open
+ * output: fd of file, -1 on bad
+ * function: takes a given pcb and opens a dentry to get inode
+ */
 int32_t OPEN (const uint8_t* filename) {
     unsigned long regVal;
     uint8_t mask = 0x01;
@@ -302,6 +329,12 @@ int32_t OPEN (const uint8_t* filename) {
 
     return fd;
 }
+
+/* int32_t CLOSE
+ * inputs: a file descriptor to tell what to close
+ * output: 0 dummy
+ * function: gets current pcb and declares it free in our global mask
+ */
 int32_t CLOSE (int32_t fd) {
     PCB_t* process;
     unsigned long regVal;
@@ -319,19 +352,48 @@ int32_t CLOSE (int32_t fd) {
 
     return 0;
 }
+
+/* int32_t GETARGS
+ * inputs:
+ * output:
+ * function:
+ */
 int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
     return 0;
 }
+
+/* int32_t VIDMAP
+ * inputs:
+ * output:
+ * function:
+ */
 int32_t VIDMAP (uint8_t** screen_start) {
     return 0;
 }
+
+/* int32_t SET_HANDLER
+ * inputs:
+ * output:
+ * function:
+ */
 int32_t SET_HANDLER (int32_t signum, void* handler_address) {
     return 0;
 }
+
+/* int32_t SIGRETURN
+ * inputs:
+ * output:
+ * function:
+ */
 int32_t SIGRETURN (void) {
     return 0;
 }
 
+/* PCB_t get_PCB
+ * inputs: none
+ * output: a pointer to the top pcb currently at use
+ * function: looks at the top of the pcb stack and returns the base pointer
+ */
 PCB_t * get_PCB() {
     unsigned long regVal;
 
@@ -342,6 +404,11 @@ PCB_t * get_PCB() {
 
 }
 
+/* init_stdio
+ * inputs: none
+ * outputs: none
+ * function: initializes the rest of the file categories besides fops
+ */
 void init_stdio() {
     stdin.file_position = -1;
     stdin.operations = stdin_j_table;

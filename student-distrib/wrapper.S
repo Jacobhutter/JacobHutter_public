@@ -245,8 +245,15 @@ _SYSTEM_CALL:
     pushl %ecx # push args
     pushl %ebx
 
+    cmpl $10, %eax
+    jg fake_ret
+
+    cmpl $0, %eax
+    jl fake_ret
+
     call *jump_table(,%eax,4) # call jump table entry
-    fake_ret:
+
+fake_ret:
     addl $12,%esp # remove args
 
     popfl
