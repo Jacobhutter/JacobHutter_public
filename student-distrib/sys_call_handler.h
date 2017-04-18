@@ -7,7 +7,7 @@
 #include "lib.h"
 #include "file_system.h"
 #include "paging.h"
-
+#include "rtc.h"
 
 #define TERMINATOR '\0'
 #define SPACE ' '

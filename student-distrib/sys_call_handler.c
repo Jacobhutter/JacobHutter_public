@@ -6,17 +6,17 @@ unsigned long init_PCB_addr = _8Mb - _4Kb;
 /*////////////////////////////////////////////////////////////////////////////*/
                     /* functions for stdio */
 /*////////////////////////////////////////////////////////////////////////////*/
-int32_t stdio_open(const uint8_t * filename){return -1;}
-int32_t stdio_close(int32_t fd){return -1;}
+static int32_t stdio_open(const uint8_t * filename){return 0;}
+static int32_t stdio_close(int32_t fd){return 0;}
 
-int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){
+static int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){
         return terminal_read(buf,nbytes);
 }
-int32_t stdin_write(int32_t fd, const char* buf, int32_t nbytes){return -1;}
-int32_t stdout_write(int32_t fd,const char* buf,int32_t nbytes){
+static int32_t stdin_write(int32_t fd, const char* buf, int32_t nbytes){return -1;}
+static int32_t stdout_write(int32_t fd,const char* buf,int32_t nbytes){
         return terminal_write((const void *)buf,nbytes);
 }
-int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
+static int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
 /*////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
 
@@ -46,6 +46,13 @@ static const fops_t stdout_j_table = {
     .close = &stdio_close,
     .read = &stdout_read,
     .write = &stdout_write
+};
+
+static const fops_t rtc_jump_table = {
+    .open = &rtc_open,
+    .close = &rtc_close,
+    .read = &rtc_read,
+    .write = &rtc_write
 };
 
 static file_t stdin;
@@ -301,7 +308,9 @@ int32_t OPEN (const uint8_t* filename) {
     process->mask |= (mask << fd);
 
     switch (file.file_type) {
-        case 0: break; // Need to fix RTC functions
+        case 0: 
+            new_entry.operations = rtc_jump_table;
+            break;
 
         case 1:
             new_entry.operations = dir_jump_table;
@@ -313,7 +322,7 @@ int32_t OPEN (const uint8_t* filename) {
     }
 
     new_entry.inode = file.i_node_num;
-    new_entry.file_position = 0;
+    new_entry.file_position = new_entry.operations.open(filename);
     new_entry.flags = 0;
 
     process->file_descriptor[fd] = new_entry;
@@ -338,6 +347,8 @@ int32_t CLOSE (int32_t fd) {
 
     // Clears bit at fd
     process->mask &= ~(mask << fd);
+
+    (void)(process->file_descriptor[fd]).operations.close(fd);
 
     return 0;
 }

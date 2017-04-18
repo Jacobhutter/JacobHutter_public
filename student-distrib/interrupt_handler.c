@@ -4,6 +4,8 @@
 
 #include "interrupt_handler.h"
 #include "keyboard.h"
+
+#define MAX_CLOCKS 8
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
 /*
 * keyboard_map()
@@ -128,8 +130,8 @@ unsigned char keyboard_map[3][128] =
     0,	/* All other keys are undefined */
 }};
 
-static volatile int32_t ticks_limit;
-static volatile int32_t rtc_wait_status = 0;
+static volatile int32_t ticks_limit[MAX_CLOCKS] = {0, 0, 0, 0, 0, 0, 0, 0};
+static volatile int32_t rtc_wait_status[MAX_CLOCKS] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 /* DIVIDE_ERROR()
 * INPUTS : NONE
@@ -344,10 +346,33 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 
-/* set_rtc_freq()
- * DESCRIPTION:  Set frequency of RTC clock
+/* init_rtc_freq()
+ * DESCRIPTION:  Obtain a slot in RTC simulation
  *               Error checking is handled in rtc_write()
- * INPUTS:       frequency of emulated RTC
+ * INPUTS:       frequency of emulated RTC to start at
+ * OUTPUTS:      None
+ * RETURNS:      Index of clock allocated to fd; -1 if no slots available
+ * SIDE EFFECTS: Changes the total number of ticks needed to unset
+ *               rtc_wait_status
+ * NOTE:         May be refactored later to allow multiple processes
+ *               to have different RTC frequencies
+ */
+int32_t init_rtc_freq(int32_t freq) {
+    int i;
+    for(i = 0; i < MAX_CLOCKS; i++) {
+        if(ticks_limit[i] == 0) {
+            ticks_limit[i] = RTC_BASE_FREQ / freq;
+            return i;
+        }
+    }
+    return -1;
+}
+
+/* init_rtc_freq()
+ * DESCRIPTION:  Change frequency of an RTC clot
+ * INPUTS:       freq - frequency of emulated RTC to start at
+ *                      if 0, releases RTC slot
+ *               slot - internal slot number to change
  * OUTPUTS:      None
  * RETURNS:      None
  * SIDE EFFECTS: Changes the total number of ticks needed to unset
@@ -355,20 +380,25 @@ void FLOATING_POINT_EXCEPTION() {
  * NOTE:         May be refactored later to allow multiple processes
  *               to have different RTC frequencies
  */
-void set_rtc_freq(int32_t freq) {
-    ticks_limit = RTC_BASE_FREQ / freq;
+void set_rtc_freq(int32_t freq, int32_t slot) {
+    if(freq == 0) {
+        ticks_limit[slot] = 0;
+        rtc_wait_status[slot] = 0;
+    } else {
+        ticks_limit[slot] = RTC_BASE_FREQ / freq;
+    }
 }
 
 /* rtc_wait()
  * DESCRIPTION:  Wait for next RTC interrupt
- * INPUTS:       None
+ * INPUTS:       slot - index of rtc_wait_status to wait for
  * OUTPUTS:      None
  * RETURNS:      None
  * SIDE EFFECTS: Forces caller to wait for RTC interrupt
  */
-void rtc_wait() {
-    rtc_wait_status = 1;
-    while(rtc_wait_status);
+void rtc_wait(unsigned long slot) {
+    rtc_wait_status[slot] = 1;
+    while(rtc_wait_status[slot]);
 }
 
 /* RTC() (Handler)
@@ -384,7 +414,7 @@ void rtc_wait() {
 void RTC() {
     uint32_t reg_c;
     static uint32_t ticks = -1;
-
+    int i;
     // mask only the periodic interrupt bit
     uint32_t period_mask = 0x00000040;
 
@@ -392,12 +422,15 @@ void RTC() {
     reg_c = inb(RTC_DATA);
     if((reg_c & period_mask) != 0) {
         ticks++;
-        if(ticks % ticks_limit == 0) {
-            rtc_wait_status = 0;
+        for(i = 0; i < MAX_CLOCKS; i++) {
+            if(ticks_limit[i] != 0 && ticks % ticks_limit[i] == 0) {
+                rtc_wait_status[i] = 0;
+            }
+            if(ticks >= RTC_BASE_FREQ) {
+                ticks = 0;
+            }
         }
-        if(ticks >= RTC_BASE_FREQ) {
-            ticks = 0;
-        }
+        
     }
 
 }

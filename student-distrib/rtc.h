@@ -10,6 +10,7 @@
 #include "interrupt_handler.h"
 #include "keyboard.h"
 #include "types.h"
+#include "sys_call_handler.h"
 
 #define RTC_IRQ     8
 
@@ -31,10 +32,11 @@
 #define RTC_BASE_FREQ  1024 /* to virtualize RTC */
 #define RTC_INIT_FREQ  2
 
-extern int32_t rtc_open();
-extern int32_t rtc_read();
-extern int32_t rtc_write (int32_t freq);
-extern int32_t rtc_close();
+extern void rtc_init();
+extern int32_t rtc_open(const uint8_t* junk);
+extern int32_t rtc_read(int32_t fd, void *buf, int32_t bytes);
+extern int32_t rtc_write (int32_t fd, const char* buf, int32_t nbytes);
+extern int32_t rtc_close(int32_t fd);
 extern void test_rtc();
 
 #endif

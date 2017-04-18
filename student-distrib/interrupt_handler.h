@@ -45,7 +45,8 @@ extern void RTC();
 extern void KEYBOARD();
 extern void SYSTEM_CALL();
 
-extern void set_rtc_freq(int32_t freq);
-extern void rtc_wait();
+extern int32_t init_rtc_freq(int32_t freq);
+extern void set_rtc_freq(int32_t freq, int32_t slot);
+extern void rtc_wait(unsigned long slot);
 
 #endif /* interrupt_handler_h */
