@@ -48,7 +48,7 @@ static fops_t stdout_j_table = {
     .write = &stdout_write
 };
 
-static const fops_t rtc_jump_table = {
+static fops_t rtc_jump_table = {
     .open = &rtc_open,
     .close = &rtc_close,
     .read = &rtc_read,
@@ -309,7 +309,7 @@ int32_t OPEN (const uint8_t* filename) {
 
     switch (file.file_type) {
         case 0: 
-            new_entry.operations = rtc_jump_table;
+            new_entry.operations = &rtc_jump_table;
             break;
 
         case 1:
@@ -322,7 +322,7 @@ int32_t OPEN (const uint8_t* filename) {
     }
 
     new_entry.inode = file.i_node_num;
-    new_entry.file_position = new_entry.operations.open(filename);
+    new_entry.file_position = new_entry.operations->open(filename);
     new_entry.flags = 0;
 
     process->file_descriptor[fd] = new_entry;
@@ -348,7 +348,7 @@ int32_t CLOSE (int32_t fd) {
     // Clears bit at fd
     process->mask &= ~(mask << fd);
 
-    (void)(process->file_descriptor[fd]).operations.close(fd);
+    (void)(process->file_descriptor[fd]).operations->close(fd);
 
     return 0;
 }
