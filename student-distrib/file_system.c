@@ -410,6 +410,8 @@ int check_string(const uint8_t* s1, uint8_t* s2) {
     int i;
     int length = (strlen((const int8_t*)s1) > MAX_NAME) ? MAX_NAME : strlen((const int8_t*)s1);
 
+    if (strlen((const int8_t*)s1) != strlen((const int8_t*)s2))
+        return 0;
     // Runs through string to see if equal
     for (i = 0; i < length; i++) {
         if (s1[i] == '%') return 1;
