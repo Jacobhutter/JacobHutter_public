@@ -80,10 +80,13 @@ char intToChar(int a);
 /* Print integer to console */
 void printInt(int num);
 
+/* Checks if proccess is exectuable */
 int check_ELF(dentry_t);
 
+/* Gets starting address of program */
 uint32_t get_start(dentry_t);
 
+/* Loads file into memory */
 void load_file(dentry_t);
 
 #endif /* FILE_SYSTEM_H */

@@ -30,7 +30,7 @@ typedef struct fops{
 } fops_t;
 
 typedef struct file {
-	fops_t operations;
+	fops_t *operations;
 	int inode;
 	unsigned long file_position;
 	unsigned long flags;
@@ -48,9 +48,10 @@ typedef struct PCB {
 /* global pcb */
 PCB_t * cur_process;
 
+/* looks at the top of the pcb stack and returns the base pointer */
 PCB_t * get_PCB();
 
+/* initializes the rest of the file categories besides fops */
 void init_stdio();
-
 
 #endif

@@ -227,8 +227,8 @@ _KEYBOARD:
   iret
 /*
 *_SYSTEM_CALL:
-* routes program to c function, pushes all register
-*
+* routes program to c function, pushes all register, error checks
+* 
 */
 _SYSTEM_CALL:
 

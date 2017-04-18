@@ -410,6 +410,8 @@ int check_string(const uint8_t* s1, uint8_t* s2) {
     int i;
     int length = (strlen((const int8_t*)s1) > MAX_NAME) ? MAX_NAME : strlen((const int8_t*)s1);
 
+    if (strlen((const int8_t*)s1) != strlen((const int8_t*)s2))
+        return 0;
     // Runs through string to see if equal
     for (i = 0; i < length; i++) {
         if (s1[i] == '%') return 1;
@@ -565,7 +567,12 @@ void printInt(int num) {
 }
 
 /*
- * INSERT FUNCTION HEADER HERE.
+ * check_ELF
+ *   DESCRIPTION: Checks if proccess is exectuable
+ *   INPUTS: feil - File to check
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 if true, -1 if false
+ *   SIDE EFFECTS: none
  */
 int check_ELF(dentry_t file) {
     unsigned char buffer[4];
@@ -582,11 +589,16 @@ int check_ELF(dentry_t file) {
 }
 
 /*
- * INSERT FUNCTION HEADER HERE.
+ * get_start
+ *   DESCRIPTION: Gets starting address of program
+ *   INPUTS: file - File to check
+ *   OUTPUTS: none
+ *   RETURN VALUE: Program Address
+ *   SIDE EFFECTS: none
  */
 uint32_t get_start(dentry_t file) {
     unsigned char buffer[4];
-    read_data(file.i_node_num, 24, buffer, 4);
+    read_data(file.i_node_num, 24, buffer, 4); // 24 is start point of elf start location, 4 is the num bytes we want aka 24-27 bytes
 
     uint32_t retval = *((uint32_t*)buffer);
     /*int i=0;
@@ -601,8 +613,14 @@ uint32_t get_start(dentry_t file) {
     return retval;
 
 }
+
 /*
- * INSERT FUNCTION HEADER HERE.
+ * load_file
+ *   DESCRIPTION: Loads file into memory
+ *   INPUTS: feil - File to check
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
  */
 void load_file(dentry_t file) {
 

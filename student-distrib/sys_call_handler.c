@@ -20,35 +20,35 @@ static int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
 /*////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
 
-static const fops_t file_jump_table = {
+static fops_t file_jump_table = {
     .open = &file_open,
     .close = &file_close,
     .read = &file_read,
     .write = &file_write
 };
 
-static const fops_t dir_jump_table = {
+static fops_t dir_jump_table = {
     .open = &dir_open,
     .close = &dir_close,
     .read = &dir_read,
     .write = &dir_write
 };
 
-static const fops_t stdin_j_table = {
+static fops_t stdin_j_table = {
     .open = &stdio_open,
     .close = &stdio_close,
     .read = &stdin_read,
     .write = &stdin_write
 };
 
-static const fops_t stdout_j_table = {
+static fops_t stdout_j_table = {
     .open = &stdio_open,
     .close = &stdio_close,
     .read = &stdout_read,
     .write = &stdout_write
 };
 
-static const fops_t rtc_jump_table = {
+static fops_t rtc_jump_table = {
     .open = &rtc_open,
     .close = &rtc_close,
     .read = &rtc_read,
@@ -83,7 +83,7 @@ int32_t HALT (uint8_t status) {
     /* get parent using process number */
     parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
 
-    tss.esp0 = _8Mb - (_4Kb * (parent->process_id)) - 4;
+    tss.esp0 = _8Mb - (_4Kb * (parent->process_id)) - 4; // 4 is because last elem is not included 0 -> (N-1)
     asm volatile("movl %0, %%esp   \n\
                   movl %1, %%ebp   \n\
                   movl %2, %%eax   \n\
@@ -139,14 +139,14 @@ int32_t EXECUTE (const uint8_t* command) {
     // Checks if file exists
     if (read_dentry_by_name(to_execute, &file) == -1) {
         terminal_write((const void*) to_execute, end - start);
-        terminal_write(": command not found\n", 20);
+        terminal_write(": command not found\n", 20); // 20 is length of string
         return -1;
     }
 
     // Checks if executable
     if (check_ELF(file) == -1) {
         terminal_write((const void*) to_execute, end - start);
-        terminal_write(": file not executable\n", 22);
+        terminal_write(": file not executable\n", 22); // 22 is length of string
         return -1;
     }
     file_size = get_file_size(file);
@@ -154,7 +154,7 @@ int32_t EXECUTE (const uint8_t* command) {
     /* Sets up new page for process */
     process_num = load_process();
     if (process_num == -1) {
-        terminal_write("Error: Too many processes\n", 26);
+        terminal_write("Error: Too many processes\n", 26); // 26 is length of string
         return -1;
     }
 
@@ -164,7 +164,7 @@ int32_t EXECUTE (const uint8_t* command) {
     parent_PCB = get_PCB();
     parent_num = (unsigned long)parent_PCB;
     parent_num /= _4Kb;
-    parent_num = 255 - parent_num;
+    parent_num = 255 - parent_num; // 255 is int max for 8 bit uinsigned int
 
     /* create new pcb for current task */
     PCB_t * process;
@@ -182,7 +182,7 @@ int32_t EXECUTE (const uint8_t* command) {
 
     process->file_descriptor[0] = stdin;
     process->file_descriptor[1] = stdout;
-    process->mask = 0x3; // show that file_descriptor array has stdin and std out
+    process->mask = 0x3; // show that file_descriptor array has stdin and std out ie 00000011
     process->process_id = process_num; // Sets id
 
     start_point = get_start(file);
@@ -254,7 +254,7 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
     // Gets top of process
     process = (PCB_t *)(regVal & _4Kb_MASK);
 
-    return (process->file_descriptor[fd]).operations.read(fd, buf, nbytes);
+    return (process->file_descriptor[fd]).operations->read(fd, buf, nbytes);
 }
 
 /* int32_t WRITE
@@ -271,7 +271,7 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     // Gets top of process
     process = (PCB_t *)(regVal & _4Kb_MASK);
 
-    return (process->file_descriptor[fd]).operations.write(fd, buf, nbytes);
+    return (process->file_descriptor[fd]).operations->write(fd, buf, nbytes);
 }
 
 /* int32_t OPEN
@@ -281,7 +281,7 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
  */
 int32_t OPEN (const uint8_t* filename) {
     unsigned long regVal;
-    uint8_t mask = 0x01;
+    uint8_t mask = 0x01; // bitwise mask
     int i, fd;
     PCB_t* process;
     dentry_t file;
@@ -309,20 +309,20 @@ int32_t OPEN (const uint8_t* filename) {
 
     switch (file.file_type) {
         case 0: 
-            new_entry.operations = rtc_jump_table;
+            new_entry.operations = &rtc_jump_table;
             break;
 
         case 1:
-            new_entry.operations = dir_jump_table;
+            new_entry.operations = &dir_jump_table;
             break;
 
         case 2:
-            new_entry.operations = file_jump_table;
+            new_entry.operations = &file_jump_table;
             break;
     }
 
     new_entry.inode = file.i_node_num;
-    new_entry.file_position = new_entry.operations.open(filename);
+    new_entry.file_position = new_entry.operations->open(filename);
     new_entry.flags = 0;
 
     process->file_descriptor[fd] = new_entry;
@@ -348,7 +348,7 @@ int32_t CLOSE (int32_t fd) {
     // Clears bit at fd
     process->mask &= ~(mask << fd);
 
-    (void)(process->file_descriptor[fd]).operations.close(fd);
+    (void)(process->file_descriptor[fd]).operations->close(fd);
 
     return 0;
 }
@@ -411,11 +411,11 @@ PCB_t * get_PCB() {
  */
 void init_stdio() {
     stdin.file_position = -1;
-    stdin.operations = stdin_j_table;
+    stdin.operations = &stdin_j_table;
     stdin.flags = IN_USE;
 
     stdout.file_position = -1;
-    stdout.operations = stdout_j_table;
+    stdout.operations = &stdout_j_table;
     stdout.flags = IN_USE;
 
     return;
