@@ -281,7 +281,12 @@ int32_t EXECUTE (const uint8_t* command) {
  */
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
 
-    return (get_PCB()->file_descriptor[fd]).operations->read(fd, buf, nbytes);
+    PCB_t* process = get_PCB();
+
+    if (process->file_descriptor[fd].flags != IN_USE)
+        return -1;
+
+    return (process->file_descriptor[fd]).operations->read(fd, buf, nbytes);
 }
 
 /* int32_t WRITE
@@ -291,7 +296,12 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
  */
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
 
-    return (get_PCB()->file_descriptor[fd]).operations->write(fd, buf, nbytes);
+    PCB_t* process = get_PCB();
+
+    if (process->file_descriptor[fd].flags != IN_USE)
+        return -1;
+
+    return (process->file_descriptor[fd]).operations->write(fd, buf, nbytes);
 }
 
 /* int32_t OPEN
@@ -343,7 +353,7 @@ int32_t OPEN (const uint8_t* filename) {
 
     new_entry.inode = file.i_node_num;
     new_entry.file_position = new_entry.operations->open(filename);
-    new_entry.flags = 0;
+    new_entry.flags = IN_USE;
 
     process->file_descriptor[fd] = new_entry;
 
@@ -367,6 +377,9 @@ int32_t CLOSE (int32_t fd) {
 
     // Clears bit at fd
     process->mask &= ~(mask << fd);
+
+    // Marks not in use
+    process->file_descriptor[fd].flags = 0;
 
     (void)(process->file_descriptor[fd]).operations->close(fd);
 
