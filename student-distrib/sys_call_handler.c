@@ -310,7 +310,6 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
  * function: takes a given pcb and opens a dentry to get inode
  */
 int32_t OPEN (const uint8_t* filename) {
-    unsigned long regVal;
     uint8_t mask = 0x01; // bitwise mask
     int i, fd;
     PCB_t* process;
@@ -320,10 +319,7 @@ int32_t OPEN (const uint8_t* filename) {
     if (read_dentry_by_name(filename, &file) == -1)
         return -1;
 
-    // Gets top of process stack
-    asm("movl %%esp, %0;" : "=r" (regVal) : );
-    // Gets top of process
-    process = (PCB_t *)(regVal & _4Kb_MASK);
+    process = get_PCB();
 
     for (i = 0; i < 8; i++) {
         if ((process->mask & (mask << i)) == 0)
@@ -367,13 +363,9 @@ int32_t OPEN (const uint8_t* filename) {
  */
 int32_t CLOSE (int32_t fd) {
     PCB_t* process;
-    unsigned long regVal;
     uint8_t mask = 0x01;
 
-    // Gets top of process stack
-    asm("movl %%esp, %0;" : "=r" (regVal) : );
-    // Gets top of process
-    process = (PCB_t *)(regVal & _4Kb_MASK);
+    process = get_PCB();
 
     // Clears bit at fd
     process->mask &= ~(mask << fd);
