@@ -249,7 +249,7 @@ _SYSTEM_CALL:
     jg fake_ret
 
     cmpl $0, %eax
-    jl fake_ret
+    jle fake_ret
 
     call *jump_table(,%eax,4) # call jump table entry
 

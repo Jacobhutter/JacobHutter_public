@@ -107,7 +107,7 @@ int32_t EXECUTE (const uint8_t* command) {
 
     uint32_t start_point; // = get_start(file);
     uint32_t user_stack; // = _128Mb + _4Mb; //
-    uint8_t to_execute[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
+    uint8_t cpy_buffer[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
     int8_t *start_exe, *end_exe, *start_args, *end_args;
     int32_t len_exe, len_args;
     dentry_t file;
@@ -129,25 +129,36 @@ int32_t EXECUTE (const uint8_t* command) {
     end_exe = strchr(start_exe, SPACE);
 
     len_exe = end_exe - start_exe;
-    memcpy((void*)to_execute, (const void*)start_exe, len_exe);
+    memcpy((void*)cpy_buffer, (const void*)start_exe, len_exe);
 
-    to_execute[len_exe] = TERMINATOR;
+    cpy_buffer[len_exe] = TERMINATOR;
 
 
     // Checks if file exists
-    if (read_dentry_by_name(to_execute, &file) == -1) {
-        terminal_write((const void*) to_execute, len_exe);
+    if (read_dentry_by_name(cpy_buffer, &file) == -1) {
+        terminal_write((const void*) cpy_buffer, len_exe);
         terminal_write(": command not found\n", 20); // 20 is length of string
         return -1;
     }
 
     // Checks if executable
     if (check_ELF(file) == -1) {
-        terminal_write((const void*) to_execute, len_exe);
+        terminal_write((const void*) cpy_buffer, len_exe);
         terminal_write(": file not executable\n", 22); // 22 is length of string
         return -1;
     }
     file_size = get_file_size(file);
+
+    /* parse the arguments */
+    start_args = end_exe;
+    start_args = strxchr(start_args, SPACE);
+    
+    end_args = strchr(start_args, TERMINATOR);
+
+    len_args = end_args - start_args;
+    memcpy((void*)cpy_buffer, (const void*)start_args, len_args);
+
+    cpy_buffer[len_args] = TERMINATOR;
 
     /* Sets up new page for process */
     process_num = load_process();
@@ -181,16 +192,7 @@ int32_t EXECUTE (const uint8_t* command) {
     process->file_descriptor[1] = stdout;
     process->mask = 0x3; // show that file_descriptor array has stdin and std out ie 00000011
     process->process_id = process_num; // Sets id
-
-    /* parse the arguments */
-    start_args = end_exe;
-    start_args = strxchr(start_args, SPACE);
-    
-    end_args = strchr(start_args, TERMINATOR);
-
-    len_args = end_args - start_args;
-    memcpy((void*)(process->args), (const void*)start_args, len_args);
-
+    memcpy((void*)(process->args), (const void*)cpy_buffer, len_args);
     process->args[len_args] = TERMINATOR;
 
     start_point = get_start(file);
