@@ -152,7 +152,7 @@ int32_t EXECUTE (const uint8_t* command) {
     /* parse the arguments */
     start_args = end_exe;
     start_args = strxchr(start_args, SPACE);
-    
+
     end_args = strchr(start_args, TERMINATOR);
 
     len_args = end_args - start_args;
@@ -196,7 +196,7 @@ int32_t EXECUTE (const uint8_t* command) {
     process->args[len_args] = TERMINATOR;
 
     start_point = get_start(file);
-    user_stack = _128Mb + _4Mb; //print 
+    user_stack = _128Mb + _4Mb; //print
 
     /* put current esp and ebp into the pcb and tss*/
     asm volatile ("movl %%esp, %0  \n\
@@ -303,7 +303,7 @@ int32_t OPEN (const uint8_t* filename) {
     process->mask |= (mask << fd);
 
     switch (file.file_type) {
-        case 0: 
+        case 0:
             new_entry.operations = &rtc_jump_table;
             break;
 
@@ -364,10 +364,28 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
  * output:
  * function:
  */
+ #define VIDMAP_LOC _128Mb + _8Mb
 int32_t VIDMAP (uint8_t** screen_start) {
-    return -1;
-}
+    /* check to see if start is within user program image */
+    if(screen_start < (uint8_t **)_128Mb){ // before program image start
+        //terminal_write("flag1",5);
+        return -1;
+    }
+    if(screen_start > (uint8_t **)(_128Mb + _4Mb-4)){ // after program image start
+        //terminal_write("flag2",5);
+        return -1;
+    }
 
+    /* we built the page for user access to vid memory in kernel.c */
+    *screen_start = (uint8_t *)VIDMAP_LOC;
+
+    /* http://wiki.osdev.org/Printing_To_Screen */
+
+    // program image is _8Mb so map video mem at 128 + 8 mb = _136MB
+
+     return VIDMAP_LOC;
+
+}
 /* int32_t SET_HANDLER
  * inputs:
  * output:
