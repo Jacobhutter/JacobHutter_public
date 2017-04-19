@@ -123,6 +123,7 @@ extern int32_t GETARGS(uint8_t* buf, int32_t nbytes);
 extern int32_t VIDMAP(uint8_t** screen_start);
 extern int32_t SET_HANDLER(int32_t signum, void* handler_address);
 extern int32_t SIGRETURN(void);
+extern int32_t color(void);
 extern void * EXCEPTION_TABLE();
 extern void _DIVIDE_ERROR();
 extern void _RESERVED();

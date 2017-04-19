@@ -12,7 +12,28 @@ static volatile uint32_t buffer_wait = 0;
 static volatile uint32_t old_keypresses = 0;
 static volatile uint32_t screen_x;
 static volatile uint32_t screen_y;
+static volatile uint8_t TEXT_C = GREEN;
 
+
+
+
+void change_color(int new_c){
+    switch(new_c){
+        case 0:
+            TEXT_C = 4;
+            break;
+        case 1:
+            TEXT_C = 1;
+            break;
+        case 2:
+            TEXT_C = 2;
+            break;
+        default:
+            break;
+    }
+
+
+}
 /* void update_cursor(int row, int col)
  * Description: updates cursor to given x and y coordinates, most likely screen_y screen_x
  * by Dark Fiber
@@ -56,7 +77,7 @@ void scroll(){
         if(i%2 == 0)
             dummy_buffer[i] = ' ';
         else
-            dummy_buffer[i] = GREEN;
+            dummy_buffer[i] = TEXT_C;
     }
 
     memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
@@ -94,11 +115,11 @@ system_at_coord(uint8_t c)
             screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         }
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = ' ';
-        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = TEXT_C;
     }
     else{
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = c;
-        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = TEXT_C;
         screen_x++;
         if(screen_x == SCREEN_WIDTH && screen_y == MAX_HEIGHT_INDEX){
             scroll();
@@ -153,11 +174,11 @@ put_at_coord(uint8_t c)
             screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         }
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = ' ';
-        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = TEXT_C;
     }
     else if (c != '\b'){
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = c;
-        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = TEXT_C;
         screen_x++;
         if(screen_x == SCREEN_WIDTH && screen_y == MAX_HEIGHT_INDEX){
             scroll();
@@ -188,7 +209,7 @@ void clear_frame_buf(){
         if(i%2 == 0)
             frame_buffer[i] = ' ';
         else
-            frame_buffer[i] = GREEN;
+            frame_buffer[i] = TEXT_C;
     }
 }
 

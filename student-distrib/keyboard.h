@@ -25,6 +25,7 @@
 #define SCREEN_AREA SCREEN_WIDTH*SCREEN_HEIGHT*VGA_CONVENTION
 
 /* initializes the keyboard driver */
+extern void change_color(int new_c);
 extern void terminal_open();
 extern void display_screen();
 extern void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON);

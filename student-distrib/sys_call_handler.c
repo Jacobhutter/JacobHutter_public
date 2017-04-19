@@ -58,6 +58,23 @@ static fops_t rtc_jump_table = {
 static file_t stdin;
 static file_t stdout;
 
+
+int32_t color(){
+    unsigned char buf[1];
+    int response;
+    terminal_write("ENTER DESIRED TEXT COLOR:\n",26);
+    terminal_write("0: WHITE\n",9);
+    terminal_write("1: BLUE\n",8);
+    terminal_write("2: GREEN\n",9);
+    terminal_read((void *)buf,1);
+    response = buf[0] - '0';
+    if(response > 2 || response < 0){
+        terminal_write("not a color\n",12);
+        return 0;
+    }
+    change_color(response);
+    return 0;
+}
 /* int32_t HALT
  * inputs: status, to be expanded to 32 bits and returned to user
  * output: 0 dummy
@@ -132,7 +149,10 @@ int32_t EXECUTE (const uint8_t* command) {
     memcpy((void*)cpy_buffer, (const void*)start_exe, len_exe);
 
     cpy_buffer[len_exe] = TERMINATOR;
-
+    if(strncmp((const int8_t *)cpy_buffer,(const int8_t *)"color",5) == 0){
+        color();
+        return 0;
+    }
 
     // Checks if file exists
     if (read_dentry_by_name(cpy_buffer, &file) == -1) {
@@ -159,6 +179,7 @@ int32_t EXECUTE (const uint8_t* command) {
     memcpy((void*)cpy_buffer, (const void*)start_args, len_args);
 
     cpy_buffer[len_args] = TERMINATOR;
+
 
     /* Sets up new page for process */
     process_num = load_process();
