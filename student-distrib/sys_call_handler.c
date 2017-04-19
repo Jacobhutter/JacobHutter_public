@@ -62,13 +62,17 @@ static file_t stdout;
 int32_t color(){
     unsigned char buf[1];
     int response;
-    terminal_write("ENTER DESIRED TEXT COLOR:\n",26);
-    terminal_write("0: WHITE\n",9);
+    terminal_write("0: RED\n",7);
     terminal_write("1: BLUE\n",8);
     terminal_write("2: GREEN\n",9);
+    terminal_write("3: PURPLE\n",10);
+    terminal_write("4: ORANGE\n",10);
+    terminal_write("5: WHITE\n",9);
+    terminal_write("6: RAINBOW\n",11);
+    terminal_write("ENTER DESIRED TEXT COLOR: ",26);
     terminal_read((void *)buf,1);
     response = buf[0] - '0';
-    if(response > 2 || response < 0){
+    if(response > 6 || response < 0){
         terminal_write("not a color\n",12);
         return 0;
     }
