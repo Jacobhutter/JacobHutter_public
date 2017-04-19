@@ -4,19 +4,19 @@
 unsigned long init_PCB_addr = _8Mb - _4Kb;
 
 /*////////////////////////////////////////////////////////////////////////////*/
-                    /* functions for stdio */
+/* functions for stdio */
 /*////////////////////////////////////////////////////////////////////////////*/
-static int32_t stdio_open(const uint8_t * filename){return 0;}
-static int32_t stdio_close(int32_t fd){return 0;}
+static int32_t stdio_open(const uint8_t * filename) {return 0;}
+static int32_t stdio_close(int32_t fd) {return 0;}
 
-static int32_t stdin_read(int32_t fd,void * buf,int32_t nbytes){
-        return terminal_read(buf,nbytes);
+static int32_t stdin_read(int32_t fd, void * buf, int32_t nbytes) {
+    return terminal_read(buf, nbytes);
 }
-static int32_t stdin_write(int32_t fd, const char* buf, int32_t nbytes){return -1;}
-static int32_t stdout_write(int32_t fd,const char* buf,int32_t nbytes){
-        return terminal_write((const void *)buf,nbytes);
+static int32_t stdin_write(int32_t fd, const char* buf, int32_t nbytes) {return -1;}
+static int32_t stdout_write(int32_t fd, const char* buf, int32_t nbytes) {
+    return terminal_write((const void *)buf, nbytes);
 }
-static int32_t stdout_read(int32_t fd,void * buf,int32_t nbytes){return -1;}
+static int32_t stdout_read(int32_t fd, void * buf, int32_t nbytes) {return -1;}
 /*////////////////////////////////////////////////////////////////////////////*/
 /*////////////////////////////////////////////////////////////////////////////*/
 
@@ -59,21 +59,21 @@ static file_t stdin;
 static file_t stdout;
 
 
-int32_t color(){
+int32_t color() {
     unsigned char buf[1];
     int response;
-    terminal_write("0: RED\n",7);
-    terminal_write("1: BLUE\n",8);
-    terminal_write("2: GREEN\n",9);
-    terminal_write("3: PURPLE\n",10);
-    terminal_write("4: ORANGE\n",10);
-    terminal_write("5: WHITE\n",9);
-    terminal_write("6: RAINBOW\n",11);
-    terminal_write("ENTER DESIRED TEXT COLOR: ",26);
-    terminal_read((void *)buf,1);
+    terminal_write("0: RED\n", 7);
+    terminal_write("1: BLUE\n", 8);
+    terminal_write("2: GREEN\n", 9);
+    terminal_write("3: PURPLE\n", 10);
+    terminal_write("4: ORANGE\n", 10);
+    terminal_write("5: WHITE\n", 9);
+    terminal_write("6: RAINBOW\n", 11);
+    terminal_write("ENTER DESIRED TEXT COLOR: ", 26);
+    terminal_read((void *)buf, 1);
     response = buf[0] - '0';
-    if(response > 6 || response < 0){
-        terminal_write("not a color\n",12);
+    if (response > 6 || response < 0) {
+        terminal_write("not a color\n", 12);
         return 0;
     }
     change_color(response);
@@ -91,11 +91,11 @@ int32_t HALT (uint8_t status) {
     process = get_PCB(); // get process to halt
 
 
-    if(process->parent_process == -1){
-       free_gucci(process->process_id); // allows us use id 0 again
-       terminal_open();
-       EXECUTE((const uint8_t *)"shell");
-       return 0;
+    if (process->parent_process == -1) {
+        free_gucci(process->process_id); // allows us use id 0 again
+        terminal_open();
+        EXECUTE((const uint8_t *)"shell");
+        return 0;
     }
 
     /* switch pages to parent process */
@@ -112,7 +112,7 @@ int32_t HALT (uint8_t status) {
                  "
                  : /*no outputs*/
                  :"r" (process->esp_holder), "r"(process->ebp_holder), "r"((int32_t)status)
-                 :"%esp","%eax","%ebp"
+                 :"%esp", "%eax", "%ebp"
                 );
 
 
@@ -144,7 +144,7 @@ int32_t EXECUTE (const uint8_t* command) {
     /* parse the executable file */
     start_exe = (int8_t*)command;
     start_exe = strxchr(start_exe, SPACE);
-    if(*start_exe == TERMINATOR)
+    if (*start_exe == TERMINATOR)
         return -1;
 
     end_exe = strchr(start_exe, SPACE);
@@ -153,7 +153,7 @@ int32_t EXECUTE (const uint8_t* command) {
     memcpy((void*)cpy_buffer, (const void*)start_exe, len_exe);
 
     cpy_buffer[len_exe] = TERMINATOR;
-    if(strncmp((const int8_t *)cpy_buffer,(const int8_t *)"color",5) == 0){
+    if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"color", 5) == 0) {
         color();
         return 0;
     }
@@ -208,7 +208,7 @@ int32_t EXECUTE (const uint8_t* command) {
     process = (PCB_t *)PCB_addr;
 
     // head process
-    if(process_num == 0)
+    if (process_num == 0)
         process->parent_process = -1; // this is parent_process so say -1
     else
         process->parent_process = (int8_t)parent_num; // say shell is the parent
@@ -227,7 +227,7 @@ int32_t EXECUTE (const uint8_t* command) {
     asm volatile ("movl %%esp, %0  \n\
                    movl %%ebp, %1  \n\
                   "
-                 :"=r" (process->esp_holder),"=r" (process->ebp_holder)
+                  :"=r" (process->esp_holder), "=r" (process->ebp_holder)
                  );
 
     tss.esp0 = _8Mb - (_4Kb * (process_num)) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
@@ -235,19 +235,19 @@ int32_t EXECUTE (const uint8_t* command) {
 
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
 
-   /*
-    * according to intel manual:
-    * IRET stack for privelage level switches:
-    * SS(stack segment) -> 2B is user data segment
-    * ESP(start of stack for user program) -> program image starts at 0x08048000,128mb plus 4mb pls 8 kb, so stack should start there?
-    * EFLAGS -> remove from stack and alter to ensure trap flag is set saying we are in a user sys call, trap flag waits for int flag
-    * CS -> user code segment 0x23
-    * EIP -> from ELF
-    * iret
-    */
+    /*
+     * according to intel manual:
+     * IRET stack for privelage level switches:
+     * SS(stack segment) -> 2B is user data segment
+     * ESP(start of stack for user program) -> program image starts at 0x08048000,128mb plus 4mb pls 8 kb, so stack should start there?
+     * EFLAGS -> remove from stack and alter to ensure trap flag is set saying we are in a user sys call, trap flag waits for int flag
+     * CS -> user code segment 0x23
+     * EIP -> from ELF
+     * iret
+     */
 
     asm volatile(
-                  "cli             \n\
+        "cli             \n\
                   movw $0x2B, %%ax \n\
                   movw %%ax, %%ds  \n\
                   push $0x2B       \n\
@@ -260,15 +260,15 @@ int32_t EXECUTE (const uint8_t* command) {
                   push %0          \n\
                   iret             \n\
                   "
-                  :
-                  : "r" (start_point), "r"(user_stack)
-                  : "%eax","%edx"
-                 );
+        :
+        : "r" (start_point), "r"(user_stack)
+        : "%eax", "%edx"
+    );
     asm volatile("halt_child:   \n\
                   leave         \n\
                   ret           \n\
                   "
-                 );
+                );
 
     return 0;
 
@@ -282,6 +282,10 @@ int32_t EXECUTE (const uint8_t* command) {
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
 
     PCB_t* process = get_PCB();
+
+    // Invalide fd
+    if (fd < 0 || fd > 7)
+        return -1;
 
     if (process->file_descriptor[fd].flags != IN_USE)
         return -1;
@@ -297,6 +301,10 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
 
     PCB_t* process = get_PCB();
+
+    // Invalide fd
+    if (fd < 0 || fd > 7)
+        return -1;
 
     if (process->file_descriptor[fd].flags != IN_USE)
         return -1;
@@ -334,17 +342,17 @@ int32_t OPEN (const uint8_t* filename) {
     process->mask |= (mask << fd);
 
     switch (file.file_type) {
-        case 0:
-            new_entry.operations = &rtc_jump_table;
-            break;
+    case 0:
+        new_entry.operations = &rtc_jump_table;
+        break;
 
-        case 1:
-            new_entry.operations = &dir_jump_table;
-            break;
+    case 1:
+        new_entry.operations = &dir_jump_table;
+        break;
 
-        case 2:
-            new_entry.operations = &file_jump_table;
-            break;
+    case 2:
+        new_entry.operations = &file_jump_table;
+        break;
     }
 
     new_entry.inode = file.i_node_num;
@@ -366,6 +374,13 @@ int32_t CLOSE (int32_t fd) {
     uint8_t mask = 0x01;
 
     process = get_PCB();
+
+    // Invalide fd
+    if (fd < 3 || fd > 7)
+        return -1;
+
+    if (process->file_descriptor[fd].flags != IN_USE)
+        return -1;
 
     // Clears bit at fd
     process->mask &= ~(mask << fd);
@@ -394,14 +409,14 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
  * output:
  * function:
  */
- #define VIDMAP_LOC _128Mb + _8Mb
+#define VIDMAP_LOC _128Mb + _8Mb
 int32_t VIDMAP (uint8_t** screen_start) {
     /* check to see if start is within user program image */
-    if(screen_start < (uint8_t **)_128Mb){ // before program image start
+    if (screen_start < (uint8_t **)_128Mb) { // before program image start
         //terminal_write("flag1",5);
         return -1;
     }
-    if(screen_start > (uint8_t **)(_128Mb + _4Mb-4)){ // after program image start
+    if (screen_start > (uint8_t **)(_128Mb + _4Mb - 4)) { // after program image start
         //terminal_write("flag2",5);
         return -1;
     }
@@ -413,7 +428,7 @@ int32_t VIDMAP (uint8_t** screen_start) {
 
     // program image is _8Mb so map video mem at 128 + 8 mb = _136MB
 
-     return VIDMAP_LOC;
+    return VIDMAP_LOC;
 
 }
 /* int32_t SET_HANDLER
