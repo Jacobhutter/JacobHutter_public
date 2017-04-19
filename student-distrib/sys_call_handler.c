@@ -256,15 +256,7 @@ int32_t EXECUTE (const uint8_t* command) {
  */
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
 
-    unsigned long regVal;
-    PCB_t* process;
-
-    // Gets top of process stack
-    asm("movl %%esp, %0;" : "=r" (regVal) : );
-    // Gets top of process
-    process = (PCB_t *)(regVal & _4Kb_MASK);
-
-    return (process->file_descriptor[fd]).operations->read(fd, buf, nbytes);
+    return (get_PCB()->file_descriptor[fd]).operations->read(fd, buf, nbytes);
 }
 
 /* int32_t WRITE
@@ -273,15 +265,8 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
  * function: takes a given pcb and writes using general fd pcb methods
  */
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
-    unsigned long regVal;
-    PCB_t* process;
 
-    // Gets top of process stack
-    asm("movl %%esp, %0;" : "=r" (regVal) : );
-    // Gets top of process
-    process = (PCB_t *)(regVal & _4Kb_MASK);
-
-    return (process->file_descriptor[fd]).operations->write(fd, buf, nbytes);
+    return (get_PCB()->file_descriptor[fd]).operations->write(fd, buf, nbytes);
 }
 
 /* int32_t OPEN

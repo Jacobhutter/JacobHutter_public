@@ -19,16 +19,13 @@
 #define RW_ENABLE 0x02
 #define USER_ENABLE 0x04
 
-#define MAX_PROCESS 2
+#define MAX_PROCESS 6
 
 // Alligns page directory to 4kB
 static unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
 
 // Alligns page table to 4kB
 static unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
-
-// static unsigned int process0_pd[kB] __attribute__((aligned(4 * kB)));
-// static unsigned int process1_pd[kB] __attribute__((aligned(4 * kB)));
 
 static unsigned char process_mask = 0; // No processes running at boot time
 
