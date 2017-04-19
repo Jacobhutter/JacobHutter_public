@@ -246,12 +246,16 @@ _SYSTEM_CALL:
     pushl %ebx
 
     cmpl $10, %eax
-    jg fake_ret
+    jg sys_call_error
 
     cmpl $0, %eax
-    jle fake_ret
+    jle sys_call_error
 
     call *jump_table(,%eax,4) # call jump table entry
+    jmp fake_ret
+
+sys_call_error:
+  movl $-1, %eax
 
 fake_ret:
     addl $12,%esp # remove args

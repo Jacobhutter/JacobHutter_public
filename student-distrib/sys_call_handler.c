@@ -87,8 +87,13 @@ int32_t color() {
 int32_t HALT (uint8_t status) {
     PCB_t* process;
     PCB_t* parent;
+    int i;
 
     process = get_PCB(); // get process to halt
+
+    for (i = 2; i < 8; i++)
+        CLOSE(i);
+
 
 
     if (process->parent_process == -1) {
@@ -376,7 +381,7 @@ int32_t CLOSE (int32_t fd) {
     process = get_PCB();
 
     // Invalide fd
-    if (fd < 3 || fd > 7)
+    if (fd < 2 || fd > 7)
         return -1;
 
     if (process->file_descriptor[fd].flags != IN_USE)
