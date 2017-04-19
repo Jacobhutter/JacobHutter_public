@@ -108,8 +108,8 @@ int32_t EXECUTE (const uint8_t* command) {
     uint32_t start_point; // = get_start(file);
     uint32_t user_stack; // = _128Mb + _4Mb; //
     uint8_t to_execute[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
-    uint8_t* start = (uint8_t *)command;
-    uint8_t* end;
+    int8_t *start_exe, *end_exe, *start_args, *end_args;
+    int32_t len_exe, len_args;
     dentry_t file;
     unsigned long file_size, PCB_addr, parent_num;
     int process_num;
@@ -120,32 +120,30 @@ int32_t EXECUTE (const uint8_t* command) {
     if (command == NULL)
         return -1;
 
-    /* seperate out command vs args */
-    while (*start != TERMINATOR && *start == SPACE)
-        start++;
-
-    if (*start == TERMINATOR)
+    /* parse the executable file */
+    start_exe = (int8_t*)command;
+    start_exe = strxchr(start_exe, SPACE);
+    if(*start_exe == TERMINATOR)
         return -1;
 
-    end = start;
+    end_exe = strchr(start_exe, SPACE);
 
-    while (*end != TERMINATOR && *end != SPACE)
-        end++;
+    len_exe = end_exe - start_exe;
+    memcpy((void*)to_execute, (const void*)start_exe, len_exe);
 
-    memcpy((void*)to_execute, (const void*)command, end - start);
+    to_execute[len_exe] = TERMINATOR;
 
-    to_execute[end - start] = TERMINATOR;
 
     // Checks if file exists
     if (read_dentry_by_name(to_execute, &file) == -1) {
-        terminal_write((const void*) to_execute, end - start);
+        terminal_write((const void*) to_execute, len_exe);
         terminal_write(": command not found\n", 20); // 20 is length of string
         return -1;
     }
 
     // Checks if executable
     if (check_ELF(file) == -1) {
-        terminal_write((const void*) to_execute, end - start);
+        terminal_write((const void*) to_execute, len_exe);
         terminal_write(": file not executable\n", 22); // 22 is length of string
         return -1;
     }
@@ -169,7 +167,6 @@ int32_t EXECUTE (const uint8_t* command) {
     /* create new pcb for current task */
     PCB_t * process;
 
-
     // Gets address to place PCB for current process
     PCB_addr = init_PCB_addr - (_4Kb * process_num);
     process = (PCB_t *)PCB_addr;
@@ -185,8 +182,19 @@ int32_t EXECUTE (const uint8_t* command) {
     process->mask = 0x3; // show that file_descriptor array has stdin and std out ie 00000011
     process->process_id = process_num; // Sets id
 
+    /* parse the arguments */
+    start_args = end_exe;
+    start_args = strxchr(start_args, SPACE);
+    
+    end_args = strchr(start_args, TERMINATOR);
+
+    len_args = end_args - start_args;
+    memcpy((void*)(process->args), (const void*)start_args, len_args);
+
+    process->args[len_args] = TERMINATOR;
+
     start_point = get_start(file);
-    user_stack = _128Mb + _4Mb; //
+    user_stack = _128Mb + _4Mb; //print 
 
     /* put current esp and ebp into the pcb and tss*/
     asm volatile ("movl %%esp, %0  \n\
@@ -359,6 +367,8 @@ int32_t CLOSE (int32_t fd) {
  * function:
  */
 int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
+    PCB_t* process = get_PCB();
+    (void)strncpy((int8_t*)buf, (const int8_t*)(process->args), nbytes);
     return 0;
 }
 
@@ -368,7 +378,7 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
  * function:
  */
 int32_t VIDMAP (uint8_t** screen_start) {
-    return 0;
+    return -1;
 }
 
 /* int32_t SET_HANDLER
@@ -377,7 +387,7 @@ int32_t VIDMAP (uint8_t** screen_start) {
  * function:
  */
 int32_t SET_HANDLER (int32_t signum, void* handler_address) {
-    return 0;
+    return -1;
 }
 
 /* int32_t SIGRETURN
@@ -386,7 +396,7 @@ int32_t SET_HANDLER (int32_t signum, void* handler_address) {
  * function:
  */
 int32_t SIGRETURN (void) {
-    return 0;
+    return -1;
 }
 
 /* PCB_t get_PCB

@@ -476,6 +476,46 @@ memmove(void* dest, const void* src, uint32_t n)
 }
 
 /*
+ * int8_t* strchr(int8_t* str, int8_t character)
+ *   Inputs: int8_t* str = string to search
+ *           int8_t character = character to search for
+ *   Return Value: Pointer to character that matches search query
+ *                 If no character is found, pointer will be set
+ *                     to the null terminator at end of string
+ *                 If pointer is null, function returns null
+ *   Function: searches a string for the first occurrence of a character
+ */
+int8_t*
+strchr(int8_t* str, int8_t character)
+{
+	if(str == NULL) return NULL;
+	int8_t* cur = str;
+	while(*cur != '\0' && *cur != character)
+		cur++;
+	return cur;
+}
+
+/*
+ * int8_t* strxchr(int8_t* str, int8_t character)
+ *   Inputs: int8_t* str = string to search
+ *           int8_t character = character to search against
+ *   Return Value: Pointer to character that does not match search query
+ *                 If no character is found, pointer will be set
+ *                     to the null terminator at end of string
+ *                 If pointer is null, function returns null
+ *   Function: searches a string for the first NON-occurrence of a character
+ */
+int8_t*
+strxchr(int8_t* str, int8_t character)
+{
+	if(str == NULL) return NULL;
+	int8_t* cur = str;
+	while(*cur != '\0' && *cur == character)
+		cur++;
+	return cur;
+}
+
+/*
 * int32_t strncmp(const int8_t* s1, const int8_t* s2, uint32_t n)
 *   Inputs: const int8_t* s1 = first string to compare
 *			const int8_t* s2 = second string to compare
