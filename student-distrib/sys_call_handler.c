@@ -91,7 +91,8 @@ int32_t HALT (uint8_t status) {
 
     process = get_PCB(); // get process to halt
 
-    for (i = 2; i < 8; i++)
+    // Closes all the files
+    for (i = 2; i < MAX_FILES; i++)
         CLOSE(i);
 
 
@@ -289,7 +290,7 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
     PCB_t* process = get_PCB();
 
     // Invalide fd
-    if (fd < 0 || fd > 7)
+    if (fd < 0 || fd > MAX_FILES - 1)
         return -1;
 
     if (process->file_descriptor[fd].flags != IN_USE)
@@ -308,7 +309,7 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     PCB_t* process = get_PCB();
 
     // Invalide fd
-    if (fd < 0 || fd > 7)
+    if (fd < 0 || fd > MAX_FILES - 1)
         return -1;
 
     if (process->file_descriptor[fd].flags != IN_USE)
@@ -334,11 +335,11 @@ int32_t OPEN (const uint8_t* filename) {
 
     process = get_PCB();
 
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < MAX_FILES; i++) {
         if ((process->mask & (mask << i)) == 0)
             break;
         // All files in use
-        if (i == 7)
+        if (i == MAX_FILES - 1)
             return -1;
     }
     fd = i;
@@ -381,7 +382,7 @@ int32_t CLOSE (int32_t fd) {
     process = get_PCB();
 
     // Invalide fd
-    if (fd < 2 || fd > 7)
+    if (fd < 2 || fd > MAX_FILES - 1)
         return -1;
 
     if (process->file_descriptor[fd].flags != IN_USE)

@@ -22,6 +22,8 @@
 #define IN_USE 1
 #define _4Kb_MASK 0xFFFFF000
 
+#define MAX_FILES 8
+
 typedef struct fops{
 	int32_t (* open)(const uint8_t *);
 	int32_t (* close)(int32_t);
