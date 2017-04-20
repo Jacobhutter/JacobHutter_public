@@ -8,9 +8,14 @@ AH = A';
 AAH = A*AH;
 AHA = AH*A;
 
-e1 = eig(AAH);
-e2 = eig(AHA);
+[V1,D1,W1] = eig(AAH);
+[V2,D2,W2] = eig(AHA);
 
-B = svd(A)
-e1 
-e2
+[U3,S3,V3] = svd(A);
+
+V1
+V2
+W1
+W2
+U3
+V3
