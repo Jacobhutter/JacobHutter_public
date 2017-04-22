@@ -22,14 +22,24 @@ void rtc_init() {
 	enable_irq(RTC_IRQ);
 }
 
+/* rtc_open(const uint8_t* junk)
+ * DESCRIPTION:  Allocates new RTC clock for file descriptor
+ * INPUTS:       junk - filename (but not needed for function)
+ * OUTPUTS:      Index of RTC clock to store into file_position
+ * RETURNS:      None
+ * SIDE EFFECTS: Consumes one available RTC clock
+ *
+ */
+
 int32_t rtc_open(const uint8_t* junk)
 {
 	return init_rtc_freq(RTC_INIT_FREQ);
 }
 
-/* rtc_read() - WRITE FUNCTION HEADER HERE
+/* rtc_read(int32_t fd, void *buf, int32_t bytes)
  * DESCRIPTION:  Pauses for the next RTC clock tick
- * INPUTS:       None
+ * INPUTS:       fd - file descriptor to obtain index to examine for ticks
+ *               buf, bytes - junk that don't do anything
  * OUTPUTS:      None
  * RETURNS:      Zero, to guarantee success
  * SIDE EFFECTS: Forces caller to wait for next clock tick
@@ -46,10 +56,11 @@ int32_t rtc_read(int32_t fd, void *buf, int32_t bytes) {
 	return 0;
 }
 
-/* rtc_write() - WRITE FUNCTION HEADER HERE
+/* rtc_write(int32_t fd, const char* buf, int32_t nbytes)
  * DESCRIPTION:  Sets RTC clock frequency for process
- * INPUTS:       freq - RTC frequency, must be a power of two
- *                      between 2 and 1024 Hz, inclusive
+ * INPUTS:       fd - file descriptor to obtain index to examine for ticks
+ *               buf - region in memory that holds frequency to set RTC
+ *               nbytes - size of memory, in bytes, that contains frequency
  * OUTPUTS:      None
  * RETURNS:      Zero, if freq is valid; -1 else
  * SIDE EFFECTS: Changes RTC clock frequency
@@ -74,7 +85,7 @@ int32_t rtc_write(int32_t fd, const char* buf, int32_t nbytes) {
 	}
 }
 
-/* rtc_close()
+/* rtc_close(int32_t fd)
  * DESCRIPTION:  De-allocates the slot given to the file descriptor
  * INPUTS:       fd - file descriptor
  * OUTPUTS:      None

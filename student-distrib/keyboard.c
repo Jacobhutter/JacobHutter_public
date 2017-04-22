@@ -308,6 +308,10 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
     if(keypresses == BUFFER_LIMIT && keypress != '\n' && keypress != '\b')
         return;
 
+    /* user is not requesting keyboard strokes - must reject */
+    if(buffer_wait == 0)
+        return;
+
     /* accept keyboard input and write to frame buffer */
     put_at_coord(keypress);
     if(RAINBOW){

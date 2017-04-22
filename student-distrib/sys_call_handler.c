@@ -212,6 +212,7 @@ int32_t EXECUTE (const uint8_t* command) {
     // Gets address to place PCB for current process
     PCB_addr = init_PCB_addr - (_4Kb * process_num);
     process = (PCB_t *)PCB_addr;
+    cur_process = process;
 
     // head process
     if (process_num == 0)
@@ -286,17 +287,15 @@ int32_t EXECUTE (const uint8_t* command) {
  * function: takes a given pcb and reads using general fd pcb methods
  */
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
-
-    PCB_t* process = get_PCB();
-
-    // Invalide fd
+    
+    // Invalid fd
     if (fd < 0 || fd > MAX_FILES - 1)
         return -1;
 
-    if (process->file_descriptor[fd].flags != IN_USE)
+    if (cur_process->file_descriptor[fd].flags != IN_USE)
         return -1;
 
-    return (process->file_descriptor[fd]).operations->read(fd, buf, nbytes);
+    return (cur_process->file_descriptor[fd]).operations->read(fd, buf, nbytes);
 }
 
 /* int32_t WRITE
@@ -306,16 +305,14 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
  */
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
 
-    PCB_t* process = get_PCB();
-
-    // Invalide fd
+    // Invalid fd
     if (fd < 0 || fd > MAX_FILES - 1)
         return -1;
 
-    if (process->file_descriptor[fd].flags != IN_USE)
+    if (cur_process->file_descriptor[fd].flags != IN_USE)
         return -1;
 
-    return (process->file_descriptor[fd]).operations->write(fd, buf, nbytes);
+    return (cur_process->file_descriptor[fd]).operations->write(fd, buf, nbytes);
 }
 
 /* int32_t OPEN
