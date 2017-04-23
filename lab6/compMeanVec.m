@@ -1,10 +1,10 @@
 function [ Y ] = compMeanVec( X )
-
-sum = zeros(1,4800);
-for i=1:165
+[height,width] = size(X);
+sum = zeros(1,width);
+for i=1:height
     sum = sum + X(i,:);
 end
-sum = sum/165;
+sum = sum/height;
 Y = sum;
 end
 

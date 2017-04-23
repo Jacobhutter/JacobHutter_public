@@ -1,21 +1,15 @@
 clear all;
 clc;
-A = [1,4,-2
-     3,11,5
-     7,7,7];
+A = [1,4,-2; 3,11,5; 7,7,7];
 AH = A';
-
-AAH = A*AH;
 AHA = AH*A;
+AAH = A*AH;
 
-[V1,D1,W1] = eig(AAH);
-[V2,D2,W2] = eig(AHA);
+[V1,D1] = eig(AAH);
+[V2,D2] = eig(AHA);
 
 [U3,S3,V3] = svd(A);
 
-V1
-V2
-W1
-W2
-U3
-V3
+A*AH*U3 - U3*S3^2 % formula given, gives zero matrix
+
+AH*A*V3 - V3*S3^2 % zero matrix returned
