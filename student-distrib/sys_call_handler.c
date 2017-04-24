@@ -58,7 +58,11 @@ static fops_t rtc_jump_table = {
 static file_t stdin;
 static file_t stdout;
 
-
+/* int32_t color
+ * inputs: none
+ * output: 0 on success, -1 on failure
+ * function: changes terminal text color
+ */
 int32_t color() {
     unsigned char buf[1];
     int response;
@@ -397,9 +401,10 @@ int32_t CLOSE (int32_t fd) {
 }
 
 /* int32_t GETARGS
- * inputs:
- * output:
- * function:
+ * inputs: buf - buffer to copy
+ *         nbytes - amount of bytes to read
+ * output: 0 on success, -1 on failure
+ * function: gets arguments of input
  */
 int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
     PCB_t* process = get_PCB();
@@ -408,9 +413,9 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
 }
 
 /* int32_t VIDMAP
- * inputs:
- * output:
- * function:
+ * inputs: screen_start - where to write 
+ * output: 0 on success, -1 on failure
+ * function: allows user to write to vidmem
  */
 #define VIDMAP_LOC _128Mb + _8Mb
 int32_t VIDMAP (uint8_t** screen_start) {

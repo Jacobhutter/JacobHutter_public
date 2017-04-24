@@ -367,6 +367,15 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 }
 
 #define VID_MEM 0xB8000
+
+/*
+ * vid_page
+ *   DESCRIPTION: Makes page for vidoe mem
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 if success, -1 if failure
+ *   SIDE EFFECTS: none
+ */
 int32_t vid_page(){
 
 	// we know we want 136 Mb so that is entry 136 / 4
