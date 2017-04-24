@@ -16,20 +16,16 @@ A = imread('noisy_face.png');
 A = im2double(A); % convert integer precision to double precision for mean
 A = reshape(A,[1,4800]);
 
-A_hat = A - Ux;
-A_pca =  A_hat * U';
-figure;
-imagesc(reshape(A_pca,[60,80]));
-colormap gray;
+% start of PCA transform
+A_pca = PCAtransform(Ux,U,A);
+% end of PCA transform
+
+A_pca(1,100:4800) = 0; % limit noise
 
 %%%%%%%%%%%%obtained pca version%%%%%%%%%%%%%
-A_pca = reshape(A_pca,[1,4800]);
-A_hat = A_pca - Ux;
-A_orig = U*A_pca' + Ux';
+%start of inv PCA transform
+A_orig = invPCAtransform(Ux,U,A_pca);
+%end of inv PCA transform
 figure;
 imagesc(reshape(A_orig,[60,80]));
 colormap gray
-
-
-
-
