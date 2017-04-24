@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  23 APR 2017 23:16
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  24 APR 2017 00:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -174,12 +174,14 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 42.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 46.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 46.
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 ) (./report1.m
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 1.
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 8.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
@@ -191,177 +193,168 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
 <report1_1.jpg, id=1, 585.18625pt x 438.63875pt>
 File: report1_1.jpg Graphic file (type jpg)
  <use report1_1.jpg>
-Package pdftex.def Info: report1_1.jpg used on input line 46.
+Package pdftex.def Info: report1_1.jpg used on input line 49.
 (pdftex.def)             Requested size: 292.5924pt x 219.31883pt.
 
 <report1_2.jpg, id=2, 562.1pt x 421.575pt>
 File: report1_2.jpg Graphic file (type jpg)
  <use report1_2.jpg>
-Package pdftex.def Info: report1_2.jpg used on input line 47.
+Package pdftex.def Info: report1_2.jpg used on input line 53.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 46--48
-[]
- []
-
-
-LaTeX Warning: Float too large for page by 111.84991pt on input line 48.
-
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 51.
-(./report2.m) <report3_1.jpg, id=3, 417.56pt x 298.11375pt>
+ (./report2.m)
+<report3_1.jpg, id=3, 417.56pt x 298.11375pt>
 File: report3_1.jpg Graphic file (type jpg)
-
-<use report3_1.jpg>
-Package pdftex.def Info: report3_1.jpg used on input line 59.
+ <use report3_1.jpg>
+Package pdftex.def Info: report3_1.jpg used on input line 71.
 (pdftex.def)             Requested size: 208.77948pt x 149.0565pt.
- (./report4.m)
-<report4_1.jpg, id=5, 585.18625pt x 438.63875pt>
+ (./report4.m) <report4_1.jpg, id=5, 585.18625pt x 438.63875pt>
 File: report4_1.jpg Graphic file (type jpg)
  <use report4_1.jpg>
-Package pdftex.def Info: report4_1.jpg used on input line 64.
+Package pdftex.def Info: report4_1.jpg used on input line 83.
 (pdftex.def)             Requested size: 234.07034pt x 175.45238pt.
 
 <report4_2.jpg, id=6, 585.18625pt x 438.63875pt>
 File: report4_2.jpg Graphic file (type jpg)
  <use report4_2.jpg>
-Package pdftex.def Info: report4_2.jpg used on input line 65.
+Package pdftex.def Info: report4_2.jpg used on input line 84.
 (pdftex.def)             Requested size: 234.07034pt x 175.45238pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--66
-[]
+Underfull \hbox (badness 10000) in paragraph at lines 83--87
+[][]
  []
-
-
-LaTeX Warning: Float too large for page by 80.14879pt on input line 66.
 
 (./report5.m) <report5_1.jpg, id=7, 585.18625pt x 438.63875pt>
 File: report5_1.jpg Graphic file (type jpg)
 
 <use report5_1.jpg>
-Package pdftex.def Info: report5_1.jpg used on input line 70.
+Package pdftex.def Info: report5_1.jpg used on input line 94.
 (pdftex.def)             Requested size: 292.5924pt x 219.31883pt.
  (./report6.m) (./compMeanVec.m)
 <report6_1.jpg, id=8, 585.18625pt x 438.63875pt>
 File: report6_1.jpg Graphic file (type jpg)
  <use report6_1.jpg>
-Package pdftex.def Info: report6_1.jpg used on input line 77.
+Package pdftex.def Info: report6_1.jpg used on input line 105.
 (pdftex.def)             Requested size: 292.5924pt x 219.31883pt.
 
 (./report7.m) <report7_eig.jpg, id=9, 562.1pt x 421.575pt>
 File: report7_eig.jpg Graphic file (type jpg)
 
 <use report7_eig.jpg>
-Package pdftex.def Info: report7_eig.jpg used on input line 85.
+Package pdftex.def Info: report7_eig.jpg used on input line 117.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
  <report7_1.jpg, id=10, 1124.2pt x 843.15pt>
 File: report7_1.jpg Graphic file (type jpg)
 
 <use report7_1.jpg>
-Package pdftex.def Info: report7_1.jpg used on input line 90.
+Package pdftex.def Info: report7_1.jpg used on input line 123.
 (pdftex.def)             Requested size: 449.67204pt x 337.25401pt.
  <report7_2.jpg, id=11, 1124.2pt x 843.15pt>
 File: report7_2.jpg Graphic file (type jpg)
 
 <use report7_2.jpg>
-Package pdftex.def Info: report7_2.jpg used on input line 91.
+Package pdftex.def Info: report7_2.jpg used on input line 124.
 (pdftex.def)             Requested size: 449.67204pt x 337.25401pt.
 
-Overfull \hbox (104.67204pt too wide) in paragraph at lines 90--92
+Overfull \hbox (104.67204pt too wide) in paragraph at lines 123--125
 [][]
  []
 
 
-Overfull \hbox (104.67204pt too wide) in paragraph at lines 90--92
+Overfull \hbox (104.67204pt too wide) in paragraph at lines 123--125
 [] 
  []
 
 
-LaTeX Warning: Float too large for page by 125.50803pt on input line 92.
+LaTeX Warning: Float too large for page by 125.50803pt on input line 125.
 
 <report7_3.jpg, id=12, 1124.2pt x 843.15pt>
 File: report7_3.jpg Graphic file (type jpg)
  <use report7_3.jpg>
-Package pdftex.def Info: report7_3.jpg used on input line 95.
+Package pdftex.def Info: report7_3.jpg used on input line 128.
 (pdftex.def)             Requested size: 449.67204pt x 337.25401pt.
 
 <report7_4.jpg, id=13, 1124.2pt x 843.15pt>
 File: report7_4.jpg Graphic file (type jpg)
  <use report7_4.jpg>
-Package pdftex.def Info: report7_4.jpg used on input line 96.
+Package pdftex.def Info: report7_4.jpg used on input line 129.
 (pdftex.def)             Requested size: 449.67204pt x 337.25401pt.
 
-Overfull \hbox (104.67204pt too wide) in paragraph at lines 95--97
+Overfull \hbox (104.67204pt too wide) in paragraph at lines 128--131
 [][]
  []
 
 
-Overfull \hbox (104.67204pt too wide) in paragraph at lines 95--97
+Overfull \hbox (104.67204pt too wide) in paragraph at lines 128--131
 [] 
  []
 
 
-LaTeX Warning: Float too large for page by 125.50803pt on input line 97.
+LaTeX Warning: Float too large for page by 139.45247pt on input line 131.
 
 <report7_5.jpg, id=14, 1124.2pt x 843.15pt>
 File: report7_5.jpg Graphic file (type jpg)
  <use report7_5.jpg>
-Package pdftex.def Info: report7_5.jpg used on input line 100.
+Package pdftex.def Info: report7_5.jpg used on input line 134.
 (pdftex.def)             Requested size: 449.67204pt x 337.25401pt.
 
 <report7_6.jpg, id=15, 1124.2pt x 843.15pt>
 File: report7_6.jpg Graphic file (type jpg)
  <use report7_6.jpg>
-Package pdftex.def Info: report7_6.jpg used on input line 101.
+Package pdftex.def Info: report7_6.jpg used on input line 135.
 (pdftex.def)             Requested size: 449.67204pt x 337.25401pt.
 
-Overfull \hbox (104.67204pt too wide) in paragraph at lines 100--102
+Overfull \hbox (104.67204pt too wide) in paragraph at lines 134--137
 [][]
  []
 
 
-Overfull \hbox (104.67204pt too wide) in paragraph at lines 100--102
+Overfull \hbox (104.67204pt too wide) in paragraph at lines 134--137
 [] 
  []
 
 
-LaTeX Warning: Float too large for page by 125.50803pt on input line 102.
+LaTeX Warning: Float too large for page by 149.50803pt on input line 137.
 
 (./PCAtransform.m) (./invPCAtransform.m) (./report8.m)
 <report8.jpg, id=16, 562.1pt x 421.575pt>
 File: report8.jpg Graphic file (type jpg)
  <use report8.jpg>
-Package pdftex.def Info: report8.jpg used on input line 111.
+Package pdftex.def Info: report8.jpg used on input line 153.
 (pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
- [1
+
+
+LaTeX Warning: Float too large for page by 8.99203pt on input line 154.
+
+[1
 
 {/usr/share/texlive/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2 <./report1_1.
-jpg> <./report1_2.jpg>] [3 <./report3_1.jpg>] [4 <./report4_1.jpg> <./report4_2
-.jpg>] [5 <./report5_1.jpg>] [6 <./report6_1.jpg>] [7] [8 <./report7_eig.jpg>] 
-[9 <./report7_1.jpg> <./report7_2.jpg>] [10 <./report7_3.jpg> <./report7_4.jpg>
-] [11 <./report7_5.jpg> <./report7_6.jpg>] [12] [13 <./report8.jpg>] (./jhutter
-2.aux) ) 
+jpg>] [3 <./report1_2.jpg>] [4 <./report3_1.jpg>] [5] [6 <./report4_1.jpg> <./r
+eport4_2.jpg>] [7 <./report5_1.jpg>] [8 <./report6_1.jpg>] [9] [10 <./report7_e
+ig.jpg>] [11 <./report7_1.jpg> <./report7_2.jpg>] [12 <./report7_3.jpg> <./repo
+rt7_4.jpg>] [13 <./report7_5.jpg> <./report7_6.jpg>] [14] [15 <./report8.jpg>] 
+(./jhutter2.aux) ) 
 Here is how much of TeX's memory you used:
- 3488 strings out of 495063
- 48731 string characters out of 3182201
- 642744 words of memory out of 3000000
- 6612 multiletter control sequences out of 15000+200000
- 6675 words of font info for 24 fonts, out of 3000000 for 9000
+ 3490 strings out of 495063
+ 48752 string characters out of 3182201
+ 646777 words of memory out of 3000000
+ 6613 multiletter control sequences out of 15000+200000
+ 6983 words of font info for 25 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,7n,39p,234b,1852s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmsy8.pfb>
-Output written on jhutter2.pdf (13 pages, 729553 bytes).
+ 38i,7n,39p,234b,1862s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy8.pfb>
+Output written on jhutter2.pdf (15 pages, 747387 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 59 compressed objects within 1 object stream
+ 110 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  76 words of extra memory for PDF output out of 10000 (max. 10000000)
 
