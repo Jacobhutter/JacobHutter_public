@@ -183,6 +183,9 @@ entry (unsigned long magic, unsigned long addr)
     /*initialize paging */
     initPaging();
 
+    /*set up user level page for vid map*/
+    vid_page();
+
     /* initializing file system */
     init_file_system((unsigned long *)bb);
 

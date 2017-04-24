@@ -64,7 +64,7 @@ int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
     for (i = 0; i < dir_entries; i++) {
 
         // If the names are equal, copy and return
-        if (check_string(fname, (uint8_t*)curr)) {
+        if (strncmp((int8_t*)fname, (int8_t*)curr, MAX_NAME) == 0) {
             *dentry = *curr;
             return 0;
         }
@@ -116,13 +116,13 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
     int* init_inode_addr, *inode_addr;
     char* init_data_addr, *data_addr;
     int block_length, data_num, min, i, j, k;
-    int data_offset;
+    int block_offset, init_offset;
 
     // Gets offset of data block
-    data_offset = offset / MEM_BLOCK;
+    block_offset = offset / MEM_BLOCK;
 
-    // Gets offset of where to read in memeory
-    offset %= MEM_BLOCK;
+    // Gets offset of where to read inside the first block
+    init_offset = offset % MEM_BLOCK;
 
     // Gets start of inode blocks and data blocks
     init_inode_addr = (int*)(boot_block_addr + kB);
@@ -134,8 +134,8 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
     // Gets inode block
     inode_addr = init_inode_addr + (inode * kB);
 
-    // Gets length of block
-    block_length = *inode_addr;
+    // Gets length of block remaining to read
+    block_length = *inode_addr - offset;
 
     // Idk if needed, come back later
     min = (length > block_length) ? block_length : length;
@@ -144,25 +144,25 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length
     i = 0;
     k = 1;
     // Runs until read all blocks
-    while (i < length) {
+    while (i < min) {
         // Gets the data block number
-        data_num = *(inode_addr + k + data_offset);
+        data_num = *(inode_addr + k + block_offset);
         // Checks for invalid data
         if (data_num >= data_blocks)
             return i; // Returns number of bytes read
         // Gets the data address to start read from
         data_addr = init_data_addr + (data_num * MEM_BLOCK);
-        data_addr += offset;
+        data_addr += init_offset;
         j = 0;
         // Runs through data block until end of block or end of needed read
-        while (j < MEM_BLOCK - offset && i < length) {
+        while (j < MEM_BLOCK - init_offset && i < min) {
             buf[i] = *data_addr;
             data_addr++;
             i++;
             j++;
         }
         // Deletes offset because no longer needed
-        offset = 0;
+        init_offset = 0;
         // Increments inode index
         k++;
     }

@@ -8,7 +8,7 @@
 
 /* Initializes paging */
 void initPaging();
-
+int32_t vid_page();
 /* Maps memory for process */
 int32_t load_process();
 

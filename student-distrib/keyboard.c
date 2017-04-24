@@ -12,7 +12,51 @@ static volatile uint32_t buffer_wait = 0;
 static volatile uint32_t old_keypresses = 0;
 static volatile uint32_t screen_x;
 static volatile uint32_t screen_y;
+static volatile uint8_t TEXT_C = GREEN;
+static int r_array[] = {4,6,2,1,5};
+static int r_index = 0;
+static int RAINBOW = 0;
 
+
+
+
+void change_color(int new_c){
+    switch(new_c){
+        case 0:
+            TEXT_C = 4;
+            RAINBOW = 0;
+            break;
+        case 1:
+            TEXT_C = 1;
+            RAINBOW = 0;
+            break;
+        case 2:
+            TEXT_C = 2;
+            RAINBOW = 0;
+            break;
+        case 3:
+            TEXT_C = 5;
+            RAINBOW = 0;
+            break;
+        case 4:
+            TEXT_C = 6;
+            RAINBOW = 0;
+            break;
+        case 5:
+            TEXT_C = 7;
+            RAINBOW = 0;
+            break;
+        case 6:
+            TEXT_C = 4;
+            RAINBOW = 1;
+            r_index = 0;
+            break;
+        default:
+            break;
+    }
+
+
+}
 /* void update_cursor(int row, int col)
  * Description: updates cursor to given x and y coordinates, most likely screen_y screen_x
  * by Dark Fiber
@@ -56,7 +100,7 @@ void scroll(){
         if(i%2 == 0)
             dummy_buffer[i] = ' ';
         else
-            dummy_buffer[i] = GREEN;
+            dummy_buffer[i] = TEXT_C;
     }
 
     memcpy((void *)frame_buffer,(const void *)dummy_buffer, SCREEN_AREA);
@@ -94,11 +138,11 @@ system_at_coord(uint8_t c)
             screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         }
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = ' ';
-        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = TEXT_C;
     }
     else{
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = c;
-        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = TEXT_C;
         screen_x++;
         if(screen_x == SCREEN_WIDTH && screen_y == MAX_HEIGHT_INDEX){
             scroll();
@@ -153,11 +197,11 @@ put_at_coord(uint8_t c)
             screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         }
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = ' ';
-        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = TEXT_C;
     }
     else if (c != '\b'){
         *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1)) = c;
-        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = GREEN;
+        *(uint8_t *)(frame_buffer + ((SCREEN_WIDTH*screen_y + screen_x) << 1) + 1) = TEXT_C;
         screen_x++;
         if(screen_x == SCREEN_WIDTH && screen_y == MAX_HEIGHT_INDEX){
             scroll();
@@ -188,7 +232,7 @@ void clear_frame_buf(){
         if(i%2 == 0)
             frame_buffer[i] = ' ';
         else
-            frame_buffer[i] = GREEN;
+            frame_buffer[i] = TEXT_C;
     }
 }
 
@@ -264,8 +308,16 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
     if(keypresses == BUFFER_LIMIT && keypress != '\n' && keypress != '\b')
         return;
 
+    /* user is not requesting keyboard strokes - must reject */
+    if(buffer_wait == 0)
+        return;
+
     /* accept keyboard input and write to frame buffer */
     put_at_coord(keypress);
+    if(RAINBOW){
+        TEXT_C = r_array[r_index];
+        r_index = (r_index + 1)%5;
+    }
 
     /* update cursor at new screen_X screen_y value */
     update_cursor(screen_y,screen_x);
@@ -295,6 +347,10 @@ int32_t terminal_write(const void* buf, int32_t nbytes){
     /* for each buffer entry up to nbytes, place into frame buffer and mark location as placed by sys call */
     for(i = 0; i < nbytes; i++){
         system_at_coord(((unsigned char*)buf)[i]);
+        if(RAINBOW){
+            TEXT_C = r_array[r_index];
+            r_index = (r_index + 1)%5;
+        }
         retval++;
     }
 

@@ -27,8 +27,8 @@ static unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
 // Alligns page table to 4kB
 static unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
 
-// static unsigned int process0_pd[kB] __attribute__((aligned(4 * kB)));
-// static unsigned int process1_pd[kB] __attribute__((aligned(4 * kB)));
+// Alligns page table to 4kB
+static unsigned int page_table2[kB] __attribute__((aligned(4 * kB)));
 
 static unsigned char process_mask = 0; // No processes running at boot time
 
@@ -364,4 +364,17 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 	loadPageDirectory(page_directory1);
 
 	return 0;
+}
+
+#define VID_MEM 0xB8000
+int32_t vid_page(){
+
+	// we know we want 136 Mb so that is entry 136 / 4
+    page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
+	// because we need a 4kb page we must go through the page_table
+	page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
+	// Flush the TLB
+	loadPageDirectory(page_directory1);
+
+	return (136 * MB);
 }
