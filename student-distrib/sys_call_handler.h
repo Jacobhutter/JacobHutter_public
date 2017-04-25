@@ -46,6 +46,7 @@ typedef struct PCB {
 	uint8_t process_id;
 	int8_t parent_process;
 	uint8_t args[BUFFER_LIMIT];
+	uint8_t terminal_num;
 } PCB_t;
 
 /* global pcb */

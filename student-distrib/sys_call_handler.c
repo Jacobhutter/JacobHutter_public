@@ -101,7 +101,7 @@ int32_t HALT (uint8_t status) {
 
 
 
-    if (process->parent_process == -1) {
+    if (process->process_id == 0) {
         free_gucci(process->process_id); // allows us use id 0 again
         terminal_open();
         EXECUTE((const uint8_t *)"shell");
@@ -407,6 +407,9 @@ int32_t CLOSE (int32_t fd) {
  * function: gets arguments of input
  */
 int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
+    if (buf == NULL || buf[0] == TERMINATOR)
+        return -1;
+
     PCB_t* process = get_PCB();
     (void)strncpy((int8_t*)buf, (const int8_t*)(process->args), nbytes);
     return 0;
