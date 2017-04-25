@@ -402,5 +402,6 @@ int32_t * slave_pages(){
 	retvals[1] = 136*MB + 8*kB;
 	retvals[2] = 136*MB + 12*kB;
 
+	// TODO: Not return a local var addr
 	return retvals;
 }
