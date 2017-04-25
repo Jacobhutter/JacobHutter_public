@@ -99,8 +99,6 @@ int32_t HALT (uint8_t status) {
     for (i = 2; i < MAX_FILES; i++)
         CLOSE(i);
 
-
-
     if (process->process_id == 0) {
         free_gucci(process->process_id); // allows us use id 0 again
         terminal_open();
@@ -137,7 +135,7 @@ int32_t HALT (uint8_t status) {
 int32_t EXECUTE (const uint8_t* command) {
 
     uint32_t start_point; // = get_start(file);
-    uint32_t user_stack; // = _128Mb + _4Mb; //
+    uint32_t user_stack; // = _128Mb + _4Mb; 
     uint8_t cpy_buffer[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
     int8_t *start_exe, *end_exe, *start_args, *end_args;
     int32_t len_exe, len_args;
@@ -407,10 +405,10 @@ int32_t CLOSE (int32_t fd) {
  * function: gets arguments of input
  */
 int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
-    if (buf == NULL || buf[0] == TERMINATOR)
-        return -1;
 
     PCB_t* process = get_PCB();
+    if (buf == NULL || process->args[0] == TERMINATOR)
+        return -1;
     (void)strncpy((int8_t*)buf, (const int8_t*)(process->args), nbytes);
     return 0;
 }
