@@ -42,7 +42,7 @@
 \maketitle
 
 
-\textbf{Task 0:}
+\underline{\textbf{Task 0:}}
 \begin{lstlisting}
     clear all;
     clc;
@@ -119,9 +119,64 @@
     label_training9 = patient9_labels(1:floor(2*length(patient9_labels)/3));
     label_testing9 = patient9_labels(floor(2*length(patient9_labels)/3):length(patient9_labels));
 \end{lstlisting}
-\\ For task 0 we took the raw patient and gold data and partitioned it into testing and training segments.
+For task 0 we took the raw patient and gold data and partitioned it into testing and training segments.
+\\ \underline{\textbf{Task 1.1:}}
+\begin{lstlisting}
+HT_table_array_pat_1 = Get_HT_table(1, training1, label_training1);
+HT_table_array_pat_2 = Get_HT_table(2, training2, label_training2);
+HT_table_array_pat_3 = Get_HT_table(3, training3, label_training3);
+HT_table_array_pat_4 = Get_HT_table(4, training4, label_training4);
+HT_table_array_pat_5 = Get_HT_table(5, training5, label_training5);
+HT_table_array_pat_6 = Get_HT_table(6, training6, label_training6);
+HT_table_array_pat_7 = Get_HT_table(7, training7, label_training7);
+HT_table_array_pat_8 = Get_HT_table(8, training8, label_training8);
+HT_table_array_pat_9 = Get_HT_table(9, training9, label_training9);
 
+HT_table_array = cat(1, HT_table_array_pat_1, HT_table_array_pat_2, HT_table_array_pat_3, HT_table_array_pat_4, HT_table_array_pat_5, HT_table_array_pat_6, HT_table_array_pat_7, HT_table_array_pat_8, HT_table_array_pat_9);
+\end{lstlisting}
+\begin{lstlisting}
+function HT_table_array_pat = Get_HT_table(patient_index, patient_data, patient_labels)
 
+% Prior probablities, alarms/total
+P_H1 = sum(patient_labels)/length(patient_labels);
+P_H0 = 1 - P_H1;
 
+HT_table_array_pat = cell(1, 7);
+
+% name = strcat('Patient_', int2str(patient_index), '_Features');
+% figure('name', name, 'unit', 'normalized', 'outerposition', [.1 .1 .8 .8]);
+
+for i = 1:7
+	[feature_mat, x_mat] = Get_Feat_Mat(patient_data(i:i, :), patient_labels);
+	
+	ML_vector = zeros(1, length(feature_mat(1:1, :)));
+	MAP_vector = zeros(1, length(feature_mat(1:1, :)));
+	
+	for k = 1:length(feature_mat(1:1, :))
+		P_H1_i = feature_mat(1, k);
+		P_H0_i = feature_mat(2, k);
+		if (P_H1_i >= P_H0_i)
+			% if H1_pmf >= H0_pmf
+			ML_vector(k) = 1;
+		end
+		if (P_H1*P_H1_i >= P_H0*P_H0_i)
+			% if H1_pmf*P(H1) >= H0_pmf*P(H0)
+			MAP_vector(k) = 1;
+		end
+	end
+	
+	HT_table = cat(1, x_mat, feature_mat(1:1, :), feature_mat(2:2, :), ML_vector, MAP_vector);
+	HT_table = rot90(HT_table, -1);
+	HT_table = fliplr(HT_table);
+	% Have to flip the table so that it matches with the given format
+	HT_table_array_pat{1, i} = num2cell(HT_table);
+	subplot(7, 1, i);
+ 	hold on;
+ 	plot(x_mat, feature_mat(1:1, :));
+ 	plot(x_mat, feature_mat(2:2, :));
+ 	legend('H0 pmf', 'H1 pmf');
+ 	hold off;
+end
+\end{lstlisting}
+\underline{\textbf{Task 1.2:}}
 \end{document}
-
