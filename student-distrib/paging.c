@@ -393,9 +393,9 @@ int32_t * slave_pages(){
     page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
 
 	/* create 4Kb pages at 136 Mb + 4,8,12kb.*/
-	page_table2[1] = ((136*MB)+4*kb) | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[2] = ((136*MB)+8*kb) | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[3] = ((136*MB)+12*kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[1] = ((136*MB)+4*kB) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[2] = ((136*MB)+8*kB) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[3] = ((136*MB)+12*kB) | PRESENT | USER_ENABLE | RW_ENABLE;
 
 	int32_t retvals[3];
 	retvals[0] = 136*MB + 4*kB;
