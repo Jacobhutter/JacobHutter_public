@@ -398,9 +398,9 @@ int32_t * slave_pages(){
 	page_table2[3] = ((136*MB)+12*kb) | PRESENT | USER_ENABLE | RW_ENABLE;
 
 	int32_t retvals[3];
-	retvals[0] = 136*MB + 4*kb;
-	retvals[1] = 136*MB + 8*kb;
-	retvals[2] = 136*MB + 12*kb;
+	retvals[0] = 136*MB + 4*kB;
+	retvals[1] = 136*MB + 8*kB;
+	retvals[2] = 136*MB + 12*kB;
 
 	return retvals;
 }
