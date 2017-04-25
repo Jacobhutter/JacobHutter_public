@@ -293,7 +293,7 @@ int32_t EXECUTE (const uint8_t* command) {
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
     
     // Invalid fd
-    if (fd < 0 || fd > MAX_FILES - 1)
+    if (fd < 0 || fd > MAX_FILES - 1 || buf == NULL)
         return -1;
 
     if (cur_process->file_descriptor[fd].flags != IN_USE)
@@ -310,7 +310,7 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
 int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
 
     // Invalid fd
-    if (fd < 0 || fd > MAX_FILES - 1)
+    if (fd < 0 || fd > MAX_FILES - 1 || buf == NULL)
         return -1;
 
     if (cur_process->file_descriptor[fd].flags != IN_USE)
