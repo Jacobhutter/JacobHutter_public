@@ -5,6 +5,8 @@
 
 static unsigned char old_kbd_buffer[BUFFER_LIMIT] = "";
 static unsigned char kbd_buffer[BUFFER_LIMIT]; // keyboard buffer of 128 bytes including new line
+static unsigned char kbd_buffer2[BUFFER_LIMIT];
+static unsigned char kbd_buffer3[BUFFER_LIMIT];
 static unsigned char frame_buffer[SCREEN_AREA];
 static unsigned char dummy_buffer[SCREEN_AREA];
 static volatile uint32_t keypresses = 0;
@@ -17,7 +19,8 @@ static int r_array[] = {4,6,2,1,5};
 static int r_index = 0;
 static int RAINBOW = 0;
 
-
+// Array of terminal buffers
+static unsigned char *keyboard_buffers[3] = {kbd_buffer, kbd_buffer2, kbd_buffer3};
 
 
 void change_color(int new_c){
