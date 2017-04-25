@@ -415,7 +415,7 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
 
 /* int32_t VIDMAP
  * inputs: screen_start - where to write 
- * output: 0 on success, -1 on failure
+ * output: address on success, -1 on failure
  * function: allows user to write to vidmem
  */
 #define VIDMAP_LOC _128Mb + _8Mb

@@ -22,6 +22,8 @@ static int RAINBOW = 0;
 // Array of terminal buffers
 static unsigned char *keyboard_buffers[3] = {kbd_buffer, kbd_buffer2, kbd_buffer3};
 
+static volatile unsigned long curr_terminal = 0;
+
 
 void change_color(int new_c){
     switch(new_c){
@@ -86,7 +88,7 @@ void update_cursor(int row, int col)
 void clear_kbd_buf(){
     int i;
     for(i = 0; i< BUFFER_LIMIT; i++)
-        kbd_buffer[i] = ' ';
+        keyboard_buffers[curr_terminal][i] = ' ';
 }
 
 /* scroll()
@@ -175,7 +177,7 @@ put_at_coord(uint8_t c)
             screen_y++;
         /* when enter is pressed, we need to store our state for terminal read */
         old_keypresses = keypresses;
-        memcpy((void *)old_kbd_buffer,(const void *)kbd_buffer,BUFFER_LIMIT);
+        memcpy((void *)old_kbd_buffer,(const void *)keyboard_buffers[curr_terminal],BUFFER_LIMIT);
         buffer_wait = 0;
 
         screen_x=0;
@@ -188,7 +190,7 @@ put_at_coord(uint8_t c)
 
     if(c == '\b' && keypresses > 0){
         keypresses--;
-        kbd_buffer[keypresses] = ' ';
+        keyboard_buffers[curr_terminal][keypresses] = ' ';
 
         if(screen_x == 0){
             screen_x = MAX_WIDTH_INDEX;
@@ -213,7 +215,7 @@ put_at_coord(uint8_t c)
         else
             screen_y = (screen_y + (screen_x / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         screen_x %= SCREEN_WIDTH;
-        kbd_buffer[keypresses] = c;
+        keyboard_buffers[curr_terminal][keypresses] = c;
         keypresses++;
 
     }
