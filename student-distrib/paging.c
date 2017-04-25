@@ -369,14 +369,14 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 #define VID_MEM 0xB8000
 
 /*
- * vid_page
+ * master_page
  *   DESCRIPTION: Makes page for vidoe mem
  *   INPUTS: none
  *   OUTPUTS: none
  *   RETURN VALUE: 0 if success, -1 if failure
  *   SIDE EFFECTS: none
  */
-int32_t vid_page(){
+int32_t master_page(){
 
 	// we know we want 136 Mb so that is entry 136 / 4
     page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
@@ -386,4 +386,21 @@ int32_t vid_page(){
 	loadPageDirectory(page_directory1);
 
 	return (136 * MB);
+}
+
+int32_t * slave_pages(){
+	// we know we want 136 Mb so that is entry 136 / 4
+    page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
+
+	/* create 4Kb pages at 136 Mb + 4,8,12kb.*/
+	page_table2[1] = ((136*MB)+4*kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[2] = ((136*MB)+8*kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[3] = ((136*MB)+12*kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+
+	int32_t retvals[3];
+	retvals[0] = 136*MB + 4*kb;
+	retvals[1] = 136*MB + 8*kb;
+	retvals[2] = 136*MB + 12*kb;
+
+	return retvals;
 }

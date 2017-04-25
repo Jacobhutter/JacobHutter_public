@@ -183,8 +183,11 @@ entry (unsigned long magic, unsigned long addr)
     /*initialize paging */
     initPaging();
 
-    /*set up user level page for vid map*/
-    vid_page();
+    /*set up user level page for vid map linked directly to video memory at address 136mb*/
+    master_page();
+
+    /*set up 3 child pages 1 for each terminal at address 136Mb + 4,8,12Kb*/
+    slave_pages();
 
     /* initializing file system */
     init_file_system((unsigned long *)bb);
