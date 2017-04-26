@@ -327,7 +327,7 @@ oo+::-...................-------...................``.......`...```....---......
 */
 
 /*int32_t free_gucci
- * INPUT: a process numer to free
+ * INPUT: a process number to free
  * OUTPUT: 0, success
  * FUNCTION: sets out global mask to free the process that has been halted
  */
