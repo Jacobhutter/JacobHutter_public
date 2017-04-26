@@ -23,11 +23,16 @@
 #define GREEN 2
 #define BLACK 0
 #define SCREEN_AREA SCREEN_WIDTH*SCREEN_HEIGHT*VGA_CONVENTION
+#define _128Mb 0x08000000
+#define _8Mb   0x00800000
+#define _136Mb _128Mb + _8Mb
+#define Kb 1024
 
 /* initializes the keyboard driver */
 extern void change_color(int new_c);
 extern void terminal_open();
 extern void display_screen();
+extern void switch_terms(int8_t direction);
 extern void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON);
 extern int32_t terminal_write(const void* buf, int32_t nbytes);
 extern int32_t terminal_read(void* buf, int32_t nbytes);

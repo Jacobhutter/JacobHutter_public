@@ -14,6 +14,9 @@ static volatile uint32_t buffer_wait = 0;
 static volatile uint32_t old_keypresses = 0;
 static volatile uint32_t screen_x;
 static volatile uint32_t screen_y;
+static volatile uint32_t x_holder[3] = {0,0,0};
+static volatile uint32_t y_holder[3] = {0,0,0};
+static volatile uint32_t key_holder[3] = {0,0,0};
 static volatile uint8_t TEXT_C = GREEN;
 static int r_array[] = {4,6,2,1,5};
 static int r_index = 0;
@@ -401,66 +404,37 @@ int32_t terminal_read(void* buf, int32_t nbytes){
     return retval;
 }
 
-/*
- * test_terminal()
- * INPUTS: none
- * OUTPUTS: a fun program
- * RETURN VALUE: void
- * DESCRIPTION: a program to test the effectiveness of terminal driver
- */
-/*void test_terminal(){
-    int t_length = -1;
-    unsigned char sol_buf[BUFFER_LIMIT];
-    char test_buf[] = "What is your name? \n";
-    terminal_write((const void*)test_buf,(int32_t)strlen(test_buf));
+void switch_terms(int8_t direction){
+    cli();
 
-    t_length = terminal_read((void *)test_buf,(int32_t)BUFFER_LIMIT); // read up to one buffer size
-    unsigned char new_test_buf[] = " sounds like a great name! What is your favorite color?\n";
-    terminal_write((const void *)test_buf,(int32_t)t_length);
-    terminal_write((const void *)new_test_buf,(int32_t)strlen((int8_t *)new_test_buf));
+    /* store current frame buffer at a slave page */
+    memcpy((void *)_136Mb + ((curr_terminal+1) *4*Kb),(const void *)frame_buffer,4*Kb);
 
-    t_length = terminal_read((void *)test_buf,(int32_t)BUFFER_LIMIT);
-    terminal_write((const void *)test_buf,(int32_t)t_length);
-    unsigned int color_length = t_length;
-    terminal_write((const void *)" has ",(int32_t)5); // 5 is the length of the string " has "
+    /* store cursor location */
+    x_holder[curr_terminal] = screen_x;
+    y_holder[curr_terminal] = screen_y;
 
-    if(color_length >= 10){ // if 10 then we need to handle another digit to print to screen
-        sol_buf[1] = (color_length%10) + '0'; // i to a, so shift using mod 10
-        sol_buf[0] = (color_length/10) + '0'; // then take off a digit using /10
-        t_length = 2; //digit length is 2 rather than one
-    }
-    else{
-        sol_buf[0] = color_length + '0'; // if only one digit then its just one
-        t_length = 1;
-    }
+    /* store keypresses */
+    key_holder[curr_terminal] = keypresses;
 
-    memcpy((void *)sol_buf + t_length, (const void *)" letters in it, there are ",26); // 26 is the length of the string
-    int j,i,sol = 26; // 26 is the number of letters in the alphabet
-    if(color_length == 0)
-        sol = 0;
-    while(color_length>1){
-        sol *= 26; // computing x ^ 26
-        color_length--;
-    }
+    /* change to the next terminal */
+    curr_terminal = direction;
 
-    i = 1;
-    int count = 1;
-    while(1){ // how many digits is sol?
-        if(sol - i > 0){
-            i *= 10; // shifting i to isolate only one digit at a time
-            count++;
-        }
-        else
-            break;
-    }
-    i /= 10; // because of while loop we need to shift the incrementor back one
-    j = 1;
-    count--;
-    for(j = 0; j < count; j++){
-        sol_buf[t_length + j + 26] = (sol / i) + '0'; // inside square brackets is calculation of buffer char location
-        sol %= i;
-        i /= 10; // shift incrementor
-    }
-    memcpy((void *)sol_buf + t_length+26+count, (const void *)" different words to make out of that many letters! \n",50); // 50 is the length of the string
-    terminal_write((const void *)sol_buf,t_length+26 + count + 50); // 50 is th length of the above string, 26 is the original string
-}*/
+    /* copy from slave page of new terminal to our current page */
+    memcpy((void *)frame_buffer,(const void *)(_136Mb + ((curr_terminal+1) *4*Kb)),4*Kb); // load image from new slave page
+
+    /* restore keypresses */
+    keypresses = key_holder[curr_terminal];
+
+    /* restore cursor location */
+    screen_x = x_holder[curr_terminal];
+    screen_y = y_holder[curr_terminal];
+    update_cursor(screen_y,screen_x);
+
+
+
+    /* push frame buffer to vga mem */
+    display_screen();
+
+    sti();
+}

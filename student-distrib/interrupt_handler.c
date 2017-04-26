@@ -437,7 +437,7 @@ void RTC() {
                 ticks = 0;
             }
         }
-        
+
     }
 
 }
@@ -465,7 +465,7 @@ void KEYBOARD() {
     unsigned char status;
     uint8_t key;
     status = inb(KEYBOARD_ADDR); // get status of interrupt
-    char special_char;
+    //char special_char;
     if(status & ODD_MASK){ // check odd
             key = inb(KEYBOARD_PORT);
             // if(key > (unsigned char)NUM_ENTRIES){ // check for out of range scancodes
@@ -522,9 +522,10 @@ void KEYBOARD() {
                 return;
             }
             if(key >= F_ONE && key <= F_THREE && ALT_ON) {
-                terminal_write("Terminal switch", 16);
-                special_char = key - F_ONE + '1';
-                terminal_write(&special_char, 1);
+                //terminal_write("Terminal switch", 16);
+                //special_char = key - F_ONE + '1';
+                //terminal_write(&special_char, 1);
+                switch_terms(key - F_ONE);
                 send_eoi(kbd_eoi);
                 return;
             }
