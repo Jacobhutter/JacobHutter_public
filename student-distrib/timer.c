@@ -14,7 +14,7 @@
  * INSERT FUNCTION HEADER HERE.
  */
 
-void pit_init() {
+void pit_init(){
     outb(PIT_CMD_START, PIT_CMD_REG);
     outb(PIT_CTR_LOW, PIT_CH0);
     outb(PIT_CTR_HIGH, PIT_CH0);
@@ -89,7 +89,7 @@ int32_t rtc_write(int32_t fd, const char* buf, int32_t nbytes) {
     PCB_t* process;
     file_t file;
 	int freq;
-    
+
     process = get_PCB();
 
     file = process->file_descriptor[fd];
@@ -136,7 +136,7 @@ int32_t rtc_close(int32_t fd) {
  */
 void test_rtc() {
 	int freqs[RTC_TESTCASES] = {2, 16, 45, 1, 2048, -2, 8, 1024};
-    int i, j; 
+    int i, j;
     uint8_t letter;
     uint8_t err_message[RTC_ERROR_LEN] = "Invalid frequency!";
 
