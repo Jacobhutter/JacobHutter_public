@@ -62,7 +62,7 @@ void build_idt(){
     idt[PIT_IDT_INDEX].size = 1;
     idt[PIT_IDT_INDEX].reserved1 = 1;
     idt[PIT_IDT_INDEX].reserved2 = 1;
-    idt[PIT_IDT_INDEX].reserved3 = 0;
+    idt[PIT_IDT_INDEX].reserved3 = 1;
     idt[PIT_IDT_INDEX].reserved4 = 0;
     idt[PIT_IDT_INDEX].present = 1;
     idt[PIT_IDT_INDEX].seg_selector = KERNEL_CS;

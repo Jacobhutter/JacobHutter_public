@@ -8,6 +8,7 @@
 #include "lib.h"
 #include "i8259.h"
 #include "timer.h"
+#include "scheduler.h"
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_PORT 0x60
 #define ODD_MASK 0x01

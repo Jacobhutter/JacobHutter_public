@@ -123,7 +123,7 @@ int32_t load_process() {
      //page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
 
 	// Addresses starting at 128MB (user program)
-	// Base address of 128 MB corresponds to index 128 MB/4 MB = 32
+	// Base address of 128 MB corresponds to index 128t MB/4 MB = 32
 	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT | PAGE_EXT | USER_ENABLE | RW_ENABLE ;
 
 	// Flush the TLB
@@ -134,7 +134,7 @@ int32_t load_process() {
 
 /*
 :---:--:+yhys+/:::--------://+///::--------------:/+o+oosssssso+::----------------:ohmNNNNmNNNNNNmmdddddddmmmmmmmmmmmmmmmmmNNNNNNNNNNNNNdo:::----------:+yyso/:--/+/:-:+so/::---------------.----://+oyhhhdmNNmmNmNNNNNNNNNNNmmmmNmdmmmmNNNmmmmNmmmNmmmmmdmmmddmNNddmmmmmmmmmmmmmdhdmmmNmmmmmddmmmmmmmNNNmddddmmmmmdmNNNNmmmmmNNNNNNNmmmmmNNNNNNNNNNmhyyyhdmNNNNNNNmmNNNNNMMMMNmmdhsoooooo+++++++++///+syhs+//+sysosdNNmmdhssys+/--::/::------..---.--://oyo/:/osyss/:-------------------------:odNMMMMMMMMMMMNNmNd:
--------:+syo+/::----------:///+//::-------------:/ossoosyyoo+++//:----------.-----:odmNmmNmmmmNNNmmddddddddddmmmmmmmmmmmmmmNNNNNNNNNNNNNd+::///:-------:oyysso/:::-:--:oysss+:--------------.----:+sdmmNNNNNNNmNNNNNNNNmNNNNmmmmmmddmmmmmNNmmmmNmmmmmmmmmmmdmmmmNmddmmmddddmmmdhdmdmmmmmmddmmmdmmdmNNmdmNNmddddmmNmmmmmmmmdmmddmmNNmmmmmmmmmNNNNNNNNNNmddddmmmmmmmmmmmNNNNNNNNmmdhysssssooooooooo+++++oymNNmy+oyhyssyhhhyso//+o+/:+ydyo/----------.---:/:://::/oo///::-------------------------:odNMMMMMMMMMMMNNmNd:
+-------:+syo+/::----------:///+//::-------------:/ossoosyyoo+++//:----------.-----:odmNmmNmmmmNNNmmddddddddddmmmmmmmmmmmmmmNNNNNNNNNNNNNd+::///:-------:oyysso/:::-:--:oysss+:--------------.----:+sdmmNNNNNNNmNNNNNNNNmNNNNmmmmmmddmmmmmNNmmmmNmmmmommmmmmmmdmmmmNmddmmmddddmmmdhdmdmmmmmmddmmmdmmdmNNmdmNNmddddmmNmmmmmmmmdmmddmmNNmmmmmmmmmNNNNNNNNNNmddddmmmmmmmmmmmNNNNNNNNmmdhysssssooooooooo+++++oymNNmy+oyhyssyhhhyso//+o+/:+ydyo/----------.---:/:://::/oo///::-------------------------:odNMMMMMMMMMMMNNmNd:
 ------::/+o+/::-----------://////:-------:/+++//+oyyyssyyyo++++++//////:----------:sdmNmmmmmmmmNNmmdddddddddddmmmmmmmmmmmmmNNNNNNNNNNNNNh/-:/osso/::---:oyyyhs+::----/oyyyyyo/:---------------::+ymmmNNNmdmmNNNNmNNNmmNNNNNNNNNmmmmmmmmNmmmmmddddmmmmmmdddmdhhyhmmmmddmmddddmmmmmmdmmdddmmmmmmmmmddmmdddmmddmdddddmmmmmmmmmNNmddmNNNNmmmmNNNmNNNmmmmmNmmmmmdmNNmddmmNNNNNmmdddmmdhyssssssssssssooooooshdNmhhysoosyhmmmmNmdhs+/::/oymNNds:------------.-------/oo/---:--------------------------:smNMMMMMMMMMMMNNmNd:
 --------:/++//:----------::/+++/::-------/+ooo++++++ossyyyso++//////++/:---.-.----:sdmNmmmmmNNNNNmmdddddddddddddmmmmmmmmmmNNNNNNNNNNNNNNh/-::/+shhhyo:-:+yhhyo/::/+++ossssyys+/-----...----::+ydmNNNNNNmmNNNNNNNmmmmmmmNNNmNmmmmmmmmmmmNNmddmmdhhhhdmmmdhhddyyyhdhhdhdhhhdddddddddmmmmmddddmmmmmmmdhhhmmddmmmmdhhdddmmmmdhdmmmdddmmmmmddddmNmmmmmdmmmNNmmmmmmmmmdddmmmdddmddhhdhhhyssssssssssssssssooshmNmyoosyhmNNMMNNMNNNdyo///++oymmho:---------------.--/+/:---.--.------------------------:smMMMMMMMMMMMMNNmNd:
 ---------::::::----------::/+++/:--------:/+o++/::::://+++//:::://////:--.-...----:sdmmmmmmmmmNNNmdddddddddddddddmmmdddddmNNNNNmNNNNNNNNh/---://+shdds:-:/++/++osyyyyysssyyys+/:------...-+ydmmmNNNNmNNNNNNNNNNNNmmmmmmmmmdmmmmmdddmNmmmNmmmmmmdhhyyhddhhhhhhhhhhhddyysyhdhhdddddddddddmdyhddddddhhhhhhdddmmNmdhhhyhdmdddddyhddhhhdmmmmmhhmmmdmmmmmNmmmmmmNmmmdhhddmmdyyyhhhyyyyyssssssssssssssssssssosdNmdysydNNNNmmdddmmmmdds/:/:/smmho/:-----------------::----.----------------------------:smMMMMMMMMMMMMNmmNd:

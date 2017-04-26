@@ -5,6 +5,7 @@
 #define keyboard_h
 #include "lib.h"
 #include "x86_desc.h"
+#include "i8259.h"
 
 #define MASTER_PIC 0x20
 #define KEYBOARD_DATA 0x60

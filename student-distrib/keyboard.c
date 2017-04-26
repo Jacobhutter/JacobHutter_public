@@ -283,7 +283,7 @@ void terminal_open() {
     display_screen();
 
     /*allow for interrupts from keyboard via APIC*/
-    outb(KBD_IRQ_LINE, KEYBOARD_IRQ);
+    enable_irq(KBD_IRQ_LINE);
 }
 
 /* void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON)
