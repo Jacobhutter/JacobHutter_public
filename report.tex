@@ -148,10 +148,10 @@ HT_table_array_pat = cell(1, 7);
 
 for i = 1:7
 	[feature_mat, x_mat] = Get_Feat_Mat(patient_data(i:i, :), patient_labels);
-	
+
 	ML_vector = zeros(1, length(feature_mat(1:1, :)));
 	MAP_vector = zeros(1, length(feature_mat(1:1, :)));
-	
+
 	for k = 1:length(feature_mat(1:1, :))
 		P_H1_i = feature_mat(1, k);
 		P_H0_i = feature_mat(2, k);
@@ -164,7 +164,7 @@ for i = 1:7
 			MAP_vector(k) = 1;
 		end
 	end
-	
+
 	HT_table = cat(1, x_mat, feature_mat(1:1, :), feature_mat(2:2, :), ML_vector, MAP_vector);
 	HT_table = rot90(HT_table, -1);
 	HT_table = fliplr(HT_table);
@@ -178,5 +178,6 @@ for i = 1:7
  	hold off;
 end
 \end{lstlisting}
+\includegraphics[scale = 1]{untitled}
 \underline{\textbf{Task 1.2:}}
 \end{document}
