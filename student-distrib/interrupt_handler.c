@@ -349,9 +349,6 @@ void FLOATING_POINT_EXCEPTION() {
  * INSERT SCHEDULER LOGIC HERE.
  */
 void PIT() {
-    bsod();
-    printf("PIT_INTERRUPT");
-    while(1);
     send_eoi(PIT_IRQ);
 }
 
@@ -452,6 +449,7 @@ uint32_t RSHIFT_ON = 0; // BOIIIIIIIIII
 uint32_t LSHIFT_ON = 0; // BOIIIIIIIIII
 uint8_t DECISION;
 uint8_t CONTROL_ON = 0;
+uint32_t ALT_ON = 0;
 
 /*
 * KEYBOARD()
@@ -465,9 +463,9 @@ uint8_t CONTROL_ON = 0;
 void KEYBOARD() {
     // write eoi
     unsigned char status;
-    char key;
+    uint8_t key;
     status = inb(KEYBOARD_ADDR); // get status of interrupt
-
+    char special_char;
     if(status & ODD_MASK){ // check odd
             key = inb(KEYBOARD_PORT);
             // if(key > (unsigned char)NUM_ENTRIES){ // check for out of range scancodes
@@ -479,7 +477,7 @@ void KEYBOARD() {
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            if((uint8_t)key == _CONTROL){
+            if(key == _CONTROL){
                 CONTROL_ON = 0;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
@@ -501,20 +499,37 @@ void KEYBOARD() {
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            if((uint8_t)key == _RIGHT_SHIFT){ // release of RIGHT_SHIFT is a negative number
+            if(key == _RIGHT_SHIFT){ // release of RIGHT_SHIFT is a negative number
 
                 RSHIFT_ON = 0;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            if((uint8_t)key == _LEFT_SHIFT){ // release of LEFT_SHIFT is a negative number
+            if(key == _LEFT_SHIFT){ // release of LEFT_SHIFT is a negative number
 
                 LSHIFT_ON = 0;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
+            if(key == LEFT_ALT) {
+                ALT_ON = 1;
+                send_eoi(kbd_eoi);
+                return;
+            }
+            if(key == _LEFT_ALT) {
+                ALT_ON = 0;
+                send_eoi(kbd_eoi);
+                return;
+            }
+            if(key >= F_ONE && key <= F_THREE && ALT_ON) {
+                terminal_write("Terminal switch", 16);
+                special_char = key - F_ONE + '1';
+                terminal_write(&special_char, 1);
+                send_eoi(kbd_eoi);
+                return;
+            }
             DECISION  = RSHIFT_ON|LSHIFT_ON ? SHIFT_ON : CAPS_ON; // if RSHIFT_on or LSHIFT_ON assign a 2 else assign a 0 or 1 based on caps lock
-            if(key < 0){ // filter out upstroke
+            if(key >= 128){ // filter out upstroke
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }

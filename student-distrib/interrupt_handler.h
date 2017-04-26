@@ -19,8 +19,12 @@
 #define SHIFT_ON 2
 #define kbd_eoi 1
 #define CONTROL 29
-
 #define _CONTROL 157
+#define LEFT_ALT 0x38
+#define _LEFT_ALT 0xB8
+#define F_ONE 0x3B
+#define F_TWO (F_ONE + 1)
+#define F_THREE (F_ONE + 2)
 
 extern void DIVIDE_ERROR();
 extern void RESERVED();

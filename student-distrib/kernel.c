@@ -168,16 +168,17 @@ entry (unsigned long magic, unsigned long addr)
 
     sti();
 
-    /* initializes terminal */
-    terminal_open();
-
     /* Enable interrupts */
     /* Do not enable the following until after you have set up your
      * IDT correctly otherwise QEMU will triple fault and simple close
      * without showing you any output */
     build_idt();
+    
     /* initializes PIT */
     pit_init();
+
+    /* initializes terminal */
+    terminal_open();
 
      /* initializes real time clock */
     rtc_init();
