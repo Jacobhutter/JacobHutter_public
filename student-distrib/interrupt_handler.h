@@ -7,7 +7,7 @@
 
 #include "lib.h"
 #include "i8259.h"
-#include "rtc.h"
+#include "timer.h"
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_PORT 0x60
 #define ODD_MASK 0x01
@@ -44,6 +44,7 @@ extern void FLOATING_POINT_EXCEPTION();
 extern void RTC();
 extern void KEYBOARD();
 extern void SYSTEM_CALL();
+extern void PIT();
 
 extern int32_t init_rtc_freq(int32_t freq);
 extern void set_rtc_freq(int32_t freq, int32_t slot);

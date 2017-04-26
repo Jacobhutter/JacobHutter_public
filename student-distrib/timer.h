@@ -12,6 +12,7 @@
 #include "types.h"
 #include "sys_call_handler.h"
 
+#define PIT_IRQ     0
 #define RTC_IRQ     8
 
 /* Ports to write to RTC */
@@ -32,6 +33,7 @@
 #define RTC_BASE_FREQ  1024 /* to virtualize RTC */
 #define RTC_INIT_FREQ  2
 
+extern void pit_init();
 extern void rtc_init();
 extern int32_t rtc_open(const uint8_t* junk);
 extern int32_t rtc_read(int32_t fd, void *buf, int32_t bytes);

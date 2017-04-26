@@ -11,7 +11,7 @@
 #include "sys_call_handler.h"
 #include "paging.h"
 #include "keyboard.h"
-#include "rtc.h"
+#include "timer.h"
 #include "wrapper.h"
 #include "file_system.h"
 
@@ -171,14 +171,16 @@ entry (unsigned long magic, unsigned long addr)
     /* initializes terminal */
     terminal_open();
 
-    /* initializes real time clock */
-    rtc_init();
-
     /* Enable interrupts */
     /* Do not enable the following until after you have set up your
      * IDT correctly otherwise QEMU will triple fault and simple close
      * without showing you any output */
     build_idt();
+    /* initializes PIT */
+    pit_init();
+
+     /* initializes real time clock */
+    rtc_init();
 
     /*initialize paging */
     initPaging();

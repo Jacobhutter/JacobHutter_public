@@ -1,7 +1,27 @@
-#include "rtc.h"
+#include "timer.h"
 #define RTC_TESTCASES 8
 #define RTC_TESTNUMS  16
 #define RTC_ERROR_LEN 18
+
+#define PIT_CH0     0x40
+#define PIT_CMD_REG 0x43
+
+#define PIT_CMD_START 0x36
+#define PIT_CTR_LOW   0x00
+#define PIT_CTR_HIGH  0x00 // A reload value of zero --> interrupts at 18.2 Hz
+
+/* pit_init()
+ * INSERT FUNCTION HEADER HERE.
+ */
+
+void pit_init() {
+    outb(PIT_CMD_START, PIT_CMD_REG);
+    outb(PIT_CTR_LOW, PIT_CH0);
+    outb(PIT_CTR_HIGH, PIT_CH0);
+    enable_irq(PIT_IRQ);
+}
+
+
 
 /* rtc_init()
  * DESCRIPTION:  Intitializes the real-time clock

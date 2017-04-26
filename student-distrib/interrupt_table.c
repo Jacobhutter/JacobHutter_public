@@ -57,6 +57,18 @@ void build_idt(){
     SET_IDT_ENTRY(idt[17],_MACHINE_CHECK);
     SET_IDT_ENTRY(idt[18],_FLOATING_POINT_EXCEPTION);
 
+    idt[PIT_IDT_INDEX].dpl = 0;
+    idt[PIT_IDT_INDEX].reserved0 = 0;
+    idt[PIT_IDT_INDEX].size = 1;
+    idt[PIT_IDT_INDEX].reserved1 = 1;
+    idt[PIT_IDT_INDEX].reserved2 = 1;
+    idt[PIT_IDT_INDEX].reserved3 = 0;
+    idt[PIT_IDT_INDEX].reserved4 = 0;
+    idt[PIT_IDT_INDEX].present = 1;
+    idt[PIT_IDT_INDEX].seg_selector = KERNEL_CS;
+    // set entry for Real time clock
+    SET_IDT_ENTRY(idt[PIT_IDT_INDEX],_PIT);
+
     idt[REAL_TIME_CLOCK].dpl = 0;
     idt[REAL_TIME_CLOCK].reserved0 = 0;
     idt[REAL_TIME_CLOCK].size = 1;

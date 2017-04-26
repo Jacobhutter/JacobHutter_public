@@ -345,6 +345,16 @@ void FLOATING_POINT_EXCEPTION() {
     while (1) {
     }
 }
+/* PIT()
+ * INSERT SCHEDULER LOGIC HERE.
+ */
+void PIT() {
+    bsod();
+    printf("PIT_INTERRUPT");
+    while(1);
+    send_eoi(PIT_IRQ);
+}
+
 
 /* init_rtc_freq()
  * DESCRIPTION:  Obtain a slot in RTC simulation
