@@ -388,7 +388,7 @@ int32_t master_page(){
 	return (136 * MB);
 }
 
-int32_t * slave_pages(){
+int32_t slave_pages(){
 	// we know we want 136 Mb so that is entry 136 / 4
     page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
 
@@ -403,5 +403,5 @@ int32_t * slave_pages(){
 	retvals[2] = 136*MB + 12*kB;
 
 	// TODO: Not return a local var addr
-	return retvals;
+	return 0;
 }
