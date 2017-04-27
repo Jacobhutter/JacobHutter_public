@@ -20,6 +20,7 @@
 #define USER_ENABLE 0x04
 
 #define MAX_PROCESS 6
+#define MAX_TERMINAL 3
 
 // Alligns page directory to 4kB
 static unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
@@ -31,6 +32,8 @@ static unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
 static unsigned int page_table2[kB] __attribute__((aligned(4 * kB)));
 
 static unsigned char process_mask = 0; // No processes running at boot time
+
+uint32_t terminal_vid_mem[3] = {136*MB + 4*kB, 136*MB + 8*kB, 136*MB + 12*kB};
 
 
 /*
@@ -367,6 +370,7 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 }
 
 #define VID_MEM 0xB8000
+#define USER_VID_MEM (136 * MB)
 
 /*
  * master_page
@@ -397,11 +401,15 @@ int32_t slave_pages(){
 	page_table2[2] = ((136*MB)+8*kB) | PRESENT | USER_ENABLE | RW_ENABLE;
 	page_table2[3] = ((136*MB)+12*kB) | PRESENT | USER_ENABLE | RW_ENABLE;
 
-	int32_t retvals[3];
-	retvals[0] = 136*MB + 4*kB;
-	retvals[1] = 136*MB + 8*kB;
-	retvals[2] = 136*MB + 12*kB;
-
-	// TODO: Not return a local var addr
 	return 0;
+}
+
+void change_process_vid_mem(uint8_t new_terminal, uint8_t old_terminal) {
+
+	if (new_terminal >= MAX_TERMINAL || old_terminal >= MAX_TERMINAL)
+		return;
+
+	memcpy((void*)terminal_vid_mem[old_terminal], (void*)USER_VID_MEM, 4 * kB);
+	memcpy((void*)USER_VID_MEM, (void*)terminal_vid_mem[new_terminal], 4 * kB);
+
 }
