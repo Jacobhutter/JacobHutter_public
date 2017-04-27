@@ -7,8 +7,8 @@
 #define PIT_CMD_REG 0x43
 
 #define PIT_CMD_START 0x36
-#define PIT_CTR_LOW   0x9B
-#define PIT_CTR_HIGH  0x2E // A reload value of zero --> interrupts at 18.2 Hz
+#define PIT_CTR_LOW   0x00
+#define PIT_CTR_HIGH  0x00 // A reload value of zero --> interrupts at 18.2 Hz
 
 /* pit_init()
  * INSERT FUNCTION HEADER HERE.
