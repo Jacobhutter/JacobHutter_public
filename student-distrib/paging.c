@@ -19,9 +19,6 @@
 #define RW_ENABLE 0x02
 #define USER_ENABLE 0x04
 
-#define MAX_PROCESS 6
-#define MAX_TERMINAL 3
-
 // Alligns page directory to 4kB
 static unsigned int page_directory1[kB] __attribute__((aligned(4 * kB)));
 

@@ -6,6 +6,9 @@
 
 #include "lib.h"
 
+#define MAX_PROCESS 6
+#define MAX_TERMINAL 3
+
 /* Initializes paging */
 void initPaging();
 int32_t master_page();
