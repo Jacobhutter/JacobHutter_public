@@ -4,6 +4,11 @@ static volatile uint8_t to_be_scheduled = 0;
 #define init_PCB_addr _8Mb - _4Kb // represents head
 
 /* called by interrupt handler for pit*/
+/*
+ *
+ *
+ *
+ */
 void time_quantum(){
 
     /*clear interrupts for this processor*/
@@ -32,15 +37,11 @@ void time_quantum(){
     PCB_t * to_run = list[to_be_scheduled];
 
     /* TODO: context switch into to_run process */
+    /* TODO: change video mapping when switching*/
 
     to_be_scheduled = (to_be_scheduled +1)%cur_running;
+
     /* set interrupts for this processor*/
     sti();
+    return;
 }
-
-
-/*
- *
- *
- *
- */
