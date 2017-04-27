@@ -349,8 +349,8 @@ void FLOATING_POINT_EXCEPTION() {
  * INSERT SCHEDULER LOGIC HERE.
  */
 void PIT() {
-    //terminal_write("boi",3);
-    send_eoi(PIT_IRQ);
+    time_quantum();
+    //send_eoi(PIT_IRQ);
 }
 
 
