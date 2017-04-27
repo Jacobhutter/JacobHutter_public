@@ -34,7 +34,9 @@ static unsigned int page_table2[kB] __attribute__((aligned(4 * kB)));
 static unsigned char process_mask = 0; // No processes running at boot time
 
 uint32_t terminal_vid_mem[3] = {136*MB + 4*kB, 136*MB + 8*kB, 136*MB + 12*kB};
-
+unsigned char get_p_mask(){
+	return process_mask;
+}
 
 /*
  * initPaging

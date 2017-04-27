@@ -174,7 +174,6 @@ entry (unsigned long magic, unsigned long addr)
      * without showing you any output */
     build_idt();
 
-
     /* initializes PIT */
     pit_init();
 
@@ -197,7 +196,6 @@ entry (unsigned long magic, unsigned long addr)
     init_file_system((unsigned long *)bb);
 
     init_stdio();
-
 
     sti();
 

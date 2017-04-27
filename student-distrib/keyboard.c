@@ -420,6 +420,8 @@ void switch_terms(int8_t direction){
     /* change to the next terminal */
     curr_terminal = direction;
 
+    // TODO: switch PCB to next shell and string of child processes
+
     /* copy from slave page of new terminal to our current page */
     memcpy((void *)frame_buffer,(const void *)(_136Mb + ((curr_terminal+1) *4*Kb)),4*Kb); // load image from new slave page
 
@@ -430,8 +432,6 @@ void switch_terms(int8_t direction){
     screen_x = x_holder[curr_terminal];
     screen_y = y_holder[curr_terminal];
     update_cursor(screen_y,screen_x);
-
-
 
     /* push frame buffer to vga mem */
     display_screen();
