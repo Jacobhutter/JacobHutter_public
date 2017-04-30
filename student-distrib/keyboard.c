@@ -262,17 +262,17 @@ put_at_coord(uint8_t c)
 /*
  * void clear_frame_buf()
  * DESCRIPTION: clears the frame buffer that is written into vga mem
- * INPUTS: none
+ * INPUTS: buf_idx - index of buffer to clear
  * OUTPUTS: a cleared frame buffer
  * RETURN VALUE: void
  */
-static void clear_frame_buf() {
+static void clear_frame_buf(uint32_t buf_idx) {
     int i;
     for (i = 0; i < SCREEN_AREA; i++) {
         if (i % 2 == 0)
-            frame_buffers[cur_task_index][i] = ' ';
+            frame_buffers[buf_idx][i] = ' ';
         else
-            frame_buffers[cur_task_index][i] = TEXT_C;
+            frame_buffers[buf_idx][i] = TEXT_C;
     }
 }
 
@@ -299,6 +299,49 @@ void display_screen() {
     memcpy((void *)VGA_MEM, (const void *)frame_buffers[curr_terminal], SCREEN_AREA);
 }
 
+/*
+ * void refresh_terminal(uint32_t index)
+ * INPUT: index - terminal index to clear
+ * OUTPUT: None
+ * RETURNS: void
+ * DESCRIPTION: refreshes the terminal at speicified index
+ */ 
+
+static void refresh_terminal(uint32_t index) {
+
+    /*(unsigned char *)frame_buffer1 = (unsigned char *)(_136Mb + 4*Kb);
+    (unsigned char *)frame_buffer2 = (unsigned char *)(_136Mb + 8*Kb);
+    (unsigned char *)frame_buffer3 = (unsigned char *)(_136Mb + 12*Kb);*/
+    int i;
+    /* index of screen we are displaying */
+    screen_x[index] = 0;
+    screen_y[index] = 0;
+
+    for (i = 0; i < MAX_TERMINALS; i++)
+        vid_backpages[i] = (uint32_t)frame_buffers[i];
+
+    /* set cursor to top left of screen */
+    if (index == curr_terminal)
+        update_cursor(screen_y[index], screen_x[index]);
+
+    /* number of keypresses we have seen */
+    old_keypresses[index] = 0;
+    keypresses[index] = 0;
+
+    /* clear the keyboard buffer */
+    clear_kbd_buf(index);
+
+    /* clear the frame buffer */
+    clear_frame_buf(index);
+
+    /*display the blank frame buffer*/
+    if (index == curr_terminal)
+        display_screen();
+
+    /*allow for interrupts from keyboard via APIC*/
+    enable_irq(KBD_IRQ_LINE);
+}
+
 /* void terminal_open()
  * INPUT: NONE
  * OUTPUT: NONE
@@ -310,34 +353,7 @@ void terminal_open() {
     /*(unsigned char *)frame_buffer1 = (unsigned char *)(_136Mb + 4*Kb);
     (unsigned char *)frame_buffer2 = (unsigned char *)(_136Mb + 8*Kb);
     (unsigned char *)frame_buffer3 = (unsigned char *)(_136Mb + 12*Kb);*/
-    int i;
-    /* index of screen we are displaying */
-    screen_x[cur_task_index] = 0;
-    screen_y[cur_task_index] = 0;
-
-    for (i = 0; i < MAX_TERMINALS; i++)
-        vid_backpages[i] = (uint32_t)frame_buffers[i];
-
-    /* set cursor to top left of screen */
-    if (cur_task_index == curr_terminal)
-        update_cursor(screen_y[cur_task_index], screen_x[cur_task_index]);
-
-    /* number of keypresses we have seen */
-    old_keypresses[cur_task_index] = 0;
-    keypresses[cur_task_index] = 0;
-
-    /* clear the keyboard buffer */
-    clear_kbd_buf(cur_task_index);
-
-    /* clear the frame buffer */
-    clear_frame_buf();
-
-    /*display the blank frame buffer*/
-    if (cur_task_index == curr_terminal)
-        display_screen();
-
-    /*allow for interrupts from keyboard via APIC*/
-    enable_irq(KBD_IRQ_LINE);
+    refresh_terminal(cur_task);
 }
 
 /* void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON)
@@ -360,8 +376,8 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON) {
     /* check for control shift l */
     if (CONTROL_ON == 1 && keypress == 'L') {
         //terminal_write((const void *)test,(int32_t)strlen(test));
-        terminal_open();
-        terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
+        refresh_terminal(curr_terminal);
+        //terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
         return;
     }
 
