@@ -10,9 +10,9 @@ static unsigned char keyboard_buffer1[BUFFER_LIMIT] = "",
         keyboard_buffer2[BUFFER_LIMIT] = "",
                 keyboard_buffer3[BUFFER_LIMIT] = "";// keyboard buffer of 128 bytes including new line
 static unsigned char* keyboard_buffers[MAX_TASKS] = {keyboard_buffer1, keyboard_buffer2, keyboard_buffer3};
-static unsigned char frame_buffer1[SCREEN_AREA] __attribute__((aligned(4 * Kb)));// = (_136Mb + 4*Kb);
-static unsigned char frame_buffer2[SCREEN_AREA] __attribute__((aligned(4 * Kb)));// = (_136Mb + 8*Kb);
-static unsigned char frame_buffer3[SCREEN_AREA] __attribute__((aligned(4 * Kb)));// = (_136Mb + 12*Kb);
+static unsigned char frame_buffer1[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
+static unsigned char frame_buffer2[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
+static unsigned char frame_buffer3[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
 static unsigned char* frame_buffers[MAX_TASKS] = {frame_buffer1, frame_buffer2, frame_buffer3};
 static unsigned char dummy_buffer1[SCREEN_AREA] = "",
         dummy_buffer2[SCREEN_AREA] = "",
@@ -34,12 +34,35 @@ static volatile uint32_t cur_task = 0;
 static volatile unsigned long curr_terminal = 0;
 uint32_t vid_backpages[MAX_TERMINALS] = {0, 0, 0};
 
-unsigned char * get_buf_add(uint8_t select){
+/*
+* get_buf_add()
+* Description: returns address of selected buffer
+* input: select - what buffer to return
+* output: none
+* return value: address of buffer
+*/
+unsigned char * get_buf_add(uint8_t select) {
     return frame_buffers[select];
 }
-uint8_t get_cur_term(){
+
+/*
+* get_cur_term()
+* Description: returns current terminal
+* input: none
+* output: none
+* return value: current terminal
+*/
+uint8_t get_cur_term() {
     return curr_terminal;
 }
+
+/*
+* change_color()
+* Description: changes termianl color
+* input: new_c - color index
+* output: termianl color is differen
+* return value: none
+*/
 void change_color(int new_c) {
     switch (new_c) {
     case 0:
@@ -78,7 +101,8 @@ void change_color(int new_c) {
 
 }
 /* void update_cursor(int row, int col)
- * Description: updates cursor to given x and y coordinates, most likely screen_y screen_x
+ * Description: updates cursor to given x and y coordinates,
+ * most likely screen_y screen_x
  * by Dark Fiber
  * http://wiki.osdev.org/Text_Mode_Cursor
  */
@@ -116,7 +140,8 @@ static void clear_kbd_buf(uint32_t term) {
 static void scroll(uint32_t buf_idx) {
     int i;
     memcpy((void *)dummy_buffers[buf_idx],
-           (const void *)(frame_buffers[buf_idx]) + (SCREEN_WIDTH * VGA_CONVENTION),
+           (const void *)(frame_buffers[buf_idx]) +
+           (SCREEN_WIDTH * VGA_CONVENTION),
            SCREEN_AREA - (SCREEN_WIDTH * VGA_CONVENTION));
 
     for (i = SCREEN_AREA - (SCREEN_WIDTH * VGA_CONVENTION); i < SCREEN_AREA; i++) {
@@ -126,7 +151,8 @@ static void scroll(uint32_t buf_idx) {
             dummy_buffers[buf_idx][i] = TEXT_C;
     }
 
-    memcpy((void *)(frame_buffers[buf_idx]), (const void *)dummy_buffers[buf_idx], SCREEN_AREA);
+    memcpy((void *)(frame_buffers[buf_idx]),
+           (const void *)dummy_buffers[buf_idx], SCREEN_AREA);
 }
 
 
@@ -276,6 +302,13 @@ static void clear_frame_buf(uint32_t buf_idx) {
     }
 }
 
+/*
+ * void clear_all_frame_buf()
+ * DESCRIPTION: clears all the frame buffer that is written into vga mem
+ * INPUTS: none
+ * OUTPUTS: a cleared frame buffer
+ * RETURN VALUE: none
+ */
 void clear_all_frame_buf() {
     int i, j;
     for (j = 0; j < 3; j++) {
@@ -296,7 +329,8 @@ void clear_all_frame_buf() {
  * RETURN VALUE: void
  */
 void display_screen() {
-    memcpy((void *)VGA_MEM, (const void *)frame_buffers[curr_terminal], SCREEN_AREA);
+    memcpy((void *)VGA_MEM, (const void *)frame_buffers[curr_terminal],
+           SCREEN_AREA);
 }
 
 /*
@@ -305,7 +339,7 @@ void display_screen() {
  * OUTPUT: None
  * RETURNS: void
  * DESCRIPTION: refreshes the terminal at speicified index
- */ 
+ */
 
 static void refresh_terminal(uint32_t index) {
 
@@ -346,7 +380,8 @@ static void refresh_terminal(uint32_t index) {
  * INPUT: NONE
  * OUTPUT: NONE
  * RETURN VALUE: void
- * DESCRIPTION: allows pic to recognize keyboard inputs and also initializes frame buffer and tools for use in terminal
+ * DESCRIPTION: allows pic to recognize keyboard inputs and also initializes
+ * frame buffer and tools for use in terminal
  */
 void terminal_open() {
 
@@ -412,7 +447,8 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON) {
  * INPUTS: const void * buf, int32_t nbytes
  * OUTPUTS: prints unlimited chars to buffer
  * RETURN VALUE: fail -1 or the number of bytes written
- * DESCRIPTION: Takes a buffer of size nybtes and writes it to the frame buffer without altering current kbd operations
+ * DESCRIPTION: Takes a buffer of size nybtes and writes it to the frame
+ * buffer without altering current kbd operations
  */
 int32_t terminal_write(const void* buf, int32_t nbytes) {
 
@@ -423,7 +459,8 @@ int32_t terminal_write(const void* buf, int32_t nbytes) {
     int32_t retval = 0;
     int i;
 
-    /* for each buffer entry up to nbytes, place into frame buffer and mark location as placed by sys call */
+    /* for each buffer entry up to nbytes, place into frame buffer
+    and mark location as placed by sys call */
     for (i = 0; i < nbytes; i++) {
         system_at_coord(((unsigned char*)buf)[i]);
         if (RAINBOW) {
@@ -445,9 +482,11 @@ int32_t terminal_write(const void* buf, int32_t nbytes) {
 /*
  * terminal_read
  * INPUTS: void * buf, int32_t nbytes
- * OUTPUTS: copies over the smaller of nybtes or old_keypresses to the provided buffer from kbd buffer, not screen
+ * OUTPUTS: copies over the smaller of nybtes or old_keypresses to the provided
+ * buffer from kbd buffer, not screen
  * RETURN VALUE: number of bytes read or -1 on failure
- * DESCRIPTION: reads through kbd buffer and writes to given buffer of the smaller of two options and also clears the old_keypresses;
+ * DESCRIPTION: reads through kbd buffer and writes to given buffer of the
+ * smaller of two options and also clears the old_keypresses;
  */
 int32_t terminal_read(void* buf, int32_t nbytes) {
 
@@ -477,6 +516,13 @@ int32_t terminal_read(void* buf, int32_t nbytes) {
     return retval;
 }
 
+/*
+ * switch_terms
+ * INPUTS: direction - which terminal to open
+ * OUTPUTS: none
+ * RETURN VALUE: none
+ * DESCRIPTION: switches the terminal to the one specified by direction
+ */
 void switch_terms(int8_t direction) {
     //cli();
 
@@ -508,6 +554,13 @@ void switch_terms(int8_t direction) {
     //sti();
 }
 
+/*
+ * update_term
+ * INPUTS: task_id - the task to update
+ * OUTPUTS: none
+ * RETURN VALUE: none
+ * DESCRIPTION: updates terminal screen if needed
+ */
 void update_term(uint32_t task_id) {
 
     if (task_id == curr_terminal) {

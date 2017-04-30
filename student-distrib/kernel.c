@@ -68,12 +68,12 @@ entry (unsigned long magic, unsigned long addr)
         int i;
         module_t* mod = (module_t*)mbi->mods_addr;
         bb = mod->mod_start;
-        while(mod_count < mbi->mods_count) {
+        while (mod_count < mbi->mods_count) {
             printf("Module %d loaded at address: 0x%#x\n", mod_count, (unsigned int)mod->mod_start);
             printf("Module %d ends at address: 0x%#x\n", mod_count, (unsigned int)mod->mod_end);
             printf("First few bytes of module:\n");
-            for(i = 0; i<16; i++) {
-                printf("0x%x ", *((char*)(mod->mod_start+i)));
+            for (i = 0; i < 16; i++) {
+                printf("0x%x ", *((char*)(mod->mod_start + i)));
             }
             printf("\n");
             mod_count++;
@@ -106,9 +106,9 @@ entry (unsigned long magic, unsigned long addr)
         printf ("mmap_addr = 0x%#x, mmap_length = 0x%x\n",
                 (unsigned) mbi->mmap_addr, (unsigned) mbi->mmap_length);
         for (mmap = (memory_map_t *) mbi->mmap_addr;
-             (unsigned long) mmap < mbi->mmap_addr + mbi->mmap_length;
-             mmap = (memory_map_t *) ((unsigned long) mmap
-                                      + mmap->size + sizeof (mmap->size)))
+                (unsigned long) mmap < mbi->mmap_addr + mbi->mmap_length;
+                mmap = (memory_map_t *) ((unsigned long) mmap
+                                         + mmap->size + sizeof (mmap->size)))
             printf (" size = 0x%x,     base_addr = 0x%#x%#x\n"
                     "     type = 0x%x,  length    = 0x%#x%#x\n",
                     (unsigned) mmap->size,
@@ -180,13 +180,14 @@ entry (unsigned long magic, unsigned long addr)
     /* initializes terminal */
     terminal_open();
 
-     /* initializes real time clock */
+    /* initializes real time clock */
     rtc_init();
 
     /*initialize paging */
     initPaging();
 
-    /*set up user level page for vid map linked directly to video memory at address 136mb*/
+    /*set up user level page for vid map linked directly
+    to video memory at address 136mb*/
     //master_page();
 
     /*set up 3 child pages 1 for each terminal at address 136Mb + 4,8,12Kb*/
@@ -206,7 +207,7 @@ entry (unsigned long magic, unsigned long addr)
     sti();
 
     {
-        while(!setup_process);
+        while (!setup_process);
     }
 
     const uint8_t command[] = "shell";
