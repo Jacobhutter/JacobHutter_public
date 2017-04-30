@@ -29,7 +29,8 @@ void build_idt(){
         idt[i].reserved3 = (i<EXCEPTION_LIMIT || i == SYS_CALL);
         idt[i].reserved4 = 0;
         idt[i].present = 1;
-        idt[i].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+        // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+        idt[i].seg_selector = KERNEL_CS;
     }
 
     // set IDT table entries for first set of sequential interrupts
@@ -89,7 +90,8 @@ void build_idt(){
     idt[KBD].reserved3 = 0;
     idt[KBD].reserved4 = 0;
     idt[KBD].present = 1;
-    idt[KBD].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    idt[KBD].seg_selector = KERNEL_CS;
     SET_IDT_ENTRY(idt[KBD],_KEYBOARD);
 
     // set entry for system calls
@@ -101,7 +103,8 @@ void build_idt(){
     idt[SYS_CALL].reserved3 = 1;
     idt[SYS_CALL].reserved4 = 0;
     idt[SYS_CALL].present = 1;
-    idt[SYS_CALL].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    idt[SYS_CALL].seg_selector = KERNEL_CS;
     SET_IDT_ENTRY(idt[SYS_CALL],_SYSTEM_CALL);
 
     // load interrupt descriptor table
