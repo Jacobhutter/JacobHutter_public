@@ -197,6 +197,7 @@ entry (unsigned long magic, unsigned long addr)
 
     init_stdio();
 
+    // Initialized frame buffers
     clear_all_frame_buf();
 
     setup_process = 0;
@@ -208,25 +209,8 @@ entry (unsigned long magic, unsigned long addr)
         while(!setup_process);
     }
 
-    /* uncomment for terminal test */
-    //test_terminal();
-    // const uint8_t command[] = "frame0.txt";
     const uint8_t command[] = "shell";
     EXECUTE(command);
-    //terminal_write("testing sys call1", 16);
-    //terminal_write("testing sys call2", 16);
-
-    /* uncomment one to test file system */
-    // list_all_files();
-    // test1();
-    //read_file_by_name("sigtest");
-    // read_file_by_name("frame0.txt");
-    //read_file_by_name("frame1.txt");
-    // read_file_by_name("verylargetextwithverylongname.txt");
-    // read_file_by_index(10);
-
-    /* uncomment to test rtc */
-    //test_rtc();
 
     /* Spin (nicely, so we don't chew up cycles) */
     asm volatile(".1: hlt; jmp .1;");
