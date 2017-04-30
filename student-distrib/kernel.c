@@ -166,8 +166,10 @@ entry (unsigned long magic, unsigned long addr)
     /* Initialize devices, memory, filesystem, enable device interrupts on the
      * PIC, any other initialization stuff... */
 
-    sti();
 
+
+
+    pit_init();
     /* initializes terminal */
     terminal_open();
 
@@ -190,14 +192,14 @@ entry (unsigned long magic, unsigned long addr)
     init_file_system((unsigned long *)bb);
 
     init_stdio();
-
+    sti();
 
 
     /* uncomment for terminal test */
     //test_terminal();
     // const uint8_t command[] = "frame0.txt";
-    const uint8_t command[] = "shell";
-    EXECUTE(command);
+    //const uint8_t command[] = "shell";
+    //EXECUTE(command);
     //terminal_write("testing sys call1", 16);
     //terminal_write("testing sys call2", 16);
 

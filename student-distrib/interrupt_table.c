@@ -81,6 +81,19 @@ void build_idt(){
     idt[KBD].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
     SET_IDT_ENTRY(idt[KBD],_KEYBOARD);
 
+    idt[PIT_IDT_INDEX].dpl = 0;
+    idt[PIT_IDT_INDEX].reserved0 = 0;
+    idt[PIT_IDT_INDEX].size = 1;
+    idt[PIT_IDT_INDEX].reserved1 = 1;
+    idt[PIT_IDT_INDEX].reserved2 = 1;
+    idt[PIT_IDT_INDEX].reserved3 = 1;
+    idt[PIT_IDT_INDEX].reserved4 = 0;
+    idt[PIT_IDT_INDEX].present = 1;
+    idt[PIT_IDT_INDEX].seg_selector = KERNEL_CS;
+    // set entry for Real time clock
+    SET_IDT_ENTRY(idt[PIT_IDT_INDEX],_PIT);
+
+
     // set entry for system calls
     idt[SYS_CALL].dpl = 3;
     idt[SYS_CALL].reserved0 = 0;

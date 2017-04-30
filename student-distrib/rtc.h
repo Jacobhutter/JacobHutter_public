@@ -22,7 +22,7 @@
 #define RTC_A       0x0A
 #define RTC_B       0x0B
 #define RTC_C       0x0C
-
+#define PIT_IRQ     0
 /* Initial values of RTC internal registers
  * Starts clock and enables periodic and alarm interrupts
  * Alarm interrupts will be a possibility for extra credit
@@ -32,6 +32,7 @@
 #define RTC_BASE_FREQ  1024 /* to virtualize RTC */
 #define RTC_INIT_FREQ  2
 
+extern void pit_init();
 extern void rtc_init();
 extern int32_t rtc_open(const uint8_t* junk);
 extern int32_t rtc_read(int32_t fd, void *buf, int32_t bytes);

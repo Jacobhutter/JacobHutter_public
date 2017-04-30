@@ -147,6 +147,7 @@ extern void _FLOATING_POINT_EXCEPTION();
 extern void _RTC();
 extern void _SYSTEM_CALL();
 extern void _KEYBOARD();
+extern void _PIT();
 extern uint16_t ldt_desc;
 extern uint32_t ldt_size;
 extern seg_desc_t ldt_desc_ptr;

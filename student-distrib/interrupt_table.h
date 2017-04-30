@@ -10,6 +10,7 @@
 #define SYS_CALL 0x80
 #define EXCEPTION_LIMIT 32
 #define REAL_TIME_CLOCK 0x28
+#define PIT_IDT_INDEX 0x20
 #define KBD 0x21
 #define SEQ_INTERRUPTS 19
 
