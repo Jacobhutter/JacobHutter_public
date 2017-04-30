@@ -78,7 +78,7 @@ void initPaging() {
 	page_directory1[0] = (unsigned int)page_table1 | PRESENT;
 	// Maps 4MB page for kernel to 4MB
 	page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
-	
+
 	page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
 	// because we need a 4kb page we must go through the page_table
 	page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
@@ -409,13 +409,14 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 int32_t master_page(){
 
 	// we know we want 136 Mb so that is entry 136 / 4
-    page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
+
+    page_directory1[(136*MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
 	// because we need a 4kb page we must go through the page_table
-	page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[0] = (uint32_t)get_buf_add() | PRESENT | USER_ENABLE | RW_ENABLE;
 	// Flush the TLB
 	loadPageDirectory(page_directory1);
 
-	return (136 * MB);
+	return 136 * MB;
 }
 
 int32_t slave_pages(){

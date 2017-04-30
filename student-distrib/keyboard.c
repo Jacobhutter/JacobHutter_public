@@ -2,14 +2,14 @@
 
 #include "keyboard.h"
 
-static unsigned char old_kbd_buffer1[BUFFER_LIMIT] = "", 
-                     old_kbd_buffer2[BUFFER_LIMIT] = "", 
+static unsigned char old_kbd_buffer1[BUFFER_LIMIT] = "",
+                     old_kbd_buffer2[BUFFER_LIMIT] = "",
                      old_kbd_buffer3[BUFFER_LIMIT] = "";
 static unsigned char* old_kbd_buffers[MAX_TASKS]= {old_kbd_buffer1, old_kbd_buffer2, old_kbd_buffer3};
-static unsigned char keyboard_buffer1[BUFFER_LIMIT] = "", 
-                     keyboard_buffer2[BUFFER_LIMIT] = "", 
+static unsigned char keyboard_buffer1[BUFFER_LIMIT] = "",
+                     keyboard_buffer2[BUFFER_LIMIT] = "",
                      keyboard_buffer3[BUFFER_LIMIT] = "";// keyboard buffer of 128 bytes including new line
-static unsigned char* keyboard_buffers[MAX_TASKS] = {keyboard_buffer1, keyboard_buffer2, keyboard_buffer3}; 
+static unsigned char* keyboard_buffers[MAX_TASKS] = {keyboard_buffer1, keyboard_buffer2, keyboard_buffer3};
 static unsigned char frame_buffer1[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
 static unsigned char frame_buffer2[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
 static unsigned char frame_buffer3[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
@@ -32,6 +32,9 @@ static volatile uint32_t cur_task = 0;
 static volatile unsigned long curr_terminal = 0;
 uint32_t vid_backpages[MAX_TERMINALS] = {0, 0, 0};
 
+unsigned char * get_buf_add(){
+    return frame_buffers[curr_terminal];
+}
 void change_color(int new_c){
     switch(new_c){
         case 0:
@@ -153,18 +156,18 @@ system_at_coord(uint8_t c)
         else{
             screen_x[buffer_idx]--;
             screen_x[buffer_idx] %= SCREEN_WIDTH;
-            screen_y[buffer_idx] = (screen_y[buffer_idx] + 
+            screen_y[buffer_idx] = (screen_y[buffer_idx] +
                                        (screen_x[buffer_idx] / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         }
-        *(uint8_t *)(frame_buffers[buffer_idx] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] +
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1)) = ' ';
-        *(uint8_t *)(frame_buffers[buffer_idx] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] +
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1) + 1) = TEXT_C;
     }
     else{
-        *(uint8_t *)(frame_buffers[buffer_idx] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] +
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1)) = c;
-        *(uint8_t *)(frame_buffers[buffer_idx] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] +
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1) + 1) = TEXT_C;
         screen_x[buffer_idx]++;
         if(screen_x[buffer_idx] == SCREEN_WIDTH && screen_y[buffer_idx] == MAX_HEIGHT_INDEX){
@@ -172,7 +175,7 @@ system_at_coord(uint8_t c)
             screen_y[buffer_idx] = MAX_HEIGHT_INDEX;
         }
         else
-            screen_y[buffer_idx] = (screen_y[buffer_idx] + 
+            screen_y[buffer_idx] = (screen_y[buffer_idx] +
                                        (screen_x[buffer_idx] / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         screen_x[buffer_idx] %= SCREEN_WIDTH;
     }
@@ -220,18 +223,18 @@ put_at_coord(uint8_t c)
         else{
             screen_x[buffer_idx]--;
             screen_x[buffer_idx] %= SCREEN_WIDTH;
-            screen_y[buffer_idx] = (screen_y[buffer_idx] + 
+            screen_y[buffer_idx] = (screen_y[buffer_idx] +
                                       (screen_x[buffer_idx] / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         }
-        *(uint8_t *)(frame_buffers[buffer_idx] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] +
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1)) = ' ';
-        *(uint8_t *)(frame_buffers[buffer_idx] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] +
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1) + 1) = TEXT_C;
     }
     else if (c != '\b'){
-        *(uint8_t *)(frame_buffers[buffer_idx] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] +
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1)) = c;
-        *(uint8_t *)(frame_buffers[buffer_idx] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] +
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1) + 1) = TEXT_C;
         screen_x[buffer_idx]++;
         if(screen_x[buffer_idx] == SCREEN_WIDTH && screen_y[buffer_idx] == MAX_HEIGHT_INDEX){
@@ -239,7 +242,7 @@ put_at_coord(uint8_t c)
             screen_y[buffer_idx] = MAX_HEIGHT_INDEX;
         }
         else
-            screen_y[buffer_idx] = (screen_y[buffer_idx] + 
+            screen_y[buffer_idx] = (screen_y[buffer_idx] +
                                       (screen_x[buffer_idx] / SCREEN_WIDTH)) % SCREEN_HEIGHT;
         screen_x[buffer_idx] %= SCREEN_WIDTH;
         keyboard_buffers[buffer_idx][keypresses[buffer_idx]] = c;
@@ -459,7 +462,7 @@ void switch_terms(int8_t direction){
 
     /* copy from slave page of new terminal to our current page */
     //memcpy((void *)frame_buffer,(const void *)(_136Mb + ((curr_terminal+1) *4*Kb)),4*Kb); // load image from new slave page
-    
+
     update_cursor(screen_y[curr_terminal],screen_x[curr_terminal]);
 
     /* push frame buffer to vga mem */
@@ -470,7 +473,7 @@ void switch_terms(int8_t direction){
 }
 
 void update_term(uint32_t task_id) {
-    
+
     if(task_id == curr_terminal) {
         update_cursor(screen_y[curr_terminal],screen_x[curr_terminal]);
         display_screen(curr_terminal);

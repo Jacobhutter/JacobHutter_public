@@ -136,7 +136,7 @@ int32_t HALT (uint8_t status) {
 int32_t EXECUTE (const uint8_t* command) {
 
     uint32_t start_point; // = get_start(file);
-    uint32_t user_stack; // = _128Mb + _4Mb; 
+    uint32_t user_stack; // = _128Mb + _4Mb;
     uint8_t cpy_buffer[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
     int8_t *start_exe, *end_exe, *start_args, *end_args;
     int32_t len_exe, len_args;
@@ -290,7 +290,7 @@ int32_t EXECUTE (const uint8_t* command) {
  * function: takes a given pcb and reads using general fd pcb methods
  */
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
-    
+
     // Invalid fd
     if (fd < 0 || fd > MAX_FILES - 1 || buf == NULL)
         return -1;
@@ -415,7 +415,7 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
 }
 
 /* int32_t VIDMAP
- * inputs: screen_start - where to write 
+ * inputs: screen_start - where to write
  * output: address on success, -1 on failure
  * function: allows user to write to vidmem
  */
@@ -430,6 +430,7 @@ int32_t VIDMAP (uint8_t** screen_start) {
         //terminal_write("flag2",5);
         return -1;
     }
+    master_page(); // map 136Mb to current frame buffer
 
     /* we built the page for user access to vid memory in kernel.c */
     *screen_start = (uint8_t *)VIDMAP_LOC;

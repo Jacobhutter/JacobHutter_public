@@ -35,6 +35,7 @@
 extern uint32_t vid_backpages[MAX_TERMINALS];
 
 /* initializes the keyboard driver */
+extern unsigned char * get_buf_add();
 extern void change_color(int new_c);
 extern void terminal_open();
 extern void display_screen();
