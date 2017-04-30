@@ -213,7 +213,7 @@ int32_t file_read(int32_t fd, void * buf, int32_t nbytes) {
     // Gets top of process stack
     asm("movl %%esp, %0;" : "=r" (regVal) : );
     // Gets top of process
-    process = (PCB_t *)(regVal & _4Kb_MASK);
+    process = (PCB_t *)(regVal & _8Kb_MASK);
 
     file = process->file_descriptor[fd];
 

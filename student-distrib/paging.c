@@ -12,6 +12,8 @@
 #define VIDEO 0xB8000
 #define NUM_COLS 80
 #define NUM_ROWS 25
+#define VID_MEM 0xB8000
+#define USER_VID_MEM (136 * MB)
 
 // PDE low-bit settings
 #define PRESENT 0x01
@@ -76,7 +78,12 @@ void initPaging() {
 	page_directory1[0] = (unsigned int)page_table1 | PRESENT;
 	// Maps 4MB page for kernel to 4MB
 	page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
-
+	
+	page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
+	// because we need a 4kb page we must go through the page_table
+	page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[1] = vid_backpages[1] | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[2] = vid_backpages[2] | PRESENT | USER_ENABLE | RW_ENABLE;
 	// Loads page directory
 	loadPageDirectory(page_directory1);
 	// Enables paging
@@ -390,8 +397,6 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 	return 0;
 }
 
-#define VID_MEM 0xB8000
-#define USER_VID_MEM (136 * MB)
 
 /*
  * master_page
@@ -425,12 +430,23 @@ int32_t slave_pages(){
 	return 0;
 }
 
-void change_process_vid_mem(uint8_t new_terminal, uint8_t old_terminal) {
-
-	if (new_terminal >= MAX_TERMINAL || old_terminal >= MAX_TERMINAL)
+// terminal_id is current terminal
+// task_id is task in scheduler waiting for service
+void change_process_vid_mem(uint32_t terminal_id, uint32_t task_id) {
+	static uint32_t last_terminal = 0;
+	if (terminal_id >= MAX_TERMINAL || task_id >= MAX_TERMINAL)
 		return;
 
-	memcpy((void*)terminal_vid_mem[old_terminal], (void*)USER_VID_MEM, 4 * kB);
-	memcpy((void*)USER_VID_MEM, (void*)terminal_vid_mem[new_terminal], 4 * kB);
-
+	if(terminal_id == task_id && last_terminal != terminal_id) {
+		//memcpy((void*)VID_MEM, (const void*)vid_backpages[terminal_id], SCREEN_AREA);
+		page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
+	} else if(terminal_id == task_id && last_terminal == terminal_id) {
+		page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
+	} else if(terminal_id != task_id && last_terminal != terminal_id) {
+		//memcpy((void*)vid_backpages[terminal_id], (const void*)VID_MEM, SCREEN_AREA);
+		page_table2[0] = vid_backpages[terminal_id] | PRESENT | USER_ENABLE | RW_ENABLE;
+	} else {
+		page_table2[0] = vid_backpages[terminal_id] | PRESENT | USER_ENABLE | RW_ENABLE;
+	}
+	last_terminal = terminal_id;
 }

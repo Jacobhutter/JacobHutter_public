@@ -7,6 +7,7 @@
 #include "x86_desc.h"
 #include "i8259.h"
 #include "interrupt_handler.h"
+#include "paging.h"
 
 #define MASTER_PIC 0x20
 #define KEYBOARD_DATA 0x60
@@ -29,6 +30,9 @@
 #define _8Mb   0x00800000
 #define _136Mb _128Mb + _8Mb
 #define Kb 1024
+#define MAX_TERMINALS 3
+
+extern uint32_t vid_backpages[MAX_TERMINALS];
 
 /* initializes the keyboard driver */
 extern void change_color(int new_c);
@@ -40,4 +44,5 @@ extern int32_t terminal_write(const void* buf, int32_t nbytes);
 extern int32_t terminal_read(void* buf, int32_t nbytes);
 extern void update_term(uint32_t task_id);
 //extern void test_terminal();
+
 #endif /* keyboard_h */

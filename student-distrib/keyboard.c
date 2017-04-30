@@ -10,9 +10,9 @@ static unsigned char keyboard_buffer1[BUFFER_LIMIT] = "",
                      keyboard_buffer2[BUFFER_LIMIT] = "", 
                      keyboard_buffer3[BUFFER_LIMIT] = "";// keyboard buffer of 128 bytes including new line
 static unsigned char* keyboard_buffers[MAX_TASKS] = {keyboard_buffer1, keyboard_buffer2, keyboard_buffer3}; 
-static unsigned char frame_buffer1[SCREEN_AREA] = "",
-                     frame_buffer2[SCREEN_AREA] = "",
-                     frame_buffer3[SCREEN_AREA] = "";
+static unsigned char frame_buffer1[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
+static unsigned char frame_buffer2[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
+static unsigned char frame_buffer3[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
 static unsigned char* frame_buffers[MAX_TASKS] = {frame_buffer1, frame_buffer2, frame_buffer3};
 static unsigned char dummy_buffer1[SCREEN_AREA] = "",
                      dummy_buffer2[SCREEN_AREA] = "",
@@ -27,10 +27,10 @@ static volatile uint8_t TEXT_C = GREEN;
 static int r_array[] = {4,6,2,1,5};
 static int r_index = 0;
 static int RAINBOW = 0;
-
+static volatile uint32_t cur_task = 0;
 
 static volatile unsigned long curr_terminal = 0;
-
+uint32_t vid_backpages[MAX_TERMINALS] = {0, 0, 0};
 
 void change_color(int new_c){
     switch(new_c){
@@ -164,7 +164,7 @@ system_at_coord(uint8_t c)
     else{
         *(uint8_t *)(frame_buffers[buffer_idx] + 
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1)) = c;
-        *(uint8_t *)(frame_buffers[curr_terminal] + 
+        *(uint8_t *)(frame_buffers[buffer_idx] + 
                     ((SCREEN_WIDTH*screen_y[buffer_idx] + screen_x[buffer_idx]) << 1) + 1) = TEXT_C;
         screen_x[buffer_idx]++;
         if(screen_x[buffer_idx] == SCREEN_WIDTH && screen_y[buffer_idx] == MAX_HEIGHT_INDEX){
@@ -286,9 +286,13 @@ void display_screen(){
  * DESCRIPTION: allows pic to recognize keyboard inputs and also initializes frame buffer and tools for use in terminal
  */
 void terminal_open() {
+    int i;
     /* index of screen we are displaying */
     screen_x[cur_task_index] = 0;
     screen_y[cur_task_index] = 0;
+
+    for(i=0; i<MAX_TERMINALS; i++)
+        vid_backpages[i] = (uint32_t)frame_buffers[i];
 
     /* set cursor to top left of screen */
     if(cur_task_index == curr_terminal)
@@ -448,24 +452,29 @@ void switch_terms(int8_t direction){
     //key_holder[curr_terminal] = keypresses;
 
     /* change to the next terminal */
+
     curr_terminal = direction;
 
     // TODO: switch PCB to next shell and string of child processes
 
     /* copy from slave page of new terminal to our current page */
     //memcpy((void *)frame_buffer,(const void *)(_136Mb + ((curr_terminal+1) *4*Kb)),4*Kb); // load image from new slave page
-
+    
     update_cursor(screen_y[curr_terminal],screen_x[curr_terminal]);
 
     /* push frame buffer to vga mem */
     display_screen(curr_terminal);
+    change_process_vid_mem(curr_terminal, cur_task);
 
     //sti();
 }
 
 void update_term(uint32_t task_id) {
+    
     if(task_id == curr_terminal) {
         update_cursor(screen_y[curr_terminal],screen_x[curr_terminal]);
         display_screen(curr_terminal);
     }
+    change_process_vid_mem(curr_terminal, task_id);
+    cur_task = task_id;
 }
