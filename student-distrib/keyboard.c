@@ -10,10 +10,10 @@ static unsigned char keyboard_buffer1[BUFFER_LIMIT] = "",
         keyboard_buffer2[BUFFER_LIMIT] = "",
                 keyboard_buffer3[BUFFER_LIMIT] = "";// keyboard buffer of 128 bytes including new line
 static unsigned char* keyboard_buffers[MAX_TASKS] = {keyboard_buffer1, keyboard_buffer2, keyboard_buffer3};
-//unsigned char * frame_buffer1[] (_136Mb + 4*Kb); //__attribute__((aligned(4 * Kb)));// = (_136Mb + 4*Kb);
-//unsigned char * frame_buffer2[] (_136Mb + 8*Kb); //__attribute__((aligned(4 * Kb)));// = (_136Mb + 8*Kb);
-//unsigned char * frame_buffer3[] (_136Mb + 12*Kb ); //__attribute__((aligned(4 * Kb)));// = (_136Mb + 12*Kb);
-static unsigned char* frame_buffers[MAX_TASKS] = {(unsigned char *)(_136Mb + 4*Kb), (unsigned char *)(_136Mb + 8*Kb), (unsigned char *)(_136Mb + 12*Kb)};
+static unsigned char frame_buffer1[SCREEN_AREA] __attribute__((aligned(4 * Kb)));// = (_136Mb + 4*Kb);
+static unsigned char frame_buffer2[SCREEN_AREA] __attribute__((aligned(4 * Kb)));// = (_136Mb + 8*Kb);
+static unsigned char frame_buffer3[SCREEN_AREA] __attribute__((aligned(4 * Kb)));// = (_136Mb + 12*Kb);
+static unsigned char* frame_buffers[MAX_TASKS] = {frame_buffer1, frame_buffer2, frame_buffer3};
 static unsigned char dummy_buffer1[SCREEN_AREA] = "",
         dummy_buffer2[SCREEN_AREA] = "",
                                      dummy_buffer3[SCREEN_AREA] = "";
@@ -503,7 +503,7 @@ void switch_terms(int8_t direction) {
 
     /* push frame buffer to vga mem */
     display_screen(curr_terminal);
-    change_process_vid_mem(curr_terminal, cur_task);
+    //change_process_vid_mem(curr_terminal, cur_task);
 
     //sti();
 }
@@ -514,6 +514,6 @@ void update_term(uint32_t task_id) {
         update_cursor(screen_y[curr_terminal], screen_x[curr_terminal]);
         display_screen(curr_terminal);
     }
-    change_process_vid_mem(curr_terminal, task_id);
+    //change_process_vid_mem(curr_terminal, task_id);
     cur_task = task_id;
 }

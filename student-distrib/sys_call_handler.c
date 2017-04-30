@@ -432,19 +432,7 @@ int32_t VIDMAP (uint8_t** screen_start) {
         return -1;
     }
     // map 136Mb to current frame buffer
-    switch(get_cur_term()){
-        case 0:
-            VIDMAP_LOC = (unsigned char *)(_136Mb + 4*Kb);
-            break;
-        case 1:
-            VIDMAP_LOC = (unsigned char *)(_136Mb + 8*Kb);
-            break;
-        case 2:
-            VIDMAP_LOC = (unsigned char *)(_136Mb + 12*Kb);
-            break;
-        default:
-            break;
-    };
+    VIDMAP_LOC = (uint8_t*)_136Mb + get_cur_term()*4*Kb;
     /* we built the page for user access to vid memory in kernel.c */
     *screen_start = VIDMAP_LOC;
 

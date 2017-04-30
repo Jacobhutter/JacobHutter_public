@@ -81,9 +81,11 @@ void initPaging() {
 
 	page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
 	// because we need a 4kb page we must go through the page_table
-	page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[1] = vid_backpages[1] | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[2] = vid_backpages[2] | PRESENT | USER_ENABLE | RW_ENABLE;
+	// page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
+	// page_table2[1] = vid_backpages[1] | PRESENT | USER_ENABLE | RW_ENABLE;
+	// page_table2[2] = vid_backpages[2] | PRESENT | USER_ENABLE | RW_ENABLE;
+	for(i = 0; i < MAX_TASKS; i++)
+		page_table2[i] = vid_backpages[i] | PRESENT | USER_ENABLE | RW_ENABLE;
 	// Loads page directory
 	loadPageDirectory(page_directory1);
 	// Enables paging
