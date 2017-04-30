@@ -54,8 +54,6 @@ int32_t dir_read(int32_t, void *,int32_t);
 /* Gets file size in bytes */
 unsigned long get_file_size(dentry_t);
 
-// void test1();
-
 /* Prints file name to screen */
 void print_file_name(char*);
 
