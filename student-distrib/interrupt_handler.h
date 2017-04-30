@@ -35,6 +35,7 @@
 volatile uint32_t setup_process;
 volatile uint32_t cur_task_index;
 
+// Save information of task
 typedef struct task {
 	uint32_t esp;
 	uint32_t ebp;
@@ -64,13 +65,20 @@ extern void FLOATING_POINT_ERROR();
 extern void ALIGNMENT_CHECK();
 extern void MACHINE_CHECK();
 extern void FLOATING_POINT_EXCEPTION();
+/* Handler function called by RTC interrupt */
 extern void RTC();
+/* sends output to screen when key is pressed */
 extern void KEYBOARD();
+/* prints system call */
 extern void SYSTEM_CALL();
+/* Schedules process */
 extern void PIT();
 
+/* Obtain a slot in RTC simulation */
 extern int32_t init_rtc_freq(int32_t freq);
+/* Change frequency of an RTC clot */
 extern void set_rtc_freq(int32_t freq, int32_t slot);
+/* Wait for next RTC interrupt */
 extern void rtc_wait(unsigned long slot);
 
 #endif

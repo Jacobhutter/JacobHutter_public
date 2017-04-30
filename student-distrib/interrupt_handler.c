@@ -346,7 +346,9 @@ void FLOATING_POINT_EXCEPTION() {
     }
 }
 /* PIT()
- * INSERT SCHEDULER LOGIC HERE.
+ * INPUTS : NONE
+ * OUTPUTS : none
+ * DESCRIPTION: Schedules process
  */
 void PIT() {
     //time_quantum();
@@ -385,7 +387,8 @@ void PIT() {
     } else {
         // Copy into stack frames above the current process
         for(i = 1; i < MAX_TASKS; i++)
-            memcpy((void*)(esp_save - i*_8Kb), (const void*)esp_save, _8Kb - (esp_save % _8Kb));
+            memcpy((void*)(esp_save - i*_8Kb), (const void*)esp_save, 
+                _8Kb - (esp_save % _8Kb));
         // Do something with paging here...
         // Discuss load_process and cur_process holder
         for(i = 0; i < MAX_TASKS; i++) {
@@ -510,7 +513,7 @@ uint32_t ALT_ON = 0;
 
 /*
 * KEYBOARD()
-* DESCRIPTION: sends output to screen when key is pressed,
+* DESCRIPTION: sends output to screen when key is pressed
 * INPUTS : NONE
 * OUTPUTS : PRINTS TO SCREEN
 * RETURN VALUE: NONE
@@ -586,7 +589,10 @@ void KEYBOARD() {
                 send_eoi(kbd_eoi);
                 return;
             }
-            DECISION  = RSHIFT_ON|LSHIFT_ON ? SHIFT_ON : CAPS_ON; // if RSHIFT_on or LSHIFT_ON assign a 2 else assign a 0 or 1 based on caps lock
+            
+            // if RSHIFT_on or LSHIFT_ON assign a 2 else 
+            // assign a 0 or 1 based on caps lock
+            DECISION = RSHIFT_ON|LSHIFT_ON ? SHIFT_ON : CAPS_ON;
             if(key >= 128){ // filter out upstroke
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
