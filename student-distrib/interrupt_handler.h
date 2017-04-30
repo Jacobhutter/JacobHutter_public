@@ -8,7 +8,8 @@
 #include "lib.h"
 #include "i8259.h"
 #include "timer.h"
-#include "scheduler.h"
+#include "sys_call_handler.h"
+#include "keyboard.h"
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_PORT 0x60
 #define ODD_MASK 0x01
@@ -26,6 +27,23 @@
 #define F_ONE 0x3B
 #define F_TWO (F_ONE + 1)
 #define F_THREE (F_ONE + 2)
+
+#ifndef ASM
+
+#define MAX_TASKS 3
+
+volatile uint32_t setup_process;
+volatile uint32_t cur_task_index;
+
+typedef struct task {
+	uint32_t esp;
+	uint32_t ebp;
+	uint32_t tss_esp0;
+	int32_t process_id;
+	struct PCB* process_pcb;
+} task_t;
+
+task_t kernel_tasks[MAX_TASKS];
 
 extern void DIVIDE_ERROR();
 extern void RESERVED();
@@ -55,4 +73,5 @@ extern int32_t init_rtc_freq(int32_t freq);
 extern void set_rtc_freq(int32_t freq, int32_t slot);
 extern void rtc_wait(unsigned long slot);
 
+#endif
 #endif /* interrupt_handler_h */

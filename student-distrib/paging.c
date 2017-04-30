@@ -28,7 +28,7 @@ static unsigned int page_table1[kB] __attribute__((aligned(4 * kB)));
 // Alligns page table to 4kB
 static unsigned int page_table2[kB] __attribute__((aligned(4 * kB)));
 
-static unsigned char process_mask = 0; // No processes running at boot time
+static volatile unsigned char process_mask = 0; // No processes running at boot time
 
 uint32_t terminal_vid_mem[3] = {136*MB + 4*kB, 136*MB + 8*kB, 136*MB + 12*kB};
 unsigned char get_p_mask(){
@@ -63,11 +63,12 @@ void initPaging() {
 		 * Read only, present
 		 * Accessable only by kernel
 		 */
-		// Only enables video memory
+		//Only enables video memory
 		if (i * PAGE_OFF >= VIDEO &&
 		        i * PAGE_OFF < VIDEO + ((NUM_ROWS * NUM_COLS) << 1)) {
 			page_table1[i] = (i * PAGE_OFF) | PRESENT;
 		}
+		//page_table1[i] = (i * PAGE_OFF) | PRESENT;
 	}
 	// NULL Doesn't exist
     page_table1[0] = 0;
@@ -92,22 +93,28 @@ void initPaging() {
  *   SIDE EFFECTS: Maps memory for process
  */
 int32_t load_process() {
-	int i, process_id;
+	int32_t i, process_id;
 	unsigned char mask = 0x01;
 
-	for (i = 0; i < MAX_PROCESS; i++) {
-		// Checks for open process
-		if ((process_mask & (mask << i)) == 0)
-			break;
+	if(kernel_tasks[cur_task_index].process_id == -1) {
+		i = cur_task_index;
+	} else {
+		for (i = 0; i < MAX_PROCESS; i++) {
+			// Checks for open process
+			cli();
+			if ((process_mask & (mask << i)) == 0)
+				break;
+			sti();
+		}
 	}
-
 	if (i >= MAX_PROCESS)
 		return -1;
 	// Sets process to in use
+	cli();
 	process_mask |= (mask << i);
-
+	sti();
 	process_id = i;
-
+	kernel_tasks[cur_task_index].process_id = i;
 	// Below redundant?
 
 	// for (i = 0; i < kB; i++) {
@@ -124,15 +131,25 @@ int32_t load_process() {
 	// // Addresses starting at 4MB (kernel)
      //page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
 
-	// Addresses starting at 128MB (user program)
-	// Base address of 128 MB corresponds to index 128t MB/4 MB = 32
-	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT | PAGE_EXT | USER_ENABLE | RW_ENABLE ;
+	switch_process(process_id);
 
 	// Flush the TLB
-	loadPageDirectory(page_directory1);
+	//loadPageDirectory(page_directory1);
 
 	return process_id;
 }
+
+/* INSERT FUNCTION HEADER HERE.
+ */
+
+void switch_process(int32_t process_id) {
+	// Addresses starting at 128MB (user program)
+	// Base address of 128 MB corresponds to index 128t MB/4 MB = 32
+	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT | PAGE_EXT | USER_ENABLE | RW_ENABLE ;
+	loadPageDirectory(page_directory1);
+
+}
+
 
 /*
 :---:--:+yhys+/:::--------://+///::--------------:/+o+oosssssso+::----------------:ohmNNNNmNNNNNNmmdddddddmmmmmmmmmmmmmmmmmNNNNNNNNNNNNNdo:::----------:+yyso/:--/+/:-:+so/::---------------.----://+oyhhhdmNNmmNmNNNNNNNNNNNmmmmNmdmmmmNNNmmmmNmmmNmmmmmdmmmddmNNddmmmmmmmmmmmmmdhdmmmNmmmmmddmmmmmmmNNNmddddmmmmmdmNNNNmmmmmNNNNNNNmmmmmNNNNNNNNNNmhyyyhdmNNNNNNNmmNNNNNMMMMNmmdhsoooooo+++++++++///+syhs+//+sysosdNNmmdhssys+/--::/::------..---.--://oyo/:/osyss/:-------------------------:odNMMMMMMMMMMMNNmNd:
@@ -337,7 +354,12 @@ int32_t free_gucci(uint8_t process){
 	uint8_t mask = 0x01;
 	mask <<= process;
 
+	if(process < MAX_TASKS) {
+		kernel_tasks[process].process_id = -1;
+	}
+	cli();
 	process_mask &= ~mask;
+	sti();
 
 	return 0;
 }

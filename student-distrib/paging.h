@@ -5,6 +5,7 @@
 #define PAGING_H
 
 #include "lib.h"
+#include "interrupt_handler.h"
 
 #define MAX_PROCESS 6
 #define MAX_TERMINAL 3
@@ -15,6 +16,7 @@ int32_t master_page();
 int32_t slave_pages();
 /* Maps memory for process */
 int32_t load_process();
+void switch_process(int32_t process_id);
 
 /* Called when to end certain process */
 int32_t unload_process(uint8_t, int8_t);

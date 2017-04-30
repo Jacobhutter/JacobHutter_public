@@ -6,6 +6,7 @@
 #include "lib.h"
 #include "x86_desc.h"
 #include "i8259.h"
+#include "interrupt_handler.h"
 
 #define MASTER_PIC 0x20
 #define KEYBOARD_DATA 0x60
@@ -37,5 +38,6 @@ extern void switch_terms(int8_t direction);
 extern void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON);
 extern int32_t terminal_write(const void* buf, int32_t nbytes);
 extern int32_t terminal_read(void* buf, int32_t nbytes);
+extern void update_term(uint32_t task_id);
 //extern void test_terminal();
 #endif /* keyboard_h */

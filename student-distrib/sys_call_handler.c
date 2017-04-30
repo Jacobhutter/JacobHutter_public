@@ -1,7 +1,7 @@
 #include "sys_call_handler.h"
 #define KERNEL_STACK _8Mb
 
-unsigned long init_PCB_addr = _8Mb - _4Kb;
+unsigned long init_PCB_addr = _8Mb - _8Kb;
 
 /*////////////////////////////////////////////////////////////////////////////*/
 /* functions for stdio */
@@ -99,7 +99,8 @@ int32_t HALT (uint8_t status) {
     for (i = 2; i < MAX_FILES; i++)
         CLOSE(i);
 
-    if (process->process_id == 0) {
+    // Reboot base shell, if it is one of the first three processes to start
+    if (process->process_id <= 2) {
         free_gucci(process->process_id); // allows us use id 0 again
         terminal_open();
         EXECUTE((const uint8_t *)"shell");
@@ -110,9 +111,9 @@ int32_t HALT (uint8_t status) {
     unload_process(process->process_id, process->parent_process);
 
     /* get parent using process number */
-    parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
-
-    tss.esp0 = _8Mb - (_4Kb * (parent->process_id)) - 4; // 4 is because last elem is not included 0 -> (N-1)
+    parent = (PCB_t *)(init_PCB_addr - (_8Kb * process->parent_process));
+    kernel_tasks[cur_task_index].process_id = parent->process_id;
+    tss.esp0 = _8Mb - (_8Kb * (parent->process_id)); // 4 is because last elem is not included 0 -> (N-1)
     asm volatile("movl %0, %%esp   \n\
                   movl %1, %%ebp   \n\
                   movl %2, %%eax   \n\
@@ -205,19 +206,19 @@ int32_t EXECUTE (const uint8_t* command) {
     // Get current process num
     parent_PCB = get_PCB();
     parent_num = (unsigned long)parent_PCB;
-    parent_num /= _4Kb;
+    parent_num /= _8Kb;
     parent_num = 255 - parent_num; // 255 is int max for 8 bit uinsigned int
 
     /* create new pcb for current task */
     PCB_t * process;
 
     // Gets address to place PCB for current process
-    PCB_addr = init_PCB_addr - (_4Kb * process_num);
+    PCB_addr = init_PCB_addr - (_8Kb * process_num);
     process = (PCB_t *)PCB_addr;
-    cur_process = process;
+    kernel_tasks[cur_task_index].process_pcb = process;
 
     // head process
-    if (process_num == 0)
+    if (process_num < 3)
         process->parent_process = -1; // this is parent_process so say -1
     else
         process->parent_process = (int8_t)parent_num; // say shell is the parent
@@ -239,7 +240,9 @@ int32_t EXECUTE (const uint8_t* command) {
                   :"=r" (process->esp_holder), "=r" (process->ebp_holder)
                  );
 
-    tss.esp0 = _8Mb - (_4Kb * (process_num)) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
+    cli();
+    tss.esp0 = _8Mb - (_8Kb * (process_num)); // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
+    kernel_tasks[cur_task_index].tss_esp0 = tss.esp0;
     tss.ss0 = KERNEL_DS;
 
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
@@ -255,9 +258,7 @@ int32_t EXECUTE (const uint8_t* command) {
      * iret
      */
 
-    asm volatile(
-        "cli             \n\
-                  movw $0x2B, %%ax \n\
+    asm volatile("movw $0x2B, %%ax \n\
                   movw %%ax, %%ds  \n\
                   push $0x2B       \n\
                   push %1          \n\
@@ -294,10 +295,10 @@ int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
     if (fd < 0 || fd > MAX_FILES - 1 || buf == NULL)
         return -1;
 
-    if (cur_process->file_descriptor[fd].flags != IN_USE)
+    if (kernel_tasks[cur_task_index].process_pcb->file_descriptor[fd].flags != IN_USE)
         return -1;
 
-    return (cur_process->file_descriptor[fd]).operations->read(fd, buf, nbytes);
+    return (kernel_tasks[cur_task_index].process_pcb->file_descriptor[fd]).operations->read(fd, buf, nbytes);
 }
 
 /* int32_t WRITE
@@ -311,10 +312,10 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     if (fd < 0 || fd > MAX_FILES - 1 || buf == NULL)
         return -1;
 
-    if (cur_process->file_descriptor[fd].flags != IN_USE)
+    if (kernel_tasks[cur_task_index].process_pcb->file_descriptor[fd].flags != IN_USE)
         return -1;
 
-    return (cur_process->file_descriptor[fd]).operations->write(fd, buf, nbytes);
+    return (kernel_tasks[cur_task_index].process_pcb->file_descriptor[fd]).operations->write(fd, buf, nbytes);
 }
 
 /* int32_t OPEN
@@ -469,7 +470,7 @@ PCB_t * get_PCB() {
     // Gets top of process stack
     asm("movl %%esp, %0;" : "=r" (regVal) : );
     // Gets top of process stack
-    return (PCB_t *)(regVal & _4Kb_MASK);;
+    return (PCB_t *)(regVal & _8Kb_MASK);;
 
 }
 

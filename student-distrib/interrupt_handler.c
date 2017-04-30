@@ -3,7 +3,7 @@
 
 
 #include "interrupt_handler.h"
-#include "keyboard.h"
+
 
 #define MAX_CLOCKS 8
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
@@ -349,8 +349,64 @@ void FLOATING_POINT_EXCEPTION() {
  * INSERT SCHEDULER LOGIC HERE.
  */
 void PIT() {
-    time_quantum();
-    //send_eoi(PIT_IRQ);
+    //time_quantum();
+
+    uint32_t esp_save, ebp_save, i;
+    asm volatile("movl %%esp, %0 \n\
+                  movl %%ebp, %1 \n\
+                  "
+                  : "=r" (esp_save), "=r" (ebp_save)
+                  :
+                  );
+    // Tasks are ready to be cycled through
+    if(setup_process) {
+        kernel_tasks[cur_task_index].esp = esp_save;
+        kernel_tasks[cur_task_index].ebp = ebp_save;
+        kernel_tasks[cur_task_index].tss_esp0 = tss.esp0;
+        // Select next task
+        cur_task_index++;
+        cur_task_index %= MAX_TASKS;
+
+        esp_save = kernel_tasks[cur_task_index].esp;
+        ebp_save = kernel_tasks[cur_task_index].ebp;
+        tss.esp0 = kernel_tasks[cur_task_index].tss_esp0;
+
+        switch_process(kernel_tasks[cur_task_index].process_id);
+        update_term(cur_task_index);
+        /*
+        asm volatile("movl %0, %%esp \n\
+                      movl %1, %%ebp \n\
+                      "
+                      :
+                      : "r" (esp_save), "r" (ebp_save)
+                      : "%esp", "%ebp"
+                     );
+                     */
+    } else {
+        // Copy into stack frames above the current process
+        for(i = 1; i < MAX_TASKS; i++)
+            memcpy((void*)(esp_save - i*_8Kb), (const void*)esp_save, _8Kb - (esp_save % _8Kb));
+        // Do something with paging here...
+        // Discuss load_process and cur_process holder
+        for(i = 0; i < MAX_TASKS; i++) {
+            kernel_tasks[i].esp = esp_save - i*_8Kb;
+            kernel_tasks[i].ebp = ebp_save - i*_8Kb;
+            kernel_tasks[i].tss_esp0 = tss.esp0 - i*_8Kb;
+            kernel_tasks[i].process_id = -1;
+            kernel_tasks[i].process_pcb = NULL;
+        }
+        cur_task_index = 0;
+        setup_process = 1;
+    }
+    asm volatile("movl %0, %%esp \n\
+                  movl %1, %%ebp \n\
+                  "
+                  :
+                  : "r" (esp_save), "r" (ebp_save)
+                  : "%esp", "%ebp"
+                 );
+    send_eoi(PIT_IRQ);
+    return;
 }
 
 

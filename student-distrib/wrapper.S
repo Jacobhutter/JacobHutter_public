@@ -268,6 +268,7 @@ sys_call_error:
   movl $-1, %eax
 
 fake_ret:
+    cli
     addl $12,%esp # remove args
 
     popfl

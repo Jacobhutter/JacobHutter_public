@@ -197,8 +197,14 @@ entry (unsigned long magic, unsigned long addr)
 
     init_stdio();
 
+    setup_process = 0;
+    cur_task_index = 0;
+
     sti();
 
+    {
+        while(!setup_process);
+    }
 
     /* uncomment for terminal test */
     //test_terminal();
