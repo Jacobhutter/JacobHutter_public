@@ -419,7 +419,8 @@ int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
  * output: address on success, -1 on failure
  * function: allows user to write to vidmem
  */
-#define VIDMAP_LOC _128Mb + _8Mb
+uint8_t* VIDMAP_LOC = NULL;
+//#define _136Mb = _128Mb + _4Mb + _4Mb
 int32_t VIDMAP (uint8_t** screen_start) {
     /* check to see if start is within user program image */
     if (screen_start < (uint8_t **)_128Mb) { // before program image start
@@ -430,16 +431,28 @@ int32_t VIDMAP (uint8_t** screen_start) {
         //terminal_write("flag2",5);
         return -1;
     }
-    master_page(); // map 136Mb to current frame buffer
-
+    // map 136Mb to current frame buffer
+    switch(get_cur_term()){
+        case 0:
+            VIDMAP_LOC = (unsigned char *)(_136Mb + 4*Kb);
+            break;
+        case 1:
+            VIDMAP_LOC = (unsigned char *)(_136Mb + 8*Kb);
+            break;
+        case 2:
+            VIDMAP_LOC = (unsigned char *)(_136Mb + 12*Kb);
+            break;
+        default:
+            break;
+    };
     /* we built the page for user access to vid memory in kernel.c */
-    *screen_start = (uint8_t *)VIDMAP_LOC;
+    *screen_start = VIDMAP_LOC;
 
     /* http://wiki.osdev.org/Printing_To_Screen */
 
     // program image is _8Mb so map video mem at 128 + 8 mb = _136MB
 
-    return VIDMAP_LOC;
+    return 0;
 
 }
 /* int32_t SET_HANDLER

@@ -10,10 +10,10 @@ static unsigned char keyboard_buffer1[BUFFER_LIMIT] = "",
                      keyboard_buffer2[BUFFER_LIMIT] = "",
                      keyboard_buffer3[BUFFER_LIMIT] = "";// keyboard buffer of 128 bytes including new line
 static unsigned char* keyboard_buffers[MAX_TASKS] = {keyboard_buffer1, keyboard_buffer2, keyboard_buffer3};
-static unsigned char frame_buffer1[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
-static unsigned char frame_buffer2[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
-static unsigned char frame_buffer3[SCREEN_AREA] __attribute__((aligned(4 * Kb)));
-static unsigned char* frame_buffers[MAX_TASKS] = {frame_buffer1, frame_buffer2, frame_buffer3};
+//unsigned char * frame_buffer1[] (_136Mb + 4*Kb); //__attribute__((aligned(4 * Kb)));// = (_136Mb + 4*Kb);
+//unsigned char * frame_buffer2[] (_136Mb + 8*Kb); //__attribute__((aligned(4 * Kb)));// = (_136Mb + 8*Kb);
+//unsigned char * frame_buffer3[] (_136Mb + 12*Kb ); //__attribute__((aligned(4 * Kb)));// = (_136Mb + 12*Kb);
+static unsigned char* frame_buffers[MAX_TASKS] = {(unsigned char *)(_136Mb + 4*Kb), (unsigned char *)(_136Mb + 8*Kb), (unsigned char *)(_136Mb + 12*Kb)};
 static unsigned char dummy_buffer1[SCREEN_AREA] = "",
                      dummy_buffer2[SCREEN_AREA] = "",
                      dummy_buffer3[SCREEN_AREA] = "";
@@ -29,11 +29,16 @@ static int r_index = 0;
 static int RAINBOW = 0;
 static volatile uint32_t cur_task = 0;
 
+
+
 static volatile unsigned long curr_terminal = 0;
 uint32_t vid_backpages[MAX_TERMINALS] = {0, 0, 0};
 
-unsigned char * get_buf_add(){
-    return frame_buffers[curr_terminal];
+unsigned char * get_buf_add(uint8_t select){
+    return frame_buffers[select];
+}
+uint8_t get_cur_term(){
+    return curr_terminal;
 }
 void change_color(int new_c){
     switch(new_c){
@@ -289,6 +294,10 @@ void display_screen(){
  * DESCRIPTION: allows pic to recognize keyboard inputs and also initializes frame buffer and tools for use in terminal
  */
 void terminal_open() {
+
+    /*(unsigned char *)frame_buffer1 = (unsigned char *)(_136Mb + 4*Kb);
+    (unsigned char *)frame_buffer2 = (unsigned char *)(_136Mb + 8*Kb);
+    (unsigned char *)frame_buffer3 = (unsigned char *)(_136Mb + 12*Kb);*/
     int i;
     /* index of screen we are displaying */
     screen_x[cur_task_index] = 0;

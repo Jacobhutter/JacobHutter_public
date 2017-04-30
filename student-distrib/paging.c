@@ -412,7 +412,7 @@ int32_t master_page(){
 
     page_directory1[(136*MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
 	// because we need a 4kb page we must go through the page_table
-	page_table2[0] = (uint32_t)get_buf_add() | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[0] = (uint32_t)VGA_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
 	// Flush the TLB
 	loadPageDirectory(page_directory1);
 
@@ -424,9 +424,9 @@ int32_t slave_pages(){
     page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
 
 	/* create 4Kb pages at 136 Mb + 4,8,12kb.*/
-	page_table2[1] = ((136*MB)+4*kB) | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[2] = ((136*MB)+8*kB) | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[3] = ((136*MB)+12*kB) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[1] = (uint32_t)(136*MB + 4*Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[2] = (uint32_t)(136*MB + 8*Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[3] = (uint32_t)(136*MB + 12*Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
 
 	return 0;
 }
