@@ -44,6 +44,7 @@ extern void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON);
 extern int32_t terminal_write(const void* buf, int32_t nbytes);
 extern int32_t terminal_read(void* buf, int32_t nbytes);
 extern void update_term(uint32_t task_id);
+void clear_all_frame_buf();
 //extern void test_terminal();
 
 #endif /* keyboard_h */

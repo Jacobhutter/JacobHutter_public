@@ -186,6 +186,8 @@ entry (unsigned long magic, unsigned long addr)
     /*initialize paging */
     initPaging();
 
+    clear_all_frame_buf();
+
     /*set up user level page for vid map linked directly to video memory at address 136mb*/
     //master_page();
 
