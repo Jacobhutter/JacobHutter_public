@@ -34,6 +34,10 @@ static unsigned char ELF[] = {0x7f, 0x45, 0x4c, 0x46};
  *   SIDE EFFECTS: Adds data to global vars
  */
 void init_file_system(unsigned long * addr) {
+    
+    if (addr == NULL)
+        return;
+
     boot_block_addr = addr;
     dir_entries = *boot_block_addr;
     num_inode = *(boot_block_addr + 1);
@@ -54,6 +58,9 @@ int32_t read_dentry_by_name(const uint8_t * fname, dentry_t* dentry) {
 
     dentry_t* curr;
     int i;
+
+    if (dentry == NULL)
+        return -1;
 
     // Create fake dentry for RTC, if requested
     if (strncmp((int8_t*)fname, RTC_FILE, RTC_FILE_LEN) == 0) {
@@ -124,6 +131,9 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf,
     char* init_data_addr, *data_addr;
     int block_length, data_num, min, i, j, k;
     int block_offset, init_offset;
+
+    if (buf == NULL)
+        return -1;
 
     // Gets offset of data block
     block_offset = offset / MEM_BLOCK;
@@ -404,6 +414,10 @@ void print_file_name(char* a) {
  */
 int check_string(const uint8_t* s1, uint8_t* s2) {
     int i;
+
+    if (s1 == NULL || s2 == NULL)
+        return -1;
+
     // Checks length of file name, cuts off at 32
     int length = (strlen((const int8_t*)s1) > MAX_NAME) ? MAX_NAME :
                  strlen((const int8_t*)s1);
@@ -505,6 +519,10 @@ uint32_t read_file_by_dentry(dentry_t file) {
  */
 uint32_t read_file_by_name(char* name) {
     dentry_t file;
+
+    if (name == NULL)
+        return -1;
+
     // Gets the dentry
     if (read_dentry_by_name((uint8_t*)name, &file) == -1)
         return -1;
