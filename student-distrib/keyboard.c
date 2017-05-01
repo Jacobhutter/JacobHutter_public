@@ -274,8 +274,8 @@ void terminal_open() {
     /*display the blank frame buffer*/
     display_screen();
 
-    /*allow for interrupts from keyboard via PIC*/
-    enable_irq(KBD_IRQ_LINE);
+    /*allow for interrupts from keyboard via APIC*/
+    outb(KBD_IRQ_LINE, KEYBOARD_IRQ);
 }
 
 /* void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON)
@@ -299,10 +299,8 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON){
     if(CONTROL_ON == 1 && keypress == 'L'){
         //char test[] = "aaaaaaaaaafj;dlsafjkdsfdlksajfkd;safkdjsa;fdjslakfjdsl;afdkjsa;fdjskajfdsa;fkdsajf;dsjafkdjkasjfdkl;afskldjsalfkjdsalfjdkslajflds;ajfldsjafkdjsal;fjdksa;fdjka;fjdksa;jfkldsjaflkdsjaf;dlkafkdjskafjdsalf;dajfklsajfkldjsalkfjsakl;fjsadl;fksajfds;afjkl;sdajfldksjafl;dsakjflsdajflk;dsaflkdsajfkldsa;kdsjakfljdsalfjdsla;fjdklsjafldsajfkldsa;f";
         //terminal_write((const void *)test,(int32_t)strlen(test));
-        //terminal_open();
-        //terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
-        send_eoi(1);
-        EXECUTE((const void *)"shell");
+        terminal_open();
+        terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
         return;
     }
 

@@ -315,21 +315,6 @@ void FLOATING_POINT_ERROR() {
     while (1) {
     }
 }
-/* PIT()
- * INSERT SCHEDULER LOGIC HERE.
- */
- volatile uint8_t terminal_count = 0;
-void PIT() {
-    if(terminal_count < 3){
-        const uint8_t command[] = "shell";
-        terminal_count++;
-        send_eoi(PIT_IRQ);
-        EXECUTE(command);
-    }
-    //time_quantum();
-    send_eoi(PIT_IRQ);
-}
-
 /* ALIGNMENT_CHECK()
 * INPUTS : NONE
 * OUTPUTS : PRINTS TO SCREEN
@@ -445,7 +430,7 @@ void RTC() {
                 ticks = 0;
             }
         }
-
+        
     }
 
 }

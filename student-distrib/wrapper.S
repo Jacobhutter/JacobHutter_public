@@ -7,7 +7,7 @@
 */
 
 .text
-.globl _RTC,_KEYBOARD,_SYSTEM_CALL,_PIT
+.globl _RTC,_KEYBOARD,_SYSTEM_CALL
 # exception table is called to give address of each entry in the table
 .globl 	_DIVIDE_ERROR,_RESERVED, _NMI_INTERRUPT, _BREAKPOINT, _OVERFLOW, _BOUND_RANGE_EXCEEDED, _INVALID_OPCODE, _DEVICE_NOT_AVAILABLE, _DOUBLE_FAULT, _COPROCESSOR_SEGMENT_OVERRUN, _INVALID_TSS, _SEGMENT_NOT_PRESENT, _STACK_SEGMENT_FAULT, _GENERAL_PROTECTION, _PAGE_FAULT, _FLOATING_POINT_ERROR, _ALIGNMENT_CHECK, _MACHINE_CHECK, _FLOATING_POINT_EXCEPTION, fake_ret
 
@@ -206,16 +206,6 @@ call FLOATING_POINT_EXCEPTION
 popal
 iret
 /*
-*_PIT:
-* routes program to c function, pushes all register
-*
-*/
-_PIT:
-pushal
-call PIT
-popal
-iret
-/*
 *_RTC:
 * routes program to c function, pushes all register
 *
@@ -238,7 +228,7 @@ _KEYBOARD:
 /*
 *_SYSTEM_CALL:
 * routes program to c function, pushes all register, error checks
-*
+* 
 */
 _SYSTEM_CALL:
 
