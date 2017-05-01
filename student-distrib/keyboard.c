@@ -24,7 +24,7 @@ static volatile uint32_t old_keypresses[MAX_TASKS] = {0, 0, 0};
 static volatile uint32_t screen_x[MAX_TASKS] = {0, 0, 0};
 static volatile uint32_t screen_y[MAX_TASKS] = {0, 0, 0};
 static volatile uint8_t TEXT_C = GREEN;
-static int r_array[] = {4, 6, 2, 1, 5};
+static int r_array[] = {RED, ORANGE, GREEN, BLUE, PURPLE};
 static int r_index = 0;
 static int RAINBOW = 0;
 static volatile uint32_t cur_task = 0;
@@ -63,34 +63,35 @@ uint8_t get_cur_term() {
 * output: termianl color is differen
 * return value: none
 */
+
 void change_color(int new_c) {
     switch (new_c) {
     case 0:
-        TEXT_C = 4;
+        TEXT_C = RED;
         RAINBOW = 0;
         break;
     case 1:
-        TEXT_C = 1;
+        TEXT_C = BLUE;
         RAINBOW = 0;
         break;
     case 2:
-        TEXT_C = 2;
+        TEXT_C = GREEN;
         RAINBOW = 0;
         break;
     case 3:
-        TEXT_C = 5;
+        TEXT_C = PURPLE;
         RAINBOW = 0;
         break;
     case 4:
-        TEXT_C = 6;
+        TEXT_C = ORANGE;
         RAINBOW = 0;
         break;
     case 5:
-        TEXT_C = 7;
+        TEXT_C = WHITE;
         RAINBOW = 0;
         break;
     case 6:
-        TEXT_C = 4;
+        TEXT_C = RED;
         RAINBOW = 1;
         r_index = 0;
         break;
@@ -106,16 +107,17 @@ void change_color(int new_c) {
  * by Dark Fiber
  * http://wiki.osdev.org/Text_Mode_Cursor
  */
+
 void update_cursor(int row, int col)
 {
     unsigned short position = (row * SCREEN_WIDTH) + col;
 
     // cursor LOW port to vga INDEX register
-    outb(0x0F, 0x3D4); // 0x3D4 is the address of the vga index register
-    outb((unsigned char)(position & 0xFF), 0x3D5); // 0x3D5 is the data for the index register
+    outb(vga_mask, vga_reg); // 0x3D4 is the address of the vga index register
+    outb((unsigned char)(position & full_mask), vga_dat); // 0x3D5 is the data for the index register
     // cursor HIGH port to vga INDEX register
-    outb(0x0E, 0x3D4); // unamsk the cursort we just wrote to
-    outb((unsigned char )((position >> 8) & 0xFF), 0x3D5); // update the position to allow cursor to adapt to position
+    outb(partial_mask, vga_reg); // unamsk the cursort we just wrote to
+    outb((unsigned char )((position >> BYTE) & full_mask), vga_dat); // update the position to allow cursor to adapt to position
 }
 
 /* clear_kbd_buf()
@@ -309,9 +311,10 @@ static void clear_frame_buf(uint32_t buf_idx) {
  * OUTPUTS: a cleared frame buffer
  * RETURN VALUE: none
  */
+
 void clear_all_frame_buf() {
     int i, j;
-    for (j = 0; j < 3; j++) {
+    for (j = 0; j < frames; j++) {
         for (i = 0; i < SCREEN_AREA; i++) {
             if (i % 2 == 0)
                 frame_buffers[j][i] = ' ';
@@ -397,6 +400,7 @@ void terminal_open() {
  * RETURN VALUE: void
  * DESCRIPTION: writes char to frame buffer and displays upon a keyboard interrupt
  */
+
 void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON) {
 
     /* CONTROL SHIFT L seen */
@@ -409,10 +413,10 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON) {
         return;
 
     /* check for control shift l */
-    if (CONTROL_ON == 1 && keypress == 'L') {
+    if (CONTROL_ON == 1 && keypress == 'l') {
         //terminal_write((const void *)test,(int32_t)strlen(test));
         refresh_terminal(curr_terminal);
-        //terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
+        terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
         return;
     }
 
@@ -428,7 +432,7 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON) {
     put_at_coord(keypress);
     if (RAINBOW) {
         TEXT_C = r_array[r_index];
-        r_index = (r_index + 1) % 5;
+        r_index = (r_index + 1) % num_colors;
     }
 
     /* update cursor at new screen_X screen_y value */
@@ -465,7 +469,7 @@ int32_t terminal_write(const void* buf, int32_t nbytes) {
         system_at_coord(((unsigned char*)buf)[i]);
         if (RAINBOW) {
             TEXT_C = r_array[r_index];
-            r_index = (r_index + 1) % 5;
+            r_index = (r_index + 1) % num_colors;
         }
         retval++;
     }

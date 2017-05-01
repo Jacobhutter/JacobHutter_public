@@ -137,7 +137,9 @@ int32_t rtc_close(int32_t fd) {
  * RETURNS:      Zero
  * SIDE EFFECTS: Prints testcase lines to monitor
  */
+
 void test_rtc() {
+    /*
 	int freqs[RTC_TESTCASES] = {2, 16, 45, 1, 2048, -2, 8, 1024};
     int i, j;
     uint8_t letter;
@@ -165,5 +167,5 @@ void test_rtc() {
         }
         letter = '\n';
     	terminal_write(&letter, SIZEOF_CHAR);
-   	}
+   	}*/
 }

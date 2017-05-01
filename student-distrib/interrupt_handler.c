@@ -15,7 +15,9 @@
 * output: none
 * return value: unsigned char for the character for that scan code
 */
-unsigned char keyboard_map[3][128] =
+#define num_kbds 3
+#define num_keys 128
+unsigned char keyboard_map[num_kbds][num_keys] =
 {{
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
     '9', '0', '-', '=', '\b',	/* Backspace */
@@ -387,7 +389,7 @@ void PIT() {
     } else {
         // Copy into stack frames above the current process
         for(i = 1; i < MAX_TASKS; i++)
-            memcpy((void*)(esp_save - i*_8Kb), (const void*)esp_save, 
+            memcpy((void*)(esp_save - i*_8Kb), (const void*)esp_save,
                 _8Kb - (esp_save % _8Kb));
         // Do something with paging here...
         // Discuss load_process and cur_process holder
@@ -589,11 +591,11 @@ void KEYBOARD() {
                 send_eoi(kbd_eoi);
                 return;
             }
-            
-            // if RSHIFT_on or LSHIFT_ON assign a 2 else 
+
+            // if RSHIFT_on or LSHIFT_ON assign a 2 else
             // assign a 0 or 1 based on caps lock
             DECISION = RSHIFT_ON|LSHIFT_ON ? SHIFT_ON : CAPS_ON;
-            if(key >= 128){ // filter out upstroke
+            if(key >= NUM_ENTRIES){ // filter out upstroke
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }

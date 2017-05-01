@@ -31,7 +31,19 @@
 #define _136Mb _128Mb + _8Mb
 #define Kb 1024
 #define MAX_TERMINALS 3
-
+#define RED 4
+#define BLUE 1
+#define PURPLE 5
+#define ORANGE 6
+#define WHITE 7
+#define full_mask 0xFF
+#define vga_mask 0x0F
+#define vga_reg 0x3D4
+#define vga_dat 0x3D5
+#define partial_mask 0x0E
+#define BYTE 8
+#define num_colors 5
+#define frames 3
 extern uint32_t vid_backpages[MAX_TERMINALS];
 
 /* initializes the keyboard driver */
@@ -51,7 +63,7 @@ void update_cursor(int, int);
 /* clears all the frame buffer that is written into vga mem */
 void clear_all_frame_buf();
 
-/* allows pic to recognize keyboard inputs and also initializes 
+/* allows pic to recognize keyboard inputs and also initializes
  * frame buffer and tools for use in terminal */
 extern void terminal_open();
 
@@ -64,11 +76,11 @@ extern void switch_terms(int8_t direction);
 /* writes char to frame buffer and displays upon a keyboard interrupt */
 extern void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON);
 
-/* Takes a buffer of size nybtes and writes it to the frame 
+/* Takes a buffer of size nybtes and writes it to the frame
  * buffer without altering current kbd operations */
 extern int32_t terminal_write(const void* buf, int32_t nbytes);
 
-/* reads through kbd buffer and writes to given buffer of the 
+/* reads through kbd buffer and writes to given buffer of the
  * smaller of two options and also clears the old_keypresses; */
 extern int32_t terminal_read(void* buf, int32_t nbytes);
 

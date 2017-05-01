@@ -5,14 +5,15 @@
 #include "types.h"
 #include "keyboard.h"
 #include "sys_call_handler.h"
-
+#define f_name_num 32
+#define res_len 24
 // denttry block in file system
 typedef struct dentry
 {
-	char file_name[32];
+	char file_name[f_name_num];
 	int file_type;
 	int i_node_num;
-	char reserved[24];
+	char reserved[res_len];
 } dentry_t;
 
 /* Initializes file system driver */

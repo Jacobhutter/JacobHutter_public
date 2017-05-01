@@ -133,6 +133,8 @@ int32_t HALT (uint8_t status) {
  * output: 0 dummy
  * function: takes name of elf and possible arg, loads program into mem, makes a pcb and travels to ring 3
  */
+ #define int_m 255
+ #define init_proc 3
 int32_t EXECUTE (const uint8_t* command) {
 
     uint32_t start_point; // = get_start(file);
@@ -207,7 +209,7 @@ int32_t EXECUTE (const uint8_t* command) {
     parent_PCB = get_PCB();
     parent_num = (unsigned long)parent_PCB;
     parent_num /= _8Kb;
-    parent_num = 255 - parent_num; // 255 is int max for 8 bit uinsigned int
+    parent_num = int_m - parent_num; // 255 is int max for 8 bit uinsigned int
 
     /* create new pcb for current task */
     PCB_t * process;
@@ -218,7 +220,7 @@ int32_t EXECUTE (const uint8_t* command) {
     kernel_tasks[cur_task_index].process_pcb = process;
 
     // head process
-    if (process_num < 3)
+    if (process_num < init_proc)
         process->parent_process = -1; // this is parent_process so say -1
     else
         process->parent_process = (int8_t)parent_num; // say shell is the parent

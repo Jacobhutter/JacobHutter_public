@@ -438,7 +438,7 @@ void list_all_files() {
         read_dentry_by_index(i, &curr);
         // Gets file size
         size = *(boot_block_addr + kB + (curr.i_node_num * kB));
-        temp = curr.file_type + 48;
+        temp = curr.file_type + '0';
         // Prints out file descriptions
         terminal_write("File name: ", 11);
         print_file_name((char*) & (curr.file_name));
@@ -576,15 +576,16 @@ void printInt(int num) {
  *   RETURN VALUE: 0 if true, -1 if false
  *   SIDE EFFECTS: none
  */
+#define strt_ln 4
 int check_ELF(dentry_t file) {
-    unsigned char buffer[4];
+    unsigned char buffer[strt_ln];
     int i;
 
     // Reads first 4 bytes
-    read_data(file.i_node_num, 0, buffer, 4);
+    read_data(file.i_node_num, 0, buffer, strt_ln);
 
     // Checks against buffer
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < strt_ln; i++) {
         if (buffer[i] != ELF[i])
             return -1;
     }
@@ -600,14 +601,15 @@ int check_ELF(dentry_t file) {
  *   RETURN VALUE: Program Address
  *   SIDE EFFECTS: none
  */
+ #define ELF_start 24
 uint32_t get_start(dentry_t file) {
 
     // Needs 4 bytes for ELF
-    unsigned char buffer[4];
+    unsigned char buffer[strt_ln];
 
     // 24 is start point of elf start location,
     // 4 is the num bytes we want aka 24-27 bytes
-    read_data(file.i_node_num, 24, buffer, 4);
+    read_data(file.i_node_num, ELF_start, buffer, strt_ln);
 
     uint32_t retval = *((uint32_t*)buffer);
 
