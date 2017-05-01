@@ -416,7 +416,7 @@ void keyboard_write(unsigned char keypress, uint8_t CONTROL_ON) {
     if (CONTROL_ON == 1 && keypress == 'l') {
         //terminal_write((const void *)test,(int32_t)strlen(test));
         refresh_terminal(curr_terminal);
-        terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
+        // terminal_write((const void *)PROMPT, (int32_t)7); //write a prompt with length 7 chars
         return;
     }
 
