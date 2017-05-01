@@ -11,9 +11,12 @@
 #define PIT_CTR_HIGH  0x00 // A reload value of zero --> interrupts at 18.2 Hz
 
 /* pit_init()
- * INSERT FUNCTION HEADER HERE.
+ * DESCRIPTION:  Intitializes the programmable interval timer
+ * INPUTS:       None
+ * OUTPUTS:      None
+ * RETURNS:      None
+ *
  */
-
 void pit_init(){
     outb(PIT_CMD_START, PIT_CMD_REG);
     outb(PIT_CTR_LOW, PIT_CH0);

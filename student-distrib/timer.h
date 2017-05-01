@@ -33,12 +33,25 @@
 #define RTC_BASE_FREQ  1024 /* to virtualize RTC */
 #define RTC_INIT_FREQ  2
 
+/* Intitializes the programmable interval timer */
 extern void pit_init();
+
+/* Intitializes the real-time clock */
 extern void rtc_init();
+
+/* Allocates new RTC clock for file descriptor */
 extern int32_t rtc_open(const uint8_t* junk);
+
+/* Pauses for the next RTC clock tick */
 extern int32_t rtc_read(int32_t fd, void *buf, int32_t bytes);
+
+/* Sets RTC clock frequency for process */
 extern int32_t rtc_write (int32_t fd, const char* buf, int32_t nbytes);
+
+/* De-allocates the slot given to the file descriptor */
 extern int32_t rtc_close(int32_t fd);
+
+/* Tests RTC */
 extern void test_rtc();
 
 #endif
