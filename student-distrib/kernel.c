@@ -228,7 +228,28 @@ entry (unsigned long magic, unsigned long addr)
 
 //Make a beep
 //void beep() {
-    play_sound(1000);
+    uint32_t c_scale[8] = {130,147,165,175,196,220,247,262};
+    uint32_t q;
+    for(q =0; q<(8*450000);q++){
+        if(q<450000)
+            play_sound(c_scale[0]);
+        else if(q<2*450000)
+            play_sound(c_scale[1]);
+            else if(q<3*450000)
+                play_sound(c_scale[2]);
+                else if(q<4*450000)
+                    play_sound(c_scale[3]);
+                    else if(q<5*450000)
+                        play_sound(c_scale[4]);
+                        else if(q<6*450000)
+                            play_sound(c_scale[5]);
+                            else if(q<7*450000)
+                                play_sound(c_scale[6]);
+                                else if(q<8*450000)
+                                    play_sound(c_scale[7]);
+    }
+
+    //play_sound(100);
     //timer_wait(10);
     //nosound();
          //set_PIT_2(old_frequency);
