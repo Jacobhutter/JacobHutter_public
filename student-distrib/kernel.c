@@ -29,6 +29,30 @@ static unsigned int bb;
  * OUTPUT: boots up and initializes os
  * Description: main function for kernel
  */
+ static void play_sound(uint32_t nFrequence) {
+    uint32_t Div;
+    uint8_t tmp;
+
+        //Set the PIT to the desired frequency
+    Div = 1193180 / nFrequence;
+    outb(0xb6,0x43);
+    outb((uint8_t) (Div),0x42 );
+    outb((uint8_t) (Div >> 8),0x42);
+
+        //And play the sound using the PC speaker
+    tmp = inb(0x61);
+    if (tmp != (tmp | 3)) {
+        outb((tmp | 3), 0x61);
+    }
+ }
+
+ //make it shutup
+ static void nosound() {
+    uint8_t tmp = inb(0x61) & 0xFC;
+
+    outb(tmp, 0x61);
+ }
+
 void
 entry (unsigned long magic, unsigned long addr)
 {
@@ -199,6 +223,16 @@ entry (unsigned long magic, unsigned long addr)
     // Initialized frame buffers
     clear_all_frame_buf();
 
+    //Play sound using built in speaker
+
+
+//Make a beep
+//void beep() {
+    play_sound(1000);
+    //timer_wait(10);
+    //nosound();
+         //set_PIT_2(old_frequency);
+//}
     setup_process = 0;
     cur_task_index = 0;
 
