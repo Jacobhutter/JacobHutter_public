@@ -51,7 +51,4 @@ extern int32_t rtc_write (int32_t fd, const char* buf, int32_t nbytes);
 /* De-allocates the slot given to the file descriptor */
 extern int32_t rtc_close(int32_t fd);
 
-/* Tests RTC */
-extern void test_rtc();
-
 #endif
