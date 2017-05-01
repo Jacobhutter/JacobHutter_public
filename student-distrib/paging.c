@@ -15,6 +15,10 @@
 #define VID_MEM 0xB8000
 #define USER_VID_MEM (136 * MB)
 
+#define TERM_1_VID_MEM (136 * MB + 4 * kB)
+#define TERM_2_VID_MEM (136 * MB + 8 * kB)
+#define TERM_3_VID_MEM (136 * MB + 12 * kB)
+
 // PDE low-bit settings
 #define PRESENT 0x01
 #define PAGE_EXT 0x080
@@ -33,8 +37,8 @@ static unsigned int page_table2[kB] __attribute__((aligned(4 * kB)));
 static volatile unsigned char process_mask = 0; // No processes running at boot time
 
 // Memory locations for each terminal
-uint32_t terminal_vid_mem[3] = {136 * MB + 4 * kB, 136 * MB + 8 * kB,
-                                136 * MB + 12 * kB
+uint32_t terminal_vid_mem[3] = {TERM_1_VID_MEM, TERM_2_VID_MEM,
+                                TERM_3_VID_MEM
                                };
 
 /*
@@ -138,21 +142,6 @@ int32_t load_process() {
 	sti();
 	process_id = i;
 	kernel_tasks[cur_task_index].process_id = i;
-	// Below redundant?
-
-	// for (i = 0; i < kB; i++) {
-	// 	if (i * PAGE_OFF >= VIDEO &&
-	// 	        i * PAGE_OFF < VIDEO + ((NUM_ROWS * NUM_COLS) << 1)) {
-	// 		page_table1[i] = (i * PAGE_OFF) | PRESENT;
-	// 	}
-	// }
-
-	// page_table1[0] = 0;
-
-	// // Enable present bit
-	//page_directory1[0] = (unsigned int)page_table1 | PRESENT;
-	// // Addresses starting at 4MB (kernel)
-	//page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
 
 	switch_process(process_id);
 
@@ -411,6 +400,7 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 	// Frees process
 	free_gucci(process);
 
+	// 32 is 128 MB
 	page_directory1[32] = (INIT_ADDR + (4 * MB) * parent_id) | PRESENT |
 	                      PAGE_EXT | USER_ENABLE | RW_ENABLE;
 
@@ -441,7 +431,7 @@ int32_t master_page() {
 	// Flush the TLB
 	loadPageDirectory(page_directory1);
 
-	return 136 * MB;
+	return USER_VID_MEM;
 }
 
 /*
@@ -459,9 +449,9 @@ int32_t slave_pages() {
 	        USER_ENABLE | RW_ENABLE;
 
 	/* create 4Kb pages at 136 Mb + 4,8,12kb.*/
-	page_table2[1] = (uint32_t)(136 * MB + 4 * Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[2] = (uint32_t)(136 * MB + 8 * Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[3] = (uint32_t)(136 * MB + 12 * Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[1] = (uint32_t)TERM_1_VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[2] = (uint32_t)TERM_2_VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[3] = (uint32_t)TERM_3_VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
 
 	return 0;
 }
