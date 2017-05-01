@@ -248,7 +248,7 @@ entry (unsigned long magic, unsigned long addr)
                                 else if(q<8*450000)
                                     play_sound(c_scale[7]);
     }
-
+    nosound();
     //play_sound(100);
     //timer_wait(10);
     //nosound();
