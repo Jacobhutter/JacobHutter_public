@@ -3,7 +3,7 @@
 
 
 #include "interrupt_handler.h"
-#include "keyboard.h"
+
 
 #define MAX_CLOCKS 8
 //https://github.com/arjun024/mkeykernel/blob/master/keyboard_map.h
@@ -345,6 +345,73 @@ void FLOATING_POINT_EXCEPTION() {
     while (1) {
     }
 }
+/* PIT()
+ * INPUTS : NONE
+ * OUTPUTS : none
+ * DESCRIPTION: Schedules process
+ */
+void PIT() {
+    //time_quantum();
+
+    uint32_t esp_save, ebp_save, i;
+    asm volatile("movl %%esp, %0 \n\
+                  movl %%ebp, %1 \n\
+                  "
+                  : "=r" (esp_save), "=r" (ebp_save)
+                  :
+                  );
+    // Tasks are ready to be cycled through
+    if(setup_process) {
+        kernel_tasks[cur_task_index].esp = esp_save;
+        kernel_tasks[cur_task_index].ebp = ebp_save;
+        kernel_tasks[cur_task_index].tss_esp0 = tss.esp0;
+        // Select next task
+        cur_task_index++;
+        cur_task_index %= MAX_TASKS;
+
+        esp_save = kernel_tasks[cur_task_index].esp;
+        ebp_save = kernel_tasks[cur_task_index].ebp;
+        tss.esp0 = kernel_tasks[cur_task_index].tss_esp0;
+
+        switch_process(kernel_tasks[cur_task_index].process_id);
+        update_term(cur_task_index);
+        /*
+        asm volatile("movl %0, %%esp \n\
+                      movl %1, %%ebp \n\
+                      "
+                      :
+                      : "r" (esp_save), "r" (ebp_save)
+                      : "%esp", "%ebp"
+                     );
+                     */
+    } else {
+        // Copy into stack frames above the current process
+        for(i = 1; i < MAX_TASKS; i++)
+            memcpy((void*)(esp_save - i*_8Kb), (const void*)esp_save, 
+                _8Kb - (esp_save % _8Kb));
+        // Do something with paging here...
+        // Discuss load_process and cur_process holder
+        for(i = 0; i < MAX_TASKS; i++) {
+            kernel_tasks[i].esp = esp_save - i*_8Kb;
+            kernel_tasks[i].ebp = ebp_save - i*_8Kb;
+            kernel_tasks[i].tss_esp0 = tss.esp0 - i*_8Kb;
+            kernel_tasks[i].process_id = -1;
+            kernel_tasks[i].process_pcb = NULL;
+        }
+        cur_task_index = 0;
+        setup_process = 1;
+    }
+    asm volatile("movl %0, %%esp \n\
+                  movl %1, %%ebp \n\
+                  "
+                  :
+                  : "r" (esp_save), "r" (ebp_save)
+                  : "%esp", "%ebp"
+                 );
+    send_eoi(PIT_IRQ);
+    return;
+}
+
 
 /* init_rtc_freq()
  * DESCRIPTION:  Obtain a slot in RTC simulation
@@ -430,7 +497,7 @@ void RTC() {
                 ticks = 0;
             }
         }
-        
+
     }
 
 }
@@ -442,10 +509,11 @@ uint32_t RSHIFT_ON = 0; // BOIIIIIIIIII
 uint32_t LSHIFT_ON = 0; // BOIIIIIIIIII
 uint8_t DECISION;
 uint8_t CONTROL_ON = 0;
+uint32_t ALT_ON = 0;
 
 /*
 * KEYBOARD()
-* DESCRIPTION: sends output to screen when key is pressed,
+* DESCRIPTION: sends output to screen when key is pressed
 * INPUTS : NONE
 * OUTPUTS : PRINTS TO SCREEN
 * RETURN VALUE: NONE
@@ -455,9 +523,9 @@ uint8_t CONTROL_ON = 0;
 void KEYBOARD() {
     // write eoi
     unsigned char status;
-    char key;
+    uint8_t key;
     status = inb(KEYBOARD_ADDR); // get status of interrupt
-
+    //char special_char;
     if(status & ODD_MASK){ // check odd
             key = inb(KEYBOARD_PORT);
             // if(key > (unsigned char)NUM_ENTRIES){ // check for out of range scancodes
@@ -469,7 +537,7 @@ void KEYBOARD() {
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            if((uint8_t)key == _CONTROL){
+            if(key == _CONTROL){
                 CONTROL_ON = 0;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
@@ -491,20 +559,41 @@ void KEYBOARD() {
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            if((uint8_t)key == _RIGHT_SHIFT){ // release of RIGHT_SHIFT is a negative number
+            if(key == _RIGHT_SHIFT){ // release of RIGHT_SHIFT is a negative number
 
                 RSHIFT_ON = 0;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            if((uint8_t)key == _LEFT_SHIFT){ // release of LEFT_SHIFT is a negative number
+            if(key == _LEFT_SHIFT){ // release of LEFT_SHIFT is a negative number
 
                 LSHIFT_ON = 0;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }
-            DECISION  = RSHIFT_ON|LSHIFT_ON ? SHIFT_ON : CAPS_ON; // if RSHIFT_on or LSHIFT_ON assign a 2 else assign a 0 or 1 based on caps lock
-            if(key < 0){ // filter out upstroke
+            if(key == LEFT_ALT) {
+                ALT_ON = 1;
+                send_eoi(kbd_eoi);
+                return;
+            }
+            if(key == _LEFT_ALT) {
+                ALT_ON = 0;
+                send_eoi(kbd_eoi);
+                return;
+            }
+            if(key >= F_ONE && key <= F_THREE && ALT_ON) {
+                //terminal_write("Terminal switch", 16);
+                //special_char = key - F_ONE + '1';
+                //terminal_write(&special_char, 1);
+                switch_terms(key - F_ONE);
+                send_eoi(kbd_eoi);
+                return;
+            }
+            
+            // if RSHIFT_on or LSHIFT_ON assign a 2 else 
+            // assign a 0 or 1 based on caps lock
+            DECISION = RSHIFT_ON|LSHIFT_ON ? SHIFT_ON : CAPS_ON;
+            if(key >= 128){ // filter out upstroke
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard
                 return;
             }

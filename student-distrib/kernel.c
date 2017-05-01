@@ -11,7 +11,7 @@
 #include "sys_call_handler.h"
 #include "paging.h"
 #include "keyboard.h"
-#include "rtc.h"
+#include "timer.h"
 #include "wrapper.h"
 #include "file_system.h"
 
@@ -68,12 +68,12 @@ entry (unsigned long magic, unsigned long addr)
         int i;
         module_t* mod = (module_t*)mbi->mods_addr;
         bb = mod->mod_start;
-        while(mod_count < mbi->mods_count) {
+        while (mod_count < mbi->mods_count) {
             printf("Module %d loaded at address: 0x%#x\n", mod_count, (unsigned int)mod->mod_start);
             printf("Module %d ends at address: 0x%#x\n", mod_count, (unsigned int)mod->mod_end);
             printf("First few bytes of module:\n");
-            for(i = 0; i<16; i++) {
-                printf("0x%x ", *((char*)(mod->mod_start+i)));
+            for (i = 0; i < 16; i++) {
+                printf("0x%x ", *((char*)(mod->mod_start + i)));
             }
             printf("\n");
             mod_count++;
@@ -106,9 +106,9 @@ entry (unsigned long magic, unsigned long addr)
         printf ("mmap_addr = 0x%#x, mmap_length = 0x%x\n",
                 (unsigned) mbi->mmap_addr, (unsigned) mbi->mmap_length);
         for (mmap = (memory_map_t *) mbi->mmap_addr;
-             (unsigned long) mmap < mbi->mmap_addr + mbi->mmap_length;
-             mmap = (memory_map_t *) ((unsigned long) mmap
-                                      + mmap->size + sizeof (mmap->size)))
+                (unsigned long) mmap < mbi->mmap_addr + mbi->mmap_length;
+                mmap = (memory_map_t *) ((unsigned long) mmap
+                                         + mmap->size + sizeof (mmap->size)))
             printf (" size = 0x%x,     base_addr = 0x%#x%#x\n"
                     "     type = 0x%x,  length    = 0x%#x%#x\n",
                     (unsigned) mmap->size,
@@ -166,13 +166,7 @@ entry (unsigned long magic, unsigned long addr)
     /* Initialize devices, memory, filesystem, enable device interrupts on the
      * PIC, any other initialization stuff... */
 
-    sti();
 
-    /* initializes terminal */
-    terminal_open();
-
-    /* initializes real time clock */
-    rtc_init();
 
     /* Enable interrupts */
     /* Do not enable the following until after you have set up your
@@ -180,38 +174,44 @@ entry (unsigned long magic, unsigned long addr)
      * without showing you any output */
     build_idt();
 
+    /* initializes PIT */
+    pit_init();
+
+    /* initializes terminal */
+    terminal_open();
+
+    /* initializes real time clock */
+    rtc_init();
+
     /*initialize paging */
     initPaging();
 
-    /*set up user level page for vid map*/
-    vid_page();
+    /*set up user level page for vid map linked directly
+    to video memory at address 136mb*/
+    //master_page();
+
+    /*set up 3 child pages 1 for each terminal at address 136Mb + 4,8,12Kb*/
+    //slave_pages();
 
     /* initializing file system */
     init_file_system((unsigned long *)bb);
 
     init_stdio();
 
+    // Initialized frame buffers
+    clear_all_frame_buf();
 
+    setup_process = 0;
+    cur_task_index = 0;
 
-    /* uncomment for terminal test */
-    //test_terminal();
-    // const uint8_t command[] = "frame0.txt";
+    sti();
+
+    {
+        while (!setup_process);
+    }
+
     const uint8_t command[] = "shell";
     EXECUTE(command);
-    //terminal_write("testing sys call1", 16);
-    //terminal_write("testing sys call2", 16);
-
-    /* uncomment one to test file system */
-    // list_all_files();
-    // test1();
-    //read_file_by_name("sigtest");
-    // read_file_by_name("frame0.txt");
-    //read_file_by_name("frame1.txt");
-    // read_file_by_name("verylargetextwithverylongname.txt");
-    // read_file_by_index(10);
-
-    /* uncomment to test rtc */
-    //test_rtc();
 
     /* Spin (nicely, so we don't chew up cycles) */
     asm volatile(".1: hlt; jmp .1;");

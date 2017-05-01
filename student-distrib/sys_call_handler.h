@@ -7,7 +7,7 @@
 #include "lib.h"
 #include "file_system.h"
 #include "paging.h"
-#include "rtc.h"
+#include "timer.h"
 
 #define TERMINATOR '\0'
 #define SPACE ' '
@@ -21,6 +21,8 @@
 #define _1Kb 1024
 #define IN_USE 1
 #define _4Kb_MASK 0xFFFFF000
+#define _8Kb_MASK 0xFFFFE000
+#define ARGS_LIMIT 128
 
 #define MAX_FILES 8
 
@@ -45,11 +47,10 @@ typedef struct PCB {
 	uint8_t mask;
 	uint8_t process_id;
 	int8_t parent_process;
-	uint8_t args[BUFFER_LIMIT];
+	uint8_t args[ARGS_LIMIT];
+	uint8_t terminal_num;
 } PCB_t;
 
-/* global pcb */
-PCB_t * cur_process;
 
 /* looks at the top of the pcb stack and returns the base pointer */
 PCB_t * get_PCB();

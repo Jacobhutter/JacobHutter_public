@@ -1,7 +1,7 @@
 #include "sys_call_handler.h"
 #define KERNEL_STACK _8Mb
 
-unsigned long init_PCB_addr = _8Mb - _4Kb;
+unsigned long init_PCB_addr = _8Mb - _8Kb;
 
 /*////////////////////////////////////////////////////////////////////////////*/
 /* functions for stdio */
@@ -99,9 +99,8 @@ int32_t HALT (uint8_t status) {
     for (i = 2; i < MAX_FILES; i++)
         CLOSE(i);
 
-
-
-    if (process->parent_process == -1) {
+    // Reboot base shell, if it is one of the first three processes to start
+    if (process->process_id <= 2) {
         free_gucci(process->process_id); // allows us use id 0 again
         terminal_open();
         EXECUTE((const uint8_t *)"shell");
@@ -112,9 +111,9 @@ int32_t HALT (uint8_t status) {
     unload_process(process->process_id, process->parent_process);
 
     /* get parent using process number */
-    parent = (PCB_t *)(init_PCB_addr - (_4Kb * process->parent_process));
-
-    tss.esp0 = _8Mb - (_4Kb * (parent->process_id)) - 4; // 4 is because last elem is not included 0 -> (N-1)
+    parent = (PCB_t *)(init_PCB_addr - (_8Kb * process->parent_process));
+    kernel_tasks[cur_task_index].process_id = parent->process_id;
+    tss.esp0 = _8Mb - (_8Kb * (parent->process_id)); // 4 is because last elem is not included 0 -> (N-1)
     asm volatile("movl %0, %%esp   \n\
                   movl %1, %%ebp   \n\
                   movl %2, %%eax   \n\
@@ -137,7 +136,7 @@ int32_t HALT (uint8_t status) {
 int32_t EXECUTE (const uint8_t* command) {
 
     uint32_t start_point; // = get_start(file);
-    uint32_t user_stack; // = _128Mb + _4Mb; //
+    uint32_t user_stack; // = _128Mb + _4Mb;
     uint8_t cpy_buffer[BUFFER_LIMIT + 1]; // to accomodate for addtl null terminator
     int8_t *start_exe, *end_exe, *start_args, *end_args;
     int32_t len_exe, len_args;
@@ -207,19 +206,19 @@ int32_t EXECUTE (const uint8_t* command) {
     // Get current process num
     parent_PCB = get_PCB();
     parent_num = (unsigned long)parent_PCB;
-    parent_num /= _4Kb;
+    parent_num /= _8Kb;
     parent_num = 255 - parent_num; // 255 is int max for 8 bit uinsigned int
 
     /* create new pcb for current task */
     PCB_t * process;
 
     // Gets address to place PCB for current process
-    PCB_addr = init_PCB_addr - (_4Kb * process_num);
+    PCB_addr = init_PCB_addr - (_8Kb * process_num);
     process = (PCB_t *)PCB_addr;
-    cur_process = process;
+    kernel_tasks[cur_task_index].process_pcb = process;
 
     // head process
-    if (process_num == 0)
+    if (process_num < 3)
         process->parent_process = -1; // this is parent_process so say -1
     else
         process->parent_process = (int8_t)parent_num; // say shell is the parent
@@ -241,7 +240,9 @@ int32_t EXECUTE (const uint8_t* command) {
                   :"=r" (process->esp_holder), "=r" (process->ebp_holder)
                  );
 
-    tss.esp0 = _8Mb - (_4Kb * (process_num)) - 4; // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
+    cli();
+    tss.esp0 = _8Mb - (_8Kb * (process_num)); // account for inability to access last element of kernel page 0:79999... also esp will always be dependant on proces_num
+    kernel_tasks[cur_task_index].tss_esp0 = tss.esp0;
     tss.ss0 = KERNEL_DS;
 
     /* http://wiki.osdev.org/Getting_to_Ring_3#Entering_Ring_3 */
@@ -257,9 +258,7 @@ int32_t EXECUTE (const uint8_t* command) {
      * iret
      */
 
-    asm volatile(
-        "cli             \n\
-                  movw $0x2B, %%ax \n\
+    asm volatile("movw $0x2B, %%ax \n\
                   movw %%ax, %%ds  \n\
                   push $0x2B       \n\
                   push %1          \n\
@@ -291,15 +290,15 @@ int32_t EXECUTE (const uint8_t* command) {
  * function: takes a given pcb and reads using general fd pcb methods
  */
 int32_t READ (int32_t fd, void* buf, int32_t nbytes) {
-    
+
     // Invalid fd
     if (fd < 0 || fd > MAX_FILES - 1 || buf == NULL)
         return -1;
 
-    if (cur_process->file_descriptor[fd].flags != IN_USE)
+    if (kernel_tasks[cur_task_index].process_pcb->file_descriptor[fd].flags != IN_USE)
         return -1;
 
-    return (cur_process->file_descriptor[fd]).operations->read(fd, buf, nbytes);
+    return (kernel_tasks[cur_task_index].process_pcb->file_descriptor[fd]).operations->read(fd, buf, nbytes);
 }
 
 /* int32_t WRITE
@@ -313,10 +312,10 @@ int32_t WRITE (int32_t fd, const void* buf, int32_t nbytes) {
     if (fd < 0 || fd > MAX_FILES - 1 || buf == NULL)
         return -1;
 
-    if (cur_process->file_descriptor[fd].flags != IN_USE)
+    if (kernel_tasks[cur_task_index].process_pcb->file_descriptor[fd].flags != IN_USE)
         return -1;
 
-    return (cur_process->file_descriptor[fd]).operations->write(fd, buf, nbytes);
+    return (kernel_tasks[cur_task_index].process_pcb->file_descriptor[fd]).operations->write(fd, buf, nbytes);
 }
 
 /* int32_t OPEN
@@ -407,17 +406,21 @@ int32_t CLOSE (int32_t fd) {
  * function: gets arguments of input
  */
 int32_t GETARGS (uint8_t* buf, int32_t nbytes) {
+
     PCB_t* process = get_PCB();
+    if (buf == NULL || process->args[0] == TERMINATOR)
+        return -1;
     (void)strncpy((int8_t*)buf, (const int8_t*)(process->args), nbytes);
     return 0;
 }
 
 /* int32_t VIDMAP
- * inputs: screen_start - where to write 
- * output: 0 on success, -1 on failure
+ * inputs: screen_start - where to write
+ * output: address on success, -1 on failure
  * function: allows user to write to vidmem
  */
-#define VIDMAP_LOC _128Mb + _8Mb
+uint8_t* VIDMAP_LOC = NULL;
+//#define _136Mb = _128Mb + _4Mb + _4Mb
 int32_t VIDMAP (uint8_t** screen_start) {
     /* check to see if start is within user program image */
     if (screen_start < (uint8_t **)_128Mb) { // before program image start
@@ -428,15 +431,16 @@ int32_t VIDMAP (uint8_t** screen_start) {
         //terminal_write("flag2",5);
         return -1;
     }
-
+    // map 136Mb to current frame buffer
+    VIDMAP_LOC = (uint8_t*)_136Mb + get_cur_term()*4*Kb;
     /* we built the page for user access to vid memory in kernel.c */
-    *screen_start = (uint8_t *)VIDMAP_LOC;
+    *screen_start = VIDMAP_LOC;
 
     /* http://wiki.osdev.org/Printing_To_Screen */
 
     // program image is _8Mb so map video mem at 128 + 8 mb = _136MB
 
-    return VIDMAP_LOC;
+    return 0;
 
 }
 /* int32_t SET_HANDLER
@@ -468,7 +472,7 @@ PCB_t * get_PCB() {
     // Gets top of process stack
     asm("movl %%esp, %0;" : "=r" (regVal) : );
     // Gets top of process stack
-    return (PCB_t *)(regVal & _4Kb_MASK);;
+    return (PCB_t *)(regVal & _8Kb_MASK);;
 
 }
 

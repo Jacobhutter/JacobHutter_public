@@ -7,7 +7,9 @@
 
 #include "lib.h"
 #include "i8259.h"
-#include "rtc.h"
+#include "timer.h"
+#include "sys_call_handler.h"
+#include "keyboard.h"
 #define KEYBOARD_ADDR 0x64
 #define KEYBOARD_PORT 0x60
 #define ODD_MASK 0x01
@@ -19,8 +21,30 @@
 #define SHIFT_ON 2
 #define kbd_eoi 1
 #define CONTROL 29
-
 #define _CONTROL 157
+#define LEFT_ALT 0x38
+#define _LEFT_ALT 0xB8
+#define F_ONE 0x3B
+#define F_TWO (F_ONE + 1)
+#define F_THREE (F_ONE + 2)
+
+#ifndef ASM
+
+#define MAX_TASKS 3
+
+volatile uint32_t setup_process;
+volatile uint32_t cur_task_index;
+
+// Save information of task
+typedef struct task {
+	uint32_t esp;
+	uint32_t ebp;
+	uint32_t tss_esp0;
+	int32_t process_id;
+	struct PCB* process_pcb;
+} task_t;
+
+task_t kernel_tasks[MAX_TASKS];
 
 extern void DIVIDE_ERROR();
 extern void RESERVED();
@@ -41,12 +65,21 @@ extern void FLOATING_POINT_ERROR();
 extern void ALIGNMENT_CHECK();
 extern void MACHINE_CHECK();
 extern void FLOATING_POINT_EXCEPTION();
+/* Handler function called by RTC interrupt */
 extern void RTC();
+/* sends output to screen when key is pressed */
 extern void KEYBOARD();
+/* prints system call */
 extern void SYSTEM_CALL();
+/* Schedules process */
+extern void PIT();
 
+/* Obtain a slot in RTC simulation */
 extern int32_t init_rtc_freq(int32_t freq);
+/* Change frequency of an RTC clot */
 extern void set_rtc_freq(int32_t freq, int32_t slot);
+/* Wait for next RTC interrupt */
 extern void rtc_wait(unsigned long slot);
 
+#endif
 #endif /* interrupt_handler_h */

@@ -12,11 +12,17 @@
 #define RTC_FILE "rtc"
 #define RTC_FILE_LEN 4
 
-#define PROGRAM_ADDR /*0x08000000*/ 0x08048000
+#define PROGRAM_ADDR 0x08048000
 
+#define ASCII_INT 48
+
+// Initial address of file system
 static unsigned long* boot_block_addr;
+
+// Keeps track of inodes and datablocks
 static unsigned long num_inode, data_blocks, dir_entries;
 
+// Magic numbers for executable
 static unsigned char ELF[] = {0x7f, 0x45, 0x4c, 0x46};
 
 /*
@@ -111,7 +117,8 @@ int32_t read_dentry_by_index(uint32_t index, dentry_t* dentry) {
  *   RETURN VALUE: 0 on success, -1 on failure
  *   SIDE EFFECTS: Copies data of length bytes to buffer
  */
-int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf, uint32_t length) {
+int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf,
+                  uint32_t length) {
 
     int* init_inode_addr, *inode_addr;
     char* init_data_addr, *data_addr;
@@ -210,20 +217,27 @@ int32_t file_read(int32_t fd, void * buf, int32_t nbytes) {
     PCB_t* process;
     file_t file;
 
+    // Makes sure buffer isn't NULL
+    if (buf == NULL)
+        return -1;
+
     // Gets top of process stack
     asm("movl %%esp, %0;" : "=r" (regVal) : );
     // Gets top of process
-    process = (PCB_t *)(regVal & _4Kb_MASK);
+    process = (PCB_t *)(regVal & _8Kb_MASK);
 
     file = process->file_descriptor[fd];
 
-    bytes_read = read_data(file.inode, file.file_position, (uint8_t *)buf, nbytes);
+    bytes_read = read_data(file.inode, file.file_position, (uint8_t *)buf,
+                           nbytes);
 
     if (bytes_read == -1)
         return -1;
 
+    // Updates how many bytes have been read
     file.file_position += bytes_read;
 
+    // Addes file back to PCB
     process->file_descriptor[fd] = file;
 
     return bytes_read;
@@ -295,12 +309,17 @@ int32_t dir_read(int32_t fd, void * buf, int32_t nbytes) {
     file_t file;
     PCB_t* process;
 
+    // Error Check
+    if (buf == NULL)
+        return -1;
+
     process = get_PCB();
 
     file = process->file_descriptor[fd];
 
     new_buf = (int8_t*)buf;
 
+    // Done reading
     if (file.file_position == dir_entries) {
         file.file_position = 0;
         process->file_descriptor[fd] = file;
@@ -308,10 +327,16 @@ int32_t dir_read(int32_t fd, void * buf, int32_t nbytes) {
     }
 
     // printInt(file.file_position);
-    read_dentry_by_index(file.file_position, &curr);
+    j = read_dentry_by_index(file.file_position, &curr);
+
+    // Failed to read file
+    if (j == -1)
+        return -1;
+
 
     name = curr.file_name;
 
+    // Read file
     j = 0;
     while (j < MAX_NAME) {
         new_buf[bytes_read] = name[j];
@@ -325,10 +350,13 @@ int32_t dir_read(int32_t fd, void * buf, int32_t nbytes) {
         return 0;
     }
 
+    // Updates file position
     file.file_position++;
 
+    // Adds file back to PCB
     process->file_descriptor[fd] = file;
 
+    // Returns number of bytes read
     return MAX_NAME;
 
 }
@@ -342,46 +370,14 @@ int32_t dir_read(int32_t fd, void * buf, int32_t nbytes) {
  *   SIDE EFFECTS: none
  */
 unsigned long get_file_size(dentry_t file) {
-    unsigned long * inode_addr = (boot_block_addr + kB) + (file.i_node_num * kB);
 
+    // Fets file inode
+    unsigned long * inode_addr = (boot_block_addr + kB) +
+                                 (file.i_node_num * kB);
+
+    // Return size
     return *inode_addr;
 }
-
-// void test1() {
-//  // dentry_t temp;
-//  // int i, j;
-//  // for (i = 0; i < dir_entries; i++) {
-//  //  read_dentry_by_index(i, &temp);
-//  //  print_file_name(&(temp.file_name));
-//  // }
-
-//  // char buf[275];
-//  // printf("\n\n");
-
-//  // printf("Hello\n");
-
-//  // i = read_dentry_by_name("frame1.txt", &temp);
-
-//  // if (i >= 0)
-//  //  print_file_name(&(temp.file_name));
-
-//  // if (i >= 0) {
-//  //  read_data(temp.i_node_num, 0, buf, 275);
-//  // }
-
-//  // for (i = 0; i < 11; i++)
-//  //  for (j = 0; j < 25; j++)
-//  //      printf("%c", buf[i * 25 + j]);
-
-//  // printf("\n");
-
-//  // printf("%d\n", check_string("", ""));
-
-
-//  // print_file_name("Hello000000000000000000000000000");
-
-
-// }
 
 /*
  * print_file_name
@@ -408,10 +404,14 @@ void print_file_name(char* a) {
  */
 int check_string(const uint8_t* s1, uint8_t* s2) {
     int i;
-    int length = (strlen((const int8_t*)s1) > MAX_NAME) ? MAX_NAME : strlen((const int8_t*)s1);
+    // Checks length of file name, cuts off at 32
+    int length = (strlen((const int8_t*)s1) > MAX_NAME) ? MAX_NAME :
+                 strlen((const int8_t*)s1);
 
+    // Returns false if the string length aren't equal
     if (strlen((const int8_t*)s1) != strlen((const int8_t*)s2))
         return 0;
+
     // Runs through string to see if equal
     for (i = 0; i < length; i++) {
         if (s1[i] == '%') return 1;
@@ -467,6 +467,8 @@ uint32_t read_file_by_dentry(dentry_t file) {
     size = (int)get_file_size(file);
 
     j = 0;
+
+    // Reads file at most of kB per loop
     while (size > 0) {
         // Reads smallest amount of bytes
         read_size = (size > kB) ? kB : size;
@@ -540,7 +542,7 @@ uint32_t read_file_by_index(uint32_t index) {
 char
 intToChar(int a) {
     // Adds 48 to get integer offset
-    return (char)(a + 48);
+    return (char)(a + ASCII_INT);
 }
 
 /*
@@ -554,7 +556,7 @@ intToChar(int a) {
 void printInt(int num) {
     int temp;
 
-    temp = num + 48;
+    temp = num + ASCII_INT;
     if (num < BASE) {
         terminal_write((const void*) (&temp), 1);
         return;
@@ -562,7 +564,7 @@ void printInt(int num) {
 
     printInt(num / BASE);
     temp = num % BASE;
-    temp += 48;
+    temp += ASCII_INT;
     terminal_write((const void*) (&temp), 1);
 }
 
@@ -578,8 +580,10 @@ int check_ELF(dentry_t file) {
     unsigned char buffer[4];
     int i;
 
+    // Reads first 4 bytes
     read_data(file.i_node_num, 0, buffer, 4);
 
+    // Checks against buffer
     for (i = 0; i < 4; i++) {
         if (buffer[i] != ELF[i])
             return -1;
@@ -597,18 +601,15 @@ int check_ELF(dentry_t file) {
  *   SIDE EFFECTS: none
  */
 uint32_t get_start(dentry_t file) {
+
+    // Needs 4 bytes for ELF
     unsigned char buffer[4];
-    read_data(file.i_node_num, 24, buffer, 4); // 24 is start point of elf start location, 4 is the num bytes we want aka 24-27 bytes
+
+    // 24 is start point of elf start location,
+    // 4 is the num bytes we want aka 24-27 bytes
+    read_data(file.i_node_num, 24, buffer, 4);
 
     uint32_t retval = *((uint32_t*)buffer);
-    /*int i=0;
-    for(i =0; i < 32; i++){
-        if((int32_t)retval<0)
-          terminal_write("1",1);
-        else
-          terminal_write("0",1);
-          retval = retval<< 1;
-    }*/
 
     return retval;
 
@@ -639,14 +640,11 @@ void load_file(dentry_t file) {
     // Gets inode block of file
     inode_addr = init_inode_addr + (inode * kB);
 
+    // Gets size of block
     bytes_rem = *inode_addr;
     inode_addr++;
 
     i = 0;
-
-    // unsigned long *temp;
-    // temp = (unsigned long*)PROGRAM_ADDR;
-    // *temp = 5;
     while (bytes_rem > 0) {
         data_addr = init_data_addr + (*inode_addr) * kB;
         if (bytes_rem > MEM_BLOCK ) {

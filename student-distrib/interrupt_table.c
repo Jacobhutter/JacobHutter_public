@@ -1,6 +1,5 @@
 #include "interrupt_table.h"
-#include "wrapper.h"
-#include "x86_desc.h"
+
 
 /*
  * notes taken from : https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
@@ -30,7 +29,8 @@ void build_idt(){
         idt[i].reserved3 = (i<EXCEPTION_LIMIT || i == SYS_CALL);
         idt[i].reserved4 = 0;
         idt[i].present = 1;
-        idt[i].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+        // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+        idt[i].seg_selector = KERNEL_CS;
     }
 
     // set IDT table entries for first set of sequential interrupts
@@ -57,6 +57,18 @@ void build_idt(){
     SET_IDT_ENTRY(idt[17],_MACHINE_CHECK);
     SET_IDT_ENTRY(idt[18],_FLOATING_POINT_EXCEPTION);
 
+    idt[PIT_IDT_INDEX].dpl = 0;
+    idt[PIT_IDT_INDEX].reserved0 = 0;
+    idt[PIT_IDT_INDEX].size = 1;
+    idt[PIT_IDT_INDEX].reserved1 = 1;
+    idt[PIT_IDT_INDEX].reserved2 = 1;
+    idt[PIT_IDT_INDEX].reserved3 = 1;
+    idt[PIT_IDT_INDEX].reserved4 = 0;
+    idt[PIT_IDT_INDEX].present = 1;
+    idt[PIT_IDT_INDEX].seg_selector = KERNEL_CS;
+    // set entry for Real time clock
+    SET_IDT_ENTRY(idt[PIT_IDT_INDEX],_PIT);
+
     idt[REAL_TIME_CLOCK].dpl = 0;
     idt[REAL_TIME_CLOCK].reserved0 = 0;
     idt[REAL_TIME_CLOCK].size = 1;
@@ -78,7 +90,8 @@ void build_idt(){
     idt[KBD].reserved3 = 0;
     idt[KBD].reserved4 = 0;
     idt[KBD].present = 1;
-    idt[KBD].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    idt[KBD].seg_selector = KERNEL_CS;
     SET_IDT_ENTRY(idt[KBD],_KEYBOARD);
 
     // set entry for system calls
@@ -90,7 +103,8 @@ void build_idt(){
     idt[SYS_CALL].reserved3 = 1;
     idt[SYS_CALL].reserved4 = 0;
     idt[SYS_CALL].present = 1;
-    idt[SYS_CALL].seg_selector = KERNEL_CS; // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    // used https://www.safaribooksonline.com/library/view/understanding-the-linux/0596002130/ch04s04.html
+    idt[SYS_CALL].seg_selector = KERNEL_CS;
     SET_IDT_ENTRY(idt[SYS_CALL],_SYSTEM_CALL);
 
     // load interrupt descriptor table
