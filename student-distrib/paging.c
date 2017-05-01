@@ -32,8 +32,20 @@ static unsigned int page_table2[kB] __attribute__((aligned(4 * kB)));
 
 static volatile unsigned char process_mask = 0; // No processes running at boot time
 
-uint32_t terminal_vid_mem[3] = {136*MB + 4*kB, 136*MB + 8*kB, 136*MB + 12*kB};
-unsigned char get_p_mask(){
+// Memory locations for each terminal
+uint32_t terminal_vid_mem[3] = {136 * MB + 4 * kB, 136 * MB + 8 * kB,
+                                136 * MB + 12 * kB
+                               };
+
+/*
+ * get_p_mask
+ *   DESCRIPTION: process mask getter function
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: process mask
+ *   SIDE EFFECTS: none
+ */
+unsigned char get_p_mask() {
 	return process_mask;
 }
 
@@ -73,18 +85,20 @@ void initPaging() {
 		//page_table1[i] = (i * PAGE_OFF) | PRESENT;
 	}
 	// NULL Doesn't exist
-    page_table1[0] = 0;
+	page_table1[0] = 0;
 
 	page_directory1[0] = (unsigned int)page_table1 | PRESENT;
 	// Maps 4MB page for kernel to 4MB
 	page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
 
-	page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
+	// we DO NOT want page extension because we want a 4kb page only for video
+	page_directory1[USER_VID_MEM / (4 * MB)] = ((uint32_t)page_table2) | PRESENT |
+	        USER_ENABLE | RW_ENABLE;
 	// because we need a 4kb page we must go through the page_table
 	// page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
 	// page_table2[1] = vid_backpages[1] | PRESENT | USER_ENABLE | RW_ENABLE;
 	// page_table2[2] = vid_backpages[2] | PRESENT | USER_ENABLE | RW_ENABLE;
-	for(i = 0; i < MAX_TASKS; i++)
+	for (i = 0; i < MAX_TASKS; i++)
 		page_table2[i] = vid_backpages[i] | PRESENT | USER_ENABLE | RW_ENABLE;
 	// Loads page directory
 	loadPageDirectory(page_directory1);
@@ -105,7 +119,7 @@ int32_t load_process() {
 	int32_t i, process_id;
 	unsigned char mask = 0x01;
 
-	if(kernel_tasks[cur_task_index].process_id == -1) {
+	if (kernel_tasks[cur_task_index].process_id == -1) {
 		i = cur_task_index;
 	} else {
 		for (i = 0; i < MAX_PROCESS; i++) {
@@ -136,9 +150,9 @@ int32_t load_process() {
 	// page_table1[0] = 0;
 
 	// // Enable present bit
-	 //page_directory1[0] = (unsigned int)page_table1 | PRESENT;
+	//page_directory1[0] = (unsigned int)page_table1 | PRESENT;
 	// // Addresses starting at 4MB (kernel)
-     //page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
+	//page_directory1[1] = KERNEL_ADDR | PRESENT | PAGE_EXT;
 
 	switch_process(process_id);
 
@@ -148,13 +162,19 @@ int32_t load_process() {
 	return process_id;
 }
 
-/* INSERT FUNCTION HEADER HERE.
+/*
+ * switch_process
+ *   DESCRIPTION: Used to switch where video memory maps to
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: Flushes TLB
  */
-
 void switch_process(int32_t process_id) {
 	// Addresses starting at 128MB (user program)
 	// Base address of 128 MB corresponds to index 128t MB/4 MB = 32
-	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT | PAGE_EXT | USER_ENABLE | RW_ENABLE ;
+	page_directory1[32] = (INIT_ADDR + (4 * MB) * process_id) | PRESENT |
+	                      PAGE_EXT | USER_ENABLE | RW_ENABLE ;
 	loadPageDirectory(page_directory1);
 
 }
@@ -359,11 +379,11 @@ oo+::-...................-------...................``.......`...```....---......
  * OUTPUT: 0, success
  * FUNCTION: sets out global mask to free the process that has been halted
  */
-int32_t free_gucci(uint8_t process){
+int32_t free_gucci(uint8_t process) {
 	uint8_t mask = 0x01;
 	mask <<= process;
 
-	if(process < MAX_TASKS) {
+	if (process < MAX_TASKS) {
 		kernel_tasks[process].process_id = -1;
 	}
 	cli();
@@ -391,7 +411,8 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
 	// Frees process
 	free_gucci(process);
 
-	page_directory1[32] = (INIT_ADDR + (4 * MB) * parent_id) | PRESENT | PAGE_EXT | USER_ENABLE | RW_ENABLE;
+	page_directory1[32] = (INIT_ADDR + (4 * MB) * parent_id) | PRESENT |
+	                      PAGE_EXT | USER_ENABLE | RW_ENABLE;
 
 	// Flush the TLB
 	loadPageDirectory(page_directory1);
@@ -408,11 +429,13 @@ int32_t unload_process(uint8_t process, int8_t parent_id) {
  *   RETURN VALUE: 0 if success, -1 if failure
  *   SIDE EFFECTS: none
  */
-int32_t master_page(){
+int32_t master_page() {
 
 	// we know we want 136 Mb so that is entry 136 / 4
 
-    page_directory1[(136*MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
+	// we DO NOT want page extension because we want a 4kb page only for video
+	page_directory1[USER_VID_MEM / (4 * MB)] = ((uint32_t)page_table2) | PRESENT |
+	        USER_ENABLE | RW_ENABLE;
 	// because we need a 4kb page we must go through the page_table
 	page_table2[0] = (uint32_t)VGA_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
 	// Flush the TLB
@@ -421,31 +444,48 @@ int32_t master_page(){
 	return 136 * MB;
 }
 
-int32_t slave_pages(){
+/*
+ * slave_pages
+ *   DESCRIPTION: Makes page for vidoe mem other terminals
+ *   INPUTS: none
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 if success, -1 if failure
+ *   SIDE EFFECTS: none
+ */
+int32_t slave_pages() {
 	// we know we want 136 Mb so that is entry 136 / 4
-    page_directory1[(136 * MB)/(4*MB)] = ((uint32_t)page_table2) | PRESENT | USER_ENABLE | RW_ENABLE; // we DO NOT want page extension because we want a 4kb page only for video
+	// we DO NOT want page extension because we want a 4kb page only for video
+	page_directory1[USER_VID_MEM / (4 * MB)] = ((uint32_t)page_table2) | PRESENT |
+	        USER_ENABLE | RW_ENABLE;
 
 	/* create 4Kb pages at 136 Mb + 4,8,12kb.*/
-	page_table2[1] = (uint32_t)(136*MB + 4*Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[2] = (uint32_t)(136*MB + 8*Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
-	page_table2[3] = (uint32_t)(136*MB + 12*Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[1] = (uint32_t)(136 * MB + 4 * Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[2] = (uint32_t)(136 * MB + 8 * Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
+	page_table2[3] = (uint32_t)(136 * MB + 12 * Kb) | PRESENT | USER_ENABLE | RW_ENABLE;
 
 	return 0;
 }
 
-// terminal_id is current terminal
-// task_id is task in scheduler waiting for service
+/*
+ * change_process_vid_mem
+ *   DESCRIPTION: Helps update video mem for new terminal
+ *   INPUTS: terminal_id - current terminal
+ *			 task_id is task - scheduler waiting for service
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 if success, -1 if failure
+ *   SIDE EFFECTS: flushes TLB
+ */
 void change_process_vid_mem(uint32_t terminal_id, uint32_t task_id) {
 	static uint32_t last_terminal = 0;
 	if (terminal_id >= MAX_TERMINAL || task_id >= MAX_TERMINAL)
 		return;
 
-	if(terminal_id == task_id && last_terminal != terminal_id) {
+	if (terminal_id == task_id && last_terminal != terminal_id) {
 		//memcpy((void*)VID_MEM, (const void*)vid_backpages[terminal_id], SCREEN_AREA);
 		page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
-	} else if(terminal_id == task_id && last_terminal == terminal_id) {
+	} else if (terminal_id == task_id && last_terminal == terminal_id) {
 		page_table2[0] = VID_MEM | PRESENT | USER_ENABLE | RW_ENABLE;
-	} else if(terminal_id != task_id && last_terminal != terminal_id) {
+	} else if (terminal_id != task_id && last_terminal != terminal_id) {
 		//memcpy((void*)vid_backpages[terminal_id], (const void*)VID_MEM, SCREEN_AREA);
 		page_table2[0] = vid_backpages[terminal_id] | PRESENT | USER_ENABLE | RW_ENABLE;
 	} else {
