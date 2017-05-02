@@ -203,29 +203,40 @@ entry (unsigned long magic, unsigned long addr)
 
     //Play sound using built in speaker
 
+    print_inode();
+
+    // while(1);
+
 
 //Make a beep
 //void beep() {
-    terminal_write("Booting up!\n",12);
-    uint32_t c_scale[8] = {130,147,165,175,196,220,247,262};
+    terminal_write("Booting up!\n", 12);
+    uint32_t c_scale[8] = {130, 147, 165, 175, 196, 220, 247, 262};
     uint32_t q;
-    for(q =0; q<(8*300000);q++){
-        if(q<300000)
-            play_sound(c_scale[0]);
-        else if(q<2*300000)
-            play_sound(c_scale[1]);
-            else if(q<3*300000)
-                play_sound(c_scale[2]);
-                else if(q<4*300000)
-                    play_sound(c_scale[3]);
-                    else if(q<5*300000)
-                        play_sound(c_scale[4]);
-                        else if(q<6*300000)
-                            play_sound(c_scale[5]);
-                            else if(q<7*300000)
-                                play_sound(c_scale[6]);
-                                else if(q<8*300000)
-                                    play_sound(c_scale[7]);
+    for (q = 0; q < (3 * 600000); q++) {
+        // if (q < 300000)
+        //     play_sound(c_scale[0]);
+        // else if (q < 2 * 300000)
+        //     play_sound(c_scale[1]);
+        // else if (q < 3 * 300000)
+        //     play_sound(c_scale[2]);
+        // else if (q < 4 * 300000)
+        //     play_sound(c_scale[3]);
+        // else if (q < 5 * 300000)
+        //     play_sound(c_scale[4]);
+        // else if (q < 6 * 300000)
+        //     play_sound(c_scale[5]);
+        // else if (q < 7 * 300000)
+        //     play_sound(c_scale[6]);
+        // else if (q < 8 * 300000)
+        //     play_sound(c_scale[7]);
+
+        if (q < 600000)
+            play_sound(261);
+        else if (q < 2 * 600000)
+            play_sound(185);
+        else if (q < 3 * 600000)
+            play_sound(196);
     }
     nosound();
 

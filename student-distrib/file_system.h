@@ -88,4 +88,6 @@ uint32_t get_start(dentry_t);
 /* Loads file into memory */
 void load_file(dentry_t);
 
+void print_inode();
+
 #endif /* FILE_SYSTEM_H */

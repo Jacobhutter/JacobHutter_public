@@ -133,8 +133,8 @@ int32_t HALT (uint8_t status) {
  * output: 0 dummy
  * function: takes name of elf and possible arg, loads program into mem, makes a pcb and travels to ring 3
  */
- #define int_m 255
- #define init_proc 3
+#define int_m 255
+#define init_proc 3
 int32_t EXECUTE (const uint8_t* command) {
 
     uint32_t start_point; // = get_start(file);
@@ -276,10 +276,10 @@ int32_t EXECUTE (const uint8_t* command) {
                   push %0          \n\
                   iret             \n\
                   "
-        :
-        : "r" (start_point), "r"(user_stack)
-        : "%eax", "%edx"
-    );
+                 :
+                 : "r" (start_point), "r"(user_stack)
+                 : "%eax", "%edx"
+                );
     asm volatile("halt_child:   \n\
                   leave         \n\
                   ret           \n\
@@ -438,7 +438,7 @@ int32_t VIDMAP (uint8_t** screen_start) {
         return -1;
     }
     // map 136Mb to current frame buffer
-    VIDMAP_LOC = (uint8_t*)_136Mb + get_cur_term()*4*Kb;
+    VIDMAP_LOC = (uint8_t*)_136Mb + get_cur_term() * 4 * Kb;
     /* we built the page for user access to vid memory in kernel.c */
     *screen_start = VIDMAP_LOC;
 

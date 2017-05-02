@@ -41,6 +41,10 @@ void init_file_system(unsigned long * addr) {
 
 }
 
+void print_inode() {
+    printInt(data_blocks);
+}
+
 /*
  * read_dentry_by_name
  *   DESCRIPTION: Gets dentry based off name
