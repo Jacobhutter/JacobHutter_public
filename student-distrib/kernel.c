@@ -14,7 +14,7 @@
 #include "timer.h"
 #include "wrapper.h"
 #include "file_system.h"
-
+#include "sound.h"
 /* Macros. */
 /* Check if the bit BIT in FLAGS is set. */
 #define CHECK_FLAG(flags,bit)   ((flags) & (1 << (bit)))
@@ -29,29 +29,7 @@ static unsigned int bb;
  * OUTPUT: boots up and initializes os
  * Description: main function for kernel
  */
- static void play_sound(uint32_t nFrequence) {
-    uint32_t Div;
-    uint8_t tmp;
 
-        //Set the PIT to the desired frequency
-    Div = 1193180 / nFrequence;
-    outb(0xb6,0x43);
-    outb((uint8_t) (Div),0x42 );
-    outb((uint8_t) (Div >> 8),0x42);
-
-        //And play the sound using the PC speaker
-    tmp = inb(0x61);
-    if (tmp != (tmp | 3)) {
-        outb((tmp | 3), 0x61);
-    }
- }
-
- //make it shutup
- static void nosound() {
-    uint8_t tmp = inb(0x61) & 0xFC;
-
-    outb(tmp, 0x61);
- }
 
 void
 entry (unsigned long magic, unsigned long addr)
@@ -231,30 +209,26 @@ entry (unsigned long magic, unsigned long addr)
     terminal_write("Booting up!\n",12);
     uint32_t c_scale[8] = {130,147,165,175,196,220,247,262};
     uint32_t q;
-    for(q =0; q<(8*400000);q++){
-        if(q<450000)
+    for(q =0; q<(8*300000);q++){
+        if(q<300000)
             play_sound(c_scale[0]);
-        else if(q<2*400000)
+        else if(q<2*300000)
             play_sound(c_scale[1]);
-            else if(q<3*400000)
+            else if(q<3*300000)
                 play_sound(c_scale[2]);
-                else if(q<4*400000)
+                else if(q<4*300000)
                     play_sound(c_scale[3]);
-                    else if(q<5*400000)
+                    else if(q<5*300000)
                         play_sound(c_scale[4]);
-                        else if(q<6*400000)
+                        else if(q<6*300000)
                             play_sound(c_scale[5]);
-                            else if(q<7*400000)
+                            else if(q<7*300000)
                                 play_sound(c_scale[6]);
-                                else if(q<8*400000)
+                                else if(q<8*300000)
                                     play_sound(c_scale[7]);
     }
     nosound();
-    //play_sound(100);
-    //timer_wait(10);
-    //nosound();
-         //set_PIT_2(old_frequency);
-//}
+
     setup_process = 0;
     cur_task_index = 0;
 

@@ -534,6 +534,11 @@ void KEYBOARD() {
             //     send_eoi(kbd_eoi);
             //     return;
             // }
+            if(get_p_flag()){
+              send_eoi(kbd_eoi);
+              piano((int8_t)key);
+              return;
+            }
             if(key == CONTROL){
                 CONTROL_ON = 1;
                 send_eoi(kbd_eoi); // 1 is the irq for keyboard

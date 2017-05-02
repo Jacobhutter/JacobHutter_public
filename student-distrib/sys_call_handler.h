@@ -8,7 +8,7 @@
 #include "file_system.h"
 #include "paging.h"
 #include "timer.h"
-
+#include "sound.h"
 #define TERMINATOR '\0'
 #define SPACE ' '
 #define PRG_START 0x08048000

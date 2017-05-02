@@ -168,6 +168,10 @@ int32_t EXECUTE (const uint8_t* command) {
         color();
         return 0;
     }
+    if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"piano", 5) == 0) {
+        set_p_flag();
+        return 0;
+    }
 
     // Checks if file exists
     if (read_dentry_by_name(cpy_buffer, &file) == -1) {
