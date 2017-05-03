@@ -246,7 +246,7 @@ int32_t write_data(uint32_t inode, uint32_t offset, uint8_t* buf,
 
     int* init_inode_addr, *inode_addr;
     char* init_data_addr, *data_addr;
-    int block_length, data_num, i, j, k, f_size;
+    int block_length, data_num, i, j, k, f_size, d_block;
     int block_offset, init_offset, curr_data_blocks;
 
 
@@ -269,7 +269,24 @@ int32_t write_data(uint32_t inode, uint32_t offset, uint8_t* buf,
     // Gets how many data blocks the current file has
     curr_data_blocks = (*inode_addr / MEM_BLOCK) + 1;
 
-    // TODO: Check to make sure if more data blocks are needed
+    // Gets pointer to next place for data block
+    inode_addr += curr_data_blocks;
+
+    while (block_offset >= curr_data_blocks) {
+        d_block = get_data_block();
+        
+        // TODO: Fix possible mem leak
+        if (d_block == -1) {
+            terminal_write("Not enough data blocks\n", 23);
+            return -1;
+        }
+
+        *inode_addr = d_block;
+        inode_addr++;
+        curr_data_blocks++;
+    }
+
+    inode_addr = init_inode_addr + (inode * kB);
 
     f_size = *inode_addr;
 
@@ -302,6 +319,7 @@ int32_t write_data(uint32_t inode, uint32_t offset, uint8_t* buf,
         k++;
     }
 
+    // Updates file size if necessary
     if (offset + length > f_size) {
         inode_addr = init_inode_addr + (inode * kB);
         *inode_addr = offset + length;
@@ -812,6 +830,7 @@ uint32_t make_new_file(uint8_t* file_name, int type, dentry_t* dentry) {
     // Makes sure file name is less than max name size (32)
     name_length = (strlen((int8_t*)file_name) > MAX_NAME) ? MAX_NAME : strlen((int8_t*)file_name);
 
+    // Clears name buffer
     for (i = 0; i < MAX_NAME; i++)
         new_file.file_name[i] = '\0';
 
