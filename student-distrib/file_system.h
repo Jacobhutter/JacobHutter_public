@@ -97,4 +97,6 @@ uint32_t make_new_file(uint8_t*, int, dentry_t*);
 
 int* get_init_inode();
 
+int32_t get_data_block();
+
 #endif /* FILE_SYSTEM_H */
