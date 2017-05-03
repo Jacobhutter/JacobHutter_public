@@ -30,6 +30,8 @@ int32_t get_freq(char* note) {
 		return 440;
 	else if (note[0] == 'B')
 		return 494;
+	else if (note[0] == 'R')
+		return 0;
 
 	return -1;
 
@@ -62,7 +64,7 @@ int32_t mus_write(int32_t fd, const char * buf, int32_t nbytes) {
 int32_t parse_file(char* buf, int32_t nbytes) {
 
 	char note[4];
-	int i, j, q;
+	int i, j, q, r;
 	int32_t freq;
 
 	if (buf == NULL)
@@ -77,7 +79,10 @@ int32_t parse_file(char* buf, int32_t nbytes) {
 			freq = get_freq(note);
 			if (freq != -1) {
 				for (q = 0; q < 300000; q++) {
-					play_sound(freq);
+					if (freq != 0)
+						play_sound(freq);
+					else
+						for (r = 0; r < 100; r++);
 				}
 				nosound();
 			}
