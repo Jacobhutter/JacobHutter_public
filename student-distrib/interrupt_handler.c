@@ -521,6 +521,7 @@ uint32_t ALT_ON = 0;
 * RETURN VALUE: NONE
 * http://arjunsreedharan.org/post/99370248137/kernel-201-lets-write-a-kernel-with-keyboard
 */
+
 #define NUM_ENTRIES 128
 void KEYBOARD() {
     // write eoi
@@ -534,6 +535,30 @@ void KEYBOARD() {
             //     send_eoi(kbd_eoi);
             //     return;
             // }
+            if(key == 0x48||key == 0x4D||key == 0x50||key == 0x4B){
+              send_eoi(kbd_eoi);
+              switch(key){
+                case 0x48:
+                  move_cursor(0);
+                  break;
+
+                case 0x4D:
+                  move_cursor(1);
+                  break;
+
+                case 0x50:
+                  move_cursor(2);
+                  break;
+
+                case 0x4B:
+                  move_cursor(3);
+                  break;
+
+                default:
+                  break;
+              };
+              return;
+            }
             if(get_p_flag()){
               send_eoi(kbd_eoi);
               piano((int8_t)key);

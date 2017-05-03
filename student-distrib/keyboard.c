@@ -34,6 +34,8 @@ static volatile uint32_t cur_task = 0;
 static volatile unsigned long curr_terminal = 0;
 uint32_t vid_backpages[MAX_TERMINALS] = {0, 0, 0};
 
+
+
 /*
 * get_buf_add()
 * Description: returns address of selected buffer
@@ -573,4 +575,43 @@ void update_term(uint32_t task_id) {
     }
     //change_process_vid_mem(curr_terminal, task_id);
     cur_task = task_id;
+}
+
+void move_cursor(int dir){
+  switch(dir){
+    case 0: // up
+      if(screen_y[curr_terminal] > 0)
+        screen_y[curr_terminal] -= 1;
+      update_cursor(screen_y[curr_terminal],screen_x[curr_terminal]);
+      break;
+    case 1: // right
+      if(screen_x[curr_terminal] == MAX_WIDTH_INDEX){
+        if(screen_y[curr_terminal] == MAX_HEIGHT_INDEX)
+          scroll(cur_task_index);
+        screen_x[curr_terminal] = 0;
+        screen_y[curr_terminal]++;
+      }
+      else
+        screen_x[curr_terminal]++;
+      update_cursor(screen_y[curr_terminal],screen_x[curr_terminal]);
+      break;
+    case 2: // down
+         if(screen_y[curr_terminal] == MAX_HEIGHT_INDEX)
+          scroll(cur_task_index);
+         screen_y[curr_terminal]++;
+         update_cursor(screen_y[curr_terminal],screen_x[curr_terminal]);
+      break;
+    case 3: // left
+        if(screen_x[curr_terminal] == 0){
+          if(screen_y[curr_terminal] == 0)
+            break;
+          screen_y[curr_terminal]--;
+          screen_x[curr_terminal] = MAX_WIDTH_INDEX;
+        }
+        else
+          screen_x[curr_terminal]--;
+        update_cursor(screen_y[curr_terminal],screen_x[curr_terminal]);
+      break;
+  };
+  return;
 }
