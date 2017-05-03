@@ -17,5 +17,9 @@ int32_t mus_read(int32_t, void *,int32_t);
 /* Does nothing, read only file system */
 int32_t mus_write(int32_t, const char *,int32_t);
 
+int32_t get_freq(char* note);
+
+int32_t parse_file(char*, int32_t);
+
 
 #endif
