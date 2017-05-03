@@ -203,7 +203,7 @@ entry (unsigned long magic, unsigned long addr)
 
     //Play sound using built in speaker
 
-    print_inode();
+    // print_inode();
 
     // while(1);
 

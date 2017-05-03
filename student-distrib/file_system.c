@@ -8,6 +8,8 @@
 
 #define MAX_NAME 32
 #define BASE 10
+#define MASK_SIZE 32
+#define MAX_FILES_FS 64
 
 #define RTC_FILE "rtc"
 #define RTC_FILE_LEN 4
@@ -25,6 +27,10 @@ static unsigned long num_inode, data_blocks, dir_entries;
 // Magic numbers for executable
 static unsigned char ELF[] = {0x7f, 0x45, 0x4c, 0x46};
 
+static uint32_t inode_lookup[2] = {0, 0};
+
+static uint32_t data_block_lookup[10];
+
 /*
  * init_file_system
  *   DESCRIPTION: Initializes file system driver
@@ -34,10 +40,55 @@ static unsigned char ELF[] = {0x7f, 0x45, 0x4c, 0x46};
  *   SIDE EFFECTS: Adds data to global vars
  */
 void init_file_system(unsigned long * addr) {
+
+    int i, j;
+    dentry_t curr;
+    unsigned long file_size, num_file_d_blocks;
+    int* init_inode_addr, *inode_addr;
+
+    uint32_t mask = 0x01;
     boot_block_addr = addr;
     dir_entries = *boot_block_addr;
     num_inode = *(boot_block_addr + 1);
     data_blocks = *(boot_block_addr + 2);
+
+    // Gets start of inode blocks
+    init_inode_addr = (int*)(boot_block_addr + kB);
+
+    // initiaized data block lookup
+    for (i = 0; i < 10; i++)
+        data_block_lookup[i] = 0;
+
+    // Goes through every file to find used inode and data blocks
+    for (i = 1; i <= dir_entries; i++) {
+        // Gets dentry
+        read_dentry_by_index(i, &curr);
+
+        inode_lookup[curr.i_node_num / MASK_SIZE] = mask <<
+                (curr.i_node_num % MASK_SIZE);
+
+        file_size = get_file_size(curr);
+
+        // Gets how many data blocks are used for file
+        num_file_d_blocks = (file_size / MEM_BLOCK) + 1;
+
+        // Gets inode block
+        inode_addr = init_inode_addr + (curr.i_node_num * kB);
+        inode_addr++;
+
+        // Gets used data blocks
+        for (j = 0; j < num_file_d_blocks; j++) {
+            data_block_lookup[*inode_addr / MASK_SIZE] = mask <<
+                    (*inode_addr % MASK_SIZE);
+
+            inode_addr++;
+        }
+
+
+    }
+
+
+
 
 }
 
@@ -168,6 +219,74 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf,
         // Runs through data block until end of block or end of needed read
         while (j < MEM_BLOCK - init_offset && i < min) {
             buf[i] = *data_addr;
+            data_addr++;
+            i++;
+            j++;
+        }
+        // Deletes offset because no longer needed
+        init_offset = 0;
+        // Increments inode index
+        k++;
+    }
+
+
+    return i;
+}
+
+/*
+ * read_data
+ *   DESCRIPTION: Reads data from file system
+ *   INPUTS: inode - inode to begin at
+ *           offset - offset of 1st data block to start reading from
+ *           buf - buffer to write data to
+ *           length - number of bytes to read
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 on success, -1 on failure
+ *   SIDE EFFECTS: Copies data of length bytes to buffer
+ */
+int32_t write_data(uint32_t inode, uint32_t offset, uint8_t* buf,
+                   uint32_t length) {
+
+    int* init_inode_addr, *inode_addr;
+    char* init_data_addr, *data_addr;
+    int block_length, data_num, i, j, k;
+    int block_offset, init_offset;
+
+    // Gets offset of data block
+    block_offset = offset / MEM_BLOCK;
+
+    // Gets offset of where to read inside the first block
+    init_offset = offset % MEM_BLOCK;
+
+    // Gets start of inode blocks and data blocks
+    init_inode_addr = (int*)(boot_block_addr + kB);
+    init_data_addr = (char*)(boot_block_addr + (kB + num_inode * kB));
+
+    if (inode >= num_inode)
+        return -1;
+
+    // Gets inode block
+    inode_addr = init_inode_addr + (inode * kB);
+
+    // Gets length of block remaining to read
+    block_length = *inode_addr - offset;
+
+    i = 0;
+    k = 1;
+    // Runs until read all blocks
+    while (i < length) {
+        // Gets the data block number
+        data_num = *(inode_addr + k + block_offset);
+        // Checks for invalid data
+        if (data_num >= data_blocks)
+            return i; // Returns number of bytes read
+        // Gets the data address to start read from
+        data_addr = init_data_addr + (data_num * MEM_BLOCK);
+        data_addr += init_offset;
+        j = 0;
+        // Runs through data block until end of block or end of needed read
+        while (j < MEM_BLOCK - init_offset && i < length) {
+            *data_addr = buf[i];
             data_addr++;
             i++;
             j++;
@@ -605,7 +724,7 @@ int check_ELF(dentry_t file) {
  *   RETURN VALUE: Program Address
  *   SIDE EFFECTS: none
  */
- #define ELF_start 24
+#define ELF_start 24
 uint32_t get_start(dentry_t file) {
 
     // Needs 4 bytes for ELF

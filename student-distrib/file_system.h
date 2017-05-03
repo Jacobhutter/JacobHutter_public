@@ -28,6 +28,9 @@ int32_t read_dentry_by_index(uint32_t, dentry_t*);
 /* Reads data from file system */
 int32_t read_data(uint32_t, uint32_t, uint8_t*, uint32_t);
 
+/* Reads data from file system */
+int32_t write_data(uint32_t, uint32_t, uint8_t*, uint32_t);
+
 /* Opens file */
 int32_t file_open(const uint8_t *);
 

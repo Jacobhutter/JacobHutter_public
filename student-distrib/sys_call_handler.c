@@ -83,6 +83,20 @@ int32_t color() {
     change_color(response);
     return 0;
 }
+
+int32_t u_write(uint8_t* file_name) {
+    
+    dentry_t curr;
+    uint8_t buf[] = "Hello!";
+    terminal_write("Writing ", 8);
+    terminal_write(file_name, strlen(file_name));
+    terminal_write("\n", 1);
+    read_dentry_by_name(file_name, &curr);
+
+    write_data(curr.i_node_num, 0, buf, 6);
+    return 0;
+
+}
 /* int32_t HALT
  * inputs: status, to be expanded to 32 bits and returned to user
  * output: 0 dummy
@@ -170,6 +184,21 @@ int32_t EXECUTE (const uint8_t* command) {
     }
     if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"piano", 5) == 0) {
         set_p_flag();
+        return 0;
+    }
+
+    if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"nano", 4) == 0) {
+        /* parse the arguments */
+        start_args = end_exe;
+        start_args = strxchr(start_args, SPACE);
+
+        end_args = strchr(start_args, TERMINATOR);
+
+        len_args = end_args - start_args;
+        memcpy((void*)cpy_buffer, (const void*)start_args, len_args);
+
+        cpy_buffer[len_args] = TERMINATOR;
+        u_write(cpy_buffer);
         return 0;
     }
 
