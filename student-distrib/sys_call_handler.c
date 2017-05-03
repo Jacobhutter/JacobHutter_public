@@ -87,20 +87,42 @@ int32_t color() {
 int32_t u_write(uint8_t* file_name) {
     
     dentry_t curr;
-    uint8_t buf[] = "Hello!";
+    uint8_t buf[128];
+    int i = 0;
+    for (i = 0; i < 128; i++)
+        buf[i] = '\0';
+
+    READ(0, buf, 128);
     terminal_write("Writing ", 8);
     terminal_write(file_name, strlen(file_name));
     terminal_write("\n", 1);
-    // if (read_dentry_by_name(file_name, &curr) == -1)
-    //     make_new_file(file_name, 2, &curr);
+    if (read_dentry_by_name(file_name, &curr) == -1)
+        make_new_file(file_name, 2, &curr);
 
-    // write_data(curr.i_node_num, 0, buf, 6);
+    write_data(curr.i_node_num, 0, buf, strlen(buf));
 
-    parse_file("C D E F G A B ", 14);
-
-    num_free_data_blocks();
+    // parse_file("C D E F G A B ", 14);
     return 0;
 
+}
+
+int32_t play_file(uint8_t* file_name) {
+    dentry_t curr;
+    uint8_t buf[128];
+    int size;
+    int i = 0;
+    for (i = 0; i < 128; i++)
+        buf[i] = '\0';
+
+    if (read_dentry_by_name(file_name, &curr) == -1)
+        return -1;
+
+    // size = 
+    read_data(curr.i_node_num, 0, buf, (get_file_size(curr) > 128) ? 128 : get_file_size(curr));
+
+    parse_file(buf, strlen(buf));
+
+    return 0;
 }
 /* int32_t HALT
  * inputs: status, to be expanded to 32 bits and returned to user
@@ -210,6 +232,26 @@ int32_t EXECUTE (const uint8_t* command) {
         // while(1);
         
         u_write(cpy_buffer);
+        return 0;
+    }
+
+    if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"play", 4) == 0) {
+        start_args = end_exe;
+        start_args = strxchr(start_args, SPACE);
+
+        end_args = strchr(start_args, TERMINATOR);
+
+        len_args = end_args - start_args;
+        // memcpy((void*)cpy_buffer, (const void*)start_args, len_args);
+
+        cpy_buffer[len_args] = '\0';
+        memcpy((void*)cpy_buffer, (const void*)start_args, len_args + 1);
+
+        // printf("%s\n", cpy_buffer);
+
+        // while(1);
+        
+        play_file(cpy_buffer);
         return 0;
     }
 

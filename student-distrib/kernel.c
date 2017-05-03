@@ -211,8 +211,6 @@ entry (unsigned long magic, unsigned long addr)
 
     // while(1);
 
-    num_free_data_blocks();
-
 //Make a beep
 //void beep() {
     terminal_write("Booting up!\n", 12);
