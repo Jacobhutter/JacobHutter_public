@@ -207,6 +207,10 @@ entry (unsigned long magic, unsigned long addr)
 
     // while(1);
 
+    // list_all_files();
+
+    // while(1);
+
 
 //Make a beep
 //void beep() {

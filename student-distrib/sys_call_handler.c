@@ -91,7 +91,8 @@ int32_t u_write(uint8_t* file_name) {
     terminal_write("Writing ", 8);
     terminal_write(file_name, strlen(file_name));
     terminal_write("\n", 1);
-    read_dentry_by_name(file_name, &curr);
+    if (read_dentry_by_name(file_name, &curr) == -1)
+        make_new_file(file_name, 2, &curr);
 
     write_data(curr.i_node_num, 0, buf, 6);
     return 0;

@@ -93,4 +93,8 @@ void load_file(dentry_t);
 
 void print_inode();
 
+uint32_t make_new_file(uint8_t*, int, dentry_t*);
+
+int* get_init_inode();
+
 #endif /* FILE_SYSTEM_H */

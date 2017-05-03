@@ -62,33 +62,34 @@ void init_file_system(unsigned long * addr) {
     // Goes through every file to find used inode and data blocks
     for (i = 1; i <= dir_entries; i++) {
         // Gets dentry
-        read_dentry_by_index(i, &curr);
+        if (read_dentry_by_index(i, &curr) != -1) {
 
-        inode_lookup[curr.i_node_num / MASK_SIZE] = mask <<
-                (curr.i_node_num % MASK_SIZE);
+            inode_lookup[curr.i_node_num / 32] |= mask <<
+                                                  (curr.i_node_num % 32);
 
-        file_size = get_file_size(curr);
+            file_size = get_file_size(curr);
 
-        // Gets how many data blocks are used for file
-        num_file_d_blocks = (file_size / MEM_BLOCK) + 1;
+            // Gets how many data blocks are used for file
+            num_file_d_blocks = (file_size / MEM_BLOCK) + 1;
 
-        // Gets inode block
-        inode_addr = init_inode_addr + (curr.i_node_num * kB);
-        inode_addr++;
-
-        // Gets used data blocks
-        for (j = 0; j < num_file_d_blocks; j++) {
-            data_block_lookup[*inode_addr / MASK_SIZE] = mask <<
-                    (*inode_addr % MASK_SIZE);
-
+            // Gets inode block
+            inode_addr = init_inode_addr + (curr.i_node_num * kB);
             inode_addr++;
-        }
 
+            // Gets used data blocks
+            for (j = 0; j < num_file_d_blocks; j++) {
+                data_block_lookup[*inode_addr / 32] |= mask <<
+                                                       (*inode_addr % 32);
+
+                inode_addr++;
+            }
+        }
 
     }
 
-
-
+    // printf("%#x\n", inode_lookup[0]);
+    // printf("%#x\n", inode_lookup[1]);
+    // while (1);
 
 }
 
@@ -568,7 +569,7 @@ void list_all_files() {
         terminal_write(" , File type: ", 14);
         terminal_write((const void*) (&temp), 1);
         terminal_write(", file size: ", 13);
-        printInt(size);
+        printInt(curr.i_node_num);
         terminal_write("\n", 1);
 
 
@@ -787,4 +788,58 @@ void load_file(dentry_t file) {
 
     return;
 
+}
+
+uint32_t make_new_file(uint8_t* file_name, int type, dentry_t* dentry) {
+    int i, name_length;
+    dentry_t new_file;
+    int* init_inode_addr, *inode_addr;
+    dentry_t* dentry_mem;
+    uint32_t mask = 0x01;
+
+    init_inode_addr = (int*)(boot_block_addr + kB);
+
+    // Makes sure file name is less than max name size (32)
+    name_length = (strlen(file_name) > MAX_NAME) ? MAX_NAME : strlen(file_name);
+
+    memcpy((void*) & (new_file.file_name), (const void*)file_name, name_length);
+
+    new_file.file_type = type;
+
+    for (i = 0; i < num_inode; i++) {
+        // Checks if inode is free
+        if ( (inode_lookup[i / MASK_SIZE] & (mask << (i % MASK_SIZE)) ) == 0) {
+            // Sets inode in use
+            inode_lookup[i / MASK_SIZE] |= mask << (i % MASK_SIZE);
+            new_file.i_node_num = i;
+            break;
+        }
+
+        // No free file
+        if (i == num_inode - 1) {
+            terminal_write("No space for new file\n", 22);
+            return -1;
+        }
+    }
+
+    // Gets inode block of file
+    inode_addr = init_inode_addr + (new_file.i_node_num * kB);
+
+    // Sets size to 0
+    *inode_addr = 0;
+
+    dentry_mem = (dentry_t*)(boot_block_addr + (dir_entries + 1) * BLOCK_OFF);
+
+    *dentry_mem = new_file;
+    *dentry = new_file;
+
+    // Adds another directory entry
+    dir_entries++;
+
+    return 0;
+
+}
+
+int* get_init_inode() {
+    return (int*)(boot_block_addr + kB);
 }
