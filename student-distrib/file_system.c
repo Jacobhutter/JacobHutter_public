@@ -65,7 +65,7 @@ void init_file_system(unsigned long * addr) {
         if (read_dentry_by_index(i, &curr) != -1) {
 
             inode_lookup[curr.i_node_num / MASK_SIZE] |= mask <<
-                                                  (curr.i_node_num % MASK_SIZE);
+                    (curr.i_node_num % MASK_SIZE);
 
             file_size = get_file_size(curr);
 
@@ -79,7 +79,7 @@ void init_file_system(unsigned long * addr) {
             // Gets used data blocks
             for (j = 0; j < num_file_d_blocks; j++) {
                 data_block_lookup[*inode_addr / MASK_SIZE] |= mask <<
-                                                       (*inode_addr % MASK_SIZE);
+                        (*inode_addr % MASK_SIZE);
 
                 inode_addr++;
             }
@@ -247,7 +247,8 @@ int32_t write_data(uint32_t inode, uint32_t offset, uint8_t* buf,
     int* init_inode_addr, *inode_addr;
     char* init_data_addr, *data_addr;
     int block_length, data_num, i, j, k, f_size;
-    int block_offset, init_offset;
+    int block_offset, init_offset, curr_data_blocks;
+
 
     // Gets offset of data block
     block_offset = offset / MEM_BLOCK;
@@ -264,6 +265,11 @@ int32_t write_data(uint32_t inode, uint32_t offset, uint8_t* buf,
 
     // Gets inode block
     inode_addr = init_inode_addr + (inode * kB);
+
+    // Gets how many data blocks the current file has
+    curr_data_blocks = (*inode_addr / MEM_BLOCK) + 1;
+
+    // TODO: Check to make sure if more data blocks are needed
 
     f_size = *inode_addr;
 
@@ -804,9 +810,9 @@ uint32_t make_new_file(uint8_t* file_name, int type, dentry_t* dentry) {
     init_inode_addr = (int*)(boot_block_addr + kB);
 
     // Makes sure file name is less than max name size (32)
-    name_length = (strlen(file_name) > MAX_NAME) ? MAX_NAME : strlen(file_name);
+    name_length = (strlen((int8_t*)file_name) > MAX_NAME) ? MAX_NAME : strlen((int8_t*)file_name);
 
-    memcpy((void*) & (new_file.file_name), (const void*)file_name, name_length);
+    memcpy((void*) (&(new_file.file_name)), (const void*)file_name, name_length);
 
     new_file.file_type = type;
 
@@ -836,16 +842,14 @@ uint32_t make_new_file(uint8_t* file_name, int type, dentry_t* dentry) {
 
     d_block = get_data_block();
 
-    printInt(d_block);
-
-    printf("%d\n", d_block);
-    
     inode_addr++;
 
     *inode_addr = (d_block != -1) ? d_block : 0;
 
     *dentry_mem = new_file;
-    *dentry = new_file;
+    
+    if (dentry != NULL);
+        *dentry = new_file;
 
     // Adds another directory entry
     dir_entries++;
@@ -875,4 +879,20 @@ int32_t get_data_block() {
 
     terminal_write("No free data\n", 13);
     return -1;
+}
+
+void num_free_data_blocks() {
+    int i, num;
+    uint32_t mask = 0x01;
+
+    num = 0;
+    for (i = 0; i < data_blocks; i++) {
+        if ((data_block_lookup[i / MASK_SIZE] & (mask << (i % MASK_SIZE))) == 0) {
+            num++;
+        }
+    }
+
+    printInt(num);
+    terminal_write("\n", 1);
+
 }

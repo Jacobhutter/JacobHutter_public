@@ -95,6 +95,8 @@ int32_t u_write(uint8_t* file_name) {
         make_new_file(file_name, 2, &curr);
 
     write_data(curr.i_node_num, 0, buf, 6);
+
+    num_free_data_blocks();
     return 0;
 
 }
@@ -196,9 +198,15 @@ int32_t EXECUTE (const uint8_t* command) {
         end_args = strchr(start_args, TERMINATOR);
 
         len_args = end_args - start_args;
-        memcpy((void*)cpy_buffer, (const void*)start_args, len_args);
+        // memcpy((void*)cpy_buffer, (const void*)start_args, len_args);
 
-        cpy_buffer[len_args] = TERMINATOR;
+        cpy_buffer[len_args] = '\0';
+        memcpy((void*)cpy_buffer, (const void*)start_args, len_args + 1);
+
+        // printf("%s\n", cpy_buffer);
+
+        // while(1);
+        
         u_write(cpy_buffer);
         return 0;
     }

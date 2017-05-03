@@ -99,4 +99,6 @@ int* get_init_inode();
 
 int32_t get_data_block();
 
+void num_free_data_blocks();
+
 #endif /* FILE_SYSTEM_H */
