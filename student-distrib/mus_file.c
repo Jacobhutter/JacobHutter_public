@@ -31,6 +31,8 @@ int32_t get_freq(char* note) {
 	else if (note[0] == 'B')
 		return 494;
 	else if (note[0] == 'R')
+		return 1;
+	else if (note[0] == 'T')
 		return 0;
 
 	return -1;
@@ -79,10 +81,12 @@ int32_t parse_file(char* buf, int32_t nbytes) {
 			freq = get_freq(note);
 			if (freq != -1) {
 				for (q = 0; q < 300000; q++) {
-					if (freq != 0)
+					if (freq != 0 && freq != 1)
 						play_sound(freq);
-					else
+					else if (freq == 1)
 						for (r = 0; r < 100; r++);
+					else if (freq == 0)
+						for (r = 0; r < 15; r++);
 				}
 				nosound();
 			}
