@@ -812,6 +812,9 @@ uint32_t make_new_file(uint8_t* file_name, int type, dentry_t* dentry) {
     // Makes sure file name is less than max name size (32)
     name_length = (strlen((int8_t*)file_name) > MAX_NAME) ? MAX_NAME : strlen((int8_t*)file_name);
 
+    for (i = 0; i < MAX_NAME; i++)
+        new_file.file_name[i] = '\0';
+
     memcpy((void*) (&(new_file.file_name)), (const void*)file_name, name_length);
 
     new_file.file_type = type;
