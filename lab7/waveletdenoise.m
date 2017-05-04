@@ -4,16 +4,18 @@ clc, clear all, close all
 [xnoise,fs] = audioread('noisy.wav');
 
 wname = 'db1';
-a1thresh = 0.0; % Must be positive.
-d1thresh = 0.0; % Must be positive.
-a2thresh = 0.0; % Must be positive.
+
+
+a1thresh = 0.016; % Must be positive.
+d1thresh = 0.009; % Must be positive.
+a2thresh = 0.016; % Must be positive.
 d2thresh = 0.0; % Must be positive.
-a3thresh = 0.0; % Must be positive.
-d3thresh = 0.0; % Must be positive.
-a4thresh = 0.0; % Must be positive.
-d4thresh = 0.0; % Must be positive.
-a5thresh = 0.0; % Must be positive.
-d5thresh = 0.0; % Must be positive.
+a3thresh = 0.02; % Must be positive.
+d3thresh = 0.012; % Must be positive.
+a4thresh = 0.0060; % Must be positive.
+d4thresh = 0.012; % Must be positive.
+a5thresh = 0.002; % Must be positive.
+d5thresh = 0.016; % Must be positive.
 
 % DWT
 x = xnoise;
@@ -68,5 +70,8 @@ subplot(223); stem(a1_); title('a1 filtered','fontsize',14);
 subplot(224); stem(d1_); title('d1 filtered','fontsize',14);
 
 E = norm(x_ - xorig)/norm(xorig)*100;
+
 disp(['Percent Relative Error: ', num2str(E)]);
+
+
 soundsc(x_,fs);
