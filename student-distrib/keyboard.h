@@ -48,6 +48,8 @@ extern uint32_t vid_backpages[MAX_TERMINALS];
 
 /* initializes the keyboard driver */
 
+
+void move_cursor(int dir);
 /* returns address of selected buffer */
 extern unsigned char * get_buf_add(uint8_t select);
 

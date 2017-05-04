@@ -8,6 +8,8 @@
 
 #define MAX_NAME 32
 #define BASE 10
+#define MASK_SIZE 32
+#define MAX_FILES_FS 64
 
 #define RTC_FILE "rtc"
 #define RTC_FILE_LEN 4
@@ -25,6 +27,10 @@ static unsigned long num_inode, data_blocks, dir_entries;
 // Magic numbers for executable
 static unsigned char ELF[] = {0x7f, 0x45, 0x4c, 0x46};
 
+static uint32_t inode_lookup[2] = {0, 0};
+
+static uint32_t data_block_lookup[10];
+
 /*
  * init_file_system
  *   DESCRIPTION: Initializes file system driver
@@ -34,15 +40,57 @@ static unsigned char ELF[] = {0x7f, 0x45, 0x4c, 0x46};
  *   SIDE EFFECTS: Adds data to global vars
  */
 void init_file_system(unsigned long * addr) {
-    
-    if (addr == NULL)
-        return;
+    int i, j;
+    dentry_t curr;
+    unsigned long file_size, num_file_d_blocks;
+    int* init_inode_addr, *inode_addr;
+
+    uint32_t mask = 0x01;
 
     boot_block_addr = addr;
     dir_entries = *boot_block_addr;
     num_inode = *(boot_block_addr + 1);
     data_blocks = *(boot_block_addr + 2);
 
+    // Gets start of inode blocks
+    init_inode_addr = (int*)(boot_block_addr + kB);
+
+    // initiaized data block lookup
+    for (i = 0; i < 10; i++)
+        data_block_lookup[i] = 0;
+
+    // Goes through every file to find used inode and data blocks
+    for (i = 1; i <= dir_entries; i++) {
+        // Gets dentry
+        if (read_dentry_by_index(i, &curr) != -1) {
+
+            inode_lookup[curr.i_node_num / MASK_SIZE] |= mask <<
+                    (curr.i_node_num % MASK_SIZE);
+
+            file_size = get_file_size(curr);
+
+            // Gets how many data blocks are used for file
+            num_file_d_blocks = (file_size / MEM_BLOCK) + 1;
+
+            // Gets inode block
+            inode_addr = init_inode_addr + (curr.i_node_num * kB);
+            inode_addr++;
+
+            // Gets used data blocks
+            for (j = 0; j < num_file_d_blocks; j++) {
+                data_block_lookup[*inode_addr / MASK_SIZE] |= mask <<
+                        (*inode_addr % MASK_SIZE);
+
+                inode_addr++;
+            }
+        }
+
+    }
+
+}
+
+void print_inode() {
+    printInt(data_blocks);
 }
 
 /*
@@ -183,6 +231,106 @@ int32_t read_data(uint32_t inode, uint32_t offset, uint8_t* buf,
         // Increments inode index
         k++;
     }
+
+
+    return i;
+}
+
+/*
+ * read_data
+ *   DESCRIPTION: Reads data from file system
+ *   INPUTS: inode - inode to begin at
+ *           offset - offset of 1st data block to start reading from
+ *           buf - buffer to write data to
+ *           length - number of bytes to read
+ *   OUTPUTS: none
+ *   RETURN VALUE: 0 on success, -1 on failure
+ *   SIDE EFFECTS: Copies data of length bytes to buffer
+ */
+int32_t write_data(uint32_t inode, uint32_t offset, uint8_t* buf,
+                   uint32_t length) {
+
+    int* init_inode_addr, *inode_addr;
+    char* init_data_addr, *data_addr;
+    int block_length, data_num, i, j, k, f_size, d_block;
+    int block_offset, init_offset, curr_data_blocks;
+
+
+    // Gets offset of data block
+    block_offset = offset / MEM_BLOCK;
+
+    // Gets offset of where to read inside the first block
+    init_offset = offset % MEM_BLOCK;
+
+    // Gets start of inode blocks and data blocks
+    init_inode_addr = (int*)(boot_block_addr + kB);
+    init_data_addr = (char*)(boot_block_addr + (kB + num_inode * kB));
+
+    if (inode >= num_inode)
+        return -1;
+
+    // Gets inode block
+    inode_addr = init_inode_addr + (inode * kB);
+
+    // Gets how many data blocks the current file has
+    curr_data_blocks = (*inode_addr / MEM_BLOCK) + 1;
+
+    // Gets pointer to next place for data block
+    inode_addr += curr_data_blocks;
+
+    while (block_offset >= curr_data_blocks) {
+        d_block = get_data_block();
+        
+        // TODO: Fix possible mem leak
+        if (d_block == -1) {
+            terminal_write("Not enough data blocks\n", 23);
+            return -1;
+        }
+
+        *inode_addr = d_block;
+        inode_addr++;
+        curr_data_blocks++;
+    }
+
+    inode_addr = init_inode_addr + (inode * kB);
+
+    f_size = *inode_addr;
+
+    // Gets length of block remaining to read
+    block_length = *inode_addr - offset;
+
+    i = 0;
+    k = 1;
+    // Runs until read all blocks
+    while (i < length) {
+        // Gets the data block number
+        data_num = *(inode_addr + k + block_offset);
+        // Checks for invalid data
+        if (data_num >= data_blocks)
+            return i; // Returns number of bytes read
+        // Gets the data address to start read from
+        data_addr = init_data_addr + (data_num * MEM_BLOCK);
+        data_addr += init_offset;
+        j = 0;
+        // Runs through data block until end of block or end of needed read
+        while (j < MEM_BLOCK - init_offset && i < length) {
+            *data_addr = buf[i];
+            data_addr++;
+            i++;
+            j++;
+        }
+        // Deletes offset because no longer needed
+        init_offset = 0;
+        // Increments inode index
+        k++;
+    }
+
+    // Updates file size if necessary
+    if (offset + length > f_size) {
+        inode_addr = init_inode_addr + (inode * kB);
+        *inode_addr = offset + length;
+    }
+
 
 
     return i;
@@ -459,7 +607,7 @@ void list_all_files() {
         terminal_write(" , File type: ", 14);
         terminal_write((const void*) (&temp), 1);
         terminal_write(", file size: ", 13);
-        printInt(size);
+        printInt(curr.i_node_num);
         terminal_write("\n", 1);
 
 
@@ -619,7 +767,7 @@ int check_ELF(dentry_t file) {
  *   RETURN VALUE: Program Address
  *   SIDE EFFECTS: none
  */
- #define ELF_start 24
+#define ELF_start 24
 uint32_t get_start(dentry_t file) {
 
     // Needs 4 bytes for ELF
@@ -681,5 +829,106 @@ void load_file(dentry_t file) {
     }
 
     return;
+
+}
+
+uint32_t make_new_file(uint8_t* file_name, int type, dentry_t* dentry) {
+    int i, name_length, d_block;
+    dentry_t new_file;
+    int* init_inode_addr, *inode_addr;
+    dentry_t* dentry_mem;
+    uint32_t mask = 0x01;
+
+    init_inode_addr = (int*)(boot_block_addr + kB);
+
+    // Makes sure file name is less than max name size (32)
+    name_length = (strlen((int8_t*)file_name) > MAX_NAME) ? MAX_NAME : strlen((int8_t*)file_name);
+
+    // Clears name buffer
+    for (i = 0; i < MAX_NAME; i++)
+        new_file.file_name[i] = '\0';
+
+    memcpy((void*) (&(new_file.file_name)), (const void*)file_name, name_length);
+
+    new_file.file_type = type;
+
+    for (i = 0; i < num_inode; i++) {
+        // Checks if inode is free
+        if ( (inode_lookup[i / MASK_SIZE] & (mask << (i % MASK_SIZE)) ) == 0) {
+            // Sets inode in use
+            inode_lookup[i / MASK_SIZE] |= mask << (i % MASK_SIZE);
+            new_file.i_node_num = i;
+            break;
+        }
+
+        // No free file
+        if (i == num_inode - 1) {
+            terminal_write("No space for new file\n", 22);
+            return -1;
+        }
+    }
+
+    // Gets inode block of file
+    inode_addr = init_inode_addr + (new_file.i_node_num * kB);
+
+    // Sets size to 0
+    *inode_addr = 0;
+
+    dentry_mem = (dentry_t*)(boot_block_addr + (dir_entries + 1) * BLOCK_OFF);
+
+    d_block = get_data_block();
+
+    inode_addr++;
+
+    *inode_addr = (d_block != -1) ? d_block : 0;
+
+    *dentry_mem = new_file;
+    
+    if (dentry != NULL);
+        *dentry = new_file;
+
+    // Adds another directory entry
+    dir_entries++;
+
+    return 0;
+
+}
+
+int* get_init_inode() {
+    return (int*)(boot_block_addr + kB);
+}
+
+char* get_init_data() {
+    return (char*)(boot_block_addr + (kB + num_inode * kB));
+}
+
+int32_t get_data_block() {
+    int i;
+    uint32_t mask = 0x01;
+
+    for (i = 0; i < data_blocks; i++) {
+        if ((data_block_lookup[i / MASK_SIZE] & (mask << (i % MASK_SIZE))) == 0) {
+            data_block_lookup[i / MASK_SIZE] |= (mask << (i % MASK_SIZE));
+            return i;
+        }
+    }
+
+    terminal_write("No free data\n", 13);
+    return -1;
+}
+
+void num_free_data_blocks() {
+    int i, num;
+    uint32_t mask = 0x01;
+
+    num = 0;
+    for (i = 0; i < data_blocks; i++) {
+        if ((data_block_lookup[i / MASK_SIZE] & (mask << (i % MASK_SIZE))) == 0) {
+            num++;
+        }
+    }
+
+    printInt(num);
+    terminal_write("\n", 1);
 
 }

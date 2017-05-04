@@ -83,6 +83,47 @@ int32_t color() {
     change_color(response);
     return 0;
 }
+
+int32_t u_write(uint8_t* file_name) {
+    
+    dentry_t curr;
+    uint8_t buf[128];
+    int i = 0;
+    for (i = 0; i < 128; i++)
+        buf[i] = '\0';
+
+    READ(0, buf, 128);
+    terminal_write("Writing ", 8);
+    terminal_write(file_name, strlen(file_name));
+    terminal_write("\n", 1);
+    if (read_dentry_by_name(file_name, &curr) == -1)
+        make_new_file(file_name, 2, &curr);
+
+    write_data(curr.i_node_num, 0, buf, strlen(buf));
+
+    // parse_file("C D E F G A B ", 14);
+    return 0;
+
+}
+
+int32_t play_file(uint8_t* file_name) {
+    dentry_t curr;
+    uint8_t buf[128];
+    int size;
+    int i = 0;
+    for (i = 0; i < 128; i++)
+        buf[i] = '\0';
+
+    if (read_dentry_by_name(file_name, &curr) == -1)
+        return -1;
+
+    // size = 
+    read_data(curr.i_node_num, 0, buf, (get_file_size(curr) > 128) ? 128 : get_file_size(curr));
+
+    parse_file(buf, strlen(buf));
+
+    return 0;
+}
 /* int32_t HALT
  * inputs: status, to be expanded to 32 bits and returned to user
  * output: 0 dummy
@@ -133,8 +174,8 @@ int32_t HALT (uint8_t status) {
  * output: 0 dummy
  * function: takes name of elf and possible arg, loads program into mem, makes a pcb and travels to ring 3
  */
- #define int_m 255
- #define init_proc 3
+#define int_m 255
+#define init_proc 3
 int32_t EXECUTE (const uint8_t* command) {
 
     uint32_t start_point; // = get_start(file);
@@ -166,6 +207,51 @@ int32_t EXECUTE (const uint8_t* command) {
     cpy_buffer[len_exe] = TERMINATOR;
     if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"color", 5) == 0) {
         color();
+        return 0;
+    }
+    if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"piano", 5) == 0) {
+        set_p_flag();
+        return 0;
+    }
+
+    if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"nano", 4) == 0) {
+        /* parse the arguments */
+        start_args = end_exe;
+        start_args = strxchr(start_args, SPACE);
+
+        end_args = strchr(start_args, TERMINATOR);
+
+        len_args = end_args - start_args;
+        // memcpy((void*)cpy_buffer, (const void*)start_args, len_args);
+
+        cpy_buffer[len_args] = '\0';
+        memcpy((void*)cpy_buffer, (const void*)start_args, len_args + 1);
+
+        // printf("%s\n", cpy_buffer);
+
+        // while(1);
+        
+        u_write(cpy_buffer);
+        return 0;
+    }
+
+    if (strncmp((const int8_t *)cpy_buffer, (const int8_t *)"play", 4) == 0) {
+        start_args = end_exe;
+        start_args = strxchr(start_args, SPACE);
+
+        end_args = strchr(start_args, TERMINATOR);
+
+        len_args = end_args - start_args;
+        // memcpy((void*)cpy_buffer, (const void*)start_args, len_args);
+
+        cpy_buffer[len_args] = '\0';
+        memcpy((void*)cpy_buffer, (const void*)start_args, len_args + 1);
+
+        // printf("%s\n", cpy_buffer);
+
+        // while(1);
+        
+        play_file(cpy_buffer);
         return 0;
     }
 
@@ -272,10 +358,10 @@ int32_t EXECUTE (const uint8_t* command) {
                   push %0          \n\
                   iret             \n\
                   "
-        :
-        : "r" (start_point), "r"(user_stack)
-        : "%eax", "%edx"
-    );
+                 :
+                 : "r" (start_point), "r"(user_stack)
+                 : "%eax", "%edx"
+                );
     asm volatile("halt_child:   \n\
                   leave         \n\
                   ret           \n\
@@ -434,7 +520,7 @@ int32_t VIDMAP (uint8_t** screen_start) {
         return -1;
     }
     // map 136Mb to current frame buffer
-    VIDMAP_LOC = (uint8_t*)_136Mb + get_cur_term()*4*Kb;
+    VIDMAP_LOC = (uint8_t*)_136Mb + get_cur_term() * 4 * Kb;
     /* we built the page for user access to vid memory in kernel.c */
     *screen_start = VIDMAP_LOC;
 

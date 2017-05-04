@@ -28,6 +28,9 @@ int32_t read_dentry_by_index(uint32_t, dentry_t*);
 /* Reads data from file system */
 int32_t read_data(uint32_t, uint32_t, uint8_t*, uint32_t);
 
+/* Reads data from file system */
+int32_t write_data(uint32_t, uint32_t, uint8_t*, uint32_t);
+
 /* Opens file */
 int32_t file_open(const uint8_t *);
 
@@ -87,5 +90,15 @@ uint32_t get_start(dentry_t);
 
 /* Loads file into memory */
 void load_file(dentry_t);
+
+void print_inode();
+
+uint32_t make_new_file(uint8_t*, int, dentry_t*);
+
+int* get_init_inode();
+
+int32_t get_data_block();
+
+void num_free_data_blocks();
 
 #endif /* FILE_SYSTEM_H */
