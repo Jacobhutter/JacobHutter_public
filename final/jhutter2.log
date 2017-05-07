@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  7 MAY 2017 17:13
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  7 MAY 2017 17:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -91,8 +91,7 @@ Package color Info: Driver file: pdftex.def on input line 130.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
-)
-No file jhutter2.aux.
+) (./jhutter2.aux)
 \openout1 = `jhutter2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
@@ -108,7 +107,7 @@ LaTeX Font Info:    ... okay on input line 41.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
 LaTeX Font Info:    ... okay on input line 41.
 \c@lstlisting=\count96
-(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+ (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count97
 \scratchdimen=\dimen109
@@ -215,135 +214,135 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <8> not available
 <Chipotle1.jpg, id=2, 1124.2pt x 843.15pt>
 File: Chipotle1.jpg Graphic file (type jpg)
  <use Chipotle1.jpg>
-Package pdftex.def Info: Chipotle1.jpg used on input line 58.
+Package pdftex.def Info: Chipotle1.jpg used on input line 59.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 58--59
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 59--60
 [] 
  []
 
 
-LaTeX Warning: Float too large for page by 662.81717pt on input line 59.
+LaTeX Warning: Float too large for page by 675.86162pt on input line 60.
 
 <Chipotle2.jpg, id=3, 1124.2pt x 843.15pt>
 File: Chipotle2.jpg Graphic file (type jpg)
  <use Chipotle2.jpg>
-Package pdftex.def Info: Chipotle2.jpg used on input line 62.
+Package pdftex.def Info: Chipotle2.jpg used on input line 63.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
 <Chipotle3.jpg, id=4, 1124.2pt x 843.15pt>
 File: Chipotle3.jpg Graphic file (type jpg)
  <use Chipotle3.jpg>
-Package pdftex.def Info: Chipotle3.jpg used on input line 63.
+Package pdftex.def Info: Chipotle3.jpg used on input line 64.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
 <Chipotle4.jpg, id=5, 1124.2pt x 843.15pt>
 File: Chipotle4.jpg Graphic file (type jpg)
  <use Chipotle4.jpg>
-Package pdftex.def Info: Chipotle4.jpg used on input line 64.
+Package pdftex.def Info: Chipotle4.jpg used on input line 65.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 62--66
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 63--67
 [][]
  []
 
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 62--66
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 63--67
 []
  []
 
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 62--66
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 63--67
 []
  []
 
 
-LaTeX Warning: Float too large for page by 754.66632pt on input line 66.
+LaTeX Warning: Float too large for page by 754.66632pt on input line 67.
 
 (./Legends.m) <Legends1.jpg, id=6, 1124.2pt x 843.15pt>
 File: Legends1.jpg Graphic file (type jpg)
  <use Legends1.jpg>
-Package pdftex.def Info: Legends1.jpg used on input line 73.
+Package pdftex.def Info: Legends1.jpg used on input line 75.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 73--74
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 75--76
 [] 
  []
 
 
-LaTeX Warning: Float too large for page by 586.81729pt on input line 74.
+LaTeX Warning: Float too large for page by 599.86174pt on input line 76.
 
 <Legends2.jpg, id=7, 1124.2pt x 843.15pt>
 File: Legends2.jpg Graphic file (type jpg)
  <use Legends2.jpg>
-Package pdftex.def Info: Legends2.jpg used on input line 77.
+Package pdftex.def Info: Legends2.jpg used on input line 79.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
 <legends3.jpg, id=8, 1124.2pt x 843.15pt>
 File: legends3.jpg Graphic file (type jpg)
  <use legends3.jpg>
-Package pdftex.def Info: legends3.jpg used on input line 78.
+Package pdftex.def Info: legends3.jpg used on input line 80.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
 <Legends4.jpg, id=9, 1124.2pt x 843.15pt>
 File: Legends4.jpg Graphic file (type jpg)
  <use Legends4.jpg>
-Package pdftex.def Info: Legends4.jpg used on input line 79.
+Package pdftex.def Info: Legends4.jpg used on input line 81.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 77--81
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 79--83
 [][]
  []
 
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 77--81
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 79--83
 []
  []
 
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 77--81
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 79--83
 []
  []
 
 
-LaTeX Warning: Float too large for page by 742.66632pt on input line 81.
+LaTeX Warning: Float too large for page by 742.66632pt on input line 83.
 
 (./Blackdog.m) <Blackdog1.jpg, id=10, 1124.2pt x 843.15pt>
 File: Blackdog1.jpg Graphic file (type jpg)
  <use Blackdog1.jpg>
-Package pdftex.def Info: Blackdog1.jpg used on input line 88.
+Package pdftex.def Info: Blackdog1.jpg used on input line 91.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 88--89
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 91--92
 [] 
  []
 
 
-LaTeX Warning: Float too large for page by 358.81766pt on input line 89.
+LaTeX Warning: Float too large for page by 371.8621pt on input line 92.
 
 <Blackdog2.jpg, id=11, 1124.2pt x 843.15pt>
 File: Blackdog2.jpg Graphic file (type jpg)
  <use Blackdog2.jpg>
-Package pdftex.def Info: Blackdog2.jpg used on input line 92.
+Package pdftex.def Info: Blackdog2.jpg used on input line 95.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
 <Blackdog3.jpg, id=12, 1124.2pt x 843.15pt>
 File: Blackdog3.jpg Graphic file (type jpg)
  <use Blackdog3.jpg>
-Package pdftex.def Info: Blackdog3.jpg used on input line 93.
+Package pdftex.def Info: Blackdog3.jpg used on input line 96.
 (pdftex.def)             Requested size: 562.09863pt x 421.57396pt.
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 92--96
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 95--99
 [][]
  []
 
 
-Overfull \hbox (217.09863pt too wide) in paragraph at lines 92--96
+Overfull \hbox (217.09863pt too wide) in paragraph at lines 95--99
 []
  []
 
 
-LaTeX Warning: Float too large for page by 356.09236pt on input line 96.
+LaTeX Warning: Float too large for page by 356.09236pt on input line 99.
 
 [1
 
@@ -353,9 +352,9 @@ jpg>] [3 <./Chipotle1.jpg>] [4 <./Chipotle2.jpg> <./Chipotle3.jpg> <./Chipotle4
 g>] [7 <./Blackdog1.jpg>] [8 <./Blackdog2.jpg> <./Blackdog3.jpg>]
 (./jhutter2.aux) ) 
 Here is how much of TeX's memory you used:
- 3458 strings out of 495063
- 48438 string characters out of 3182201
- 830995 words of memory out of 3000000
+ 3460 strings out of 495063
+ 48464 string characters out of 3182201
+ 830993 words of memory out of 3000000
  6600 multiletter control sequences out of 15000+200000
  6983 words of font info for 25 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -370,7 +369,7 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy8.pfb>
-Output written on jhutter2.pdf (8 pages, 819750 bytes).
+Output written on jhutter2.pdf (8 pages, 819875 bytes).
 PDF statistics:
  83 PDF objects out of 1000 (max. 8388607)
  50 compressed objects within 1 object stream
