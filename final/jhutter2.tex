@@ -46,54 +46,69 @@
 \color{black}
 
 \lstinputlisting[language=Matlab]{Sakanaya.m}
-\includegraphics[scale=.5]{Sakanaya1}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Sakanaya1}}
+\end{center}
 From the plot we see that there are tones at $+/- 10,12,22,30 and 45 Hz$ so a total of 10 tones.
 
-
+\clearpage
 
 
   \color{red}
   \underline{\textbf{Chipotle}}
   \color{black}
 \lstinputlisting[language=Matlab]{Chipotle.m}
-\includegraphics[scale=.5]{Chipotle1}
-
-
-
-\includegraphics[scale=.5]{Chipotle2}
-\includegraphics[scale=.5]{Chipotle3}
-\includegraphics[scale=.5]{Chipotle4}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Chipotle1}}
+\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Chipotle2}}
+\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Chipotle3}}
+\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Chipotle4}}
+\end{center}
 After upsampling, we see the frequency effect because of the time and frequency scaling property of the Fourier transform. The maximum we could have downsampled in order to avoid aliasing is 4.
+\clearpage
 
 
 
-
-  \color{red}
-  \underline{\textbf{Legends}}
-  \color{black}
+\color{red}
+\underline{\textbf{Legends}}
+\color{black}
 \lstinputlisting[language=Matlab]{Legends.m}
-\includegraphics[scale=.5]{Legends1}
-
-
-
-\includegraphics[scale=.5]{Legends2}
-\includegraphics[scale=.5]{legends3}
-\includegraphics[scale=.5]{Legends4}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Legends1}}
+\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Legends2}}
+\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{legends3}}
+\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Legends4}}
+\end{center}
 After filtering the correct frequencies seen from sig in frequency domain. We notice that there are 10 occurences of sig in the time domain of x.
+\clearpage
 
 
 
-
-  \color{red}
-  \underline{\textbf{Blackdog}}
-  \color{black}
+\color{red}
+\underline{\textbf{Blackdog}}
+\color{black}
 \lstinputlisting[language=Matlab]{Blackdog.m}
-\includegraphics[scale=.5]{Blackdog1}
-
-
-
-\includegraphics[scale = .5]{Blackdog2}
-\includegraphics[scale = .5]{Blackdog3}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Blackdog1}}
+\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Blackdog2}}
+\end{center}
+\begin{center}
+  \makebox[\textwidth]{\includegraphics[width=\paperwidth]{Blackdog3}}
+\end{center}
 After listening to the sound, we notice a linear increase in frequency that is seen by the spectrogram. The friend incorrectly downsampled because he did not low pass filter after downsampling which introduced copies into the mix.
 Therefore, we heard a shortened sound and a reverse version. After we lowpass filtered, We got the correct shortened version of the original signal.
 
