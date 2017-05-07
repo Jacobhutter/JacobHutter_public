@@ -50,10 +50,11 @@
 From the plot we see that there are tones at $+/- 10,12,22,30 and 45 Hz$ so a total of 10 tones.
 \end{figure}
 
-\color{red}
-\underline{\textbf{Chipotle}}
-\color{black}
+
 \begin{figure}[H]
+  \color{red}
+  \underline{\textbf{Chipotle}}
+  \color{black}
 \lstinputlisting[language=Matlab]{Chipotle.m}
 \includegraphics[scale=.5]{Chipotle1}
 \end{figure}
@@ -65,10 +66,11 @@ From the plot we see that there are tones at $+/- 10,12,22,30 and 45 Hz$ so a to
 After upsampling, we see the frequency effect because of the time and frequency scaling property of the Fourier transform. The maximum we could have downsampled in order to avoid aliasing is 4.
 \end{figure}
 
-\color{red}
-\underline{\textbf{Legends}}
-\color{black}
+
 \begin{figure}[H]
+  \color{red}
+  \underline{\textbf{Legends}}
+  \color{black}
 \lstinputlisting[language=Matlab]{Legends.m}
 \includegraphics[scale=.5]{Legends1}
 \end{figure}
@@ -80,17 +82,18 @@ After upsampling, we see the frequency effect because of the time and frequency 
 After filtering the correct frequencies seen from sig in frequency domain. We notice that there are 10 occurences of sig in the time domain of x.
 \end{figure}
 
-\color{red}
-\underline{\textbf{Blackdog}}
-\color{black}
+
 \begin{figure}[H]
+  \color{red}
+  \underline{\textbf{Blackdog}}
+  \color{black}
 \lstinputlisting[language=Matlab]{Blackdog.m}
 \includegraphics[scale=.5]{Blackdog1}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[scale=.5]{Blackdog2}
-\includegraphics[scale=.5]{Blackdog3}
+\includegraphics[scale = .5]{Blackdog2}
+\includegraphics[scale = .5]{Blackdog3}
 After listening to the sound, we notice a linear increase in frequency that is seen by the spectrogram. The friend incorrectly downsampled because he did not low pass filter after downsampling which introduced copies into the mix.
 Therefore, we heard a shortened sound and a reverse version. After we lowpass filtered, We got the correct shortened version of the original signal.
 \end{figure}
