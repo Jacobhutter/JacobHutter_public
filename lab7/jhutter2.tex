@@ -48,7 +48,7 @@
 
 \begin{lstlisting}
 t = 0:.01:5.11;
-st = t(t<.5); 
+st = t(t<.5);
 
 PSI_1_0 = sin(2*pi*(st*2 + .5));
 PSI_1_0 = PSI_1_0 * 2^(.5);
@@ -183,13 +183,15 @@ the spectral representation for that chunk. After that, the window is shifted al
 \begin{figure}[H]
 	For this plot I overlayed the different waves to show that they are the same.
   \includegraphics[scale=.5]{4_same}
-  \includegraphics[scale=.5]{4_idwt}
+  \begin{center}
+    \makebox[\textwidth]{\includegraphics[width=\paperwidth]{4_idwt}}
+  \end{center}
   \end{figure}
-  
-  
-  
-  
-  
+
+
+
+
+
 \begin{figure}[H]
 \color{red}
 \underline{\textbf{Report Item 6}}
@@ -290,7 +292,7 @@ soundsc(x_,fs);
 
 
 \begin{figure}[H]
-The code I ran with the given parameters gave around a 7.6 error percentage. 
+The code I ran with the given parameters gave around a 7.6 error percentage.
 
 \includegraphics[scale=.5]{a1d1}
 \includegraphics[scale=.5]{a2d2}
