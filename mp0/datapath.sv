@@ -17,6 +17,7 @@ module datapath
 	 input regfilemux_sel,
 	 input marmux_sel,
 	 input mdrmux_sel,
+	 input lc3b_word mem_rdata,
 	 input lc3b_aluop aluop,
 	 output lc3b_opcode opcode,
 	 output logic branch_enable,
@@ -39,7 +40,7 @@ lc3b_word alu_out;
 lc3b_word pc_out;
 lc3b_word br_add_out;
 lc3b_word pc_plus2_out;
-lc3b_word mem_rdata;
+
      
 	 
 lc3b_reg sr1;
@@ -205,7 +206,7 @@ register MDR
 register MAR
 (
 	.clk,
-	.load(load_mdr),
+	.load(load_mar),
 	.in(marmux_out),
 	.out(mem_address)
 );

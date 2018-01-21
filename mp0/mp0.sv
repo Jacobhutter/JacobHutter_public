@@ -46,6 +46,7 @@ datapath Datapath
 	.regfilemux_sel,
 	.marmux_sel,
 	.mdrmux_sel,
+	.mem_rdata,
 	.aluop,
 	.opcode,
 	.branch_enable,
