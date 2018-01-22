@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 from scipy import signal
 from scipy import misc
 from PIL import Image
 import numpy as np
+=======
+from PIL import Image
+>>>>>>> 11bd125dde048d51bb741267699a98c7b42cee3b
 import sys
 
 # create jpg of from file name
@@ -12,6 +16,7 @@ except IOError, ioe:
     print("That file Does not exist")
     sys.exit();
 width = brgImg.size[0]
+<<<<<<< HEAD
 height = brgImg.size[1]/3
 
 # begin cropping and convert to 1d list
@@ -77,3 +82,16 @@ for i in range(0, height-1):
 
 img = Image.fromarray(rgbArray)
 img.save('myimg.jpeg')
+=======
+height = brgImg.size[1]
+height = height/3
+
+# begin cropping
+bImg = brgImg.crop((0, 0, width, height));
+gImg = brgImg.crop((0, height, width, 2*height));
+rImg = brgImg.crop((0, 2*height, width, 3*height));
+
+bImg.save("b1.jpg");
+gImg.save("g1.jpg");
+rImg.save("r1.jpg");
+>>>>>>> 11bd125dde048d51bb741267699a98c7b42cee3b
