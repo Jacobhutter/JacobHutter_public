@@ -33,6 +33,16 @@ LOOP1:
     STR R0, R0, RESULT
 
     LDR R1, R0, GOOD
+	BRnzp FACTORIAL
+
+	NEGONE: DATA2 4xFFFF
+	ZERO:   DATA2 4x0000
+	ONE:    DATA2 4x0001
+	TWO:    DATA2 4x0002
+	FIVE:   DATA2 4x0005
+	EIGHT:  DATA2 4x0008
+	RESULT: DATA2 4x0000
+	GOOD:   DATA2 4x600D
 
 FACTORIAL:
     NOT R1, R0          ; R1 <= ~R0 (clear)
@@ -41,32 +51,25 @@ FACTORIAL:
     LDR R2, R0, FIVE    ; R2 <= 5 (counter1)
     LDR R3, R0, NEGONE  ; R3 <= -1 (subtractor)
 
-FLOOP1:
-    LDR R4, R0, ZERO    ; R4 <= 0
-    LDR R5, R0, ZERO    ; R5 <= 0
+F1:
+    ADD R4, R0, R0      ; R4 <= 0
+    ADD R5, R0, R0      ; R5 <= 0
     ADD R2, R2, R3      ; R2--
     ADD R5, R5, R2      ; R5 <= R2
 
-FLOOP2:
+F2:
     ADD R4, R4, R1     ; R4 <= R4 + R1
     ADD R5, R5, R3     ; R5 <= R5 - 1
-    BRp FLOOP2         ; branch if R5 > 0
+    BRp F2             ; branch if R5 > 0
     
-    LDR R1, R0, ZERO   ; R1 <= 0
+    ADD R1, R0, R0     ; R1 <= 0
     ADD R1, R4, R1     ; R1 <= R1 + R4
     ADD R2, R2, R0     ; R2 <= R2 + 0
-    BRp FLOOP1
+    BRp F1
 
 HALT:
     BRnzp HALT          ; Infinite loop to keep the processor
                         ; from trying to execute the data below.
                         ; Your own programs should also make use
                         ; of an infinite loop at the end.
-NEGONE: DATA2 4xFFFE
-ZERO:   DATA2 4x0000
-ONE:    DATA2 4x0001
-TWO:    DATA2 4x0002
-FIVE:   DATA2 4x0005
-EIGHT:  DATA2 4x0008
-RESULT: DATA2 4x0000
-GOOD:   DATA2 4x600D
+
