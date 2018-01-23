@@ -1,8 +1,8 @@
-<<<<<<< HEAD
 from scipy import signal
 from scipy import misc
 from PIL import Image
 import numpy as np
+
 import sys
 
 # create jpg of from file name
