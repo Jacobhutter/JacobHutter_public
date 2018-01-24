@@ -33,6 +33,7 @@ LOOP1:
     STR R0, R0, RESULT
 
     LDR R1, R0, GOOD
+<<<<<<< HEAD
   	BRnzp FACTORIAL
 
   	NEGONE: DATA2 4xFFFF
@@ -43,6 +44,18 @@ LOOP1:
   	EIGHT:  DATA2 4x0008
   	RESULT: DATA2 4x0000
   	GOOD:   DATA2 4x600D
+=======
+	BRnzp FACTORIAL
+
+	NEGONE: DATA2 4xFFFF
+	ZERO:   DATA2 4x0000
+	ONE:    DATA2 4x0001
+	TWO:    DATA2 4x0002
+	FIVE:   DATA2 4x0005
+	EIGHT:  DATA2 4x0008
+	RESULT: DATA2 4x0000
+	GOOD:   DATA2 4x600D
+>>>>>>> ac132e36c756c0e876422658cb49d27658bf4fbd
 
 FACTORIAL:
     NOT R1, R0          ; R1 <= ~R0 (clear)
@@ -61,7 +74,11 @@ F2:
     ADD R4, R4, R1     ; R4 <= R4 + R1
     ADD R5, R5, R3     ; R5 <= R5 - 1
     BRp F2             ; branch if R5 > 0
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> ac132e36c756c0e876422658cb49d27658bf4fbd
     ADD R1, R0, R0     ; R1 <= 0
     ADD R1, R4, R1     ; R1 <= R1 + R4
     ADD R2, R2, R0     ; R2 <= R2 + 0
@@ -72,3 +89,7 @@ HALT:
                         ; from trying to execute the data below.
                         ; Your own programs should also make use
                         ; of an infinite loop at the end.
+<<<<<<< HEAD
+=======
+
+>>>>>>> ac132e36c756c0e876422658cb49d27658bf4fbd
