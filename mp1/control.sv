@@ -51,7 +51,8 @@ enum int unsigned {
 	 s_br_taken,
 	 s_jmp,
 	 s_jmp2,
-	 s_ret
+	 s_ret,
+	 s_lea
 } state, next_state;
 
 always_comb
@@ -192,6 +193,12 @@ begin : state_actions
 			pcmux_sel = 2'b10;
 			load_pc = 1;
 		end
+		
+		s_lea: begin
+			regfilemux_sel = 2'b11; // push pc + offset9 into regfile in
+			load_regfile = 1;
+			load_cc = 1; 
+		end
 			
 		default: /* Do nothing */;
 		
@@ -248,10 +255,14 @@ begin : next_state_logic
 				end
 				
 				op_jmp: begin
-					if base_r == 3'b111
+					if (base_r == 3'b111)
 						next_state <= s_ret;
 					else
 						next_state <= s_jmp;
+				end
+				
+				op_lea: begin
+					next_state <= s_lea;
 				end
 				
 				default: 
@@ -344,6 +355,10 @@ begin : next_state_logic
 		end
 		
 		s_ret: begin
+			next_state <= fetch1;
+		end
+		
+		s_lea: begin
 			next_state <= fetch1;
 		end
 		

@@ -31,6 +31,7 @@ lc3b_aluop aluop;
 lc3b_opcode opcode;
 logic branch_enable;
 logic immediate;
+lc3b_reg base_r;
  
 
 datapath Datapath
@@ -55,7 +56,8 @@ datapath Datapath
 	.branch_enable,
 	.mem_address,
 	.mem_wdata,
-	.immediate
+	.immediate,
+	.base_r
 );
 
 control Control
@@ -77,6 +79,7 @@ control Control
 	.marmux_sel,
 	.mdrmux_sel,
 	.immediate,
+	.base_r,
 	
 	/* Memory signals */ 
 	.mem_resp, 

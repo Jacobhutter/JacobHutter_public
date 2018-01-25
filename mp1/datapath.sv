@@ -24,7 +24,8 @@ module datapath
 	 output logic branch_enable,
 	 output lc3b_word mem_address,
 	 output lc3b_word mem_wdata,
-	 output logic immediate
+	 output logic immediate,
+	 output lc3b_reg base_r
     /* declare more ports here */
 );
 
@@ -46,6 +47,7 @@ lc3b_word imm5;
      
 	 
 lc3b_reg sr1;
+assign base_r = sr1;
 lc3b_reg sr2;
 lc3b_reg dest;
 lc3b_reg storemux_out;
@@ -135,11 +137,11 @@ mux4 regfilemux
     .a(alu_out),
     .b(mem_wdata),
 	 .c(pc_out),
-	 .d(16'd0),
+	 .d(br_add_out),
     .f(regfilemux_out)
 );
 
-mux2 #(.wdith(3)) destmux
+mux2 #(.width(3)) destmux
 (
 	.sel(destmux_sel),
 	.a(dest),
@@ -229,10 +231,5 @@ register MAR
 	.in(marmux_out),
 	.out(mem_address)
 );
-
-
-
-
-
 
 endmodule : datapath

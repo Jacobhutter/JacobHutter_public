@@ -1,9 +1,12 @@
+import lc3b_types::*;
+
 module mux4 #(parameter width = 16) 
 (
 	input lc3b_sel sel, 
 	input [width-1:0] a, b, c, d,
 	output logic [width-1:0] f 
 );
+
 always_comb 
 begin 
 	if (sel == 2'b00) 
