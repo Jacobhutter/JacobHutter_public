@@ -20,15 +20,17 @@ logic load_regfile;
 logic load_mar;
 logic load_mdr;
 logic load_cc;
-logic pcmux_sel;
+lc3b_sel pcmux_sel;
 logic storemux_sel;
-logic alumux_sel;
-logic regfilemux_sel;
+lc3b_sel alumux_sel;
+lc3b_sel regfilemux_sel;
+logic destmux_sel;
 logic marmux_sel;
 logic mdrmux_sel;
 lc3b_aluop aluop;
 lc3b_opcode opcode;
 logic branch_enable;
+logic immediate;
  
 
 datapath Datapath
@@ -42,6 +44,7 @@ datapath Datapath
 	.load_cc,
 	.pcmux_sel,
 	.storemux_sel,
+	.destmux_sel,
 	.alumux_sel,
 	.regfilemux_sel,
 	.marmux_sel,
@@ -51,7 +54,8 @@ datapath Datapath
 	.opcode,
 	.branch_enable,
 	.mem_address,
-	.mem_wdata
+	.mem_wdata,
+	.immediate
 );
 
 control Control
@@ -67,10 +71,12 @@ control Control
 	.load_cc,
 	.pcmux_sel,
 	.storemux_sel,
+	.destmux_sel,
 	.alumux_sel,
 	.regfilemux_sel,
 	.marmux_sel,
 	.mdrmux_sel,
+	.immediate,
 	
 	/* Memory signals */ 
 	.mem_resp, 

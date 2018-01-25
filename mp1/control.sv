@@ -5,6 +5,8 @@ module control
 	input clk,
 	/* Datapath controls */
 	input lc3b_opcode opcode, 
+	input  immediate,
+	input lc3b_reg base_r,
 	output logic load_pc, 
 	output logic load_ir, 
 	output logic load_regfile, 
@@ -12,10 +14,11 @@ module control
 	output logic load_mar,
 	output logic load_mdr,
 	output logic load_cc,
-	output logic pcmux_sel,
+	output lc3b_sel pcmux_sel,
 	output logic storemux_sel,
-	output logic alumux_sel,
-	output logic regfilemux_sel,
+	output logic destmux_sel,
+	output lc3b_sel alumux_sel,
+	output lc3b_sel regfilemux_sel,
 	output logic marmux_sel,
 	output logic mdrmux_sel,
 	
@@ -32,8 +35,12 @@ enum int unsigned {
 	 fetch2,
 	 fetch3,
 	 decode,
+	 s_add_decide,
 	 s_add,
+	 s_add_i,
+	 s_and_decide,
 	 s_and,
+	 s_and_i,
 	 s_not,
 	 s_calc_addr,
 	 s_ldr1,
@@ -41,7 +48,10 @@ enum int unsigned {
 	 s_str1,
 	 s_str2,
 	 s_br,
-	 s_br_taken
+	 s_br_taken,
+	 s_jmp,
+	 s_jmp2,
+	 s_ret
 } state, next_state;
 
 always_comb
@@ -53,16 +63,17 @@ begin : state_actions
 	 load_mar = 1'b0;
 	 load_mdr = 1'b0;
 	 load_cc = 1'b0;
-	 pcmux_sel = 1'b0;
+	 pcmux_sel = 2'b00;
 	 storemux_sel = 1'b0;
-	 alumux_sel = 1'b0;
-	 regfilemux_sel = 1'b0;
+	 alumux_sel = 2'b00;
+	 regfilemux_sel = 2'b00;
+	 destmux_sel = 1'b0;
 	 marmux_sel = 1'b0;
 	 mdrmux_sel = 1'b0;
 	 aluop = alu_add; 
 	 mem_read = 1'b0; 
 	 mem_write = 1'b0;
-	 mem_byte_enable = 2'b11; 
+	 mem_byte_enable = 2'b11;
     /* et cetera (see Appendix E) */
 	 
 	 case(state) 
@@ -72,7 +83,7 @@ begin : state_actions
 			load_mar = 1;
 			
 			/* PC <= PC + 2 */ 
-			pcmux_sel = 0; 
+			pcmux_sel = 2'b00; 
 			load_pc = 1;
 		end
 		
@@ -90,18 +101,38 @@ begin : state_actions
 		
 		decode: /* Do nothing */;
 		
+		s_add_decide: /* Do nothing */;
+		
 		s_add: begin 
 			/* DR <= SRA + SRB */ 
 			aluop = alu_add; 
 			load_regfile = 1; 
-			regfilemux_sel = 0; 
+			regfilemux_sel = 2'b00; 
 			load_cc = 1; 
 		end
+		
+		s_add_i: begin
+			aluop = alu_add;
+			load_regfile = 1;
+			regfilemux_sel = 2'b00;
+			load_cc = 1;
+			alumux_sel = 2'b10; // select the imm5 from ir 
+		end
+		
+		s_and_decide: /* Do Nothing */;
 		
 		s_and: begin
 			aluop = alu_and;
 			load_regfile = 1;
 			load_cc = 1;
+			alumux_sel = 2'b00;
+		end
+		
+		s_and_i: begin
+			aluop = alu_and;
+			load_regfile = 1;
+			load_cc = 1;
+			alumux_sel = 2'b10;
 		end
 		
 		s_not: begin
@@ -111,7 +142,7 @@ begin : state_actions
 		end
 		
 		s_calc_addr: begin
-			alumux_sel = 1;
+			alumux_sel = 2'b01;
 			aluop = alu_add;
 			load_mar = 1;
 		end
@@ -123,7 +154,7 @@ begin : state_actions
 		end
 		
 		s_ldr2: begin
-			regfilemux_sel = 1;
+			regfilemux_sel = 2'b01;
 			load_regfile = 1;
 			load_cc = 1;
 		end
@@ -141,7 +172,24 @@ begin : state_actions
 		s_br: /* Do Nothing */;
 		
 		s_br_taken: begin
-			pcmux_sel = 1;
+			pcmux_sel = 2'b01;
+			load_pc = 1;
+		end
+		
+		s_jmp: begin
+			regfilemux_sel = 2'b10; 
+			destmux_sel = 1; // load r7 with pc 
+		end
+		
+		s_jmp2: begin
+			aluop = alu_pass;
+			pcmux_sel = 2'b10;
+			load_pc = 1; // load pc with register value
+		end
+		
+		s_ret: begin
+			aluop = alu_pass;
+			pcmux_sel = 2'b10;
 			load_pc = 1;
 		end
 			
@@ -176,11 +224,11 @@ begin : next_state_logic
 			case(opcode)
 			
 				op_add: begin
-					next_state <= s_add;
+					next_state <= s_add_decide;
 				end
 				
 				op_and: begin
-					next_state <= s_and;
+					next_state <= s_and_decide;
 				end
 				
 				op_not: begin
@@ -199,6 +247,13 @@ begin : next_state_logic
 					next_state <= s_br;
 				end
 				
+				op_jmp: begin
+					if base_r == 3'b111
+						next_state <= s_ret;
+					else
+						next_state <= s_jmp;
+				end
+				
 				default: 
 					next_state <= fetch1;
 				
@@ -206,11 +261,33 @@ begin : next_state_logic
 			
 		end 
 		
+		s_add_decide: begin
+			if(immediate)
+				next_state <= s_add_i;
+			else
+				next_state <= s_add;
+		end
+		
 		s_add: begin
 			next_state <= fetch1;
 		end
 		
+		s_add_i: begin 
+			next_state <= fetch1;
+		end
+		
+		s_and_decide: begin
+			if(immediate)
+				next_state <= s_and_i;
+			else
+				next_state <= s_and;
+		end
+		
 		s_and: begin
+			next_state <= fetch1;
+		end
+		
+		s_and_i: begin
 			next_state <= fetch1;
 		end
 		
@@ -255,6 +332,18 @@ begin : next_state_logic
 		end
 		
 		s_br_taken: begin
+			next_state <= fetch1;
+		end
+		
+		s_jmp: begin
+			next_state <= s_jmp2;
+		end 
+		
+		s_jmp2: begin
+			next_state <= fetch1;
+		end
+		
+		s_ret: begin
 			next_state <= fetch1;
 		end
 		
