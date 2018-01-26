@@ -34,8 +34,7 @@ begin
     offset6 = data[5:0];
     offset9 = data[8:0];
 	 immediate = data[5];
-	 imm5[15:5] = 11'd0;
-	 imm5[4:0] = data[4:0];
+	 imm5 = 16'(signed'(data[4:0]));
 end
 
 endmodule : ir

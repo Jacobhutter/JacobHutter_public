@@ -180,6 +180,7 @@ begin : state_actions
 		s_jmp: begin
 			regfilemux_sel = 2'b10; 
 			destmux_sel = 1; // load r7 with pc 
+			load_regfile = 1;
 		end
 		
 		s_jmp2: begin
