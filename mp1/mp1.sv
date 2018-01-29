@@ -22,18 +22,18 @@ logic load_mdr;
 logic load_cc;
 lc3b_sel pcmux_sel;
 logic storemux_sel;
+logic adj6mux_sel;
 lc3b_sel alumux_sel;
 lc3b_sel regfilemux_sel;
 logic destmux_sel;
 lc3b_sel marmux_sel;
-logic mdrmux_sel;
+lc3b_sel mdrmux_sel;
 lc3b_aluop aluop;
 lc3b_opcode opcode;
 logic branch_enable;
 logic immediate;
 lc3b_reg base_r;
 logic jsr_trigger;
-logic mem_wdata_mux_sel;
 logic a;
 logic d;
 
@@ -48,10 +48,10 @@ datapath Datapath
 	.load_cc,
 	.pcmux_sel,
 	.storemux_sel,
+    .adj6mux_sel,
 	.destmux_sel,
 	.alumux_sel,
 	.regfilemux_sel,
-	.mem_wdata_mux_sel,
 	.marmux_sel,
 	.mdrmux_sel,
 	.mem_rdata,
@@ -70,16 +70,17 @@ datapath Datapath
 control Control
 (
 	.clk,
-	.opcode, 
+	.opcode,
 	.load_pc,
 	.load_ir,
-	.load_regfile, 
-	.aluop, 
+	.load_regfile,
+	.aluop,
 	.load_mar,
 	.load_mdr,
 	.load_cc,
 	.pcmux_sel,
 	.storemux_sel,
+    .adj6mux_sel,
 	.destmux_sel,
 	.alumux_sel,
 	.regfilemux_sel,
@@ -90,12 +91,11 @@ control Control
 	.jsr_trigger,
 	.a,
 	.d,
-	.mem_wdata_mux_sel,
-	/* Memory signals */ 
-	.mem_resp, 
+	/* Memory signals */
+	.mem_resp,
 	.branch_enable,
-	.mem_read, 
-	.mem_write, 
+	.mem_read,
+	.mem_write,
 	.mem_byte_enable
 );
 

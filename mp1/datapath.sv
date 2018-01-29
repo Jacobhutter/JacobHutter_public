@@ -13,12 +13,12 @@ module datapath
 	 input load_cc,
 	 input lc3b_sel pcmux_sel,
 	 input storemux_sel,
+     input adj6mux_sel,
 	 input destmux_sel,
 	 input lc3b_sel alumux_sel,
 	 input lc3b_sel regfilemux_sel,
 	 input lc3b_sel marmux_sel,
-	 input mdrmux_sel,
-	 input mem_wdata_mux_sel,
+	 input lc3b_sel mdrmux_sel,
 	 input lc3b_word mem_rdata,
 	 input lc3b_aluop aluop,
 	 output lc3b_opcode opcode,
@@ -36,7 +36,10 @@ module datapath
 lc3b_word sr1_out;
 lc3b_word sr2_out;
 lc3b_word adj6_out;
+lc3b_word adj6_out2;
+lc3b_word adj6mux_out;
 lc3b_word adj9_out;
+lc3b_word adj9_out2;
 lc3b_word pcmux_out;
 lc3b_word alumux_out;
 lc3b_word regfilemux_out;
@@ -48,8 +51,6 @@ lc3b_word br_add_out;
 lc3b_word pc_plus2_out;
 lc3b_word imm4;
 lc3b_word imm5;
-lc3b_word mem_wdata_byte;
-lc3b_word mem_wdata_mux_out;
 lc3b_word trapvect8;
 
 
@@ -106,15 +107,16 @@ plus2 pc_plus2
 	.out(pc_plus2_out)
 );
 
-always_comb 
+always_comb
 begin
 	br_add_out <= pc_out + adj9_out;
-end 
+end
 
 adj #(.width(9)) adj9
 (
 	.in(offset9),
 	.out(adj9_out)
+    .out2(adj9_out2)
 );
 
 ir IR
@@ -140,26 +142,23 @@ ir IR
 adj #(.width(6)) adj6
 (
 	.in(offset6),
-	.out(adj6_out)
+	.out(adj6_out),
+    .out2(adj6_out2)
 );
 
-
-always_comb begin
-mem_wdata_byte = 16'b0000000011111111 & mem_wdata;
-end
-mux2 mem_wdata_mux 
+mux2 adj6mux
 (
-	.sel(mem_wdata_mux_sel),
-	.a(mem_wdata),
-	.b(mem_wdata_byte),
-	.f(mem_wdata_mux_out)
+    .sel(adj6mux_sel),
+    .a(adj6_out),
+    .b(adj6_out2),
+    .f(adj6mux_out)
 );
 
 mux4 regfilemux
 (
     .sel(regfilemux_sel),
     .a(alu_out),
-    .b(mem_wdata_mux_out),
+    .b(mem_wdata),
 	 .c(pc_out),
 	 .d(br_add_out),
     .f(regfilemux_out)
@@ -189,7 +188,7 @@ mux4 alumux
 (
     .sel(alumux_sel),
     .a(sr2_out),
-    .b(adj6_out),
+    .b(adj6mux_out),
 	 .c(imm5),
 	 .d(imm4),
     .f(alumux_out)
@@ -217,18 +216,20 @@ register #(.width(3)) CC
 	.out(cc_out)
 );
 
-cccomp CCCOMP 
+cccomp CCCOMP
 (
 	.cc(cc_out),
 	.dest(dest),
 	.branch_enable(branch_enable)
 );
 
-mux2 mdrmux
+mux4 mdrmux
 (
 	.sel(mdrmux_sel),
 	.a(alu_out),
 	.b(mem_rdata),
+    .c(16'({8'd0,alu_out[7:0]}),
+    .d(16'd0)
 	.f(mdrmux_out)
 );
 
@@ -247,7 +248,7 @@ register MDR
 	.clk,
 	.load(load_mdr),
 	.in(mdrmux_out),
-	.out(mem_wdata)	
+	.out(mem_wdata)
 );
 
 register MAR
