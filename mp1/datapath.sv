@@ -30,7 +30,6 @@ module datapath
 	 output logic a,
 	 output logic d,
 	 output lc3b_reg base_r
-    /* declare more ports here */
 );
 
 /* declare internal signals */

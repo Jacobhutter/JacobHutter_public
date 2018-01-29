@@ -291,6 +291,12 @@ begin : state_actions
 			load_pc = 1; // put mdr val in pc
 		end
 		
+		s_stb1: begin
+			alumux_sel = 2'b01;
+			aluop = alu_add;
+			load_mar = 1; // find the correct address and put it in mar
+		end
+		
 		default: /* Do nothing */;
 		
 	endcase
@@ -375,6 +381,10 @@ begin : next_state_logic
 				
 				op_trap: begin
 					next_state <= s_trap1;
+				end
+				
+				op_stb: begin
+					next_state <= s_stb1;
 				end
 				
 				default: 
