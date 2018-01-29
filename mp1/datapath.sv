@@ -16,8 +16,9 @@ module datapath
 	 input destmux_sel,
 	 input lc3b_sel alumux_sel,
 	 input lc3b_sel regfilemux_sel,
-	 input marmux_sel,
+	 input lc3b_sel marmux_sel,
 	 input mdrmux_sel,
+	 input mem_wdata_mux_sel,
 	 input lc3b_word mem_rdata,
 	 input lc3b_aluop aluop,
 	 output lc3b_opcode opcode,
@@ -25,6 +26,9 @@ module datapath
 	 output lc3b_word mem_address,
 	 output lc3b_word mem_wdata,
 	 output logic immediate,
+	 output logic jsr_trigger,
+	 output logic a,
+	 output logic d,
 	 output lc3b_reg base_r
     /* declare more ports here */
 );
@@ -43,9 +47,13 @@ lc3b_word alu_out;
 lc3b_word pc_out;
 lc3b_word br_add_out;
 lc3b_word pc_plus2_out;
+lc3b_word imm4;
 lc3b_word imm5;
-     
-	 
+lc3b_word mem_wdata_byte;
+lc3b_word mem_wdata_mux_out;
+lc3b_word trapvect8;
+
+
 lc3b_reg sr1;
 assign base_r = sr1;
 lc3b_reg sr2;
@@ -81,7 +89,7 @@ mux4 pcmux
     .a(pc_plus2_out),
     .b(br_add_out),
 	 .c(alu_out),
-	 .d(16'd0),
+	 .d(mdrmux_out),
     .f(pcmux_out)
 );
 
@@ -122,7 +130,12 @@ ir IR
 	.offset6(offset6),
 	.offset9(offset9),
 	.immediate,
-	.imm5
+	.jsr_trigger,
+	.a,
+	.d,
+	.imm4,
+	.imm5,
+	.trapvect8
 );
 
 adj #(.width(6)) adj6
@@ -131,11 +144,23 @@ adj #(.width(6)) adj6
 	.out(adj6_out)
 );
 
+
+always_comb begin
+mem_wdata_byte = 16'b0000000011111111 & mem_wdata;
+end
+mux2 mem_wdata_mux 
+(
+	.sel(mem_wdata_mux_sel),
+	.a(mem_wdata),
+	.b(mem_wdata_byte),
+	.f(mem_wdata_mux_out)
+);
+
 mux4 regfilemux
 (
     .sel(regfilemux_sel),
     .a(alu_out),
-    .b(mem_wdata),
+    .b(mem_wdata_mux_out),
 	 .c(pc_out),
 	 .d(br_add_out),
     .f(regfilemux_out)
@@ -167,7 +192,7 @@ mux4 alumux
     .a(sr2_out),
     .b(adj6_out),
 	 .c(imm5),
-	 .d(16'd0),
+	 .d(imm4),
     .f(alumux_out)
 );
 
@@ -208,11 +233,13 @@ mux2 mdrmux
 	.f(mdrmux_out)
 );
 
-mux2 marmux
+mux4 marmux
 (
 	.sel(marmux_sel),
 	.a(alu_out),
 	.b(pc_out),
+	.c(trapvect8),
+	.d(16'd0),
 	.f(marmux_out)
 );
 

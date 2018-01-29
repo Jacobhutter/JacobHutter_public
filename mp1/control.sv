@@ -5,7 +5,10 @@ module control
 	input clk,
 	/* Datapath controls */
 	input lc3b_opcode opcode, 
-	input  immediate,
+	input immediate,
+	input jsr_trigger,
+	input a,
+	input d,
 	input lc3b_reg base_r,
 	output logic load_pc, 
 	output logic load_ir, 
@@ -19,8 +22,9 @@ module control
 	output logic destmux_sel,
 	output lc3b_sel alumux_sel,
 	output lc3b_sel regfilemux_sel,
-	output logic marmux_sel,
+	output lc3b_sel marmux_sel,
 	output logic mdrmux_sel,
+	output logic mem_wdata_mux_sel,
 	
 	/* Memory signals */ 
 	input mem_resp, 
@@ -50,9 +54,21 @@ enum int unsigned {
 	 s_br,
 	 s_br_taken,
 	 s_jmp,
-	 s_jmp2,
 	 s_ret,
-	 s_lea
+	 s_lea,
+	 s_jsr1,
+	 s_jsr2,
+	 s_jsrr1,
+	 s_calc_addr_ldb,
+	 s_ldb1,
+	 s_ldb2,
+	 s_lshf,
+	 s_rshf,
+	 s_rshfa,
+	 s_trap1,
+	 s_trap2,
+	 s_trap3,
+	 s_trap4
 } state, next_state;
 
 always_comb
@@ -69,18 +85,19 @@ begin : state_actions
 	 alumux_sel = 2'b00;
 	 regfilemux_sel = 2'b00;
 	 destmux_sel = 1'b0;
-	 marmux_sel = 1'b0;
+	 marmux_sel = 2'b00;
 	 mdrmux_sel = 1'b0;
 	 aluop = alu_add; 
 	 mem_read = 1'b0; 
 	 mem_write = 1'b0;
 	 mem_byte_enable = 2'b11;
+	 mem_wdata_mux_sel = 0;
     /* et cetera (see Appendix E) */
 	 
 	 case(state) 
 		fetch1: begin 
 			/* MAR <= PC */ 
-			marmux_sel = 1; 
+			marmux_sel = 2'b01; 
 			load_mar = 1;
 			
 			/* PC <= PC + 2 */ 
@@ -178,12 +195,6 @@ begin : state_actions
 		end
 		
 		s_jmp: begin
-			regfilemux_sel = 2'b10; 
-			destmux_sel = 1; // load r7 with pc 
-			load_regfile = 1;
-		end
-		
-		s_jmp2: begin
 			aluop = alu_pass;
 			pcmux_sel = 2'b10;
 			load_pc = 1; // load pc with register value
@@ -200,7 +211,86 @@ begin : state_actions
 			load_regfile = 1;
 			load_cc = 1; 
 		end
-			
+		
+		s_jsr1: begin
+			regfilemux_sel = 2'b10;
+			destmux_sel = 1;
+			load_regfile = 1; // load r7 with pc
+		end
+		
+		s_jsr2: begin
+			pcmux_sel = 2'b01; 
+			load_pc = 1; // load pc with PC + (sext(PCoffset9)<<1)
+		end
+		
+		s_jsrr1: begin
+			aluop = alu_pass;
+			pcmux_sel = 2'b10;
+			load_pc = 1; // pass register value through alu into pcmux and load pc 
+		end
+		
+		s_calc_addr_ldb: begin
+			alumux_sel = 2'b01;
+			aluop = alu_add;
+			load_mar = 1; // find the correct address and put it in mar
+		end
+		
+		s_ldb1: begin
+			mem_byte_enable = 2'b01;
+			mdrmux_sel = 1;
+			load_mdr = 1;
+			mem_read = 1; // receive lower byte from memory? if not it is masked
+		end
+		
+		s_ldb2: begin
+			mem_wdata_mux_sel = 1;
+			regfilemux_sel = 2'b01;
+			load_regfile = 1;
+			load_cc = 1; // place lower byte into dest reg
+		end
+		
+		s_lshf: begin
+			alumux_sel = 2'b11; 
+			aluop = alu_sll;
+			load_regfile = 1;
+			load_cc = 1; // logical shift left with condition codes
+		end
+		
+		s_rshf: begin
+			alumux_sel = 2'b11; 
+			aluop = alu_srl;
+			load_regfile = 1;
+			load_cc = 1; // logical shift right with condition codes
+		end
+		
+		s_rshfa: begin
+			alumux_sel = 2'b11; 
+			aluop = alu_sra;
+			load_regfile = 1;
+			load_cc = 1; // arithmetic shift right with condition codes
+		end
+		
+		s_trap1: begin
+			regfilemux_sel = 2'b10;
+			destmux_sel = 1;
+			load_regfile = 1; // load r7 with pc
+		end
+		
+		s_trap2: begin
+			marmux_sel = 2'b10;
+			load_mar = 1; // put valule in mdr
+		end
+				
+		s_trap3: begin
+			load_mdr = 1;
+			mem_read = 1; // load mdr 
+		end
+		
+		s_trap4: begin
+			pcmux_sel = 2'b11;
+			load_pc = 1; // put mdr val in pc
+		end
+		
 		default: /* Do nothing */;
 		
 	endcase
@@ -264,6 +354,27 @@ begin : next_state_logic
 				
 				op_lea: begin
 					next_state <= s_lea;
+				end
+				
+				op_jsr: begin
+					next_state <= s_jsr1;
+				end
+				
+				op_ldb: begin
+					next_state <= s_calc_addr_ldb;
+				end
+				
+				op_shf: begin
+					if(d == 0)	
+						next_state <= s_lshf;
+					else if (a == 0)
+						next_state <= s_rshf;
+					else
+						next_state <= s_rshfa;
+				end
+				
+				op_trap: begin
+					next_state <= s_trap1;
 				end
 				
 				default: 
@@ -348,18 +459,69 @@ begin : next_state_logic
 		end
 		
 		s_jmp: begin
-			next_state <= s_jmp2;
-		end 
-		
-		s_jmp2: begin
 			next_state <= fetch1;
-		end
+		end 
 		
 		s_ret: begin
 			next_state <= fetch1;
 		end
 		
 		s_lea: begin
+			next_state <= fetch1;
+		end
+		
+		s_jsr1: begin
+			if(jsr_trigger == 0)
+				next_state <= s_jsrr1;
+			else
+				next_state <= s_jsr2;
+		end
+		
+		s_jsr2: begin
+			next_state <= fetch1;
+		end
+		
+		s_jsrr1: begin
+			next_state <= fetch1;
+		end
+		
+		s_calc_addr_ldb: begin
+			next_state <= s_ldb1;
+		end
+		
+		s_ldb1: begin
+			next_state <= s_ldb2;
+		end
+		
+		s_ldb2: begin 
+			next_state <= fetch1;
+		end
+		
+		s_lshf: begin
+			next_state <= fetch1;
+		end
+		
+		s_rshf: begin
+			next_state <= fetch1;
+		end
+		
+		s_rshfa: begin
+			next_state <= fetch1;
+		end
+
+		s_trap1: begin
+			next_state <= s_trap2;
+		end
+		
+		s_trap2: begin
+			next_state <= s_trap3;
+		end
+		
+		s_trap3: begin
+			next_state <= s_trap4;
+		end
+		
+		s_trap4: begin
 			next_state <= fetch1;
 		end
 		

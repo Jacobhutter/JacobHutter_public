@@ -25,14 +25,17 @@ logic storemux_sel;
 lc3b_sel alumux_sel;
 lc3b_sel regfilemux_sel;
 logic destmux_sel;
-logic marmux_sel;
+lc3b_sel marmux_sel;
 logic mdrmux_sel;
 lc3b_aluop aluop;
 lc3b_opcode opcode;
 logic branch_enable;
 logic immediate;
 lc3b_reg base_r;
- 
+logic jsr_trigger;
+logic mem_wdata_mux_sel;
+logic a;
+logic d;
 
 datapath Datapath
 (
@@ -48,6 +51,7 @@ datapath Datapath
 	.destmux_sel,
 	.alumux_sel,
 	.regfilemux_sel,
+	.mem_wdata_mux_sel,
 	.marmux_sel,
 	.mdrmux_sel,
 	.mem_rdata,
@@ -57,7 +61,10 @@ datapath Datapath
 	.mem_address,
 	.mem_wdata,
 	.immediate,
-	.base_r
+	.base_r,
+	.a,
+	.d,
+	.jsr_trigger
 );
 
 control Control
@@ -80,7 +87,10 @@ control Control
 	.mdrmux_sel,
 	.immediate,
 	.base_r,
-	
+	.jsr_trigger,
+	.a,
+	.d,
+	.mem_wdata_mux_sel,
 	/* Memory signals */ 
 	.mem_resp, 
 	.branch_enable,
