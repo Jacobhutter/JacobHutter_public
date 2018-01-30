@@ -27,6 +27,55 @@ for line in lines:
         row.append(c)
     my_maze.append(row)
 
+class bot:
+    location = start_location
+
+    def move_up(self):
+        current_y = self.location[0]
+        current_x = self.location[1]
+
+        current_y -= 1
+
+        self.location = (current_y, current_x)
+
+    def move_down(self):
+        current_y = self.location[0]
+        current_x = self.location[1]
+
+        current_y += 1
+
+        self.location = (current_y, current_x)
+
+    def move_right(self):
+        current_y = self.location[0]
+        current_x = self.location[1]
+    
+        current_x += 1
+        
+        self.location = (current_y, current_x)
+
+    def move_left(self):
+        current_y = self.location[0]
+        current_x = self.location[1]
+    
+        current_x -= 1
+        
+        self.location = (current_y, current_x)
+
+pacman = bot()
+
+#print "Starting Location:" + str(start_location)
+#
+## Move in a circle
+#pacman.move_down()
+#pacman.move_right()
+#pacman.move_up()
+#pacman.move_left()
+#
+#
+#print "Ending Location:" + str(pacman.location)
+
+
 
 # used to test that setup of maze is correct
 print start_location
