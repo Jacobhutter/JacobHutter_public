@@ -13,7 +13,7 @@ module datapath
 	 input load_cc,
 	 input lc3b_sel pcmux_sel,
 	 input storemux_sel,
-     input adj6mux_sel,
+    input adj6mux_sel,
 	 input destmux_sel,
 	 input lc3b_sel alumux_sel,
 	 input lc3b_sel regfilemux_sel,
@@ -89,7 +89,7 @@ mux4 pcmux
     .a(pc_plus2_out),
     .b(br_add_out),
 	 .c(alu_out),
-	 .d(mdrmux_out),
+	 .d(mem_wdata),
     .f(pcmux_out)
 );
 
@@ -115,7 +115,7 @@ end
 adj #(.width(9)) adj9
 (
 	.in(offset9),
-	.out(adj9_out)
+	.out(adj9_out),
     .out2(adj9_out2)
 );
 
@@ -228,8 +228,8 @@ mux4 mdrmux
 	.sel(mdrmux_sel),
 	.a(alu_out),
 	.b(mem_rdata),
-    .c(16'({8'd0,alu_out[7:0]}),
-    .d(16'd0)
+   .c(16'({8'd0,alu_out[7:0]})),
+   .d(16'd0),
 	.f(mdrmux_out)
 );
 
@@ -239,7 +239,7 @@ mux4 marmux
 	.a(alu_out),
 	.b(pc_out),
 	.c(trapvect8),
-	.d(16'd0),
+	.d(mem_wdata),
 	.f(marmux_out)
 );
 

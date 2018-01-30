@@ -71,7 +71,17 @@ enum int unsigned {
 	 s_trap4,
 	 s_calc_addr_stb,
 	 s_stb1,
-	 s_stb2
+	 s_stb2,
+	 s_calc_addr_ldi,
+	 s_ldi1,
+	 s_ldi2,
+	 s_ldi3,
+	 s_ldi4,
+	 s_calc_addr_sti,
+	 s_sti1,
+	 s_sti2,
+	 s_sti3,
+	 s_sti4
 } state, next_state;
 
 always_comb
@@ -273,20 +283,21 @@ begin : state_actions
 			load_cc = 1; // arithmetic shift right with condition codes
 		end
 
-		s_trap1: begin
+		s_trap1: begin 
 			regfilemux_sel = 2'b10;
 			destmux_sel = 1;
 			load_regfile = 1; // load r7 with pc
 		end
 
-		s_trap2: begin
+		s_trap2: begin 
 			marmux_sel = 2'b10;
-			load_mar = 1; // put valule in mdr
+			load_mar = 1; // put value in mar
 		end
 
 		s_trap3: begin
-			load_mdr = 1;
-			mem_read = 1; // load mdr
+			mem_read = 1;
+			mdrmux_sel = 2'b01;
+			load_mdr = 1; // read memory
 		end
 
 		s_trap4: begin
@@ -311,6 +322,62 @@ begin : state_actions
 		s_stb2: begin
 			mem_byte_enable = 2'b01;
 			mem_write = 1;
+		end
+		
+		s_calc_addr_ldi: begin
+			alumux_sel = 2'b01;
+			aluop = alu_add;
+			load_mar = 1;			
+		end
+		
+		s_ldi1: begin
+			mdrmux_sel = 2'b01;
+			load_mdr = 1;
+			mem_read = 1;
+		end
+		
+		s_ldi2: begin
+			marmux_sel = 2'b11; // feed in mdr data back into mar
+			load_mar = 1;	
+		end
+		
+		s_ldi3: begin
+			mdrmux_sel = 2'b01;
+			load_mdr = 1;
+			mem_read = 1;
+		end
+		
+		s_ldi4: begin
+			regfilemux_sel = 2'b01;
+			load_regfile = 1;
+			load_cc = 1;
+		end
+		
+		s_calc_addr_sti: begin
+			alumux_sel = 2'b01;
+			aluop = alu_add;
+			load_mar = 1;	
+		end
+		
+		s_sti1: begin
+			mdrmux_sel = 2'b01;
+			load_mdr = 1;
+			mem_read = 1;
+		end
+		
+		s_sti2: begin
+			marmux_sel = 2'b11; // feed in mdr data back into mar
+			load_mar = 1;	
+		end
+		
+		s_sti3: begin
+			storemux_sel = 1;
+			aluop = alu_pass;
+			load_mdr = 1;
+		end
+		
+		s_sti4: begin
+			mem_write = 1;			
 		end
 
 		default: /* Do nothing */;
@@ -401,6 +468,14 @@ begin : next_state_logic
 
 				op_stb: begin
 					next_state <= s_calc_addr_stb;
+				end
+				
+				op_ldi: begin
+					next_state <= s_calc_addr_ldi;
+				end
+				
+				op_sti: begin
+					next_state <= s_calc_addr_sti;
 				end
 
 				default:
@@ -516,7 +591,10 @@ begin : next_state_logic
 		end
 
 		s_ldb1: begin
-			next_state <= s_ldb2;
+			if(mem_resp == 0)
+				next_state <= s_ldb1;
+			else
+				next_state <= s_ldb2;
 		end
 
 		s_ldb2: begin
@@ -544,7 +622,10 @@ begin : next_state_logic
 		end
 
 		s_trap3: begin
-			next_state <= s_trap4;
+			if(mem_resp == 0)
+				next_state <= s_trap3;
+			else
+				next_state <= s_trap4;
 		end
 
 		s_trap4: begin
@@ -560,7 +641,62 @@ begin : next_state_logic
 		end
 
 		s_stb2: begin
+			if(mem_resp == 0)
+				next_state <= s_stb2;
+			else
+				next_state <= fetch1;
+		end
+		
+		s_calc_addr_ldi: begin
+			next_state <= s_ldi1;
+		end
+		
+		s_ldi1: begin
+			if(mem_resp == 0)
+				next_state <= s_ldi1;
+			else
+				next_state <= s_ldi2;
+		end
+		
+		s_ldi2: begin
+			next_state <= s_ldi3;
+		end
+		
+		s_ldi3: begin
+			if(mem_resp == 0)
+				next_state <= s_ldi3;
+			else
+				next_state <= s_ldi4;
+		end
+		
+		s_ldi4: begin
 			next_state <= fetch1;
+		end
+		
+		s_calc_addr_sti: begin
+			next_state <= s_sti1;
+		end
+		
+		s_sti1: begin
+			if(mem_resp == 0)
+				next_state <= s_sti1;
+			else
+				next_state <= s_sti2;
+		end
+		
+		s_sti2: begin
+			next_state <= s_sti3;
+		end
+		
+		s_sti3: begin
+			next_state <= s_sti4;
+		end
+		
+		s_sti4: begin
+			if(mem_resp == 0)
+				next_state <= s_sti4;
+			else
+				next_state <= fetch1;
 		end
 
 		default:

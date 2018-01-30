@@ -43,9 +43,11 @@ begin
 	 immediate = data[5];
 	 imm5 = 16'(signed'(data[4:0]));
 	 imm4 = 16'(signed'(data[3:0]));
-	 trapvect8[8:1] = data[7:0];
-	 trapvect8[15:9] = 7'd0;
-	 trapvect8[0] = 0; // do shift and zero extend in one go
+	 trapvect8 = {7'd0,8'(data[7:0]),1'b0};
+	 
+	 // trapvect8[8:1] = data[7:0];
+	 // trapvect8[15:9] = 7'd0;
+	 // trapvect8[0] = 0; // do shift and zero extend in one go
 end
 
 endmodule : ir
