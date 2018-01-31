@@ -10,6 +10,7 @@ module control
 	input a,
 	input d,
 	input lc3b_reg base_r,
+	input lc3b_word mem_address,
 	output logic load_pc,
 	output logic load_ir,
 	output logic load_regfile,
@@ -243,17 +244,17 @@ begin : state_actions
 		end
 
 		s_calc_addr_ldb: begin
-			adj6mux_sel = 1'b1; // select adj6 with no shift
+			adj6mux_sel = 1; // select adj6 with no shift
 			alumux_sel = 2'b01;
 			aluop = alu_add;
 			load_mar = 1; // find the correct address and put it in mar
 		end
 
 		s_ldb1: begin
-			mem_byte_enable = 2'b01;
-			mdrmux_sel = 2'b01;
-			load_mdr = 1;
 			mem_read = 1; // receive lower byte from memory? if not it is masked
+			mem_byte_enable = 2'b01;
+			mdrmux_sel = 2'b11;
+			load_mdr = 1;
 		end
 
 		s_ldb2: begin
@@ -320,7 +321,10 @@ begin : state_actions
 		end
 
 		s_stb2: begin
-			mem_byte_enable = 2'b01;
+			if(mem_address[0] == 1)
+				mem_byte_enable = 2'b10;
+			else
+				mem_byte_enable = 2'b01;
 			mem_write = 1;
 		end
 		

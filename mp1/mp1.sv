@@ -64,7 +64,7 @@ datapath Datapath
 	.base_r,
 	.a,
 	.d,
-	.jsr_trigger
+	.jsr_trigger,
 );
 
 control Control
@@ -93,6 +93,7 @@ control Control
 	.d,
 	/* Memory signals */
 	.mem_resp,
+	.mem_address,
 	.branch_enable,
 	.mem_read,
 	.mem_write,

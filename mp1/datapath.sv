@@ -52,6 +52,7 @@ lc3b_word pc_plus2_out;
 lc3b_word imm4;
 lc3b_word imm5;
 lc3b_word trapvect8;
+lc3b_word mem_rdata_mux_out;
 
 
 lc3b_reg sr1;
@@ -223,13 +224,21 @@ cccomp CCCOMP
 	.branch_enable(branch_enable)
 );
 
+mux2 mem_rdata_mux
+(
+	.sel(mem_address[0]),
+	.a(16'({8'd0, mem_rdata[7:0]})),
+	.b(16'({8'd0, mem_rdata[15:8]})),
+	.f(mem_rdata_mux_out)
+);
+
 mux4 mdrmux
 (
 	.sel(mdrmux_sel),
 	.a(alu_out),
 	.b(mem_rdata),
-   .c(16'({8'd0,alu_out[7:0]})),
-   .d(16'd0),
+   .c(16'({8'd0, alu_out[7:0]})),
+   .d(mem_rdata_mux_out),
 	.f(mdrmux_out)
 );
 
