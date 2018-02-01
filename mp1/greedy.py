@@ -1,12 +1,14 @@
+import sys
+
 #	PARSE CODE
 
 maze = []
 start = (0, 0)
 end = []
 
-print("Input Maze\n")
+print("Input Maze: " + sys.argv[1] + "\n")
 
-with open("./mazes/openMaze.txt", 'r') as f1:
+with open(sys.argv[1], 'r') as f1:
 	x = 0
         for line in f1:
                 row = []
@@ -25,7 +27,7 @@ with open("./mazes/openMaze.txt", 'r') as f1:
 			y += 1
                 maze.append(row)
 		x += 1
-
+print("Size: " + str(len(maze)) + " x " + str(len(maze[0])) + "\n")
 for line in maze:
 	string = ''
         for num in line:
@@ -42,19 +44,19 @@ print("\n")
 	#SEARCH CODE
 
 bfs = []
-bfs.append(start)
+bfs.append((start, abs(start[0] - end[0][0]) + abs(start[1] - end[0][1])))
 nodes = 0
 
 while(bfs):
 	curr = bfs[0]
 	bfs.remove(curr)
 	nodes += 1
-	x = curr[0]
-	y = curr[1]
+	x = curr[0][0]
+	y = curr[0][1]
 	if(x > 0):
 		if(maze[x - 1][y] == 0):
 			maze[x - 1][y] = int(maze[x][y]) + 1.1
-			bfs.append((x - 1, y))
+			bfs.append(((x - 1, y), abs(x - 1 - end[0][0]) + abs(y - end[0][1])))
 		elif(maze[x - 1][y] == -5):
 			maze[x - 1][y] = int(maze[x][y]) + 1.1
 			nodes += 1
@@ -63,7 +65,7 @@ while(bfs):
 	if(x < len(maze) - 1):
 		if(maze[x + 1][y] == 0):
                         maze[x + 1][y] = int(maze[x][y]) + 1.2
-                        bfs.append((x + 1, y))
+                        bfs.append(((x + 1, y), abs(x + 1 - end[0][0]) + abs(y - end[0][1])))
                 elif(maze[x + 1][y] == -5):
                         maze[x + 1][y] = int(maze[x][y]) + 1.2
                         nodes += 1
@@ -71,7 +73,7 @@ while(bfs):
 	if(y > 0):
 		if(maze[x][y - 1] == 0):
                         maze[x][y - 1] = int(maze[x][y]) + 1.3
-                        bfs.append((x, y - 1))
+                        bfs.append(((x, y - 1), abs(x - end[0][0]) + abs(y - 1 - end[0][1])))
                 elif(maze[x][y - 1] == -5):
                         maze[x][y - 1] = int(maze[x][y]) + 1.3
                         nodes += 1
@@ -79,11 +81,12 @@ while(bfs):
 	if(y < len(maze[0]) - 1):
 		if(maze[x][y + 1] == 0):
                         maze[x][y + 1] = int(maze[x][y]) + 1.4
-                        bfs.append((x, y + 1))
+                        bfs.append(((x, y + 1), abs(x - end[0][0]) + abs(y + 1 - end[0][1])))
                 elif(maze[x][y + 1] == -5):
                         maze[x][y + 1] = int(maze[x][y]) + 1.4
                         nodes += 1
 			break
+	bfs.sort(key = lambda tup: tup[1])
 
 #	OUTPUT CODE
 
@@ -93,6 +96,8 @@ for line in maze:
         for num in line:
                 if(num > 0):
                         string += ' 1'
+		elif(num == 0):
+			string += ' 0'
                 else:
 			string += str(num)
         print(string)
