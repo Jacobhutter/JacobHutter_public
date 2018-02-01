@@ -1,5 +1,3 @@
-#	PARSE CODE
-
 maze = []
 start = (0, 0)
 end = []
@@ -39,22 +37,19 @@ print("Start Node: (" + str(start[0]) + ", " + str(start[1]) + ")")
 print("End Node: (" + str(end[0][0]) + ", " + str(end[0][1]) + ")")
 print("\n")
 
-	#SEARCH CODE
-
-bfs = []
-bfs.append(start)
+dfs = []
+dfs.append(start)
 nodes = 0
 
-while(bfs):
-	curr = bfs[0]
-	bfs.remove(curr)
+while(dfs):
+	curr = dfs.pop()
 	nodes += 1
 	x = curr[0]
 	y = curr[1]
 	if(x > 0):
 		if(maze[x - 1][y] == 0):
 			maze[x - 1][y] = int(maze[x][y]) + 1.1
-			bfs.append((x - 1, y))
+			dfs.append((x - 1, y))
 		elif(maze[x - 1][y] == -5):
 			maze[x - 1][y] = int(maze[x][y]) + 1.1
 			nodes += 1
@@ -63,7 +58,7 @@ while(bfs):
 	if(x < len(maze) - 1):
 		if(maze[x + 1][y] == 0):
                         maze[x + 1][y] = int(maze[x][y]) + 1.2
-                        bfs.append((x + 1, y))
+                        dfs.append((x + 1, y))
                 elif(maze[x + 1][y] == -5):
                         maze[x + 1][y] = int(maze[x][y]) + 1.2
                         nodes += 1
@@ -71,7 +66,7 @@ while(bfs):
 	if(y > 0):
 		if(maze[x][y - 1] == 0):
                         maze[x][y - 1] = int(maze[x][y]) + 1.3
-                        bfs.append((x, y - 1))
+                        dfs.append((x, y - 1))
                 elif(maze[x][y - 1] == -5):
                         maze[x][y - 1] = int(maze[x][y]) + 1.3
                         nodes += 1
@@ -79,24 +74,11 @@ while(bfs):
 	if(y < len(maze[0]) - 1):
 		if(maze[x][y + 1] == 0):
                         maze[x][y + 1] = int(maze[x][y]) + 1.4
-                        bfs.append((x, y + 1))
+                        dfs.append((x, y + 1))
                 elif(maze[x][y + 1] == -5):
                         maze[x][y + 1] = int(maze[x][y]) + 1.4
                         nodes += 1
 			break
-
-#	OUTPUT CODE
-
-print("Nodes Explored Maze: \n")
-for line in maze:
-        string = ''
-        for num in line:
-                if(num > 0):
-                        string += ' 1'
-                else:
-			string += str(num)
-        print(string)
-print("\n")
 
 maze[start[0]][start[1]] = -5
 reverse = []
