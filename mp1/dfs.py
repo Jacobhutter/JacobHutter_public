@@ -86,15 +86,17 @@ while(dfs):
                         nodes += 1
 			break
 
-#	OUTPUT CODE
+#       OUTPUT CODE
 
 print("Nodes Explored Maze: \n")
+nodes_added = 0
 for line in maze:
         string = ''
         for num in line:
                 if(num > 0):
                         string += ' 1'
-		elif(num == 0):
+                        nodes_added += 1
+                elif(num == 0):
                         string += ' 0'
                 else:
                         string += str(num)
@@ -107,29 +109,31 @@ reverse.append(end[0][0])
 reverse.append(end[0][1])
 end_dist = maze[reverse[0]][reverse[1]]
 while(reverse[0] != start[0] or reverse[1] != start[1]):
-	mod = maze[reverse[0]][reverse[1]] % 1.0
-	maze[reverse[0]][reverse[1]] = -7
-	if(mod <= 0.15):
-		reverse[0] += 1
-	elif(mod <= 0.25):
-		reverse[0] -= 1
-	elif(mod <= 0.35):
-		reverse[1] += 1
-	else:
-		reverse[1] -= 1
-		
+        mod = maze[reverse[0]][reverse[1]] % 1.0
+        maze[reverse[0]][reverse[1]] = -7
+        if(mod <= 0.15):
+                reverse[0] += 1
+        elif(mod <= 0.25):
+                reverse[0] -= 1
+        elif(mod <= 0.35):
+                reverse[1] += 1
+        else:
+                reverse[1] -= 1
+
 for line in maze:
         string = ''
         for num in line:
-		if(num == -1): 
+                if(num == -1):
                         string += '%'
-		elif(num == -5):
-			string += 'P'
-		elif(num == -7):
-			string += '.'
-		else:
-			string += ' '
+                elif(num == -5):
+                        string += 'P'
+                elif(num == -7):
+                        string += '.'
+                else:
+                        string += ' '
         print(string)
 
 print("\nDistance to End: " + str(int(end_dist)))
 print("Nodes Explored: " + str(nodes))
+print("Total Nodes Added to Queue: " + str(nodes_added))
+                                                          

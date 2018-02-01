@@ -41,7 +41,7 @@ print("Start Node: (" + str(start[0]) + ", " + str(start[1]) + ")")
 print("End Node: (" + str(end[0][0]) + ", " + str(end[0][1]) + ")")
 print("\n")
 
-	#SEARCH CODE
+#	SEARCH CODE
 
 bfs = []
 bfs.append((start, abs(start[0] - end[0][0]) + abs(start[1] - end[0][1])))
@@ -91,11 +91,13 @@ while(bfs):
 #	OUTPUT CODE
 
 print("Nodes Explored Maze: \n")
+nodes_added = 0
 for line in maze:
         string = ''
         for num in line:
                 if(num > 0):
                         string += ' 1'
+			nodes_added += 1
 		elif(num == 0):
 			string += ' 0'
                 else:
@@ -135,3 +137,4 @@ for line in maze:
 
 print("\nDistance to End: " + str(int(end_dist)))
 print("Nodes Explored: " + str(nodes))
+print("Total Nodes Added to Queue: " + str(nodes_added))
