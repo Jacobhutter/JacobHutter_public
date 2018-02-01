@@ -1,12 +1,14 @@
+import sys
+
 #	PARSE CODE
 
 maze = []
 start = (0, 0)
 end = []
 
-print("Input Maze\n")
+print("Input Maze: " + sys.argv[1] + "\n")
 
-with open("./mazes/openMaze.txt", 'r') as f1:
+with open(sys.argv[1], 'r') as f1:
 	x = 0
         for line in f1:
                 row = []
@@ -25,7 +27,7 @@ with open("./mazes/openMaze.txt", 'r') as f1:
 			y += 1
                 maze.append(row)
 		x += 1
-
+print("Size: " + str(len(maze)) + " x " + str(len(maze[0])) + "\n")
 for line in maze:
 	string = ''
         for num in line:
@@ -93,6 +95,8 @@ for line in maze:
         for num in line:
                 if(num > 0):
                         string += ' 1'
+		elif(num == 0):
+			string += ' 0'
                 else:
 			string += str(num)
         print(string)
