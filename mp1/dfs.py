@@ -16,7 +16,7 @@ lines = f.readlines()
 for line in lines:
     row = []    # create a new row array
     line_delim = line.rstrip()  # remove any unecessary characters
-    for c in line:
+    for c in line_delim:
         if c == start:
             # store start location as a tuple
             start_location = (lines.index(line), line.index(c))
@@ -49,21 +49,24 @@ class bot:
     def move_right(self):
         current_y = self.location[0]
         current_x = self.location[1]
-    
+
         current_x += 1
-        
+
         self.location = (current_y, current_x)
 
     def move_left(self):
         current_y = self.location[0]
         current_x = self.location[1]
-    
+
         current_x -= 1
-        
+
         self.location = (current_y, current_x)
 
 pacman = bot()
-
+stack = list()
+stack.append(pacman.location)
+while stack:
+    cur_location = stack.pop()
 #print "Starting Location:" + str(start_location)
 #
 ## Move in a circle
@@ -85,4 +88,3 @@ print my_maze
 
 
 f.close()
-
