@@ -1,8 +1,23 @@
+class successor:
+	def __init__(self, loc):
+		self.f = 0
+		self.g = 0
+		self.h = 0
+		self.location = loc
+		self.parent = -1
+		self.distance = -1
+
+def manhattan_distance(loc1, loc2):
+	return abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[0])
+
 #	PARSE CODE
 
 maze = []
-start = (0, 0)
+start = (0, 0,) # x, y, f, parent
 end = []
+
+
+
 
 print("Input Maze\n")
 
@@ -15,11 +30,11 @@ with open("./mazes/openMaze.txt", 'r') as f1:
                         if(char == '%'):
                                 row.append(-1)
                         elif(char == 'P'):
-                                row.append(0)				
+                                row.append(0)
 				start = (x, y)
                         elif(char == '.'):
                                 row.append(-5)
-				end.append((x, y))			
+				end.append((x, y))
                         else:
                                 row.append(0)
 			y += 1
@@ -32,59 +47,77 @@ for line in maze:
 		if(num >= 0):
                 	string += ' '
 		string += str(num)
-        print(string)  
+        print(string)
 
-print("\n")        
+print("\n")
 print("Start Node: (" + str(start[0]) + ", " + str(start[1]) + ")")
 print("End Node: (" + str(end[0][0]) + ", " + str(end[0][1]) + ")")
 print("\n")
-
+end_loc = (end[0][0], end[0][1])
 	#SEARCH CODE
-
-bfs = []
-bfs.append(start)
+start_successor = successor(start)
+found_end = 0
+start_successor.distance = 0
+open_list = []
+closed_list = []
+open_list.append(start_successor)
 nodes = 0
-
-while(bfs):
-	curr = bfs[0]
-	bfs.remove(curr)
+maze[start[0]][start[1]] = 1
+# open list contains triple (y,x,f)
+# https://www.geeksforgeeks.org/a-search-algorithm/
+while(open_list):
+	q = min(open_list, key = lambda t: t.f) # pick out minimum f
+	open_list.remove(q)
+	q_successors = []
 	nodes += 1
-	x = curr[0]
-	y = curr[1]
-	if(x > 0):
-		if(maze[x - 1][y] == 0):
-			maze[x - 1][y] = int(maze[x][y]) + 1.1
-			bfs.append((x - 1, y))
-		elif(maze[x - 1][y] == -5):
-			maze[x - 1][y] = int(maze[x][y]) + 1.1
-			nodes += 1
+	x = q.location[0]
+	y = q.location[1]
+
+	#check above
+	if maze[x-1][y] != -1:
+		q_successors.append(successor((x-1, y)))
+		maze[x-1][y] = 1
+
+	#check right
+	if maze[x][y+1] != -1:
+		q_successors.append(successor((x, y+1)))
+		maze[x][y+1] = 1
+
+	#check left
+	if maze[x][y-1] != -1:
+		q_successors.append(successor((x, y-1)))
+		maze[x][y-1] = 1
+
+	#check below
+	if maze[x+1][y] != -1:
+		q_successors.append(successor((x+1, y)))
+		maze[x+1][y] = 1
+
+	for s in q_successors:
+		s.parent = q
+		s.distance = q.distance + 1
+		s.g = q.g + q.distance+1
+		s.h = manhattan_distance(s.location, end_loc)
+		s.f = s.g + s.h
+
+		if(s.location == end_loc):
+			found_end = 1
 			break
 
-	if(x < len(maze) - 1):
-		if(maze[x + 1][y] == 0):
-                        maze[x + 1][y] = int(maze[x][y]) + 1.2
-                        bfs.append((x + 1, y))
-                elif(maze[x + 1][y] == -5):
-                        maze[x + 1][y] = int(maze[x][y]) + 1.2
-                        nodes += 1
-			break
-	if(y > 0):
-		if(maze[x][y - 1] == 0):
-                        maze[x][y - 1] = int(maze[x][y]) + 1.3
-                        bfs.append((x, y - 1))
-                elif(maze[x][y - 1] == -5):
-                        maze[x][y - 1] = int(maze[x][y]) + 1.3
-                        nodes += 1
-			break
-	if(y < len(maze[0]) - 1):
-		if(maze[x][y + 1] == 0):
-                        maze[x][y + 1] = int(maze[x][y]) + 1.4
-                        bfs.append((x, y + 1))
-                elif(maze[x][y + 1] == -5):
-                        maze[x][y + 1] = int(maze[x][y]) + 1.4
-                        nodes += 1
-			break
+		#check for lower f entries already open
+		if [x for x in open_list if x.location == s.location and x.f <= s.f]:
+			continue
+	 	#check for lower f entries already closed
+		elif [x for x in closed_list if x.location == s.location and x.f <= s.f]:
+	 		continue
+	 	else:
+	 		open_list.append(s)
 
+	closed_list.append(q)
+
+	if found_end == 1:
+		print s.distance
+		break
 #	OUTPUT CODE
 
 print("Nodes Explored Maze: \n")
@@ -98,31 +131,22 @@ for line in maze:
         print(string)
 print("\n")
 
-maze[start[0]][start[1]] = -5
-reverse = []
-reverse.append(end[0][0])
-reverse.append(end[0][1])
-end_dist = maze[reverse[0]][reverse[1]]
-while(reverse[0] != start[0] or reverse[1] != start[1]):
-	mod = maze[reverse[0]][reverse[1]] % 1.0
-	maze[reverse[0]][reverse[1]] = -7
-	if(mod <= 0.15):
-		reverse[0] += 1
-	elif(mod <= 0.25):
-		reverse[0] -= 1
-	elif(mod <= 0.35):
-		reverse[1] += 1
-	else:
-		reverse[1] -= 1
-		
+cur = s
+print s.location
+while cur.parent != -1:
+	cur = cur.parent
+	x = cur.location[0]
+	y = cur.location[1]
+	maze[x][y] = 69
+
 for line in maze:
         string = ''
         for num in line:
-		if(num == -1): 
+		if(num == -1):
                         string += '%'
 		elif(num == -5):
 			string += 'P'
-		elif(num == -7):
+		elif(num == 69):
 			string += '.'
 		else:
 			string += ' '
