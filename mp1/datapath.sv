@@ -53,7 +53,7 @@ lc3b_word imm4;
 lc3b_word imm5;
 lc3b_word trapvect8;
 lc3b_word mem_rdata_mux_out;
-
+lc3b_word mem_wdata_mux_out;
 
 lc3b_reg sr1;
 assign base_r = sr1;
@@ -232,12 +232,19 @@ mux2 mem_rdata_mux
 	.f(mem_rdata_mux_out)
 );
 
+mux2 mem_wdata_mux
+(
+	.sel(mem_address[0]),
+	.a(16'({8'd0, alu_out[7:0]})),
+	.b(16'({alu_out[7:0], 8'd0})),
+	.f(mem_wdata_mux_out)
+);
 mux4 mdrmux
 (
 	.sel(mdrmux_sel),
 	.a(alu_out),
 	.b(mem_rdata),
-   .c(16'({8'd0, alu_out[7:0]})),
+   .c(mem_wdata_mux_out),
    .d(mem_rdata_mux_out),
 	.f(mdrmux_out)
 );

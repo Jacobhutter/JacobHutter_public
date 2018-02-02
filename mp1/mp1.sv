@@ -64,7 +64,7 @@ datapath Datapath
 	.base_r,
 	.a,
 	.d,
-	.jsr_trigger,
+	.jsr_trigger
 );
 
 control Control
