@@ -124,11 +124,8 @@ print("Nodes Explored Maze: \n")
 for line in maze:
         string = ''
         for num in line:
-                if(num > 0):
-                        string += ' 1'
-                else:
-			string += str(num)
-        print(string)
+                if(num == 1):
+						nodes  += 1
 print("\n")
 
 cur = s
@@ -152,5 +149,5 @@ for line in maze:
 			string += ' '
         print(string)
 
-print("\nDistance to End: " + str(int(end_dist)))
+print("\nDistance to End: " + str(int(s.distance)))
 print("Nodes Explored: " + str(nodes))
