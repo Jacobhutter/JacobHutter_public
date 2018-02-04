@@ -1,24 +1,37 @@
 ORIGIN 0
 SEGMENT
-CodeSegment:
+CodeSegment: ; Test code modified to verify certain instructions
 	LEA R0, DataSegment
-	LDR R2, R0, NINER
-	LDR R3, R0, SIXER
+	STR R5, R0, RES10
+	LDR R5, R0, BADBAD
+	TRAP Bear	; tests trap
 	LEA R1, DataSegment2
-	STB R2, R1, -7
+	ADD R2, R2,  7
+	ADD R3, R3,  8
+	STB R2, R1, -7 ; try to recover the stored bytes individually
 	STB R3, R1, -8
-	LDR R4, R1, -8
+	LDB R4, R1, -7
+	LDB R5, R1, -8
 	NOT R4, R4
-	ADD R3, R2, R3
-	ADD R4, R4, R3
+	ADD R4, R4, 1
+	NOT R5, R5
+	ADD R5, R5, 1
+	ADD R2, R2, R4
 	BRNP FAIL
-	STI R5, R0, RES8
+	ADD R3, R3, R5
+	BRNP FAIL
+	ADD R5, R5, 5
+	LEA R0, DataSegment
+	STI R5, R0, RES8  ; test ldi sti 
 	LDI R4, R0, RES8
 	NOT R4, R4
-	ADD R4, R5, R4
+	ADD R4, R4, 1
+	ADD R5, R5, R4
 	BRNP FAIL
+	
 SUCCESS:
 	BRNZP SUCCESS
+
 FAIL:
 	BRNZP FAIL
 
@@ -26,8 +39,7 @@ SEGMENT        DataSegment:
 ZERO:	 DATA2 0
 ONETWELVE:	 DATA2 112
 ENT:	DATA2 10
-NINER:	DATA2 4x0099
-SIXER	DATA2 4x6600
+NINER:	DATA2 9999
 GECKO:	DATA2 42
 NOT6:	DATA2 4xBAC8
 THREE:	DATA2 7
@@ -59,3 +71,9 @@ SEGMENT DataSegment2:
 RES17:	DATA2 0
 RES18:	DATA2 0
 RES19:	DATA2 0
+Bear:	DATA2 CatchMe
+CatchMe:LDR R5, R0, PAT3
+	NOT R5, R5
+	RET
+PRODUCT:DATA2 0
+
