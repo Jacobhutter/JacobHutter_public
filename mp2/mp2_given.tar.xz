@@ -1,0 +1,183 @@
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>404 Page Not Found</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta name="keywords" content="" />
+		<link rel="SHORTCUT ICON" href="/images/favicon.ico" />
+	    <link rel="stylesheet" type="text/css" href="//engineering.illinois.edu/fonts/404033/534FDF28821555DD3.css" />
+		<link href="//my.engr.illinois.edu/styles/gentable.css?v2.02" rel="stylesheet" type="text/css" />
+		<link href="//my.engr.illinois.edu/styles/engr2.css?v2.02" rel="stylesheet" type="text/css" />
+		<link href="/css/courses.css?v2.02" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<header>
+			<div id="site_name">
+				<h1><a href="https://engineering.illinois.edu"><span>Engineering at Illinois</span></a></h1>
+			</div>
+
+			<div id="imark">
+				<a href="http://illinois.edu"><span>University of Illinois at Urbana Champaign</span></a>
+			</div>
+
+			<div id="greeting">
+			</div>
+
+			<nav id="mainnav">
+				<ul>
+					<li><a href="https://my.engr.illinois.edu/">My.ENGR</a>
+						<ul>
+							<li><a href="https://my.engr.illinois.edu/myinfo">My Info</a></li>
+							<li><a href="https://my.engr.illinois.edu/chpwd.asp">Change Password</a></li>
+							<li><a href="https://my.engr.illinois.edu/editprefs.asp">Change Preferences</a></li>
+							<li><a href="https://my.engr.illinois.edu/refresh.asp">Refresh</a></li>
+						</ul>
+					</li>
+					
+					<li><a href="https://my.engr.illinois.edu/">Shared Services</a>
+						<ul>
+							<li><a href="http://business.engr.illinois.edu">Business</a></li>
+							<li><a href="http://hr.engr.illinois.edu">Human Resources</a></li>
+							<li><a href="http://it.engineering.illinois.edu">Information Technology</a></li>
+						</ul>
+					</li>
+						
+					<li><a href="https://my.engr.illinois.edu/">HR</a>
+						<ul>
+							<li><a href="https://my.engr.illinois.edu/appointments">Appointments</a></li>
+							<li><a href="https://my.engr.illinois.edu/biodata">Biodata</a></li>
+							<li><a href="https://my.engr.illinois.edu/directory">Directory</a></li>
+							<li><a href="https://my.engr.illinois.edu/review">Review System</a></li>
+							<li><a href="https://my.engr.illinois.edu/timetracker">TimeTracker</a></li>
+							<li><a href="https://my.engr.illinois.edu/vacation">Vacation/Sick Leave Reporting</a></li>
+						</ul>
+					</li>
+						
+					<li><a href="https://my.engr.illinois.edu/">Finance</a>
+						<ul>
+							<li><a href="https://my.engr.illinois.edu/chart">Chart</a></li>
+							<li><a href="https://my.engr.illinois.edu/costshare">Cost Share</a></li>
+							<li><a href="https://my.engr.illinois.edu/grants">Grants</a></li>
+							<li><a href="https://my.engr.illinois.edu/icr">ICR</a></li>
+							<li><a href="https://my.engr.illinois.edu/cybercash">I-Pay</a></li>
+							<li><a href="https://my.engr.illinois.edu/purchasing">Purchasing</a></li>
+							<li><a href="https://my.engr.illinois.edu/statements">Statements</a></li>
+						</ul>
+					</li>
+						
+					<li><a href="https://my.engr.illinois.edu/">Facilities</a>
+						<ul>
+							<li><a href="https://my.engr.illinois.edu/plasma">Digital Signs</a></li>
+							<li><a href="https://my.engr.illinois.edu/space">Facilities</a></li>
+							<li><a href="https://my.engr.illinois.edu/inventory">Inventory</a></li>
+							<li><a href="https://my.engr.illinois.edu/keys">Keys</a></li>
+							<li><a href="https://my.engr.illinois.edu/people">People</a></li>
+						</ul>
+					</li>
+						
+					<li><a href="https://my.engr.illinois.edu/">Academic</a>
+						<ul>
+							<li><a href="https://my.engr.illinois.edu/fair/">Academic Integrity (FAIR)</a></li>
+							<li><a href="https://my.engr.illinois.edu/coursechanges">Add/Drop Classes</a></li>
+							<li><a href="https://my.engr.illinois.edu/advising/">Advising Appointments</a></li>
+							<li><a href="https://my.engr.illinois.edu/classplanning/">Class Planning</a></li>
+							<li><a href="https://my.engr.illinois.edu/gradapps">Grad Applications</a></li>
+							<li><a href="https://my.engr.illinois.edu/gradrecs">Grad Records</a></li>
+							<li><a href="https://my.engr.illinois.edu/james-scholar">James Scholar</a></li>
+							<li><a href="https://my.engr.illinois.edu/rosters">Rosters</a></li>
+							<li><a href="https://my.engr.illinois.edu/smd">Secure Message Delivery</a></li>
+							<li><a href="https://my.engr.illinois.edu/studyabroadcourses/">Study Abroad Courses</a></li>
+							<li><a href="https://my.engr.illinois.edu/ugradrecs">Undergrad Records</a></li>
+						</ul>
+					</li>
+						
+					<li><a href="https://my.engr.illinois.edu/">Administrative</a>
+						<ul>
+							<li><a href="https://my.engr.illinois.edu/attendance/">Attendance Tracking</a></li>
+							<li><a href="https://my.engr.illinois.edu/blogs/">Blog Tool</a></li>
+							<li><a href="https://my.engr.illinois.edu/eventreg/submissions/">Event Registration Submissions</a></li>
+							<li><a href="https://my.engr.illinois.edu/usersearch/">User Search</a></li>
+						</ul>
+					</li>
+
+				</ul>
+			</nav>
+		</header>
+
+
+		<main id="content">
+			<div class="module">
+				<h2>404 Page Not Found</h2>
+				<div class="module_content">
+
+
+
+<p>The page you requested was not found on this webserver.  Please try to find the correct link by looking at our <a href="/">Course Directory</a></p>
+
+
+				</div>
+			</div>
+		</main>
+	
+		<footer>
+			<div class="container">
+		
+				<div class="contact">
+					<div id="socialribbon">
+						<a class="facebook" href="https://www.facebook.com/EngineeringAtIL">Facebook</a>
+						<a class="twitter" href="https://twitter.com/EngineeringAtIL">Twitter</a>
+						<a class="youtube" href="https://www.youtube.com/channel/UCRjvSnTB2tOqfO5AXvOHGGw">YouTube</a>
+						<a class="instagram" href="http://instagram.com/engineeringatillinois">Instagram</a>
+					</div>
+
+					<p>
+						<a class="smallbutton" href="http://illinois.edu/calendar/list/2568">Calendar</a>
+						<a class="smallbutton" href="/engage/make-a-gift.html">Make a Gift</a>
+					</p>
+				
+					<p><strong>College of Engineering</strong><br>
+      				306 Engineering Hall MC 266<br>
+					1308 West Green Street<br>
+					Urbana, IL 61801</p>
+			
+					<p>217-333-2151 - <a href="mailto:engineering@illinois.edu">engineering@illinois.edu</a></p>
+			
+					<p>&copy; University of Illinois at Urbana-Champaign<br>
+					<a href="http://www.vpaa.uillinois.edu/policies/web_privacy.cfm">Privacy</a></p>
+			
+					<p>For assistance with this portal, contact <a href="mailto:engrit-apps@illinois.edu">Engineering IT Shared Services</a></p>
+				</div><!-- //contact -->
+		
+				<div class="statistics">
+					<div class="top-programs">
+						Home to<br>
+						<span>16 top 5</span><br>
+						ranked degree programs
+					</div>
+					<br>
+					<div class="research-expenditures">
+						<span>$222 million</span><br>
+						2015 research expenditures
+					</div>
+					<br />
+					<div id="illinois150"><a href="http://150.illinois.edu/">Illinois 150: Celebrating our Sesquicentennial 1867-2017</a></div>
+
+				</div>
+				<!-- //statistics -->
+	
+				<div class="about">	
+						<h2><a href="http://engineering.illinois.edu/about">About Engineering at Illinois</a></h2>
+						<p>As one of the world's top ranked engineering programs, our students, faculty, and alumni set the standard for excellence. We drive the economy, reimagine engineering education, and bring revolutionary ideas to the world.</p>
+						<p>We solve the world’s greatest challenges. We look toward the future and find ways to make it a reality. Leading the innovation of virtual reality. Designing electronic tattoos to treat seizures. Building safer global water systems. Converting algae to biofuel. Exploring fusion energy.</p>
+						<p><strong>We do the impossible every day.</strong></p>
+				</div><!-- //about -->
+			</div>
+		</footer><!--close footer-->
+
+		<script type="text/javascript" src="//emergency.webservices.illinois.edu/illinois.js"></script>
+
+	</body>
+</html>
