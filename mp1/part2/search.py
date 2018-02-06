@@ -4,7 +4,8 @@ import itertools
 maze = []
 start = (0, 0,) # x, y, f, parent
 end = []
-with open("./mazes/customSearch.txt", 'r') as f1:
+f = open("./output.txt", 'w')
+with open("./mazes/tinySearch.txt", 'r') as f1:
 	x = 0
         for line in f1:
                 row = []
@@ -104,13 +105,13 @@ for i in range(n - 1):
 
 min_path = list(reversed(min_path))
 
-print("\nMinimum Path Order (Coordinates): ")
-print(min_path)
+f.write("\nMinimum Path Order (Coordinates): ")
+f.write(str(min_path))
 
-print("\nMinimum Path Length: ")
-print(opt)
+f.write("\nMinimum Path Length: ")
+f.write(str(opt))
 
-print("\nMinimum Path Order (Graph): ")
+f.write("\nMinimum Path Order (Graph): \n")
 maze[start[0]][start[1]] = -5
 
 char = 0
@@ -131,6 +132,7 @@ for i in range(1, len(min_path)):
 	maze[min_path[i][0]][min_path[i][1]] = ord(charset[char])
 	char += 1
 
+
 for line in maze:
         string = ''
         for num in line:
@@ -142,5 +144,5 @@ for line in maze:
 			string += chr(num)
 		else:
 			string += ' '
-        print(string)
-print("\n")
+        f.write(string + '\n')
+f.write("\n")
