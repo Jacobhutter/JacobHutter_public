@@ -4,8 +4,8 @@ import itertools
 maze = []
 start = (0, 0,) # x, y, f, parent
 end = []
-f = open("./output.txt", 'w')
-with open("./mazes/tinySearch.txt", 'r') as f1:
+f = open("./outputs/output.txt", 'w')
+with open("./mazes/mediumSearch.txt", 'r') as f1:
 	x = 0
         for line in f1:
                 row = []
@@ -146,3 +146,4 @@ for line in maze:
 			string += ' '
         f.write(string + '\n')
 f.write("\n")
+f.close()

@@ -12,7 +12,7 @@ class successor:
 def manhattan_distance(loc1, loc2):
 	return abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[0])
 
-#
+
 def a_star(start, end, maze):
 
 		#SEARCH CODE
@@ -22,7 +22,7 @@ def a_star(start, end, maze):
 	open_list = []
 	closed_list = []
 	open_list.append(start_successor)
-	# open list contains triple (y,x,f)
+
 	# https://www.geeksforgeeks.org/a-search-algorithm/
 	while(open_list):
 		q = min(open_list, key = lambda t: t.f) # pick out minimum f
