@@ -10,7 +10,7 @@ class successor:
 		self.distance = -1
 
 def manhattan_distance(loc1, loc2):
-	return abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[0])
+	return abs(loc2[0] - loc1[0]) + abs(loc2[1] - loc1[1])
 
 
 def a_star(start, end, maze):
