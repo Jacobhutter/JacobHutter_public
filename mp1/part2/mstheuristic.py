@@ -1,14 +1,17 @@
 import sys
 import astar
 import itertools
+import copy
+
 class successor:
 	def __init__(self, loc):
 		self.f = 0
 		self.g = 0
 		self.h = 0
+		self.u = 0
 		self.location = loc
-		self.parent = -1
-		self.distance = -1
+		self.parent = []
+		self.unvisited = set()
 
 def mst(critical_points, dist_map):
     edges = []
@@ -34,23 +37,27 @@ def mst(critical_points, dist_map):
             break
     return distance
 
+
 def nearest_unvisited(loc1, critical_points, dist_map):
     global_min = sys.maxint
+    if(len(critical_points) == 0):
+	return 0
     for i in range(len(critical_points)):
-        if loc1 != critical_points[i] and dist_map[(loc1, critical_points[i])] < global_min:
+        if dist_map[(loc1, critical_points[i])] < global_min:
             global_min = dist_map[(loc1, critical_points[i])]
     return global_min
 
 def mst_heuristic(start, end, maze):
 
 	#SEARCH CODE
+
     start_successor = successor(start)
+    start_successor.unvisited = list(end)
     found_end = 0
     start_successor.distance = 0
     open_list = []
-    closed_list = []
     open_list.append(start_successor)
-
+    closed_list = []
     dist_map = dict()
     critical_points = end
     critical_points.insert(0, start)
@@ -59,51 +66,61 @@ def mst_heuristic(start, end, maze):
     		dist = astar.a_star(critical_points[i], critical_points[j], maze)
     		dist_map[(critical_points[i], critical_points[j])] = dist
     		dist_map[(critical_points[j], critical_points[i])] = dist
-
-    iterations = 0
+    print(mst(critical_points, dist_map))
     # https://www.geeksforgeeks.org/a-search-algorithm/
+    global_cost = sys.maxint
+    ret_path = []
     while(open_list):
+	open_list.sort(key = lambda t: t.h)
     	q = min(open_list, key = lambda t: t.f) # pick out minimum f
-        if q.location in critical_points:
-            critical_points.remove(q.location)
-    	open_list.remove(q)
+	open_list.remove(q)
     	q_successors = []
-
         # check goal state
-        if not critical_points:
-            break
-
-        if q in closed_list:
-            continue
+	#print(q.h)
+	#print(q.f)
+	#print("Global Cost: " + str(global_cost))
+        if not q.unvisited:
+	    print('done')
+	    closed_list.append(q)
+	    if q.f < global_cost:
+		global_cost = q.f
+		ret_path = copy.copy(q.parent)
+		ret_path.append(q.location)
+	    	for x in open_list:
+			if x.f >= global_cost:
+				open_list.remove(x)    
+	    if not open_list:
+		break
+	    else:
+		continue
 
         # generate successors
-        for i in range(len(critical_points)):
-            q_successors.append(successor(critical_points[i]))
-
+        for i in range(len(q.unvisited)):
+            q_successors.append(successor(q.unvisited[i]))
     	for s in q_successors:
-    		s.parent = q
-    		s.distance = q.distance + dist_map[(q.location, s.location)]
+    		s.parent = copy.copy(q.parent)
+		s.parent.append(q.location)
+		s.unvisited = set()
+		s.unvisited = copy.copy(q.unvisited)
+		s.unvisited.remove(s.location)
     		s.g = q.g + dist_map[(q.location, s.location)]
-    		s.h = mst(critical_points, dist_map) + nearest_unvisited(q.location, critical_points, dist_map) + nearest_unvisited(start, critical_points, dist_map)
-    		s.f = s.g + s.h
-
+    		s.h = mst(s.unvisited, dist_map)
+		s.u = nearest_unvisited(s.location, s.unvisited, dist_map)
+    		s.f = s.g + s.h + s.u
     		#check for lower f entries already open
-    		if [x for x in open_list if x.location == s.location and x.f <= s.f]:
-    			continue
+		if global_cost <= s.f:# and x.g > s.g]: #and x.h <= s.h]:
+			continue
+		elif[x for x in open_list if x.unvisited >= s.unvisited and x.u <= s.u and x.f < s.f and x.location == s.location]:
+			continue
     	 	else:
-    	 		open_list.append(s)
-        maze[q.location[0]][q.location[1]] = iterations
-        print q.location[0], q.location[1], iterations
-        iterations += 1
-    	closed_list.append(q)
-    return maze
-
+			open_list.append(s)
+		#s.unvisited.remove(s.location)
+    return maze, global_cost, ret_path
 
 maze = []
 start = (0, 0,) # x, y, f, parent
 end = []
-f = open("./outputs/output.txt", 'w')
-with open("./mazes/tinySearch.txt", 'r') as f1:
+with open(sys.argv[1], 'r') as f1:
 	x = 0
         for line in f1:
                 row = []
@@ -130,18 +147,40 @@ for line in maze:
                 	string += ' '
 		string += str(num)
 
-maze = mst_heuristic(start, end, maze)
-print maze
+maze, cost, min_path = mst_heuristic(start, end, maze)
+print("\nMinimum Path Length: ")
+print(cost)
+print("\nMinimum Path Order (Coordinates): ")
+print(min_path)
+print("\nMinimum Path Order (Graph): \n")
+maze[start[0]][start[1]] = -5
+char = 0
+charset = []
+
+for i in range(1, 10):
+	charset.append(str(i))
+
+alphabet = map(chr, range(97, 123))
+for letter in alphabet:
+	charset.append(letter)
+
+alphabet = map(chr, range(65, 91))
+for letter in alphabet:
+        charset.append(letter)
+
+for i in range(1, len(min_path)):
+	maze[min_path[i][0]][min_path[i][1]] = ord(charset[char])
+	char += 1
+
 for line in maze:
     string = ''
     for num in line:
         if(num == -1):
             string += '%'
-        elif(num == -1):
-            string += '0'
+	elif(num == -5):
+	    string += '0'
         elif(num > 0):
-            string += '1'
+            string += chr(num)
         else:
             string += ' '
-    print(string + '\n')
-f.write("\n")
+    print(string)
