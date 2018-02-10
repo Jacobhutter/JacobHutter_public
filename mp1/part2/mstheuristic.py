@@ -50,7 +50,7 @@ def nearest_unvisited(loc1, critical_points, dist_map):
 def mst_heuristic(start, end, maze):
 
 	#SEARCH CODE
-
+    nodes_explored = 0
     start_successor = successor(start)
     start_successor.unvisited = list(end)
     found_end = 0
@@ -71,6 +71,7 @@ def mst_heuristic(start, end, maze):
     global_cost = sys.maxint
     ret_path = []
     while(open_list):
+	nodes_explored += 1
 	open_list.sort(key = lambda t: t.h)
     	q = min(open_list, key = lambda t: t.f) # pick out minimum f
 	open_list.remove(q)
@@ -88,7 +89,7 @@ def mst_heuristic(start, end, maze):
 		ret_path.append(q.location)
 	    	for x in open_list:
 			if x.f >= global_cost:
-				open_list.remove(x)    
+				open_list.remove(x)
 	    if not open_list:
 		break
 	    else:
@@ -115,7 +116,7 @@ def mst_heuristic(start, end, maze):
     	 	else:
 			open_list.append(s)
 		#s.unvisited.remove(s.location)
-    return maze, global_cost, ret_path
+    return maze, global_cost, ret_path, nodes_explored
 
 maze = []
 start = (0, 0,) # x, y, f, parent
@@ -147,12 +148,14 @@ for line in maze:
                 	string += ' '
 		string += str(num)
 
-maze, cost, min_path = mst_heuristic(start, end, maze)
+maze, cost, min_path, nodes_explored = mst_heuristic(start, end, maze)
 print("\nMinimum Path Length: ")
 print(cost)
 print("\nMinimum Path Order (Coordinates): ")
 print(min_path)
 print("\nMinimum Path Order (Graph): \n")
+print("\nNodes Explored: \n")
+print(nodes_explored)
 maze[start[0]][start[1]] = -5
 char = 0
 charset = []
