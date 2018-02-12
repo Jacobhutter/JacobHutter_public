@@ -23,8 +23,9 @@ def deviation(critical_points, loc1, dist_map):
     for p in range(len(distances)):
         d = abs(distances[p] - g_mean)
         if d > global_dist:
-            global_dist = d
-            global_loc = critical_points[p]
+	    if distances[p] <= g_mean or global_dist == 0:
+            	global_dist = d
+            	global_loc = critical_points[p]
 
     return global_loc
 
