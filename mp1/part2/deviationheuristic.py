@@ -23,9 +23,9 @@ def deviation(critical_points, loc1, dist_map):
     for p in range(len(distances)):
         d = abs(distances[p] - g_mean)
         if d > global_dist:
-	    if distances[p] <= g_mean or global_dist == 0:
-            	global_dist = d
-            	global_loc = critical_points[p]
+            if distances[p] <= g_mean or global_dist == 0:
+                global_dist = d
+                global_loc = critical_points[p]
 
     return global_loc
 
@@ -48,16 +48,22 @@ def deviation_heuristic(start, end, maze):
             break
         print deviant
         deviant = successor(deviant)
-        deviant.parent = cur
+        deviant.parent = copy.copy(cur.parent)
+	deviant.parent.append(cur.location)
         deviant.distance = cur.distance +  dist_map[(cur.location, deviant.location)]
         critical_points.remove(deviant.location)
         cur = deviant
     sol_dist = cur.distance
-    sol = []
-    print("exiting main loop:\n")
-    while(cur.parent):
-        sol.insert(0, cur.location)
-        cur = cur.parent
+    sol = cur.parent
+    sol.append(cur.location)
+    cur = set(end) - set(sol)
+    for loc in cur:
+    	sol.append(loc)
+    sol_dist += dist_map[(sol[-2], sol[1])]
+    #print("exiting main loop:\n")
+    #while(cur.parent):
+    #    sol.insert(0, cur.location)
+    #    cur = cur.parent
     return sol_dist, sol
 
 maze = []
@@ -91,6 +97,7 @@ for line in maze:
 		string += str(num)
 
 cost, min_path = deviation_heuristic(start, end, maze)
+min_path.insert(0, start)
 print("\nMinimum Path Length: ")
 print(cost)
 print("\nMinimum Path Order (Coordinates): ")
@@ -118,7 +125,7 @@ for i in range(1, len(min_path)):
     maze[min_path[i][0]][min_path[i][1]] = ord(charset[char])
     if(char < len(charset) - 1):
         char += 1
-
+print(chr(maze[1][8]))
 for line in maze:
     string = ''
     for num in line:
