@@ -18,7 +18,9 @@ class successor:
 	def __lt__(self, other):
 		if self.f < other.f:
 			return True
-		elif self.f == other.f and self.h < other.h:
+		elif len(self.unvisited) < len(other.unvisited) and self.f == other.f:
+			return True
+		elif self.f == other.f and len(self.unvisited) == len(other.unvisited) and self.h < other.h:
 			return True
 		return False
 
@@ -50,19 +52,6 @@ def mst(critical_points, dist_map):
 
     return distance
 
-
-def nearest_unvisited(loc1, critical_points, dist_map):
-    global_min = sys.maxint
-
-    if(len(critical_points) == 0):
-	return 0
-
-    for i in range(len(critical_points)):
-        if dist_map[(loc1, critical_points[i])] < global_min:
-            global_min = dist_map[(loc1, critical_points[i])]
-
-    return global_min
-
 def mst_heuristic(start, end, maze):
 
 	#SEARCH CODE
@@ -74,7 +63,6 @@ def mst_heuristic(start, end, maze):
     start_successor.distance = 0
     open_list = []
     heapq.heappush(open_list, start_successor)
-    closed_list = []
 
     dist_map = dict()
     critical_points = end
@@ -87,34 +75,25 @@ def mst_heuristic(start, end, maze):
     		dist_map[(critical_points[j], critical_points[i])] = dist
 
     # https://www.geeksforgeeks.org/a-search-algorithm/
+    
     global_cost = sys.maxint
     ret_path = []
     best_state = defaultdict(lambda: None)
+    
     while(open_list):
-	nodes_explored += 1
     	q = heapq.heappop(open_list) # pick out minimum f
     	q_successors = []
-
-        # check goal state
-		#print(q.h)
-		#print(q.f)
-		#print("Global Cost: " + str(global_cost))
-
-        if not q.unvisited:
-	    closed_list.append(q)
-	    if q.f < global_cost:
-		print(q.f)
-		global_cost = q.f
-		ret_path = copy.copy(q.parent)
-		ret_path.append(q.location)
-	    	for x in open_list:
-			if x.f >= global_cost:
-				open_list.remove(x)
-		heapq.heapify(open_list)
-	    if not open_list:
-		break
-	    else:
+	
+	if q.g < 0:
 		continue
+        
+	nodes_explored += 1
+	if not q.unvisited:
+	    print(q.f)
+	    global_cost = q.f
+	    ret_path = copy.copy(q.parent)
+	    ret_path.append(q.location)
+	    break
 
         # generate successors
         for i in range(len(q.unvisited)):
@@ -130,23 +109,20 @@ def mst_heuristic(start, end, maze):
 
     		s.g = q.g + dist_map[(q.location, s.location)]
     		s.h = mst(s.unvisited, dist_map)
-			#s.u = nearest_unvisited(s.location, s.unvisited, dist_map)
-    		s.f = s.g + s.h# + s.u
+    		s.f = s.g + s.h
 
     		#check for lower f entries already open
 		if global_cost <= s.f:
 			continue
+		
 		curr_best = best_state[(tuple(s.unvisited), s.location)]
+		
 		if curr_best == None:
 			best_state[(tuple(s.unvisited), s.location)] = s
 			heapq.heappush(open_list, s)
+		
 		elif best_state[(tuple(s.unvisited), s.location)].g > s.g:
-			#try:
-			#	print('test') 
-				#open_list.remove(best_state[(tuple(s.unvisited), s.location)])
-				#heapq.heapify(open_list)
-			#except ValueError:
-			#	pass
+			best_state[(tuple(s.unvisited), s.location)].g = -1
 			best_state[(tuple(s.unvisited), s.location)] = s
 			heapq.heappush(open_list, s)
 		
