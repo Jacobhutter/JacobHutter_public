@@ -18,7 +18,7 @@ class successor:
 	def __lt__(self, other):
 		if self.f < other.f:
 			return True
-		elif len(self.unvisited) < len(other.unvisited) and self.f == other.f:
+		elif self.f == other.f and len(self.unvisited) < len(other.unvisited):
 			return True
 		elif self.f == other.f and len(self.unvisited) == len(other.unvisited) and self.h < other.h:
 			return True
@@ -59,7 +59,6 @@ def mst_heuristic(start, end, maze):
     nodes_explored = 0
     start_successor = successor(start)
     start_successor.unvisited = list(end)
-    found_end = 0
     start_successor.distance = 0
     open_list = []
     heapq.heappush(open_list, start_successor)
@@ -67,10 +66,11 @@ def mst_heuristic(start, end, maze):
     dist_map = dict()
     critical_points = end
     critical_points.insert(0, start)
-
+    preprocessing = 0
     for i in range(0, len(critical_points)):
     	for j in range(0, len(critical_points)):
-    		dist = astar.a_star(critical_points[i], critical_points[j], maze)
+    		dist, cost = astar.a_star(critical_points[i], critical_points[j], maze)
+		preprocessing += cost
     		dist_map[(critical_points[i], critical_points[j])] = dist
     		dist_map[(critical_points[j], critical_points[i])] = dist
 
@@ -78,7 +78,7 @@ def mst_heuristic(start, end, maze):
     
     global_cost = sys.maxint
     ret_path = []
-    best_state = defaultdict(lambda: None)
+    best_leg = defaultdict(lambda: None)
     
     while(open_list):
     	q = heapq.heappop(open_list) # pick out minimum f
@@ -89,7 +89,6 @@ def mst_heuristic(start, end, maze):
         
 	nodes_explored += 1
 	if not q.unvisited:
-	    print(q.f)
 	    global_cost = q.f
 	    ret_path = copy.copy(q.parent)
 	    ret_path.append(q.location)
@@ -115,18 +114,18 @@ def mst_heuristic(start, end, maze):
 		if global_cost <= s.f:
 			continue
 		
-		curr_best = best_state[(tuple(s.unvisited), s.location)]
+		curr_best = best_leg[(tuple(s.unvisited), s.location)]
 		
 		if curr_best == None:
-			best_state[(tuple(s.unvisited), s.location)] = s
+			best_leg[(tuple(s.unvisited), s.location)] = s
 			heapq.heappush(open_list, s)
 		
-		elif best_state[(tuple(s.unvisited), s.location)].g > s.g:
-			best_state[(tuple(s.unvisited), s.location)].g = -1
-			best_state[(tuple(s.unvisited), s.location)] = s
+		elif best_leg[(tuple(s.unvisited), s.location)].g > s.g:
+			best_leg[(tuple(s.unvisited), s.location)].g = -1
+			best_leg[(tuple(s.unvisited), s.location)] = s
 			heapq.heappush(open_list, s)
 		
-    return maze, global_cost, ret_path, nodes_explored
+    return maze, global_cost, ret_path, nodes_explored, preprocessing
 
 maze = []
 start = (0, 0,) # x, y, f, parent
@@ -158,14 +157,18 @@ for line in maze:
                 	string += ' '
 		string += str(num)
 
-maze, cost, min_path, nodes_explored = mst_heuristic(start, end, maze)
+maze, cost, min_path, nodes_explored, preprocessing = mst_heuristic(start, end, maze)
 print("\nMinimum Path Length: ")
 print(cost)
 print("\nMinimum Path Order (Coordinates): ")
 print(min_path)
-print("\nMinimum Path Order (Graph): \n")
-print("\nNodes Explored: \n")
+print("\nNodes Explored in Preprocessing: \n")
+print(preprocessing)
+print("\nNodes Explored at Top Level: \n")
 print(nodes_explored)
+print("\nTotal Nodes Explored: \n")
+print(nodes_explored + preprocessing)
+print("\nMinimum Path Order (Graph): \n")
 maze[start[0]][start[1]] = -5
 char = 0
 charset = []

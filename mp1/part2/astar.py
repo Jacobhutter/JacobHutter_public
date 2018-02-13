@@ -22,11 +22,12 @@ def a_star(start, end, maze):
 	open_list = []
 	closed_list = []
 	open_list.append(start_successor)
-
+	nodes_explored = 0
 	# https://www.geeksforgeeks.org/a-search-algorithm/
 	while(open_list):
 		q = min(open_list, key = lambda t: t.f) # pick out minimum f
 		open_list.remove(q)
+		nodes_explored += 1
 		q_successors = []
 		x = q.location[0]
 		y = q.location[1]
@@ -55,7 +56,7 @@ def a_star(start, end, maze):
 			s.f = s.g + s.h
 
 			if(s.location == end):
-				return s.distance
+				return s.distance, nodes_explored
 
 			#check for lower f entries already open
 			if [x for x in open_list if x.location == s.location and x.f <= s.f]:
@@ -67,3 +68,4 @@ def a_star(start, end, maze):
 		 		open_list.append(s)
 
 		closed_list.append(q)
+

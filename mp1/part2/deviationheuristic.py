@@ -33,20 +33,22 @@ def deviation_heuristic(start, end, maze):
     dist_map = dict()
     critical_points = end
     critical_points.insert(0, start)
+    preprocessing = 0
     for i in range(0, len(critical_points)):
     	for j in range(0, len(critical_points)):
-    		dist = astar.a_star(critical_points[i], critical_points[j], maze)
-    		dist_map[(critical_points[i], critical_points[j])] = dist
+    		dist, cost = astar.a_star(critical_points[i], critical_points[j], maze)
+    		preprocessing += cost
+		dist_map[(critical_points[i], critical_points[j])] = dist
     		dist_map[(critical_points[j], critical_points[i])] = dist
     critical_points.remove(start)
     cur_loc = start
     cur = successor(start)
-    print("entering main loop:\n")
+    nodes_explored = 0
     while(critical_points):
         deviant = deviation(critical_points, cur.location, dist_map)
+	nodes_explored += 1
         if deviant == 0:
             break
-        print deviant
         deviant = successor(deviant)
         deviant.parent = copy.copy(cur.parent)
 	deviant.parent.append(cur.location)
@@ -60,11 +62,8 @@ def deviation_heuristic(start, end, maze):
     for loc in cur:
     	sol.append(loc)
     sol_dist += dist_map[(sol[-2], sol[1])]
-    #print("exiting main loop:\n")
-    #while(cur.parent):
-    #    sol.insert(0, cur.location)
-    #    cur = cur.parent
-    return sol_dist, sol
+    
+    return sol_dist, sol, nodes_explored, preprocessing
 
 maze = []
 start = (0, 0,) # x, y, f, parent
@@ -96,13 +95,19 @@ for line in maze:
                 	string += ' '
 		string += str(num)
 
-cost, min_path = deviation_heuristic(start, end, maze)
+cost, min_path, nodes_explored, preprocessing = deviation_heuristic(start, end, maze)
 min_path.insert(0, start)
 print("\nMinimum Path Length: ")
 print(cost)
 print("\nMinimum Path Order (Coordinates): ")
 print(min_path)
-
+print("\nNodes Explored in Preprocessing: \n")
+print(preprocessing)
+print("\nNodes Explored at Top Level: \n")
+print(nodes_explored)
+print("\nTotal Nodes Explored: \n")
+print(nodes_explored + preprocessing)
+print("\nMinimum Path Order (Graph): \n")
 maze[start[0]][start[1]] = -5
 char = 0
 charset = []
@@ -125,7 +130,6 @@ for i in range(1, len(min_path)):
     maze[min_path[i][0]][min_path[i][1]] = ord(charset[char])
     if(char < len(charset) - 1):
         char += 1
-print(chr(maze[1][8]))
 for line in maze:
     string = ''
     for num in line:
