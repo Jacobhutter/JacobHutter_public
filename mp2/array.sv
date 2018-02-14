@@ -1,4 +1,5 @@
 import lc3b_types::*;
+
 module array #(parameter width = 128)
 (
     input clk,
@@ -7,7 +8,9 @@ module array #(parameter width = 128)
     input [width-1:0] datain,
     output logic [width-1:0] dataout
 );
+
 logic [width-1:0] data [7:0];
+
 /* Initialize array */
 initial
 begin
@@ -16,6 +19,7 @@ begin
         data[i] = 1'b0;
     end
 end
+
 always_ff @(posedge clk)
 begin
     if (write == 1)
@@ -23,5 +27,7 @@ begin
         data[index] = datain;
     end
 end
+
 assign dataout = data[index];
+
 endmodule : array

@@ -3,17 +3,23 @@ import lc3b_types::*;
 module cpu
 (
     input clk,
+    wishbone.master cpu_to_cache
 
-    /* Memory signals */
-    input mem_resp,
-    input lc3b_word mem_rdata,
-    output logic mem_read,
-    output logic mem_write,
-    output lc3b_mem_wmask mem_byte_enable,
-    output lc3b_word mem_address,
-    output lc3b_word mem_wdata
 );
 
+logic mem_resp // input
+lc3b_word mem_rdata // input
+logic mem_read // output
+logic mem_write // output
+lc3b_mem_wmask mem_byte_enable // output
+lc3b_word mem_address // output
+lc3b_word mem_wdata // output
+assign mem_resp = cpu_to_cache.ack
+assign mem_rdata = {cpu_to_cache.DATA_S >> mem_address[3:0]}[15:0]
+assign cpu_to_cache.STB = mem_read | mem_write
+assign cpu_to_cache.sel = 16'{14'd0, mem_byte_enable} << mem_address[3:0]
+assign cpu_to_cache.ADR = mem_address
+assign cpu_to_cache.DATA_M = 128'{112'd0, mem_wdata} << mem_address[3:0]
 logic load_pc;
 logic load_ir;
 logic load_regfile;
