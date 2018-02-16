@@ -5,12 +5,15 @@ module mp2
     wishbone.master wb
 );
 
-wishbone wb2(wb.CLK);
+wishbone wishb(wb.CLK);
 
-cpu Cpu(wb2);
+cpu cpu_master(
+	.clk(wishb.CLK),
+	.cpu_to_cache(wishb)
+);
 
 cache Cache(
-    .cpu_to_cache(wb2),
+    .cpu_to_cache(wishb),
     .cache_to_mem(wb)
 );
 

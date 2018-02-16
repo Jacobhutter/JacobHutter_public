@@ -12,7 +12,7 @@ module cache_control
 	output logic ack_out,
 	output logic stb_out,
 	output logic we_out,
-	output logic control_load,
+	output logic control_load
 );
 
 enum int unsigned {
@@ -47,7 +47,7 @@ begin : state_actions
 
 		cache_write: begin
 			cache_in_mux_sel = 1'b1; // read in from mem and force load
-			control_load = 1'b1
+			control_load = 1'b1;
 			ack_out = 1'b1; // say to cpu that value is in data port
 		end
 
@@ -63,8 +63,8 @@ begin : next_state_logic
 	case(state)
 
 		fetch: begin
-			if stb & ~hit
-				next_state <= mem_read1;
+			if (stb & ~hit)
+				next_state <= mem_read;
 			else
 				next_state <= fetch;
 		end
