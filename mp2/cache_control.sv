@@ -2,45 +2,54 @@ import lc3b_types::*; /* Import types defined in lc3b_types.sv */
 
 module cache_control
 (
-	input clk
+	input clk,
+	input hit,
+	input dirty,
+	input stb,
+	input ack_in,
+
+	output logic cache_in_mux_sel,
+	output logic ack_out,
+	output logic stb_out,
+	output logic we_out,
+	output logic control_load,
 );
 
 enum int unsigned {
-    fetch1,
-	 fetch2,
-	 fetch3,
-	 decode
+   fetch,
+	 mem_read,
+	 mem_wait,
+	 cache_write
 } state, next_state;
 
 always_comb
 begin : state_actions
     /* Default output assignments */
-	 load_pc = 1'b0;
+	 cache_in_mux_sel = 1'b0;
+	 ack_out = 1'b0;
+	 stb_out = 1'b0;
+	 we_out = 1'b0;
+	 control_load = 1'b0;
 
 	 case(state)
-		fetch1: begin
-			/* MAR <= PC */
-			marmux_sel = 2'b01;
-			load_mar = 1;
 
-			/* PC <= PC + 2 */
-			pcmux_sel = 2'b00;
-			load_pc = 1;
+		fetch: begin
+			if(stb & hit) // if request from cpu comes, respond with ack immediately if ready
+				ack_out = 1'b1;
 		end
 
-		fetch2: begin
-			/* Read memory */
-			mem_read = 1;
-			mdrmux_sel = 2'b01;
-			load_mdr = 1;
+		mem_read: begin
+			we_out = 1'b0;
+			stb_out = 1'b0;
 		end
 
-		fetch3: begin
-			/* Load IR */
-			load_ir = 1;
-		end
+		mem_wait: /* Do nothing */;
 
-		decode: /* Do nothing */;
+		cache_write: begin
+			cache_in_mux_sel = 1'b1; // read in from mem and force load
+			control_load = 1'b1
+			ack_out = 1'b1; // say to cpu that value is in data port
+		end
 
 		default: /* Do nothing */;
 
@@ -51,40 +60,32 @@ end
 always_comb
 begin : next_state_logic
 
-	unique case(state)
+	case(state)
 
-		fetch1 : begin
-			next_state <= fetch2;
-		end
-
-		fetch2: begin
-			if(mem_resp == 0)
-				next_state <= fetch2;
+		fetch: begin
+			if stb & ~hit
+				next_state <= mem_read1;
 			else
-				next_state <= fetch3;
+				next_state <= fetch;
 		end
 
-		fetch3: begin
-			next_state <= decode;
+		mem_read: begin
+			next_state <= mem_wait;
 		end
 
-		decode: begin
+		mem_wait: begin
+			if(ack_in)
+				next_state <= cache_write;
+			else
+				next_state <= mem_wait;
+		end
 
-			case(opcode)
-
-				op_add: begin
-					next_state <= s_add_decide;
-				end
-
-				default:
-					next_state <= fetch1;
-
-			endcase
-
+		cache_write: begin
+			next_state <= fetch;
 		end
 
 		default:
-			next_state <= fetch1;
+			next_state <= fetch;
 
 	endcase
 

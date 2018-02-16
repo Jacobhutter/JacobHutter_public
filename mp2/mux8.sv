@@ -1,21 +1,29 @@
 import lc3b_types::*;
 
-module mux8 #(parameter width = 16) 
+module mux8 #(parameter width = 16)
 (
-	input lc3b_sel sel, 
-	input [width-1:0] a, b, c, d, e, g, h, i, 
-	output logic [width-1:0] f 
+	input [2:0] sel,
+	input [width-1:0] a, b, c, d, e, g, h, i,
+	output logic [width-1:0] f
 );
 
-always_comb 
-begin 
-	if (sel == 2'b00) 
-		f = a; 
-	else if(sel == 2'b01) 
-		f = b; 
-	else if(sel == 2'b10) 
-		f = c; 
+always_comb begin
+	if (sel == 3'b000)
+		f = a;
+	else if(sel == 3'b001)
+		f = b;
+	else if(sel == 3'b010)
+		f = c;
+	else if(sel == 3'b011)
+		f = d;
+	else if(sel == 3'b100)
+		f = e;
+	else if(sel == 3'b101)
+		f = g;
+	else if(sel == 3'b110)
+		f = h;
 	else
-		f = d; 
+		f = i;
 end
-endmodule : mux4
+
+endmodule : mux8

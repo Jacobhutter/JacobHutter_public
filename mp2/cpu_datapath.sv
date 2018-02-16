@@ -5,7 +5,7 @@ module cpu_datapath
     input clk,
 
     /* control signals */
-    input load_pc,
+   input load_pc,
 	 input load_ir,
 	 input load_regfile,
 	 input load_mar,
@@ -13,7 +13,7 @@ module cpu_datapath
 	 input load_cc,
 	 input lc3b_sel pcmux_sel,
 	 input storemux_sel,
-    input adj6mux_sel,
+   input adj6mux_sel,
 	 input destmux_sel,
 	 input lc3b_sel alumux_sel,
 	 input lc3b_sel regfilemux_sel,
