@@ -11,19 +11,19 @@ logic dirty;
 logic cache_in_mux_sel;
 logic control_load;
 lc3b_c_line cd_data_in;
-logic [2:0] offset;
+logic [3:0] offset;
 logic [127:0] data_out;
 logic [15:0] data_out_mux_out;
 
 always_comb begin
-	offset = cpu_to_cache.ADR[2:0];
+	offset = cpu_to_cache.ADR[3:0] >> 1;
    cache_to_mem.ADR = cpu_to_cache.ADR & 16'hFFF8; // eliminate offset
 	cpu_to_cache.DAT_S = {112'd0, data_out_mux_out};
 end
 
 mux8 #(.width(16)) data_out_mux
 (
-	.sel(offset),
+	.sel(offset[2:0]),
 	.a(data_out[15:0]),
 	.b(data_out[31:16]),
 	.c(data_out[47:32]),

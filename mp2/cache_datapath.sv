@@ -16,19 +16,19 @@ module cache_datapath
 logic load_data;
 logic dirty1_out;
 logic dirty2_out;
-logic [2:0] offset;
+logic [3:0] offset;
 logic [2:0] index;
-logic [9:0] tag;
+logic [8:0] tag;
 logic hit1;
 logic hit2;
 logic lru_out;
 logic lru_in;
 logic data1_write;
 logic data2_write;
-logic [10:0] valid_tag_in1;
-logic [10:0] valid_tag_out1;
-logic [10:0] valid_tag_in2;
-logic [10:0] valid_tag_out2;
+logic [9:0] valid_tag_in1;
+logic [9:0] valid_tag_out1;
+logic [9:0] valid_tag_in2;
+logic [9:0] valid_tag_out2;
 
 lc3b_c_line data1_out;
 lc3b_c_line data2_out;
@@ -36,9 +36,9 @@ lc3b_c_line data2_out;
 always_comb begin
   hit = hit1 | hit2;
   lru_in = ~lru_out;
-  offset = address[2:0];
-  index = address[5:3];
-  tag = address[15:6];
+  offset = address[3:0];
+  index = address[6:4];
+  tag = address[15:7];
   dirty = dirty1_out | dirty2_out;
   load_data = hit & write_enable | control_load;
   if(hit1)
@@ -90,8 +90,8 @@ array data2
 );
 
 always_comb begin
-  valid_tag_in1 = 11'({1'b1, tag});
-  valid_tag_in2 = 11'({1'b1, tag});
+  valid_tag_in1 = 10'({1'b1, tag});
+  valid_tag_in2 = 10'({1'b1, tag});
   if (valid_tag_out1 == {1'd1, tag})
 	hit1 = 1;
   else 
@@ -102,7 +102,7 @@ always_comb begin
 	hit2 = 0;
 end
 
-array #(.width(11)) valid_tag1
+array #(.width(10)) valid_tag1
 (
   .clk(clk),
   .write(data1_write),
@@ -111,7 +111,7 @@ array #(.width(11)) valid_tag1
   .dataout(valid_tag_out1)
 );
 
-array #(.width(11)) valid_tag2
+array #(.width(10)) valid_tag2
 (
   .clk(clk),
   .write(data2_write),
