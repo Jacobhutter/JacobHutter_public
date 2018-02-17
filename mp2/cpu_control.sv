@@ -38,6 +38,7 @@ module cpu_control
 enum int unsigned {
     fetch1,
 	 fetch2,
+	 fetch25,
 	 fetch3,
 	 decode,
 	 s_add_decide,
@@ -49,6 +50,7 @@ enum int unsigned {
 	 s_not,
 	 s_calc_addr,
 	 s_ldr1,
+	 s_ldr15,
 	 s_ldr2,
 	 s_str1,
 	 s_str2,
@@ -122,10 +124,13 @@ begin : state_actions
 		fetch2: begin
 			/* Read memory */
 			mem_read = 1;
+		end
+		
+		fetch25: begin
 			mdrmux_sel = 2'b01;
 			load_mdr = 1;
-		end
-
+		end 
+		
 		fetch3: begin
 			/* Load IR */
 			load_ir = 1;
@@ -180,9 +185,12 @@ begin : state_actions
 		end
 
 		s_ldr1: begin
+			mem_read = 1;
+		end
+		
+		s_ldr15: begin
 			mdrmux_sel = 2'b01;
 			load_mdr = 1;
-			mem_read = 1;
 		end
 
 		s_ldr2: begin
@@ -403,7 +411,11 @@ begin : next_state_logic
 			if(mem_resp == 0)
 				next_state <= fetch2;
 			else
-				next_state <= fetch3;
+				next_state <= fetch25;
+		end
+		
+		fetch25: begin
+			next_state <= fetch3;
 		end
 
 		fetch3: begin
@@ -534,7 +546,11 @@ begin : next_state_logic
 			if(mem_resp == 0)
 				next_state <= s_ldr1;
 			else
-				next_state <= s_ldr2;
+				next_state <= s_ldr15;
+		end
+		
+		s_ldr15: begin
+			next_state <= s_ldr2;
 		end
 
 		s_ldr2: begin

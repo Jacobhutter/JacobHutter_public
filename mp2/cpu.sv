@@ -9,13 +9,11 @@ logic mem_resp; // input
 lc3b_word mem_rdata; // input
 logic mem_read; // output
 logic mem_write; // output
-logic [127:0] mem_rdata_raw;
 lc3b_mem_wmask mem_byte_enable; // output
 lc3b_word mem_address; // output
 lc3b_word mem_wdata; // output
 assign mem_resp = cpu_to_cache.ACK;
-assign mem_rdata_raw = cpu_to_cache.DAT_S >> mem_address[2:0];
-assign mem_rdata = mem_rdata_raw[15:0];
+assign mem_rdata = cpu_to_cache.DAT_S[15:0];
 assign cpu_to_cache.STB = mem_read | mem_write;
 assign cpu_to_cache.CYC = mem_read | mem_write;
 assign cpu_to_cache.WE = mem_write;

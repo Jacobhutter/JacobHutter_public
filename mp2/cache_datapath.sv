@@ -52,9 +52,9 @@ end
 array #(.width(1)) lru
 (
   .clk(clk),
-  .write(load_data),
+  .write(hit),
   .index(index),
-  .datain(lru_in),
+  .datain(hit1),
   .dataout(lru_out)
 );
 

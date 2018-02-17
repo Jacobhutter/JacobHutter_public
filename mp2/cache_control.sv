@@ -11,6 +11,7 @@ module cache_control
 	output logic cache_in_mux_sel,
 	output logic ack_out,
 	output logic stb_out,
+	output logic cyc_out,
 	output logic we_out,
 	output logic control_load
 );
@@ -18,7 +19,6 @@ module cache_control
 enum int unsigned {
    fetch,
 	 mem_read,
-	 mem_wait,
 	 cache_write
 } state, next_state;
 
@@ -30,6 +30,7 @@ begin : state_actions
 	 stb_out = 1'b0;
 	 we_out = 1'b0;
 	 control_load = 1'b0;
+	 cyc_out = 1'b0;
 
 	 case(state)
 
@@ -40,10 +41,9 @@ begin : state_actions
 
 		mem_read: begin
 			we_out = 1'b0;
-			stb_out = 1'b0;
+			stb_out = 1'b1;
+			cyc_out = 1'b1;
 		end
-
-		mem_wait: /* Do nothing */;
 
 		cache_write: begin
 			cache_in_mux_sel = 1'b1; // read in from mem and force load
@@ -70,14 +70,10 @@ begin : next_state_logic
 		end
 
 		mem_read: begin
-			next_state <= mem_wait;
-		end
-
-		mem_wait: begin
-			if(ack_in)
+			if(!ack_in)
+				next_state <= mem_read;
+			else 
 				next_state <= cache_write;
-			else
-				next_state <= mem_wait;
 		end
 
 		cache_write: begin
