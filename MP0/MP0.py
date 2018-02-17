@@ -11,7 +11,8 @@ def Normalize( a ):
     ma = np.amax(a)
     r = ma - mi
     step1 = np.subtract(a,mi).astype('float')
-    step2 = 0.5 * step1 / r
+    step2 = 1 * step1 / r
+    step2 = step2 - np.mean(step2) # center unit norm around 0
     return step2
 
 def GetImage():
@@ -25,7 +26,7 @@ def GetImage():
     return brgImg
 
 def FindOffset(norm1, norm2, norm3):
-    norm1 = norm1.flatten()
+    #norm1 = norm1.flatten()
 
     corr_first = 0
     corr_prev = 0
@@ -34,9 +35,9 @@ def FindOffset(norm1, norm2, norm3):
     for j in range (0,2):
         for i in range(-2,10): # rotate 2nd
             layer1 = np.roll(norm2, i, axis=j)
-            layer1_col = list(zip(*layer1))
-            layer1 = layer1.flatten()
-            corr1 = np.correlate(norm1, layer1)[0]
+            #layer1 = layer1.flatten()
+            print norm1.shape, layer1.shape
+            corr1 = signal.correlate2d(norm1, layer1)[0]
             if i == 0 and j == 0:
                 corr1 = corr1 * 1.003
             if corr1 > corr_first:
@@ -52,9 +53,8 @@ def FindOffset(norm1, norm2, norm3):
     for j in range(0,2):
         for i in range(-2,10):
             layer1 = np.roll(norm3, i, axis=j)
-            layer1_col = list(zip(*layer1))
-            layer1 = layer1.flatten()
-            corr1 = np.correlate(norm1, layer1)[0]
+            # layer1 = layer1.flatten()
+            corr1 = signal.correlate2d(norm1, layer1)[0]
             if corr1 > corr_second:
                 corr_second = corr1
                 global_i_second = i
@@ -89,8 +89,8 @@ gImgNorm = Normalize(gr)
 rImgNorm = Normalize(rr)
 
 i1, j1, c1, i2, j2, c2 = FindOffset(bImgNorm, gImgNorm, rImgNorm)
-i3, j3, c3, i4, j4, c4 = FindOffset(gImgNorm, bImgNorm, rImgNorm)
-i5, j5, c5, i6, j6, c6 = FindOffset(rImgNorm, gImgNorm, bImgNorm)
+i3, j3, c3, i4, j4, c4 = 0 # FindOffset(gImgNorm, bImgNorm, rImgNorm)
+i5, j5, c5, i6, j6, c6 = 0 # FindOffset(rImgNorm, gImgNorm, bImgNorm)
 
 m = max(c1,c2, c3,c4, c5,c6)
 if m == c1 or m == c2:
