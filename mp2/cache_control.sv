@@ -48,7 +48,7 @@ begin : state_actions
 		cache_write: begin
 			cache_in_mux_sel = 1'b1; // read in from mem and force load
 			control_load = 1'b1;
-			ack_out = 1'b1; // say to cpu that value is in data port
+			// ack_out = 1'b1; // say to cpu that value is in data port
 		end
 
 		default: /* Do nothing */;
