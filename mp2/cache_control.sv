@@ -7,11 +7,13 @@ module cache_control
 	input dirty,
 	input stb,
 	input ack_in,
+	input write_enable,
 
 	output logic cache_in_mux_sel,
 	output logic ack_out,
 	output logic stb_out,
 	output logic cyc_out,
+	output logic load_dirty,
 	output logic we_out,
 	output logic control_load
 );
@@ -19,7 +21,9 @@ module cache_control
 enum int unsigned {
    fetch,
 	 mem_read,
-	 cache_write
+	 mem_write,
+	 cache_write,
+	 cache_write_cpu
 } state, next_state;
 
 always_comb
@@ -31,6 +35,7 @@ begin : state_actions
 	 we_out = 1'b0;
 	 control_load = 1'b0;
 	 cyc_out = 1'b0;
+	 load_dirty = 1'b0;
 
 	 case(state)
 
@@ -45,10 +50,18 @@ begin : state_actions
 			cyc_out = 1'b1;
 		end
 
+		mem_write: begin
+			we_out = 1'b1;
+			stb_out = 1'b1;
+			cyc_out = 1'b1;
+		end
+
 		cache_write: begin
 			cache_in_mux_sel = 1'b1; // read in from mem and force load
 			control_load = 1'b1;
-			// ack_out = 1'b1; // say to cpu that value is in data port
+		end
+
+		cache_write_cpu: begin
 		end
 
 		default: /* Do nothing */;
@@ -63,8 +76,12 @@ begin : next_state_logic
 	case(state)
 
 		fetch: begin
-			if (stb & ~hit)
-				next_state <= mem_read;
+			if (stb & ~hit) begin // cache miss
+				if(dirty)
+					next_state <= mem_write; // write back
+				else
+					next_state <= mem_read; // read
+			end
 			else
 				next_state <= fetch;
 		end
@@ -72,11 +89,22 @@ begin : next_state_logic
 		mem_read: begin
 			if(!ack_in)
 				next_state <= mem_read;
-			else 
+			else
 				next_state <= cache_write;
 		end
 
+		mem_write: begin
+			if(!ack_in)
+				next_state <= mem_write;
+			else
+				next_state <= cache_write_cpu;
+		end
+
 		cache_write: begin
+			next_state <= fetch;
+		end
+
+		cache_write_cpu: begin
 			next_state <= fetch;
 		end
 

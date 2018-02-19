@@ -12,14 +12,16 @@ logic mem_write; // output
 lc3b_mem_wmask mem_byte_enable; // output
 lc3b_word mem_address; // output
 lc3b_word mem_wdata; // output
+logic [15:0] mem_byte_mask;
+assign mem_byte_mask = 16'({8'(signed'(mem_byte_enable[1])), 8'(signed'(mem_byte_enable[0]))});
 assign mem_resp = cpu_to_cache.ACK;
 assign mem_rdata = cpu_to_cache.DAT_S[15:0];
 assign cpu_to_cache.STB = mem_read | mem_write;
 assign cpu_to_cache.CYC = mem_read | mem_write;
 assign cpu_to_cache.WE = mem_write;
-assign cpu_to_cache.SEL = 16'({14'd0, mem_byte_enable} << mem_address[2:0]);
+assign cpu_to_cache.SEL = 16'({14'd1, mem_byte_enable} << mem_address[3:0]);
 assign cpu_to_cache.ADR = mem_address;
-assign cpu_to_cache.DAT_M = 128'd0; // just for cp1
+assign cpu_to_cache.DAT_M = 128'({112'd0, mem_wdata & mem_byte_mask}) << mem_address[3:0];
 logic load_pc;
 logic load_ir;
 logic load_regfile;

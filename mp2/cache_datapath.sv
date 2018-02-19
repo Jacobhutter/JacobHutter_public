@@ -16,6 +16,9 @@ module cache_datapath
 logic load_data;
 logic dirty1_out;
 logic dirty2_out;
+logic load_dirty1;
+logic load_dirty2;
+logic dirty_in;
 logic [3:0] offset;
 logic [2:0] index;
 logic [8:0] tag;
@@ -41,6 +44,12 @@ always_comb begin
   tag = address[15:7];
   dirty = dirty1_out | dirty2_out;
   load_data = hit & write_enable | control_load;
+  
+  if(control_load)
+    dirty_in = 0;
+  else
+    dirty_in = 1;
+
   if(hit1)
     data_out = data1_out;
   else if(hit2)
@@ -60,10 +69,12 @@ array #(.width(1)) lru
 
 always_comb begin
   if (lru_out == 0) begin
+    load_dirty1 = load_data & write_enable & hit;
     data1_write = load_data;
     data2_write = 0;
   end
   else begin
+    load_dirty2 = load_data & write_enable & hit;
     data1_write = 0;
     data2_write = load_data;
   end
@@ -94,11 +105,11 @@ always_comb begin
   valid_tag_in2 = 10'({1'b1, tag});
   if (valid_tag_out1 == {1'd1, tag})
 	hit1 = 1;
-  else 
+  else
 	hit1 = 0;
   if (valid_tag_out2 == {1'd1, tag})
 	hit2 = 1;
-  else 
+  else
 	hit2 = 0;
 end
 
@@ -123,18 +134,18 @@ array #(.width(10)) valid_tag2
 array #(.width(1)) dirty1
 (
   .clk(clk),
-  .write(data1_write),
+  .write(load_dirty1),
   .index(index),
-  .datain(1'b1),
+  .datain(dirty_in),
   .dataout(dirty1_out)
 );
 
 array #(.width(1)) dirty2
 (
   .clk(clk),
-  .write(data2_write),
+  .write(load_dirty2),
   .index(index),
-  .datain(1'b1),
+  .datain(dirty_in),
   .dataout(dirty2_out)
 );
 

@@ -8,6 +8,7 @@ module cache
 
 logic hit;
 logic dirty;
+logic load_dirty;
 logic cache_in_mux_sel;
 logic control_load;
 lc3b_c_line cd_data_in;
@@ -17,7 +18,7 @@ logic [15:0] data_out_mux_out;
 
 always_comb begin
 	offset = cpu_to_cache.ADR[3:0] >> 1;
-   cache_to_mem.ADR = cpu_to_cache.ADR & 16'hFFF8; // eliminate offset
+  cache_to_mem.ADR = cpu_to_cache.ADR & 16'hFFF8; // eliminate offset
 	cpu_to_cache.DAT_S = {112'd0, data_out_mux_out};
 end
 
@@ -52,7 +53,8 @@ cache_datapath cd
   .hit,
   .data_out(data_out),
   .dirty,
-  .control_load
+  .control_load,
+  .load_dirty
 );
 
 cache_control cc
@@ -67,7 +69,8 @@ cache_control cc
   .stb_out(cache_to_mem.STB),
   .cyc_out(cache_to_mem.CYC),
   .we_out(cache_to_mem.WE),
-  .control_load
+  .control_load,
+  .load_dirty
 );
 
 endmodule : cache
