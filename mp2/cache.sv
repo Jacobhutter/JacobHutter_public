@@ -14,12 +14,21 @@ logic control_load;
 lc3b_c_line cd_data_in;
 logic [3:0] offset;
 logic [127:0] data_out;
+logic [127:0] full_mask, cpu_to_cache_data;
 logic [15:0] data_out_mux_out;
 
 always_comb begin
+    cache_to_mem.SEL = 16'b1111111111111111;
 	offset = cpu_to_cache.ADR[3:0] >> 1;
-  cache_to_mem.ADR = cpu_to_cache.ADR & 16'hFFF8; // eliminate offset
+    cache_to_mem.ADR = cpu_to_cache.ADR & 16'hFFF8; // eliminate offset
 	cpu_to_cache.DAT_S = {112'd0, data_out_mux_out};
+    full_mask = 128'({8'(signed'(cpu_to_cache.SEL[0])), 8'(signed'(cpu_to_cache.SEL[1])),
+    8'(signed'(cpu_to_cache.SEL[2])), 8'(signed'(cpu_to_cache.SEL[3])), 8'(signed'(cpu_to_cache.SEL[4])),
+    8'(signed'(cpu_to_cache.SEL[5])), 8'(signed'(cpu_to_cache.SEL[6])), 8'(signed'(cpu_to_cache.SEL[7])),
+    8'(signed'(cpu_to_cache.SEL[8])), 8'(signed'(cpu_to_cache.SEL[9])), 8'(signed'(cpu_to_cache.SEL[10])),
+    8'(signed'(cpu_to_cache.SEL[11])), 8'(signed'(cpu_to_cache.SEL[12])), 8'(signed'(cpu_to_cache.SEL[13])),
+    8'(signed'(cpu_to_cache.SEL[14])), 8'(signed'(cpu_to_cache.SEL[15]))});
+    cpu_to_cache_data = (data_out & full_mask) + cpu_to_cache.DAT_M;
 end
 
 mux8 #(.width(16)) data_out_mux
@@ -38,8 +47,8 @@ mux8 #(.width(16)) data_out_mux
 
 mux2 #(.width(128)) cache_in_mux
 (
-  .sel(cache_in_mux_sel),
-	.a(cpu_to_cache.DAT_M),
+    .sel(cache_in_mux_sel),
+	.a(cpu_to_cache_data),
 	.b(cache_to_mem.DAT_S),
 	.f(cd_data_in)
 );

@@ -44,7 +44,7 @@ always_comb begin
   tag = address[15:7];
   dirty = dirty1_out | dirty2_out;
   load_data = hit & write_enable | control_load;
-  
+
   if(control_load)
     dirty_in = 0;
   else
@@ -69,12 +69,12 @@ array #(.width(1)) lru
 
 always_comb begin
   if (lru_out == 0) begin
-    load_dirty1 = load_data & write_enable & hit;
+    load_dirty1 = load_data & write_enable & hit1;
     data1_write = load_data;
     data2_write = 0;
   end
   else begin
-    load_dirty2 = load_data & write_enable & hit;
+    load_dirty2 = load_data & write_enable & hit2;
     data1_write = 0;
     data2_write = load_data;
   end
