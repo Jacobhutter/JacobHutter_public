@@ -13,9 +13,9 @@ module cache_control
 	output logic ack_out,
 	output logic stb_out,
 	output logic cyc_out,
-	output logic load_dirty,
 	output logic we_out,
-	output logic control_load
+	output logic control_load,
+	output logic lru_load
 );
 
 enum int unsigned {
@@ -35,13 +35,15 @@ begin : state_actions
 	 we_out = 1'b0;
 	 control_load = 1'b0;
 	 cyc_out = 1'b0;
-	 load_dirty = 1'b0;
+	 lru_load = 1'b0;
 
 	 case(state)
 
 		fetch: begin
-			if(stb & hit) // if request from cpu comes, respond with ack immediately if ready
+			if(stb & hit) begin // if request from cpu comes, respond with ack immediately if ready
 				ack_out = 1'b1;
+				lru_load = 1'b1;
+			end
 		end
 
 		mem_read: begin
@@ -62,6 +64,7 @@ begin : state_actions
 		end
 
 		cache_write_cpu: begin
+			cache_in_mux_sel = 1'b0;
 		end
 
 		default: /* Do nothing */;
@@ -77,7 +80,7 @@ begin : next_state_logic
 
 		fetch: begin
 			if (stb & ~hit) begin // cache miss
-				if(dirty)
+				if(dirty & write_enable)
 					next_state <= mem_write; // write back
 				else
 					next_state <= mem_read; // read

@@ -7,6 +7,7 @@ module cache_datapath
   input lc3b_c_line data_in,
   input write_enable,
   input control_load,
+  input lru_load,
 
   output logic hit,
   output lc3b_c_line data_out,
@@ -61,22 +62,33 @@ end
 array #(.width(1)) lru
 (
   .clk(clk),
-  .write(hit),
+  .write(lru_load),
   .index(index),
   .datain(hit1),
   .dataout(lru_out)
 );
 
 always_comb begin
-  if (lru_out == 0) begin
-    load_dirty1 = load_data & write_enable & hit1;
+
+  if(!hit) begin // miss
+	if (!lru_out) begin // evict data1 cacheline 
+	 load_dirty1 = load_data & write_enable & hit1;
+	 load_dirty2 = 0;
     data1_write = load_data;
     data2_write = 0;
-  end
-  else begin
+	end
+	else begin // evict data2 cacheline
+	 load_dirty1 = 0;
     load_dirty2 = load_data & write_enable & hit2;
     data1_write = 0;
     data2_write = load_data;
+	end
+  end
+  else begin // hit, load data in correct cacheline when we is high
+	 load_dirty1 = load_data & write_enable & hit1;
+	 load_dirty2 = load_data & write_enable & hit2;
+	 data1_write = load_data & write_enable & hit1;
+	 data2_write = load_data & write_enable & hit2;
   end
 end
 
