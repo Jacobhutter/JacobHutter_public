@@ -1,10 +1,12 @@
 ORIGIN 0
-SEGMENT 0 CODE:
+SEGMENT 0 CODE: 
 	LDR R1, R0, l1p
 	LDR R2, R0, l2p
 	LDR R3, R0, l3p
-	LDR R4, R1, 0 ; cache miss, loads line1
-	LDR R5, R2, 0 ; cache miss, loads line2
+	ADD R5, R5, 10
+	STR R5, R1, 0
+	LDR R4, R1, 0 ; cache miss, loads line1  
+	LDR R5, R2, 0 ; 
 	LDR R6, R1, 0 ; cache hit,  sets line2 as LRU
 	LDR R7, R3, 0 ; cache miss, evicts line2, loads line3
 	LDR R0, R1, 0 ; cache hit,  sets line3 as LRU
