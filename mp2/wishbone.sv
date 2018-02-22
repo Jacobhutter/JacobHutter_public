@@ -4,7 +4,8 @@ interface wishbone (input wire CLK);
   // DAT_I on slave side; vice versa for DAT_S
   logic [127:0] DAT_M, DAT_S;
   logic ACK, CYC, STB, RTY, WE;
-  logic [15:0] SEL, ADR;
+  logic [11:0] ADR;
+  logic [15:0] SEL;
   
   modport master (
 	input DAT_S, CLK, ACK, RTY,

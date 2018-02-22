@@ -10,7 +10,7 @@ parameter DELAY_MEM = 200;
 
 logic [127:0] mem [0:(2**12)-1];
 logic [11:0] internal_address;
-logic [127:0] data;
+logic [127:0] data, wdata;
 logic ready, resp;
 
 /* Initialize memory contents from memory.lst file */
@@ -26,47 +26,61 @@ assign wb.DAT_S = data;
 enum int unsigned {
     idle,
     busy,
-    respond
+    respond,
+	 strobe
 } state, next_state;
+
+always_comb
+begin
+	for (int i = 0; i < 16; i++)
+		wdata[i*8 +:8] = wb.SEL[i] ? wb.DAT_M[i*8 +:8] : mem[internal_address][i*8 +:8];
+
+   /* Default */
+	data = 128'bX;
+	next_state = state;
+	resp = 1'b0;
+	case(state)
+		idle: begin
+			if (wb.CYC & wb.STB)
+				next_state = busy;
+		end
+		busy: begin
+			if (ready == 1)
+				next_state = respond;
+		end
+		respond: begin
+			next_state = strobe;
+			resp = 1'b1;
+			//bad things happen if you change the address in the middle of the transaction
+			if ((wb.ADR == internal_address) && (!wb.WE))
+				data = mem[internal_address];
+		end
+		strobe: begin
+			if ((wb.STB == 0) || (wb.CYC == 0))
+				next_state = idle;
+		end
+		default: next_state = idle;
+	endcase
+end
 
 always @(posedge wb.CLK)
 begin
-    /* Default */
-    resp = 1'b0;
-	 data = 128'bX;
-
-    next_state = state;
-
     case(state)
         idle: begin
             if (wb.CYC & wb.STB) begin
-                next_state = busy;
-					 internal_address = wb.ADR[15:4];
+					 internal_address <= wb.ADR;
                 ready <= #DELAY_MEM 1;
-            end
-        end
-
-        busy: begin
-            if (ready == 1) begin
-                next_state = respond;
             end
         end
 
         respond: begin
 		      //bad things happen if you change the address in the middle of the transaction
-		      if (wb.ADR[15:4] == internal_address) begin
-                if (wb.WE) begin
-                    mem[internal_address] = wb.DAT_M;
-                end else begin
-					     data = mem[internal_address];
-					 end
-                resp = 1;
-		      end
+		      if ((wb.ADR == internal_address) && wb.WE)
+                mem[internal_address] <= wdata;
             ready <= 0;
-            next_state = idle;
         end
 
-        default: next_state = idle;
+        default:;
     endcase
 end
 
