@@ -12,24 +12,23 @@ logic cache_in_mux_sel;
 logic control_load;
 lc3b_c_line cd_data_in;
 logic [127:0] data_out;
-logic [127:0] full_mask, cpu_to_cache_data;
+logic [127:0] full_mask, cpu_to_cache_data, r_dat;
 logic [15:0] data_out_mux_out;
 logic lru_load;
-
-always_comb begin
-	cache_to_mem.DAT_M = data_out;
-   cache_to_mem.SEL = 16'b1111111111111111;
-   cache_to_mem.ADR = cpu_to_cache.ADR;
-	cpu_to_cache.DAT_S = data_out & full_mask; // excise word
-   full_mask = 128'({8'(signed'(cpu_to_cache.SEL[15])), 8'(signed'(cpu_to_cache.SEL[14])),
+assign r_dat = full_mask & data_out;
+assign full_mask = 128'({8'(signed'(cpu_to_cache.SEL[15])), 8'(signed'(cpu_to_cache.SEL[14])),
    8'(signed'(cpu_to_cache.SEL[13])), 8'(signed'(cpu_to_cache.SEL[12])), 8'(signed'(cpu_to_cache.SEL[11])),
    8'(signed'(cpu_to_cache.SEL[10])), 8'(signed'(cpu_to_cache.SEL[9])), 8'(signed'(cpu_to_cache.SEL[8])),
    8'(signed'(cpu_to_cache.SEL[7])), 8'(signed'(cpu_to_cache.SEL[6])), 8'(signed'(cpu_to_cache.SEL[5])),
    8'(signed'(cpu_to_cache.SEL[4])), 8'(signed'(cpu_to_cache.SEL[3])), 8'(signed'(cpu_to_cache.SEL[2])),
    8'(signed'(cpu_to_cache.SEL[1])), 8'(signed'(cpu_to_cache.SEL[0]))});
+always_comb begin
+	cache_to_mem.DAT_M = data_out;
+   cache_to_mem.SEL = 16'b1111111111111111;
+   cache_to_mem.ADR = cpu_to_cache.ADR;
+	cpu_to_cache.DAT_S = r_dat; // excise word
    cpu_to_cache_data = (data_out & ~full_mask) + cpu_to_cache.DAT_M;
 end
-
 mux2 #(.width(128)) cache_in_mux
 (
     .sel(cache_in_mux_sel),

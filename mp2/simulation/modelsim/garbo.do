@@ -1,8 +1,5 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /mp2_tb/clk
-add wave -noupdate /mp2_tb/clk
-add wave -noupdate -radix hexadecimal /mp2_tb/clk
 add wave -noupdate -radix hexadecimal /mp2_tb/dut/mem/DAT_M
 add wave -noupdate -radix hexadecimal /mp2_tb/dut/mem/DAT_S
 add wave -noupdate -radix hexadecimal /mp2_tb/dut/mem/ACK
@@ -43,3 +40,5 @@ configure wave -timeline 0
 configure wave -timelineunits ns
 update
 WaveRestoreZoom {0 ps} {946176 ps}
+restart -f;
+run 50000ns;
