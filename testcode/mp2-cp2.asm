@@ -5,6 +5,8 @@ SEGMENT 0 CODE:
 	LDR R3, R0, l3p
 	ADD R5, R5, 10
 	STR R5, R1, 0
+	ADD R5, R5, 0
+	ADD R5, R5, 0
 	LDR R4, R1, 0 ; cache miss, loads line1  
 	LDR R5, R2, 0 ; 
 	LDR R6, R1, 0 ; cache hit,  sets line2 as LRU

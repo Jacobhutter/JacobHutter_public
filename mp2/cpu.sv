@@ -10,7 +10,6 @@ logic mem_write; // output
 lc3b_mem_wmask mem_byte_enable; // output
 lc3b_word mem_address; // output
 lc3b_word mem_wdata; // output
-logic [15:0] sel_pos;
 logic [15:0] mem_byte_mask;
 logic [127:0] raw_dat;
 logic load_pc;

@@ -50,17 +50,19 @@ begin : state_actions
 			we_out = 1'b0;
 			stb_out = 1'b1;
 			cyc_out = 1'b1;
+			cache_in_mux_sel = 1'b1; // read in from mem and force load
+			if(ack_in)
+				control_load = 1;
 		end
 
 		mem_write: begin
 			we_out = 1'b1;
 			stb_out = 1'b1;
 			cyc_out = 1'b1;
+
 		end
 
 		cache_write: begin
-			cache_in_mux_sel = 1'b1; // read in from mem and force load
-			control_load = 1'b1;
 		end
 
 		cache_write_cpu: begin

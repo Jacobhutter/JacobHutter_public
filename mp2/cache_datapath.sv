@@ -3,7 +3,7 @@ import lc3b_types::*;
 module cache_datapath
 (
   input logic clk,
-  input lc3b_word address,
+  input [11:0] address,
   input lc3b_c_line data_in,
   input write_enable,
   input control_load,
@@ -30,8 +30,8 @@ lc3b_c_line data2_out;
 
 always_comb begin
   hit = hit1 | hit2;
-  index = address[6:4];
-  tag = address[15:7];
+  index = address[2:0];
+  tag = address[11:3];
   dirty = dirty1_out | dirty2_out;
   load_data = hit & write_enable | control_load;
 
