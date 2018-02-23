@@ -20,27 +20,16 @@ logic dirty2_out;
 logic load_dirty1;
 logic load_dirty2;
 logic dirty_in;
-logic [3:0] offset;
 logic [2:0] index;
 logic [8:0] tag;
-logic hit1;
-logic hit2;
-logic lru_out;
-logic lru_in;
-logic data1_write;
-logic data2_write;
-logic [9:0] valid_tag_in1;
-logic [9:0] valid_tag_out1;
-logic [9:0] valid_tag_in2;
-logic [9:0] valid_tag_out2;
+logic hit1, hit2, lru_out, data1_write, data2_write;
+logic [9:0] valid_tag_in1, valid_tag_out1, valid_tag_in2, valid_tag_out2;
 
 lc3b_c_line data1_out;
 lc3b_c_line data2_out;
 
 always_comb begin
   hit = hit1 | hit2;
-  lru_in = ~lru_out;
-  offset = address[3:0];
   index = address[6:4];
   tag = address[15:7];
   dirty = dirty1_out | dirty2_out;

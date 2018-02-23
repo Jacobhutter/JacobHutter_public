@@ -1,13 +1,13 @@
 module mp2(wishbone.master mem);
 
-wishbone cpu_cache(mem.CLK);
+wishbone cpu_to_cache(mem.CLK);
 
-cpu cpu(cpu_cache);
+cpu cpu(cpu_to_cache);
 
 cache cache
 (
-	 .cpu(cpu_cache),
-	 .mem
+	 .cpu_to_cache(cpu_to_cache),
+	 .cache_to_mem(mem)
 );
 
 //comment out the above and connect cpu directly to memory
