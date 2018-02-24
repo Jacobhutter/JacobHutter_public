@@ -15,6 +15,7 @@ module cache_control
 	output logic cyc_out,
 	output logic we_out,
 	output logic control_load,
+	output logic mem_sel,
 	output logic lru_load
 );
 
@@ -23,7 +24,7 @@ enum int unsigned {
 	 mem_read,
 	 mem_write,
 	 cache_write,
-	 cache_write_cpu
+	 mem_write_reset
 } state, next_state;
 
 always_comb
@@ -36,6 +37,7 @@ begin : state_actions
 	 control_load = 1'b0;
 	 cyc_out = 1'b0;
 	 lru_load = 1'b0;
+	 mem_sel = 1'b0;
 
 	 case(state)
 
@@ -47,6 +49,7 @@ begin : state_actions
 		end
 
 		mem_read: begin
+			mem_sel = 1'b0;
 			we_out = 1'b0;
 			stb_out = 1'b1;
 			cyc_out = 1'b1;
@@ -56,17 +59,20 @@ begin : state_actions
 		end
 
 		mem_write: begin
+			mem_sel = 1'b1;
 			we_out = 1'b1;
 			stb_out = 1'b1;
 			cyc_out = 1'b1;
-
+			if(ack_in) begin
+				stb_out = 1'b0; // prep for read
+				cyc_out = 1'b0;
+			end
+		end
+		
+		mem_write_reset: begin
 		end
 
 		cache_write: begin
-		end
-
-		cache_write_cpu: begin
-			cache_in_mux_sel = 1'b0;
 		end
 
 		default: /* Do nothing */;
@@ -101,15 +107,15 @@ begin : next_state_logic
 		mem_write: begin
 			if(!ack_in)
 				next_state <= mem_write;
-			else
-				next_state <= cache_write_cpu;
+			else 
+				next_state <= mem_write_reset;
+		end
+		
+		mem_write_reset: begin
+			next_state <= mem_read;
 		end
 
 		cache_write: begin
-			next_state <= fetch;
-		end
-
-		cache_write_cpu: begin
 			next_state <= fetch;
 		end
 
