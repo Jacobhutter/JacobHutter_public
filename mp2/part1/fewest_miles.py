@@ -48,14 +48,12 @@ def letters_in_a_row_heuristic_plus( node ):
             continue
         letter_hash[graph[i][node.progression_column_indices[i]+1]] += 1
     for key in letter_hash:
-        if d.dist(target_letter, key) > 0:
-            dist_arr.append(d.dist(target_letter, key))
+        dist_arr.append(d.dist(target_letter, key))
         if letter_hash[key] > 1:
             max_freq += letter_hash[key]
         else:
             dist += d.dist(target_letter, key)
-
-    return max(dist_arr) + (5-max_freq)
+    return max(dist_arr) + (5-max_freq) + (1934 - dist)
 
 
 
@@ -134,10 +132,9 @@ def fewest_stops():
                 letter = graph[i][s.progression_column_indices[i] + 1]
                 if target_letter == letter and i != s.row_move:
                     s.progression_column_indices[i] += 1 # all reachable factories from our own free move if same letter
-            s.cost = cur.cost + d.dist(prev_letter, target_letter)
             s.parent = cur
-            s.distance = cur.distance + 1
-            s.g = cur.g + cur.distance + 1
+            s.distance = cur.distance + d.dist(prev_letter, target_letter)
+            s.g = cur.g + cur.distance + d.dist(prev_letter, target_letter)
             s.h = letters_in_a_row_heuristic_plus(s)
             s.f = s.g + s.h
 
@@ -145,17 +142,15 @@ def fewest_stops():
 			#check for lower f entries already open
             if [x for x in open_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
                 continue
-            elif [x for x in closed_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
-		 		continue
             else:
                 open_list.append(s)
 
         closed_list.append(cur)
 
     print cur.distance
-    print cur.cost
+    print cur.distance
     while(cur.parent != -1):
-        print(cur.location, cur.progression_column_indices, cur.cost, graph[cur.location[0]][cur.location[1]])
+        print(cur.location, cur.progression_column_indices, cur.distance, graph[cur.location[0]][cur.location[1]])
         cur = cur.parent
 
 print("starting graph traversal \n")
