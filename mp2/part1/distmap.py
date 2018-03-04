@@ -31,4 +31,7 @@ distmap = {'A': {'A' : 0,
           }
 
 def dist(a, b):
-    return distmap[a][b]
+    if a == -1 or b == -1:
+        return 0
+    else:
+        return distmap[a][b]

@@ -38,7 +38,9 @@ def check_done( l ):
 def letters_in_a_row_heuristic_plus( node ):
     letter_hash = { -1  : 0, 'A' : 0, 'B' : 0, 'C' : 0, 'D' : 0, 'E' : 0}
     max_freq = 0
+    max_dist = 1934
     dist = 0
+    dist_arr = []
     target_letter = graph[node.location[0]][node.location[1]]
     for i in range(5):
         cur_let = graph[i][node.progression_column_indices[i] + 1]
@@ -46,11 +48,14 @@ def letters_in_a_row_heuristic_plus( node ):
             continue
         letter_hash[graph[i][node.progression_column_indices[i]+1]] += 1
     for key in letter_hash:
+        if d.dist(target_letter, key) > 0:
+            dist_arr.append(d.dist(target_letter, key))
         if letter_hash[key] > 1:
             max_freq += letter_hash[key]
+        else:
             dist += d.dist(target_letter, key)
 
-    return (5 - max_freq) + dist
+    return max(dist_arr) + (5-max_freq)
 
 
 
@@ -124,7 +129,7 @@ def fewest_stops():
 
         for s in cur_successors:
             target_letter = graph[s.location[0]][s.location[1]]
-            prev_letter = graph[cur.location[0]][s.location[1]]
+            prev_letter = graph[cur.location[0]][cur.location[1]]
             for i in range(5):
                 letter = graph[i][s.progression_column_indices[i] + 1]
                 if target_letter == letter and i != s.row_move:
@@ -140,6 +145,8 @@ def fewest_stops():
 			#check for lower f entries already open
             if [x for x in open_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
                 continue
+            elif [x for x in closed_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
+		 		continue
             else:
                 open_list.append(s)
 
@@ -148,7 +155,7 @@ def fewest_stops():
     print cur.distance
     print cur.cost
     while(cur.parent != -1):
-        print(cur.location, cur.progression_column_indices, cur.cost)
+        print(cur.location, cur.progression_column_indices, cur.cost, graph[cur.location[0]][cur.location[1]])
         cur = cur.parent
 
 print("starting graph traversal \n")
