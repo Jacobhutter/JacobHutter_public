@@ -20,35 +20,31 @@ class successor:
         self.distance = 0
         self.row_move = 0
 
+def check_equal(l1, l2):
+    for i in range(len(l1)):
+        if l1[i] != l2[i]:
+            return 0
+    return 1
+
 def check_done( l ):
     for i in range(len(l)):
-        if l[i] != 6:
+        if l[i] != 5:
             return 0
     print'success'
     return 1
 
 
 def letters_in_a_row_heuristic( node ):
-    letter_hash = { -1  : 0,
-                    'A' : 0,
-                    'B' : 0,
-                    'C' : 0,
-                    'D' : 0,
-                    'E' : 0,
-                    -1  : 0}
-
+    letter_hash = { -1  : 0, 'A' : 0, 'B' : 0, 'C' : 0, 'D' : 0, 'E' : 0}
+    max_freq = 0
     for i in range(5):
-        cur_let = graph[i][node.progression_column_indices[i]]
+        cur_let = graph[i][node.progression_column_indices[i] + 1]
         if cur_let == -1:
             continue
-        letter_hash[graph[i][node.progression_column_indices[i]]] += 1
-
-    max_freq = 0
-
+        letter_hash[graph[i][node.progression_column_indices[i]+1]] += 1
     for key in letter_hash:
         if letter_hash[key] > 1:
             max_freq += letter_hash[key]
-
     return 5 - max_freq
 
 
@@ -61,7 +57,6 @@ def fewest_stops():
     open_list.append(start_successor)
     while(open_list):
         cur = min(open_list, key = lambda t: t.f) # priority queue
-        print cur.distance, cur.progression_column_indices
         open_list.remove(cur)
 
         if check_done(cur.progression_column_indices):
@@ -73,7 +68,6 @@ def fewest_stops():
 
         # check row 0
         if(cur.progression_column_indices[0] < 5):
-
             s = successor((0, cur.progression_column_indices[0] + 1))
             s.progression_column_indices = np.array([0,0,0,0,0])
             s.progression_column_indices += cur.progression_column_indices
@@ -124,31 +118,23 @@ def fewest_stops():
             cur_successors.append(s)
 
         for s in cur_successors:
-            print s.progression_column_indices
+            target_letter = graph[s.location[0]][s.location[1]]
+            for i in range(5):
+                letter = graph[i][s.progression_column_indices[i] + 1]
+                if target_letter == letter and i != s.row_move:
+                    s.progression_column_indices[i] += 1 # all reachable factories from our own free move if same letter
             s.parent = cur
             s.distance = cur.distance + 1
             s.g = cur.g + cur.distance + 1
             s.h = letters_in_a_row_heuristic(s)
             s.f = s.g + s.h
-            for i in range(5):
-                if s.progression_column_indices[i] > 5: # closed out this row
-                    break
-                target_letter = graph[s.location[0]][s.location[1]]
-                letter = graph[i][s.progression_column_indices[i] + 1]
 
-                if target_letter == letter and i != s.row_move:
-                    s.progression_column_indices[i] += 1 # all reachable factories from our own free move if same letter
-                print target_letter, letter , s.progression_column_indices
 
 			#check for lower f entries already open
-            if [x for x in open_list if x.location == s.location and x.f <= s.f]:
+            if [x for x in open_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
                 continue
-
-		 	#check for lower f entries already closed
-            #elif [x for x in closed_list if x.location == s.location and x.f <= s.f]:
-            #    continue
-            #else:
-            open_list.append(s)
+            else:
+                open_list.append(s)
 
         closed_list.append(cur)
 
