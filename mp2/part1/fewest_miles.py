@@ -1,7 +1,7 @@
 import distmap as d
 import numpy as np
 import sys
-
+N = 5
 # index with [row][col]
 graph = [[-1, 'A', 'E', 'D', 'C', 'A', -1],
          [-1, 'B', 'E', 'A', 'C', 'D', -1],

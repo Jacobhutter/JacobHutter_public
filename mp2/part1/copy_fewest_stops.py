@@ -1,13 +1,13 @@
 import distmap as d
 import numpy as np
 import sys
-N = 5
+N = 8
 # index with [row][col]
-graph = [[-1, 'A', 'E', 'D', 'C', 'A', -1],
-         [-1, 'B', 'E', 'A', 'C', 'D', -1],
-         [-1, 'B', 'A', 'B', 'C', 'E', -1],
-         [-1, 'D', 'A', 'D', 'B', 'D', -1],
-         [-1, 'B', 'E', 'C', 'B', 'D', -1]]
+graph = [[-1, 'E', 'D', 'E', 'D', 'C', 'A', 'C', 'E', -1],
+         [-1, 'D', 'D', 'C', 'C', 'A', 'B', 'D', 'B', -1],
+         [-1, 'A', 'A', 'A', 'C', 'B', 'A', 'A', 'A', -1],
+         [-1, 'C', 'A', 'C', 'A', 'C', 'B', 'A', 'B', -1],
+         [-1, 'B', 'D', 'E', 'C', 'D', 'C', 'C', 'D', -1]]
 
 class successor:
     def __init__(self, loc):
@@ -148,5 +148,4 @@ def fewest_stops():
 
 print("starting graph traversal \n")
 end_node = fewest_stops()
-print graph
 print("ended traversal \n")
