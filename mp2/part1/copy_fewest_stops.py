@@ -1,13 +1,13 @@
 import distmap as d
 import numpy as np
 import sys
-N = 8
+N = 3
 # index with [row][col]
-graph = [[-1, 'E', 'D', 'E', 'D', 'C', 'A', 'C', 'E', -1],
-         [-1, 'D', 'D', 'C', 'C', 'A', 'B', 'D', 'B', -1],
-         [-1, 'A', 'A', 'A', 'C', 'B', 'A', 'A', 'A', -1],
-         [-1, 'C', 'A', 'C', 'A', 'C', 'B', 'A', 'B', -1],
-         [-1, 'B', 'D', 'E', 'C', 'D', 'C', 'C', 'D', -1]]
+graph = [[-1, 'A', 'E', 'C', -1],
+         [-1, 'E', 'D', 'B', -1],
+         [-1, 'D', 'C', 'A', -1],
+         [-1, 'E', 'D', 'E', -1],
+         [-1, 'B', 'E', 'D', -1]]
 
 class successor:
     def __init__(self, loc):
@@ -30,7 +30,7 @@ def check_done( l ):
     for i in range(len(l)):
         if l[i] != N:
             return 0
-    print'success'
+    print ('success')
     return 1
 
 
@@ -135,13 +135,13 @@ def fewest_stops():
             if [x for x in open_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
                 continue
             elif [x for x in closed_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
-		 		continue
+                continue
             else:
                 open_list.append(s)
 
         closed_list.append(cur)
 
-    print 'stops: ', cur.distance, 'nodes_expanded: ', nodes_expanded
+    print ('stops: ', cur.distance, 'nodes_expanded: ', nodes_expanded)
     while(cur.parent != -1):
         print(cur.location, cur.progression_column_indices, graph[cur.location[0]][cur.location[1]])
         cur = cur.parent
