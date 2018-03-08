@@ -11,7 +11,7 @@ lc3b_offset6 offset6;
 lc3b_offset9 offset9;
 lc3b_offset11 offset11;
 lc3b_reg src1, src2, dest;
-lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out,
+lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifpc,
 adj9_out2, adj11_out, adj11_out2, offsetmux_out, imm4, imm5;
 lc3b_sel pcmux_sel;
 lc3b_opcode opcode;
@@ -72,10 +72,19 @@ adj #(.width(11)) adj11
   .out2(adj11_out2)
 );
 
+/*******************************************************************************
+  * IF/ID Stage
+******************************************************************************/
+control_rom cr(
+    .opcode,
+    .bits4_5_11,
+    .ctrl(if_ctrl)
+);
 
 ifid ifid_register
 (
     .clk,
+    .pc_in(pc_out),
     .advance,
     .instr,
     .opcode,
@@ -88,7 +97,10 @@ ifid ifid_register
     .offset11,
     .bits4_5_11
     .imm4,
-    .imm5
+    .imm5,
+    .ifpc,
+    .ctrl_word_in(if_ctrl),
+    .ctrl_word_out(id_ctrl)
 );
 
 

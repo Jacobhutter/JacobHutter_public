@@ -4,14 +4,17 @@ module ifid
 (
     input clk,
     input advance,
+    input lc3b_word pc_in,
     input lc3b_word instr,
+    input lc3b_control_word ctrl_word_in,
     output lc3b_opcode opcode,
     output lc3b_reg dest, src1, src2,
     output lc3b_offset6 offset6,
     output lc3b_offset9 offset9,
     output lc3b_offset11 offset11,
     output logic [2:0] bits4_5_11,
-    output lc3b_word imm4, imm5,
+    output lc3b_word imm4, imm5, ifpc,
+    output lc3b_control_word ctrl_word_out,
 	output logic ready
 );
 
@@ -21,11 +24,13 @@ always_ff @(posedge clk)
 begin
     if (advance == 1)
     begin
+        ifpc = pc_in;
+        ctrl_word_out = ctrl_word_in;
         data = instr;
         ready = 1;
     end
     else
-        ready = 1;
+        ready = 0;
 end
 
 always_comb
