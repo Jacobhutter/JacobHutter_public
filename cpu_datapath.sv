@@ -6,12 +6,16 @@ module cpu_datapath(
   output lc3b_word pc_out
 );
 
-logic load_pc, offsetmux_sel;
-logic [8:0] offset9;
-logic [10:0] offset11;
+logic load_pc, offsetmux_sel, readyifid;
+lc3b_offset6 offset6;
+lc3b_offset9 offset9;
+lc3b_offset11 offset11;
+lc3b_reg src1, src2, dest;
 lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out,
-adj9_out2, adj11_out, adj11_out2, offsetmux_out;
+adj9_out2, adj11_out, adj11_out2, offsetmux_out, imm4, imm5;
 lc3b_sel pcmux_sel;
+lc3b_opcode opcode;
+logic [2:0] bits4_5_11;
 
 
 /*******************************************************************************
@@ -66,6 +70,25 @@ adj #(.width(11)) adj11
 	.in(offset11),
 	.out(adj11_out),
   .out2(adj11_out2)
+);
+
+
+ifid ifid_register
+(
+    .clk,
+    .advance,
+    .instr,
+    .opcode,
+    .dest,
+    .src1,
+    .src2,
+    .ready(readyifid),
+    .offset6,
+    .offset9,
+    .offset11,
+    .bits4_5_11
+    .imm4,
+    .imm5
 );
 
 
