@@ -10,53 +10,64 @@ module ifid
     input lc3b_control_word ctrl_word_in,
 
     output lc3b_reg dest, src1, src2,
+    output logic load_pc,
     output lc3b_offset6 offset6,
     output lc3b_offset9 offset9,
     output lc3b_offset11 offset11,
     output logic mem_request,
-    output lc3b_word imm4, imm5, pc,
+    output lc3b_word imm5, pc,
     output lc3b_control_word ctrl_word_out,
 	output logic ready
 );
-
-lc3b_word data;
 
 always_ff @(posedge clk)
 begin
     load_pc = 1'b0;                     // pc_plus 2
     if (advance == 1)                   // begin step1: increment pc
     begin
+        load_pc = 1;                    // increment pc
+        pc = pc;
+        ctrl_word_out = ctrl_word_out; 
+        dest = 3'd0;
+        src1 = 3'd0;
+        src2 = 3'd0;
+        offset6 = 6'd0;
+        offset9 = 9'd0;
+        offset11 = 11'd0;
+        imm5 = 5'd0;
         ready = 0;                      // ensures advance = 1 not triggered more than once
-        pcmux_sel = 2'b00;
-        load_pc = 1'b1;                 // pc_plus 2
         mem_request = 1'b1;             // begin step 2: fetch memory
+
     end
     else if(mem_resp)
     begin
+        load_pc = 0;
         mem_request = 1'b0;
-        ctrl_word_out = ctrl_word_in;   // step3: build new control signal
-        data = instr;
-        ready = 1;                      // wait for next advance signal
+        ready = 1;
         pc = pc_in;
+        ctrl_word_out = ctrl_word_in;
+        dest = instr[11:9];
+        src1 = instr[8:6];
+        src2 = instr[2:0];
+        offset6 = instr[5:0];
+        offset9 = instr[8:0];
+        offset11 = instr[10:0]
+        imm5 = 16'(signed'(instr[4:0]))
     end
     else begin
+        load_pc = 0;
         pc = pc;
-        data = data;
         ctrl_word_out = ctrl_word_out;
         ready = ready;
+        dest = dest;
+        src1 = src1;
+        src2 = src2;
+        offset6 = offset6;
+        offset9 = offset9;
+        offset11 = offset11;
+        mem_request = mem_request;
+        imm5 = imm5;
     end
-end
-
-always_comb
-begin
-    dest = data[11:9];
-    src1 = data[8:6];
-    src2 = data[2:0];
-    offset6 = data[5:0];
-    offset9 = data[8:0];
-    offset11 = data[10:0]
-	imm5 = 16'(signed'(data[4:0]));
-	imm4 = 16'(signed'(data[3:0]));
 end
 
 endmodule : ifid

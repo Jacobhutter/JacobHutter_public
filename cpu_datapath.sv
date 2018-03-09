@@ -4,16 +4,17 @@ module cpu_datapath(
   input clk,
   input lc3b_word instr,
   input instruction_response,
-  input lc3b_word read_data,
+  input lc3b_word mem_rdata,
   input data_response,
   output lc3b_word instruction_address,
-  output lc3b_word data_address,
+  output lc3b_word mem_address,
   output lc3b_word write_data,
   output logic instruction_request,
-  output logic data_request
+  output logic data_request,
+  output logic write_enable,
 );
 
-logic load_pc, offsetmux_sel, readyifid, readyidex, readyexmem, readymemwb;
+logic load_pc, readyifid, readyidex, readyexmem, readymemwb;
 lc3b_offset6 offset6;
 lc3b_offset9 offset9;
 lc3b_offset11 offset11;
@@ -26,25 +27,23 @@ lc3lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl;
 
 logic [2:0] bits4_5_11;
 assign instruction_address = pc_out;
-
+assign write_enable = wb_ctrl.we;
 /*******************************************************************************
   * PC
 ******************************************************************************/
 register pc
 (
     .clk,
-    .load(wb_ctrl.load_pc),
+    .load(wb_ctrl.load_pc | load_pc)), // load on wb demand or fetch
     .in(pcmux_out),
     .out(pc_out)
 );
 
-mux4 pcmux
+mux2 pcmux
 (
     .sel(wb_ctrl.pcmux_sel & branch_enable),
     .a(pc_plus2_out),
     .b(br_add_out),
-	.c(alu_out),
-	.d(mem_wdata),
     .f(pcmux_out)
 );
 
@@ -99,6 +98,7 @@ ifid ifid_register
     .offset9,
     .offset11,
     .mem_request(instruction_request),
+    .load_pc,
     .pc(ifpc),
     .imm5,
     .ctrl_word_out(id_ctrl),
@@ -111,7 +111,7 @@ ifid ifid_register
 ******************************************************************************/
 mux2 storemux
 (
-    .sel(id_ctrl.storemux_sel),
+    .sel(id_ctrl.storemux_sel | force_dest),
     .a(src1),
     .b(dest),
     .f(storemux_out)
@@ -152,10 +152,12 @@ idex idex_register
     .dest_in(dest),
     .sr1_in(sr1),
     .sr2_in(sr2),
+    .source_data_in(sr1),
     .offset6_in(adj6_out),
     .offset9_in(adj9_out),
     .imm5_in(imm5),
     .pc(idpc),
+    .force_dest,
     .dest_out,
     .sr1_out,
     .sr2_out,
@@ -192,12 +194,16 @@ exmem exmem_register
     .clk,
     .advance,
     .pc_in(idpc),
-    .alu_out,
-    .ex_alu_out,
+    .ex_alu_in(alu_out),
+    .dest_in(dest_out),
+    .offset9_in(offset9_out),
+    .source_data_in(source_data_out),
     .ctrl_word_in(ex_ctrl),
-    .dest(ex_dest),
-    .offset9(ex_offset9),
     .pc(expc),
+    .ex_alu_out,
+    .dest_out(ex_dest),
+    .source_data_out(ex_source_data_out),
+    .offset9_out(ex_offset9),
     .ctrl_word_out(mem_ctrl),
     .ready(readyexmem),
 );
@@ -209,9 +215,9 @@ exmem exmem_register
 mux2 mdrmux
 (
     .sel(mem_ctrl.mdrmux_sel),
-    .a(ex_alu_out),
-    .b(write_data),
-    .f(wb_mem_data_in)
+    .a(ex_source_data_out),
+    .b(mem_rdata),
+    .f(mdrmux_out)
 );
 
 mux2 marmux
@@ -219,7 +225,23 @@ mux2 marmux
     .sel(mem_ctrl.marmux_sel),
     .a(alu_out),
     .b(expc),
-    .f(data_address)
+    .f(marmux_out)
+);
+
+register MDR
+(
+    .clk,
+    .load(load_mdr),
+    .in(mdrmux_out),
+    .out(mem_wdata)
+);
+
+register MAR
+(
+    .clk,
+    .load(load_mar),
+    .in(marmux_out),
+    .out(mem_address)
 );
 
 
@@ -233,8 +255,6 @@ memwb memwb_register
     .wb_mem_data_in(ex_mem_data),
     .data_request,
     .data_response,
-    .write_data,
-    .read_data,
     .dest_in(ex_dest),
     .offset9_in(ex_offset9),
     .dest_out(wb_dest),
@@ -243,7 +263,7 @@ memwb memwb_register
     .pc(mempc),
     .offset9_out(wb_offset9),
     .ctrl_word_out(wb_ctrl),
-    .ready(readymemwb),
+    .ready(readymemwb)
 );
 
 /*******************************************************************************
@@ -254,7 +274,7 @@ mux2 refgilemux
 (
     .sel(wb_ctrl.regfilemux_sel),
     .a(wb_alu_out),
-    .b(wb_mem_data_out),
+    .b(mem_wdata),
     .f(regfilemux_out)
 );
 
@@ -279,7 +299,7 @@ cccomp CCCOMP
         .branch_enable(branch_enable)
 );
 always_comb begin
-    advance <= readyifid & readyidex & readyexmem & readymemwb;
+    advance <= readyifid & readyidex & readyexmem & readymemwb; // when all stages ready, move pipeline along
 end
 
 endmodule : cpu_datapath
