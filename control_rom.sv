@@ -13,13 +13,14 @@ begin
    ctrl.load_cc = 1'b0;
    ctrl.load_pc = 1'b0;
    ctrl.load_regfile = 1'b0;
-   ctrl.alumux_sel = 2'b00;
+   ctrl.alumux_sel = 1'b0;
    ctrl.pcmux_sel = 2'b00;
    ctrl.offsetmux_sel = 1'b0;
+   ctrl.storemux_sel = 1'b0
    ctrl.mdrslice_sel = 1'b0;
    ctrl.regfilemux_sel = 1'b0;
-   ctrl.marmux_sel = 2'b00;
-   ctrl.mdrmux_sel = 2'b00;
+   ctrl.marmux_sel = 1'b0;
+   ctrl.mdrmux_sel = 1'b0;
 
    case(opcode)
        op_add: begin
@@ -27,7 +28,7 @@ begin
            ctrl.load_cc = 1;
            ctrl.load_regfile = 1;
            if(bits4_5_11[1])
-               ctrl.alumux_sel = 2'b01;
+               ctrl.alumux_sel = 1'b1;
 
        end
        op_and: begin
@@ -35,14 +36,14 @@ begin
            ctrl.load_cc = 1;
            load_regfile = 1;
            if(bits4_5_11[1])
-               ctrl.alumux_sel = 2'b01;
+               ctrl.alumux_sel = 1'b1;
        end
        op_not: begin
            ctrl.aluop = alu_not;
            ctrl.load_cc = 1;
            load_regfile = 1;
            if(bits4_5_11[1])
-               ctrl.alumux_sel = 2'b01;
+               ctrl.alumux_sel = 1'b1;
        end
        op_ldr: begin
        end

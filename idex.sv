@@ -1,6 +1,6 @@
 import lc3b_types::*;
 
-module ifid
+module idex
 (
     input clk,
     input advance,
@@ -59,4 +59,4 @@ begin
 	imm4 = 16'(signed'(data[3:0]));
 end
 
-endmodule : ifid
+endmodule : idex
