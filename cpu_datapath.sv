@@ -6,12 +6,13 @@ module cpu_datapath(
   input instruction_response,
   input lc3b_word mem_rdata,
   input data_response,
+
   output lc3b_word instruction_address,
   output lc3b_word mem_address,
   output lc3b_word write_data,
   output logic instruction_request,
   output logic data_request,
-  output logic write_enable,
+  output logic write_enable
 );
 
 logic load_pc, readyifid, readyidex, readyexmem, readymemwb;
@@ -27,7 +28,7 @@ lc3lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl;
 
 logic [2:0] bits4_5_11;
 assign instruction_address = pc_out;
-assign write_enable = wb_ctrl.we;
+assign write_enable = wb_ctrl.mem_write;
 /*******************************************************************************
   * PC
 ******************************************************************************/

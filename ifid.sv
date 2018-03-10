@@ -17,7 +17,7 @@ module ifid
     output logic mem_request,
     output lc3b_word imm5, pc,
     output lc3b_control_word ctrl_word_out,
-	output logic ready
+	  output logic ready
 );
 
 always_ff @(posedge clk)
@@ -27,7 +27,7 @@ begin
     begin
         load_pc = 1;                    // increment pc
         pc = pc;
-        ctrl_word_out = ctrl_word_out; 
+        ctrl_word_out = ctrl_word_out;
         dest = 3'd0;
         src1 = 3'd0;
         src2 = 3'd0;
