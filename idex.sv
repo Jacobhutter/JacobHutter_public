@@ -5,7 +5,7 @@ module idex
     input clk,
     input advance,
     input lc3b_word pc_in,
-    input lc3b_control_wordctrl_word_in,
+    input lc3b_control_word ctrl_word_in,
     input lc3b_reg dest_in,
     input lc3b_word sr1_in,
     input lc3b_word sr2_in,
@@ -40,8 +40,8 @@ begin
         dest_out = dest_in;
         sr1_out = sr1_in;
         sr2_out = sr2_in;
-        offset6_out = offset6_in
-        offset9_out = offset9_in
+        offset6_out = offset6_in;
+        offset9_out = offset9_in;
         imm5_out = imm5_in;
         ctrl_word_out = ctrl_word_in;
     end

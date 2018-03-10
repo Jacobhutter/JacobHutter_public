@@ -15,19 +15,22 @@ module cpu_datapath(
   output logic write_enable
 );
 
-logic load_pc, readyifid, readyidex, readyexmem, readymemwb;
+logic load_pc, load_mar, load_mdr, advance, readyifid, readyidex, readyexmem, readymemwb, force_dest, branch_enable;
 lc3b_offset6 offset6;
 lc3b_offset9 offset9;
 lc3b_offset11 offset11;
-lc3b_reg src1, src2, dest;
+lc3b_reg src1, src2, dest, storemux_out, wb_dest, dest_out, ex_dest, gencc_out, cc_out;
+
 lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifpc,
 idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offsetmux_out, imm5,
-sr1, sr2, dest_out, sr1_out, sr2_out, offset6_out, offset9_out, imm5_out, wb_offset9;
-lc3b_sel pcmux_sel;
-lc3lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl;
+sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, imm5_out, wb_offset9, source_data_out, ex_source_data_out, pc_out,
+regfilemux_out, alumux_out, ex_alu_out, ex_offset9, mdrmux_out, marmux_out, wb_alu_out;
+
+lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl;
 
 logic [2:0] bits4_5_11;
 assign instruction_address = pc_out;
+assign write_data = mem_wdata;
 assign write_enable = wb_ctrl.mem_write;
 /*******************************************************************************
   * PC
@@ -35,7 +38,7 @@ assign write_enable = wb_ctrl.mem_write;
 register pc
 (
     .clk,
-    .load(wb_ctrl.load_pc | load_pc)), // load on wb demand or fetch
+    .load(wb_ctrl.load_pc | load_pc), // load on wb demand or fetch
     .in(pcmux_out),
     .out(pc_out)
 );
@@ -103,14 +106,14 @@ ifid ifid_register
     .pc(ifpc),
     .imm5,
     .ctrl_word_out(id_ctrl),
-    .ready(readyifid),
+    .ready(readyifid)
 );
 
 /*******************************************************************************
   * ID/EX Stage
   * get register contents
 ******************************************************************************/
-mux2 storemux
+mux2 #(.width(3)) storemux
 (
     .sel(id_ctrl.storemux_sel | force_dest),
     .a(src1),
@@ -162,11 +165,12 @@ idex idex_register
     .dest_out,
     .sr1_out,
     .sr2_out,
+	 .source_data_out,
     .offset6_out,
     .offset9_out,
     .imm5_out,
     .ctrl_word_out(ex_ctrl),
-    .ready(readyidex),
+    .ready(readyidex)
 );
 
 /*******************************************************************************
@@ -206,7 +210,7 @@ exmem exmem_register
     .source_data_out(ex_source_data_out),
     .offset9_out(ex_offset9),
     .ctrl_word_out(mem_ctrl),
-    .ready(readyexmem),
+    .ready(readyexmem)
 );
 
 /*******************************************************************************
@@ -250,16 +254,16 @@ memwb memwb_register
 (
     .clk,
     .advance,
-    .pcin(expc)
+    .pc_in(expc),
     .ctrl_word_in(mem_ctrl),
-    .wb_alu_in(ex_alu_out)
-    .wb_mem_data_in(ex_mem_data),
+    .wb_alu_in(ex_alu_out),
     .data_request,
+	 .load_mar,
+	 .load_mdr,
     .data_response,
     .dest_in(ex_dest),
     .offset9_in(ex_offset9),
     .dest_out(wb_dest),
-    .wb_mem_data_out,
     .wb_alu_out,
     .pc(mempc),
     .offset9_out(wb_offset9),

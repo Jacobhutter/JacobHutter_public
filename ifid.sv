@@ -6,7 +6,7 @@ module ifid
     input advance,
     input mem_resp,
     input lc3b_word instr,
-    input lc3b_word pc_in
+    input lc3b_word pc_in,
     input lc3b_control_word ctrl_word_in,
 
     output lc3b_reg dest, src1, src2,
@@ -51,8 +51,8 @@ begin
         src2 = instr[2:0];
         offset6 = instr[5:0];
         offset9 = instr[8:0];
-        offset11 = instr[10:0]
-        imm5 = 16'(signed'(instr[4:0]))
+        offset11 = instr[10:0];
+        imm5 = 16'(signed'(instr[4:0]));
     end
     else begin
         load_pc = 0;

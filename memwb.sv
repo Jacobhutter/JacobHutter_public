@@ -4,13 +4,12 @@ module memwb
 (
     input clk,
     input advance,
-    input lc3b_word pcin,
+    input lc3b_word pc_in,
     input lc3b_reg dest_in,
     input lc3b_word offset9_in,
     input lc3b_control_word ctrl_word_in,
-    input lc3cb_word wb_alu_in,
+    input lc3b_word wb_alu_in,
     input data_response,
-    input lc3b_word read_data,
 
     output logic data_request,
     output logic load_mar,
@@ -22,7 +21,7 @@ module memwb
     output lc3b_control_word ctrl_word_out,
     output logic ready
 );
-
+logic mem_required;
 assign mem_required = ctrl_word_in.mem_read | ctrl_word_in.mem_write;
 always_ff @(posedge clk)
 begin
@@ -53,10 +52,10 @@ begin
             ready = 1;
         end
     end
-    else if(mem_resp)
+    else if(data_response)
     begin
         load_mar = 0;
-        load_mdr = ctrl_word_in.read;
+        load_mdr = ctrl_word_in.mem_read;
         data_request = 0;
         dest_out = dest_in;
         wb_alu_out = wb_alu_in;
