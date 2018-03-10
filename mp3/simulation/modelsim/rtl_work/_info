@@ -2,39 +2,39 @@ m255
 K3
 13
 cModel Technology
-Z0 d/home/jhutter2/ece411/mp0/simulation/modelsim
+Z0 d/home/jhutter2/udonotknodewae-associative_caching/mp3/simulation/modelsim
 vadj
 Z1 DXx6 sv_std 3 std 0 22 F[19LRNL:5;XmIFh[XOPn1
-Z2 DXx4 work 10 lc3b_types 0 22 Qg_eN<QWJ^9MXYanSLdLG2
-DXx4 work 11 adj_sv_unit 0 22 eWg0@M]b]F8^`R2:Si6LZ0
-VE;zLPZ?c`8[LaP1M[Ui<V1
+Z2 DXx4 work 10 lc3b_types 0 22 EN`5L^TRzEDCPo:j;ghOP0
+DXx4 work 11 adj_sv_unit 0 22 3eCScO3U5VUCFh6kNoG2o0
+VeKfG<5N1WRQIz^Yz5nOI63
 r1
 31
-I>N`Be919N6M0Fm?@_1^H63
+Ioa]`4@B]KeB`QGSHCQ@<=3
 S1
-Z3 d/home/jhutter2/ece411/mp0/simulation/modelsim
-Z4 w1516563067
-Z5 8/home/jhutter2/ece411/mp0/adj.sv
-Z6 F/home/jhutter2/ece411/mp0/adj.sv
+Z3 d/home/jhutter2/udonotknodewae-associative_caching/mp3/simulation/modelsim
+Z4 w1520653506
+Z5 8/home/jhutter2/udonotknodewae-associative_caching/mp3/adj.sv
+Z6 F/home/jhutter2/udonotknodewae-associative_caching/mp3/adj.sv
 L0 6
 Z7 OV;L;10.1d;51
-Z8 !s108 1516837129.087728
-Z9 !s107 /home/jhutter2/ece411/mp0/adj.sv|
-Z10 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/adj.sv|
+Z8 !s108 1520714624.544522
+Z9 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/adj.sv|
+Z10 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/adj.sv|
 Z11 o-sv -work work -O0
-Z12 !s92 -sv -work work +incdir+/home/jhutter2/ece411/mp0 -O0
+Z12 !s92 -sv -work work +incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3 -O0
 !s85 0
 !i10b 1
-!s100 RARRdF710mf@3CC2^fZ;O2
+!s100 IAHSD[ff:<?KK:nbQ;kM91
 !s105 adj_sv_unit
 !s101 -O0
 Xadj_sv_unit
 R1
 R2
-VeWg0@M]b]F8^`R2:Si6LZ0
+V3eCScO3U5VUCFh6kNoG2o0
 r1
 31
-IeWg0@M]b]F8^`R2:Si6LZ0
+I3eCScO3U5VUCFh6kNoG2o0
 S1
 R3
 R4
@@ -49,312 +49,459 @@ R11
 R12
 !s85 0
 !i10b 1
-!s100 oe<5WH?oAjdRa4j7R]Wc_3
+!s100 ?db7KmYeFIPW9j1XFbKLE1
 !i103 1
 !s101 -O0
 valu
 R1
 R2
-DXx4 work 11 alu_sv_unit 0 22 Mhlfj;e5L9aGW^6c^4a^02
+DXx4 work 11 alu_sv_unit 0 22 iZ3h4Ij__L]N6BmnLDV4G1
 V=ZN?TEUMd1Ge?6dcD7B5a3
 r1
 31
-IK:0zdSRKHTh0X]Y4M[jCW0
+IUPQ@f2na0BEG>LOQl=K;]1
 S1
 R3
-R4
-Z13 8/home/jhutter2/ece411/mp0/alu.sv
-Z14 F/home/jhutter2/ece411/mp0/alu.sv
+Z13 w1520656587
+Z14 8/home/jhutter2/udonotknodewae-associative_caching/mp3/alu.sv
+Z15 F/home/jhutter2/udonotknodewae-associative_caching/mp3/alu.sv
 L0 3
 R7
-Z15 !s108 1516837129.222018
-Z16 !s107 /home/jhutter2/ece411/mp0/alu.sv|
-Z17 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/alu.sv|
+Z16 !s108 1520714624.385200
+Z17 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/alu.sv|
+Z18 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/alu.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 F1]Ja2i005CJORKi>YMIE2
+!s100 Shgan^S409L[idHVW]`io0
 !s105 alu_sv_unit
 !s101 -O0
 Xalu_sv_unit
 R1
 R2
-VMhlfj;e5L9aGW^6c^4a^02
+ViZ3h4Ij__L]N6BmnLDV4G1
 r1
 31
-IMhlfj;e5L9aGW^6c^4a^02
+IiZ3h4Ij__L]N6BmnLDV4G1
 S1
 R3
-R4
 R13
 R14
+R15
 L0 1
 R7
-R15
 R16
 R17
+R18
 R11
 R12
 !s85 0
 !i10b 1
-!s100 5zDmJ2dVa=[IL2UdL4ndF3
+!s100 IM[m=@SgCSk?zT`^aSS9Y2
 !i103 1
 !s101 -O0
 vcccomp
 R1
 R2
-DXx4 work 14 cccomp_sv_unit 0 22 <a9S6E:94He>J65bJk59[3
+DXx4 work 14 cccomp_sv_unit 0 22 0bjV^Sfaa>j64Kc:el[W92
 V]GoCE8a`6gKi_S6n:b5J[2
 r1
 31
-I7UYXdK^9XG@CzQ2N6Z_`X0
+IaaCe`E<ael;iCaHA9[07B1
 S1
 R3
-Z18 w1516653122
-Z19 8/home/jhutter2/ece411/mp0/cccomp.sv
-Z20 F/home/jhutter2/ece411/mp0/cccomp.sv
+Z19 w1520656988
+Z20 8/home/jhutter2/udonotknodewae-associative_caching/mp3/cccomp.sv
+Z21 F/home/jhutter2/udonotknodewae-associative_caching/mp3/cccomp.sv
 L0 3
 R7
-Z21 !s108 1516837130.306099
-Z22 !s107 /home/jhutter2/ece411/mp0/cccomp.sv|
-Z23 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/cccomp.sv|
+Z22 !s108 1520714624.219417
+Z23 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/cccomp.sv|
+Z24 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/cccomp.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 CMI@GRFHd>2:B2CdRM2:R2
+!s100 ?gZnTAAf:MXD:GWAZ925i0
 !s105 cccomp_sv_unit
 !s101 -O0
 Xcccomp_sv_unit
 R1
 R2
-V<a9S6E:94He>J65bJk59[3
+V0bjV^Sfaa>j64Kc:el[W92
 r1
 31
-I<a9S6E:94He>J65bJk59[3
+I0bjV^Sfaa>j64Kc:el[W92
 S1
 R3
-R18
 R19
 R20
+R21
 L0 1
 R7
-R21
 R22
 R23
+R24
 R11
 R12
 !s85 0
 !i10b 1
-!s100 8M>YD?=`C@::mojS`fBH`0
+!s100 78CcmXnImQ18@8jz=o;Dn3
 !i103 1
 !s101 -O0
-vcontrol
+vcontrol_rom
 R1
 R2
-DXx4 work 15 control_sv_unit 0 22 gjX[IUP`?Xj1DB_h`<i[E1
-VC_VAIYCMPKBNhjBIBT?WD1
+DXx4 work 19 control_rom_sv_unit 0 22 4IGfY77O4;lj5CzM8n[hG3
+V1`0d:@<1R<fmBBnBCJLBB0
 r1
 31
-IBddlza8GHLSA_ZS93Q52^3
+IgIUAWG0U6T;z4ZY7Cze[Z1
 S1
 R3
-R4
-Z24 8/home/jhutter2/ece411/mp0/control.sv
-Z25 F/home/jhutter2/ece411/mp0/control.sv
-L0 3
+Z25 w1520656018
+Z26 8/home/jhutter2/udonotknodewae-associative_caching/mp3/control_rom.sv
+Z27 F/home/jhutter2/udonotknodewae-associative_caching/mp3/control_rom.sv
+L0 2
 R7
-Z26 !s108 1516837129.388320
-Z27 !s107 /home/jhutter2/ece411/mp0/control.sv|
-Z28 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/control.sv|
+Z28 !s108 1520714624.074674
+Z29 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/control_rom.sv|
+Z30 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/control_rom.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 1CWkh^4o__hfYGE@RBOYf3
-!s105 control_sv_unit
+!s100 fd5YeRIF@<^DNQF7BGBW80
+!s105 control_rom_sv_unit
 !s101 -O0
-Xcontrol_sv_unit
+Xcontrol_rom_sv_unit
 R1
 R2
-VgjX[IUP`?Xj1DB_h`<i[E1
+V4IGfY77O4;lj5CzM8n[hG3
 r1
 31
-IgjX[IUP`?Xj1DB_h`<i[E1
+I4IGfY77O4;lj5CzM8n[hG3
 S1
 R3
-R4
-R24
 R25
-L0 1
-R7
 R26
 R27
-R28
-R11
-R12
-!s85 0
-!i10b 1
-!s100 dm;K03>j6k@zVDDR;ALNb2
-!i103 1
-!s101 -O0
-vdatapath
-R1
-R2
-DXx4 work 16 datapath_sv_unit 0 22 X>:UfQ]oEEbz<Tbae0Pk13
-VJlM@Z0_EXLa7`CnXHin9I0
-r1
-31
-IZKFiL5YD=Xh`21>i2CK^:2
-S1
-R3
-Z29 w1516568781
-Z30 8/home/jhutter2/ece411/mp0/datapath.sv
-Z31 F/home/jhutter2/ece411/mp0/datapath.sv
-L0 3
-R7
-Z32 !s108 1516837130.528020
-Z33 !s107 /home/jhutter2/ece411/mp0/datapath.sv|
-Z34 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/datapath.sv|
-R11
-R12
-!s85 0
-!i10b 1
-!s100 jcIM;jijG1J4AZTRQoEaA0
-!s105 datapath_sv_unit
-!s101 -O0
-Xdatapath_sv_unit
-R1
-R2
-VX>:UfQ]oEEbz<Tbae0Pk13
-r1
-31
-IX>:UfQ]oEEbz<Tbae0Pk13
-S1
-R3
-R29
-R30
-R31
 L0 1
 R7
-R32
-R33
-R34
+R28
+R29
+R30
 R11
 R12
 !s85 0
 !i10b 1
-!s100 Y;mJE?H:@;iT0D8e]ALA92
+!s100 aOSl?IWhgQ916oh6Z1R4P2
+!i103 1
+!s101 -O0
+vcpu
+R1
+R2
+DXx4 work 11 cpu_sv_unit 0 22 2UN@iz]4WU_f5oC<_C8AB1
+Vh1g>PZF>:fH;@=22ObH[P3
+r1
+31
+IB`HI;o6B=3bTZOAIXfM3L0
+S1
+R3
+Z31 w1520656888
+Z32 8/home/jhutter2/udonotknodewae-associative_caching/mp3/cpu.sv
+Z33 F/home/jhutter2/udonotknodewae-associative_caching/mp3/cpu.sv
+L0 3
+R7
+Z34 !s108 1520714624.871264
+Z35 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/cpu.sv|
+Z36 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/cpu.sv|
+R11
+R12
+!s85 0
+!i10b 1
+!s100 24BDS46B[YNll2Y^d=HW@1
+!s105 cpu_sv_unit
+!s101 -O0
+vcpu_datapath
+R1
+R2
+DXx4 work 20 cpu_datapath_sv_unit 0 22 8k2QE2@HEbLYQehcHzo:W0
+Va<PB6SnCf>RODdE:;0i;K1
+r1
+31
+IjG:R<UDTgVKQ]ezkVJ[J]3
+S1
+R3
+Z37 w1520659691
+Z38 8/home/jhutter2/udonotknodewae-associative_caching/mp3/cpu_datapath.sv
+Z39 F/home/jhutter2/udonotknodewae-associative_caching/mp3/cpu_datapath.sv
+L0 3
+R7
+Z40 !s108 1520714624.705957
+Z41 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/cpu_datapath.sv|
+Z42 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/cpu_datapath.sv|
+R11
+R12
+!s85 0
+!i10b 1
+!s100 G:o?W<d4[P^QzVbUFK[:H2
+!s105 cpu_datapath_sv_unit
+!s101 -O0
+Xcpu_datapath_sv_unit
+R1
+R2
+V8k2QE2@HEbLYQehcHzo:W0
+r1
+31
+I8k2QE2@HEbLYQehcHzo:W0
+S1
+R3
+R37
+R38
+R39
+L0 1
+R7
+R40
+R41
+R42
+R11
+R12
+!s85 0
+!i10b 1
+!s100 mzFe_HA7LIFk>b4BIU8Wj2
+!i103 1
+!s101 -O0
+Xcpu_sv_unit
+R1
+R2
+V2UN@iz]4WU_f5oC<_C8AB1
+r1
+31
+I2UN@iz]4WU_f5oC<_C8AB1
+S1
+R3
+R31
+R32
+R33
+L0 1
+R7
+R34
+R35
+R36
+R11
+R12
+!s85 0
+!i10b 1
+!s100 fBC]WQkb<mQ6_T7IFU_^l3
+!i103 1
+!s101 -O0
+vexmem
+R1
+R2
+DXx4 work 13 exmem_sv_unit 0 22 ^UBQ:fEU@:AoCIB4`Z1K73
+V16EbXg4V9b]YbDc1Ii4U33
+r1
+31
+II16jgOBD?53he7@0S8FWh2
+S1
+R3
+Z43 w1520656623
+Z44 8/home/jhutter2/udonotknodewae-associative_caching/mp3/exmem.sv
+Z45 F/home/jhutter2/udonotknodewae-associative_caching/mp3/exmem.sv
+L0 3
+R7
+Z46 !s108 1520714623.923690
+Z47 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/exmem.sv|
+Z48 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/exmem.sv|
+R11
+R12
+!s85 0
+!i10b 1
+!s100 79LkB8@LfACk6`Pa@lF;R3
+!s105 exmem_sv_unit
+!s101 -O0
+Xexmem_sv_unit
+R1
+R2
+V^UBQ:fEU@:AoCIB4`Z1K73
+r1
+31
+I^UBQ:fEU@:AoCIB4`Z1K73
+S1
+R3
+R43
+R44
+R45
+L0 1
+R7
+R46
+R47
+R48
+R11
+R12
+!s85 0
+!i10b 1
+!s100 YaHnnkCak9h^DW`;`:PP[1
 !i103 1
 !s101 -O0
 vgencc
 R1
 R2
-DXx4 work 13 gencc_sv_unit 0 22 =j`YY[A^VAaG5iECz0ZlK1
+DXx4 work 13 gencc_sv_unit 0 22 ni_Ii[IcFVNi_DfUM5fI=3
 VWC`9gVLYW_h075<FQmcHc2
 r1
 31
-I]haa=Gc`L@UGZ7FC;kLGT0
+I1EkjSeK8PNh]H@B>eWkXk1
 S1
 R3
-R4
-Z35 8/home/jhutter2/ece411/mp0/gencc.sv
-Z36 F/home/jhutter2/ece411/mp0/gencc.sv
+Z49 w1520656979
+Z50 8/home/jhutter2/udonotknodewae-associative_caching/mp3/gencc.sv
+Z51 F/home/jhutter2/udonotknodewae-associative_caching/mp3/gencc.sv
 L0 3
 R7
-Z37 !s108 1516837129.653154
-Z38 !s107 /home/jhutter2/ece411/mp0/gencc.sv|
-Z39 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/gencc.sv|
+Z52 !s108 1520714623.657418
+Z53 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/gencc.sv|
+Z54 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/gencc.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 >J5[5:=_Th9ACOMk9_V_h3
+!s100 6SI;cPDBRGFo6SEdBDbn^0
 !s105 gencc_sv_unit
 !s101 -O0
 Xgencc_sv_unit
 R1
 R2
-V=j`YY[A^VAaG5iECz0ZlK1
+Vni_Ii[IcFVNi_DfUM5fI=3
 r1
 31
-I=j`YY[A^VAaG5iECz0ZlK1
+Ini_Ii[IcFVNi_DfUM5fI=3
 S1
 R3
-R4
-R35
-R36
+R49
+R50
+R51
 L0 1
 R7
-R37
-R38
-R39
+R52
+R53
+R54
 R11
 R12
 !s85 0
 !i10b 1
-!s100 QXXmg>GRGk09><QKdh1aH2
+!s100 162Z9Kl=7m;bP;Yz^6aYH2
 !i103 1
 !s101 -O0
-vir
+videx
 R1
 R2
-DXx4 work 10 ir_sv_unit 0 22 I<fBZ^H?l]gmYdbj3=C4h2
-Vn5IlH6W?5_^fYXjCz=Tl<1
+DXx4 work 12 idex_sv_unit 0 22 1mDEbb1G:::R0mlo5U21E3
+V1ELk_XPTDo9KD<SjfX3Se1
 r1
 31
-I6LU[K9_Wh^:i1=mnLeOLl0
+IdECjXN^bo`lBcY]`7>Jz<0
 S1
 R3
-R4
-Z40 8/home/jhutter2/ece411/mp0/ir.sv
-Z41 F/home/jhutter2/ece411/mp0/ir.sv
+Z55 w1520655426
+Z56 8/home/jhutter2/udonotknodewae-associative_caching/mp3/idex.sv
+Z57 F/home/jhutter2/udonotknodewae-associative_caching/mp3/idex.sv
 L0 3
 R7
-Z42 !s108 1516837129.934477
-Z43 !s107 /home/jhutter2/ece411/mp0/ir.sv|
-Z44 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/ir.sv|
+Z58 !s108 1520714623.397234
+Z59 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/idex.sv|
+Z60 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/idex.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 2B[>:B?Kd8DmeczL?akkE2
-!s105 ir_sv_unit
+!s100 VJ1zJ1nKIGNZb5b4SKE=n1
+!s105 idex_sv_unit
 !s101 -O0
-Xir_sv_unit
+Xidex_sv_unit
 R1
 R2
-VI<fBZ^H?l]gmYdbj3=C4h2
+V1mDEbb1G:::R0mlo5U21E3
 r1
 31
-II<fBZ^H?l]gmYdbj3=C4h2
+I1mDEbb1G:::R0mlo5U21E3
 S1
 R3
-R4
-R40
-R41
+R55
+R56
+R57
 L0 1
 R7
-R42
-R43
-R44
+R58
+R59
+R60
 R11
 R12
 !s85 0
 !i10b 1
-!s100 m;=<Lf8YOEnUh3RQ`EB8G3
+!s100 NKaB[9mfcmLH5dAjiT;6>2
+!i103 1
+!s101 -O0
+vifid
+R1
+R2
+DXx4 work 12 ifid_sv_unit 0 22 SbmmAXZRLLk;Af1kB4zlj2
+VOcQPNf::lo6IWh5En2F:m3
+r1
+31
+IG=g4a=jE1T^eEQ:BPlW4P0
+S1
+R3
+Z61 w1520655680
+Z62 8/home/jhutter2/udonotknodewae-associative_caching/mp3/ifid.sv
+Z63 F/home/jhutter2/udonotknodewae-associative_caching/mp3/ifid.sv
+L0 3
+R7
+Z64 !s108 1520714623.070699
+Z65 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/ifid.sv|
+Z66 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/ifid.sv|
+R11
+R12
+!s85 0
+!i10b 1
+!s100 Ya1>=7FAP_9=gULbWYZ6S2
+!s105 ifid_sv_unit
+!s101 -O0
+Xifid_sv_unit
+R1
+R2
+VSbmmAXZRLLk;Af1kB4zlj2
+r1
+31
+ISbmmAXZRLLk;Af1kB4zlj2
+S1
+R3
+R61
+R62
+R63
+L0 1
+R7
+R64
+R65
+R66
+R11
+R12
+!s85 0
+!i10b 1
+!s100 YZSKDOeioBK5A`1NcnJ3n1
 !i103 1
 !s101 -O0
 Xlc3b_types
 R1
-IQg_eN<QWJ^9MXYanSLdLG2
-VQg_eN<QWJ^9MXYanSLdLG2
+IEN`5L^TRzEDCPo:j;ghOP0
+VEN`5L^TRzEDCPo:j;ghOP0
 S1
 R3
-R4
-8/home/jhutter2/ece411/mp0/lc3b_types.sv
-F/home/jhutter2/ece411/mp0/lc3b_types.sv
+w1520655261
+8/home/jhutter2/udonotknodewae-associative_caching/mp3/lc3b_types.sv
+F/home/jhutter2/udonotknodewae-associative_caching/mp3/lc3b_types.sv
 L0 1
 R7
 r1
@@ -362,93 +509,93 @@ r1
 R11
 R12
 !i10b 1
-!s100 JnYj>MSkUcDESPQP`8PG43
+!s100 Q^VZLjSIA;cm2>lc1of1T3
 !s85 0
-!s108 1516837128.678480
-!s107 /home/jhutter2/ece411/mp0/lc3b_types.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/lc3b_types.sv|
+!s108 1520714622.392400
+!s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/lc3b_types.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/lc3b_types.sv|
 !s101 -O0
 vmagic_memory
 R1
 !i10b 1
-!s100 TAXF[C2PF8V7^?TAfNX]81
-I>zSnC_a_]DoLbSmCjdi0?1
-ViK2>HhU]4OCD;0:S[MU2l1
-!s105 magic_memory_sv_unit
+!s100 M8aFM7gjXBM2HzLoLz8A:3
+IRIX8JHbfKGR@kF]FRmjhD2
+VFVD<m905E]77I77nc2bUb3
+!s105 magic_memory_dual_port_sv_unit
 S1
 R3
 R4
-8/home/jhutter2/ece411/mp0/magic_memory.sv
-F/home/jhutter2/ece411/mp0/magic_memory.sv
-L0 4
+8/home/jhutter2/udonotknodewae-associative_caching/mp3/magic_memory_dual_port.sv
+F/home/jhutter2/udonotknodewae-associative_caching/mp3/magic_memory_dual_port.sv
+L0 1
 R7
 r1
 !s85 0
 31
-!s108 1516837130.961949
-!s107 /home/jhutter2/ece411/mp0/magic_memory.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/magic_memory.sv|
+!s108 1520714625.141312
+!s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/magic_memory_dual_port.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/magic_memory_dual_port.sv|
 !s101 -O0
 R11
 R12
-vmp0
+vmemwb
 R1
 R2
-DXx4 work 11 mp0_sv_unit 0 22 NnZFBj0SL2@XPNX]k]QA32
-VhVE05oimBkLOzUIZD3oo_3
+DXx4 work 13 memwb_sv_unit 0 22 iN_R?41V]<Xi`]bmAIP7m2
+VKDXg3dJ^GU7j85Iz=`[1E0
 r1
 31
-IQ1ijdgGR4DGYP5O><_3S42
+IE_IgMe;W7cXe;V>9]@0MO0
 S1
 R3
-Z45 w1516565162
-Z46 8/home/jhutter2/ece411/mp0/mp0.sv
-Z47 F/home/jhutter2/ece411/mp0/mp0.sv
+Z67 w1520714609
+Z68 8/home/jhutter2/udonotknodewae-associative_caching/mp3/memwb.sv
+Z69 F/home/jhutter2/udonotknodewae-associative_caching/mp3/memwb.sv
 L0 3
 R7
-Z48 !s108 1516837130.676962
-Z49 !s107 /home/jhutter2/ece411/mp0/mp0.sv|
-Z50 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/mp0.sv|
+Z70 !s108 1520714622.873517
+Z71 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/memwb.sv|
+Z72 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/memwb.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 =PFh_l;idn1P1]Lf6;3m_1
-!s105 mp0_sv_unit
+!s100 h4H6hKXIGhX[WJ_NDQ9_I1
+!s105 memwb_sv_unit
 !s101 -O0
-Xmp0_sv_unit
+Xmemwb_sv_unit
 R1
 R2
-VNnZFBj0SL2@XPNX]k]QA32
+ViN_R?41V]<Xi`]bmAIP7m2
 r1
 31
-INnZFBj0SL2@XPNX]k]QA32
+IiN_R?41V]<Xi`]bmAIP7m2
 S1
 R3
-R45
-R46
-R47
+R67
+R68
+R69
 L0 1
 R7
-R48
-R49
-R50
+R70
+R71
+R72
 R11
 R12
 !s85 0
 !i10b 1
-!s100 QFE_bIzJni?]N7MbiY=_Y0
+!s100 eRfI_hNITjn233`MT9ASg3
 !i103 1
 !s101 -O0
-vmp0_tb
+vmp3_tb
 R1
-IK8kbzUD27k=5fEmHlYDln1
-V7>BAOb1h_]dNe^A1[^Zk32
+I@KIgVNF:7P[V0I5LXainz3
+VGRaNXc@:Z3jVCaTT0F9jW2
 S1
 R3
 R4
-8/home/jhutter2/ece411/mp0/mp0_tb.sv
-F/home/jhutter2/ece411/mp0/mp0_tb.sv
+8/home/jhutter2/udonotknodewae-associative_caching/mp3/mp3_tb.sv
+F/home/jhutter2/udonotknodewae-associative_caching/mp3/mp3_tb.sv
 L0 1
 R7
 r1
@@ -456,22 +603,22 @@ r1
 R11
 R12
 !i10b 1
-!s100 lR5K0f;zko<?6718=A?>E3
-!s105 mp0_tb_sv_unit
+!s100 HHZBjk7E;E?Rb;2YY7N:D3
+!s105 mp3_tb_sv_unit
 !s85 0
-!s108 1516837130.863944
-!s107 /home/jhutter2/ece411/mp0/mp0_tb.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/mp0_tb.sv|
+!s108 1520714625.041510
+!s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/mp3_tb.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/mp3_tb.sv|
 !s101 -O0
 vmux2
 R1
-IYemi?h89z[3Jif]43zKBD3
+IU;TBh4:4G8G2a@186>hiW0
 V8m]l]_QnJ>bC;o8UdVIPk2
 S1
 R3
 R4
-8/home/jhutter2/ece411/mp0/mux2.sv
-F/home/jhutter2/ece411/mp0/mux2.sv
+8/home/jhutter2/udonotknodewae-associative_caching/mp3/mux2.sv
+F/home/jhutter2/udonotknodewae-associative_caching/mp3/mux2.sv
 L0 1
 R7
 r1
@@ -479,22 +626,22 @@ r1
 R11
 R12
 !i10b 1
-!s100 XnQU>?9SOniPmX0dUPaP62
+!s100 nkO^gIY^z:?h@HNN`DkJo1
 !s105 mux2_sv_unit
 !s85 0
-!s108 1516837128.999281
-!s107 /home/jhutter2/ece411/mp0/mux2.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/mux2.sv|
+!s108 1520714622.267454
+!s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/mux2.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/mux2.sv|
 !s101 -O0
 vplus2
 R1
-IO5dHS2^MBMQe;P<LmSFYn3
+I`:<<WB:=`28:lN4BZl99b3
 V8Yjd6>kf[QVaNB:l@BLiW1
 S1
 R3
 R4
-8/home/jhutter2/ece411/mp0/plus2.sv
-F/home/jhutter2/ece411/mp0/plus2.sv
+8/home/jhutter2/udonotknodewae-associative_caching/mp3/plus2.sv
+F/home/jhutter2/udonotknodewae-associative_caching/mp3/plus2.sv
 L0 1
 R7
 r1
@@ -502,71 +649,71 @@ r1
 R11
 R12
 !i10b 1
-!s100 2dVQJYKfeo3B89d5a0K]n0
+!s100 <AA`Od00fhkTfMSGei0ZC3
 !s105 plus2_sv_unit
 !s85 0
-!s108 1516837128.764826
-!s107 /home/jhutter2/ece411/mp0/plus2.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/plus2.sv|
+!s108 1520714622.163509
+!s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/plus2.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/plus2.sv|
 !s101 -O0
 vregfile
 R1
 R2
-DXx4 work 15 regfile_sv_unit 0 22 4CDH`ASOd:J]S7i=O;6UK0
+DXx4 work 15 regfile_sv_unit 0 22 ZDAY;Oc3heTLG4[`hzXC]3
 V`Wb6ocgM=VWm:Fa<3Fznl1
 r1
 31
-IBem1R]9UDdM]P[XeEFfM=3
+IY@?INflgUC@NT2zRegI^V3
 S1
 R3
 R4
-Z51 8/home/jhutter2/ece411/mp0/regfile.sv
-Z52 F/home/jhutter2/ece411/mp0/regfile.sv
+Z73 8/home/jhutter2/udonotknodewae-associative_caching/mp3/regfile.sv
+Z74 F/home/jhutter2/udonotknodewae-associative_caching/mp3/regfile.sv
 L0 3
 R7
-Z53 !s108 1516837130.097235
-Z54 !s107 /home/jhutter2/ece411/mp0/regfile.sv|
-Z55 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/regfile.sv|
+Z75 !s108 1520714622.652501
+Z76 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/regfile.sv|
+Z77 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/regfile.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 OV9TGe79>4L:iVQ1<cG0n2
+!s100 W7NK^og4nE:nc:SaYKzWd2
 !s105 regfile_sv_unit
 !s101 -O0
 Xregfile_sv_unit
 R1
 R2
-V4CDH`ASOd:J]S7i=O;6UK0
+VZDAY;Oc3heTLG4[`hzXC]3
 r1
 31
-I4CDH`ASOd:J]S7i=O;6UK0
+IZDAY;Oc3heTLG4[`hzXC]3
 S1
 R3
 R4
-R51
-R52
+R73
+R74
 L0 1
 R7
-R53
-R54
-R55
+R75
+R76
+R77
 R11
 R12
 !s85 0
 !i10b 1
-!s100 HB8lj3[R]eBj3Qf_z1agn1
+!s100 WO[V6_S=GDNnmEZ;fjSI21
 !i103 1
 !s101 -O0
 vregister
 R1
-IKGAAO[`<XbcQ?1E7z5HmF0
+I6A=TmjC5dI0Dd[eY[5o=>1
 VVWH2GIcWRQ29K?3;26c491
 S1
 R3
 R4
-8/home/jhutter2/ece411/mp0/register.sv
-F/home/jhutter2/ece411/mp0/register.sv
+8/home/jhutter2/udonotknodewae-associative_caching/mp3/register.sv
+F/home/jhutter2/udonotknodewae-associative_caching/mp3/register.sv
 L0 1
 R7
 r1
@@ -574,10 +721,82 @@ r1
 R11
 R12
 !i10b 1
-!s100 OCmKC3_15O[]Jd3UkH:^H3
+!s100 9VF@`2bYFh]8T;eWO2nKg0
 !s105 register_sv_unit
 !s85 0
-!s108 1516837128.894614
-!s107 /home/jhutter2/ece411/mp0/register.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/ece411/mp0|/home/jhutter2/ece411/mp0/register.sv|
+!s108 1520714621.928451
+!s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/register.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/register.sv|
+!s101 -O0
+Ywishbone
+R1
+IK;?CN]Zzn=PN7?XTn@cF72
+VPb?@ZGYY13KOKQz0;6;n91
+S1
+R3
+R4
+8/home/jhutter2/udonotknodewae-associative_caching/mp3/wishbone.sv
+F/home/jhutter2/udonotknodewae-associative_caching/mp3/wishbone.sv
+L0 1
+R7
+r1
+31
+R11
+R12
+!i10b 1
+!s100 mI7Jeh]^52:5SW0c@lLJh2
+!s105 wishbone_sv_unit
+!s85 0
+!s108 1520714621.817984
+!s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/wishbone.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/wishbone.sv|
+!s101 -O0
+vwishbone_interface
+R1
+R2
+DXx4 work 26 wishbone_interface_sv_unit 0 22 F8aB0G37_Kfi?;2OFgL<L2
+VTCblV;o:5@PUX19KZLSgo2
+r1
+31
+IJJ_:Dk<DkG7B0D=N`hD^D3
+S1
+R3
+Z78 w1520655868
+Z79 8/home/jhutter2/udonotknodewae-associative_caching/mp3/wishbone_interface.sv
+Z80 F/home/jhutter2/udonotknodewae-associative_caching/mp3/wishbone_interface.sv
+L0 3
+R7
+Z81 !s108 1520714622.508234
+Z82 !s107 /home/jhutter2/udonotknodewae-associative_caching/mp3/wishbone_interface.sv|
+Z83 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/jhutter2/udonotknodewae-associative_caching/mp3|/home/jhutter2/udonotknodewae-associative_caching/mp3/wishbone_interface.sv|
+R11
+R12
+!s85 0
+!i10b 1
+!s100 LzIf_LHn@Clfm7Ub5SmL<2
+!s105 wishbone_interface_sv_unit
+!s101 -O0
+Xwishbone_interface_sv_unit
+R1
+R2
+VF8aB0G37_Kfi?;2OFgL<L2
+r1
+31
+IF8aB0G37_Kfi?;2OFgL<L2
+S1
+R3
+R78
+R79
+R80
+L0 1
+R7
+R81
+R82
+R83
+R11
+R12
+!s85 0
+!i10b 1
+!s100 n[o@TDdn]UlRazR]e>zW93
+!i103 1
 !s101 -O0

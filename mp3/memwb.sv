@@ -10,7 +10,6 @@ module memwb
     input lc3b_control_word ctrl_word_in,
     input lc3b_word wb_alu_in,
     input data_response,
-    input lc3b_word read_data,
 
     output logic data_request,
     output logic load_mar,
