@@ -7,11 +7,32 @@ import math
 import sys
 from PIL import Image
 
-n = 10
+n = 15
 base = 2
-k = 1
-neighborhood_dim = 5
+k = 3
+threshold_low = 0.002
+threshold_high = 0.02
 method = input("Downsample Image(1) or Create New Filter(2)?: ")
+
+
+def show_all_circles(image, cx, cy, rad, color='r'):
+    """
+    image: numpy array, representing the grayscsale image
+    cx, cy: numpy arrays or lists, centers of the detected blobs
+    rad: numpy array or list, radius of the detected blobs
+    """
+    import matplotlib.pyplot as plt
+    from matplotlib.patches import Circle
+
+    fig, ax = plt.subplots()
+    ax.set_aspect('equal')
+    ax.imshow(image, cmap='gray')
+    for x, y, r in zip(cx, cy, rad):
+        circ = Circle((x, y), r, color=color, fill=False)
+        ax.add_patch(circ)
+
+    plt.title('%i circles' % len(cx))
+    plt.show()
 
 def level_supression( stack ):
     h = stack.shape[0]
@@ -22,13 +43,14 @@ def level_supression( stack ):
                 prev_pixel = stack[i,j,level-1]
                 cur_pixel = stack[i,j,level]
                 next_pixel = stack[i,j,level+1]
-                if(prev_pixel > cur_pixel or next_pixel > cur_pixel):
+                if(prev_pixel > cur_pixel and next_pixel > cur_pixel):
                     stack[i,j,level] = 0
+    return stack
 
 def nonmaximum_supression( im ):
     h = im.shape[0]
     w = im.shape[1]
-    cur_filter = scipy.ndimage.filters.rank_filter(im, -1, size=9)
+    cur_filter = scipy.ndimage.filters.rank_filter(im, -1, size=16)
     filtered_im = np.empty((h,w))
     for i in range(h):
         for j in range(w):
@@ -42,7 +64,6 @@ def main( im ):
     w = im.size[0]
     h = im.size[1]
     im = np.divide(np.reshape(np.array(im), (h, w)).astype(float), 255) # convert to array and normalize
-
 
     if(not(h%2)): # make array odd by odd
         new_row = np.zeros((1,w))
@@ -69,6 +90,19 @@ def main( im ):
         scale_space[:,:,i] = nonmaximum_supression(scale_space[:,:,i])
 
     scale_space = level_supression(scale_space)
+
+    cx = np.empty((0,0))
+    cy = np.empty((0,0))
+    rad = np.empty((0,0))
+    for i in range(n):
+        intersec = (scale_space[:,:,i] > threshold_low)*(scale_space[:,:,i] < threshold_high)
+        cx_cy_i = np.where(intersec)
+        cy = np.append(cy, cx_cy_i[0])
+        cx = np.append(cx, cx_cy_i[1])
+        for j in cx_cy_i[0]:
+            rad = np.append(rad, base+(k*i))
+
+    show_all_circles(im*255, cx, cy, rad*2)
 
     return (Image.fromarray(im * 255)).convert('RGB')
 
