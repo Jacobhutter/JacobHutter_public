@@ -14,7 +14,6 @@ entity ifid is
         dest            : out    vl_logic_vector(2 downto 0);
         src1            : out    vl_logic_vector(2 downto 0);
         src2            : out    vl_logic_vector(2 downto 0);
-        load_pc         : out    vl_logic;
         offset6_out     : out    vl_logic_vector(15 downto 0);
         offset9_out     : out    vl_logic_vector(15 downto 0);
         offset11        : out    vl_logic_vector(10 downto 0);

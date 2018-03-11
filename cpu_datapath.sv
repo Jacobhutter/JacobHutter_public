@@ -115,7 +115,7 @@ ifid ifid_register
     .offset9_in(adj9_out),
     .offset11,
     .mem_request(instruction_request),
-    .load_pc,
+    //.load_pc,
 	 .offset6_out(if_offset6),
     .offset9_out(if_offset9),
     .pc(ifpc),
@@ -130,8 +130,8 @@ ifid ifid_register
 ******************************************************************************/
 mux2 #(.width(3)) storemux
 (
-    .sel(id_ctrl.storemux_sel | force_dest),
-    .a(src1),
+    .sel(id_ctrl.storemux_sel),
+    .a(src2),
     .b(dest),
     .f(storemux_out)
 );
@@ -155,8 +155,8 @@ regfile r
     .clk,
     .load(wb_ctrl.load_regfile & advance),
     .in(regfilemux_out),
-    .src_a(storemux_out),
-    .src_b(src2),
+    .src_a(src1),
+    .src_b(storemux_out),
     .dest(wb_dest),
     .reg_a(sr1),
     .reg_b(sr2)
@@ -171,16 +171,14 @@ idex idex_register
     .dest_in(dest),
     .sr1_in(sr1),
     .sr2_in(sr2),
-    .source_data_in(sr1),
     .offset6_in(if_offset6),
     .offset9_in(if_offset9),
     .imm5_in(imm5),
     .pc(idpc),
-    .force_dest,
+    //.force_dest,
     .dest_out,
     .sr1_out,
     .sr2_out,
-	 .source_data_out,
     .offset6_out,
     .offset9_out,
     .imm5_out,
@@ -217,7 +215,7 @@ exmem exmem_register
     .ex_alu_in(alu_out),
     .dest_in(dest_out),
     .offset9_in(offset9_out),
-    .source_data_in(source_data_out),
+    .source_data_in(sr2_out),
     .ctrl_word_in(ex_ctrl),
     .pc(expc),
     .ex_alu_out,
@@ -259,7 +257,7 @@ register MDR
 register MAR
 (
     .clk,
-    .load(mem_ctrl.mem_read),
+    .load(mem_ctrl.mem_read | mem_ctrl.mem_write),
     .in(marmux_out),
     .out(mem_address)
 );
@@ -272,7 +270,7 @@ memwb memwb_register
     .pc_in(expc),
     .ctrl_word_in(mem_ctrl),
     .wb_alu_in(ex_alu_out),
-	 .mem_wdata_in(mem_wdata),
+	 .mem_wdata_in(mem_rdata),
     //.data_request,
 	 .load_mar,
 	 .load_mdr,

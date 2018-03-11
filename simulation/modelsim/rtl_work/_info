@@ -18,7 +18,7 @@ Z5 8/home/tklem2/ece411_mp3/adj.sv
 Z6 F/home/tklem2/ece411_mp3/adj.sv
 L0 6
 Z7 OV;L;10.1d;51
-Z8 !s108 1520789532.344613
+Z8 !s108 1520796043.945022
 Z9 !s107 /home/tklem2/ece411_mp3/adj.sv|
 Z10 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/adj.sv|
 Z11 o-sv -work work -O0
@@ -67,7 +67,7 @@ Z14 8/home/tklem2/ece411_mp3/alu.sv
 Z15 F/home/tklem2/ece411_mp3/alu.sv
 L0 3
 R7
-Z16 !s108 1520789532.208354
+Z16 !s108 1520796043.775464
 Z17 !s107 /home/tklem2/ece411_mp3/alu.sv|
 Z18 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/alu.sv|
 R11
@@ -116,7 +116,7 @@ Z19 8/home/tklem2/ece411_mp3/cccomp.sv
 Z20 F/home/tklem2/ece411_mp3/cccomp.sv
 L0 3
 R7
-Z21 !s108 1520789532.076029
+Z21 !s108 1520796043.551784
 Z22 !s107 /home/tklem2/ece411_mp3/cccomp.sv|
 Z23 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cccomp.sv|
 R11
@@ -157,22 +157,22 @@ DXx4 work 19 control_rom_sv_unit 0 22 V6c5ion5YP=SKScT494>d1
 V1`0d:@<1R<fmBBnBCJLBB0
 r1
 31
-I<YA9CR=@=U>:_:bC6m[Yj2
+I97dNEUafFbJj9H4PhP7jV0
 S1
 R3
-Z24 w1520788729
+Z24 w1520793796
 Z25 8/home/tklem2/ece411_mp3/control_rom.sv
 Z26 F/home/tklem2/ece411_mp3/control_rom.sv
 L0 2
 R7
-Z27 !s108 1520789531.938569
+Z27 !s108 1520796043.341559
 Z28 !s107 /home/tklem2/ece411_mp3/control_rom.sv|
 Z29 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/control_rom.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 L8aQ6NVMgn4Z;7i>nLH]Y1
+!s100 4ZZRDY@Hg3^ZAR[@8SNA:0
 !s105 control_rom_sv_unit
 !s101 -O0
 Xcontrol_rom_sv_unit
@@ -214,7 +214,7 @@ Z30 8/home/tklem2/ece411_mp3/cpu.sv
 Z31 F/home/tklem2/ece411_mp3/cpu.sv
 L0 3
 R7
-Z32 !s108 1520789532.611063
+Z32 !s108 1520796044.196238
 Z33 !s107 /home/tklem2/ece411_mp3/cpu.sv|
 Z34 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cpu.sv|
 R11
@@ -231,22 +231,22 @@ DXx4 work 20 cpu_datapath_sv_unit 0 22 >_nNh59<`<j==z68oG:nc2
 Va<PB6SnCf>RODdE:;0i;K1
 r1
 31
-IoUG28K4nJonGiT_zHJFE73
+IO4bbQSzLPAIX5J8CgcOlN3
 S1
 R3
-Z35 w1520789518
+Z35 w1520796025
 Z36 8/home/tklem2/ece411_mp3/cpu_datapath.sv
 Z37 F/home/tklem2/ece411_mp3/cpu_datapath.sv
 L0 3
 R7
-Z38 !s108 1520789532.475676
+Z38 !s108 1520796044.059662
 Z39 !s107 /home/tklem2/ece411_mp3/cpu_datapath.sv|
 Z40 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cpu_datapath.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 I[7IdD@MB];h74^gW`3RY2
+!s100 <a[93R^4nZbJeI;A@E4:61
 !s105 cpu_datapath_sv_unit
 !s101 -O0
 Xcpu_datapath_sv_unit
@@ -312,7 +312,7 @@ Z42 8/home/tklem2/ece411_mp3/exmem.sv
 Z43 F/home/tklem2/ece411_mp3/exmem.sv
 L0 3
 R7
-Z44 !s108 1520789531.806873
+Z44 !s108 1520796043.198183
 Z45 !s107 /home/tklem2/ece411_mp3/exmem.sv|
 Z46 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/exmem.sv|
 R11
@@ -361,7 +361,7 @@ Z47 8/home/tklem2/ece411_mp3/gencc.sv
 Z48 F/home/tklem2/ece411_mp3/gencc.sv
 L0 3
 R7
-Z49 !s108 1520789531.651385
+Z49 !s108 1520796043.075911
 Z50 !s107 /home/tklem2/ece411_mp3/gencc.sv|
 Z51 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/gencc.sv|
 R11
@@ -399,25 +399,25 @@ videx
 R1
 R2
 DXx4 work 12 idex_sv_unit 0 22 B1kJ0:CTLf5<FNaYIoWZK0
-V1ELk_XPTDo9KD<SjfX3Se1
+VKgOn<Q?J]:id<c41U>JQ[3
 r1
 31
-I0fCj7OPh:HRac5K^[LDhj3
+I32Fj7o3S;UbbhK5jZT?Mj2
 S1
 R3
-R41
-Z52 8/home/tklem2/ece411_mp3/idex.sv
-Z53 F/home/tklem2/ece411_mp3/idex.sv
+Z52 w1520794396
+Z53 8/home/tklem2/ece411_mp3/idex.sv
+Z54 F/home/tklem2/ece411_mp3/idex.sv
 L0 3
 R7
-Z54 !s108 1520789531.516336
-Z55 !s107 /home/tklem2/ece411_mp3/idex.sv|
-Z56 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/idex.sv|
+Z55 !s108 1520796042.931686
+Z56 !s107 /home/tklem2/ece411_mp3/idex.sv|
+Z57 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/idex.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 VRELIDj]bSPnlAVhAfb5C0
+!s100 oKRg5;`7E<aa@kLDM6?:e3
 !s105 idex_sv_unit
 !s101 -O0
 Xidex_sv_unit
@@ -429,14 +429,14 @@ r1
 IB1kJ0:CTLf5<FNaYIoWZK0
 S1
 R3
-R41
 R52
 R53
+R54
 L0 1
 R7
-R54
 R55
 R56
+R57
 R11
 R12
 !s85 0
@@ -448,25 +448,25 @@ vifid
 R1
 R2
 DXx4 work 12 ifid_sv_unit 0 22 o8[=]kRU16VUE<_EVmGaX0
-VHTh0TkKkFje9kK^z4U@851
+VL0^^cNkaD9[Y2A>hMhhzm1
 r1
 31
-IARaPDKjEO>kz5EH9G>djG3
+I;8]Zk7aVEb3JOIN98ZWlG2
 S1
 R3
-Z57 w1520787590
-Z58 8/home/tklem2/ece411_mp3/ifid.sv
-Z59 F/home/tklem2/ece411_mp3/ifid.sv
+Z58 w1520792520
+Z59 8/home/tklem2/ece411_mp3/ifid.sv
+Z60 F/home/tklem2/ece411_mp3/ifid.sv
 L0 3
 R7
-Z60 !s108 1520789531.383117
-Z61 !s107 /home/tklem2/ece411_mp3/ifid.sv|
-Z62 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/ifid.sv|
+Z61 !s108 1520796042.667948
+Z62 !s107 /home/tklem2/ece411_mp3/ifid.sv|
+Z63 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/ifid.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 ^1jO_34i@MShfSPje2]An2
+!s100 LW^_b015V=ko:ViBnFaIh2
 !s105 ifid_sv_unit
 !s101 -O0
 Xifid_sv_unit
@@ -478,14 +478,14 @@ r1
 Io8[=]kRU16VUE<_EVmGaX0
 S1
 R3
-R57
 R58
 R59
+R60
 L0 1
 R7
-R60
 R61
 R62
+R63
 R11
 R12
 !s85 0
@@ -499,7 +499,7 @@ IPzeH8BdEC>o2;P__mhP1f0
 VPzeH8BdEC>o2;P__mhP1f0
 S1
 R3
-Z63 w1520780528
+Z64 w1520780528
 8/home/tklem2/ece411_mp3/lc3b_types.sv
 F/home/tklem2/ece411_mp3/lc3b_types.sv
 L0 1
@@ -511,7 +511,7 @@ R12
 !i10b 1
 !s100 4V0LiF<HLnLXTcX@0@jiB2
 !s85 0
-!s108 1520789530.875558
+!s108 1520796042.041228
 !s107 /home/tklem2/ece411_mp3/lc3b_types.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/lc3b_types.sv|
 !s101 -O0
@@ -524,7 +524,7 @@ VFVD<m905E]77I77nc2bUb3
 !s105 magic_memory_dual_port_sv_unit
 S1
 R3
-R63
+R64
 8/home/tklem2/ece411_mp3/magic_memory_dual_port.sv
 F/home/tklem2/ece411_mp3/magic_memory_dual_port.sv
 L0 1
@@ -532,7 +532,7 @@ R7
 r1
 !s85 0
 31
-!s108 1520789532.867796
+!s108 1520796044.457826
 !s107 /home/tklem2/ece411_mp3/magic_memory_dual_port.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/magic_memory_dual_port.sv|
 !s101 -O0
@@ -548,14 +548,14 @@ r1
 Im5@JSZh[3;oVQ_RQU8g642
 S1
 R3
-Z64 w1520789479
-Z65 8/home/tklem2/ece411_mp3/memwb.sv
-Z66 F/home/tklem2/ece411_mp3/memwb.sv
+Z65 w1520789479
+Z66 8/home/tklem2/ece411_mp3/memwb.sv
+Z67 F/home/tklem2/ece411_mp3/memwb.sv
 L0 3
 R7
-Z67 !s108 1520789531.242078
-Z68 !s107 /home/tklem2/ece411_mp3/memwb.sv|
-Z69 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/memwb.sv|
+Z68 !s108 1520796042.446618
+Z69 !s107 /home/tklem2/ece411_mp3/memwb.sv|
+Z70 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/memwb.sv|
 R11
 R12
 !s85 0
@@ -572,14 +572,14 @@ r1
 I8]Oa0z_lzZCOo^1;cRWBT3
 S1
 R3
-R64
 R65
 R66
+R67
 L0 1
 R7
-R67
 R68
 R69
+R70
 R11
 R12
 !s85 0
@@ -593,7 +593,7 @@ I>^]B5MR[YkbJOT;Z;nAFW0
 VGRaNXc@:Z3jVCaTT0F9jW2
 S1
 R3
-R63
+R64
 8/home/tklem2/ece411_mp3/mp3_tb.sv
 F/home/tklem2/ece411_mp3/mp3_tb.sv
 L0 1
@@ -606,7 +606,7 @@ R12
 !s100 QJMfR^0lIC<`d0j5H<;5[0
 !s105 mp3_tb_sv_unit
 !s85 0
-!s108 1520789532.794199
+!s108 1520796044.358471
 !s107 /home/tklem2/ece411_mp3/mp3_tb.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mp3_tb.sv|
 !s101 -O0
@@ -629,7 +629,7 @@ R12
 !s100 RmjSBGTf>[UK0=]FIHJTG3
 !s105 mux2_sv_unit
 !s85 0
-!s108 1520789530.797575
+!s108 1520796041.965836
 !s107 /home/tklem2/ece411_mp3/mux2.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mux2.sv|
 !s101 -O0
@@ -652,7 +652,7 @@ R12
 !s100 l69Y?d8]_TOh^NR1zLGCk0
 !s105 plus2_sv_unit
 !s85 0
-!s108 1520789530.714064
+!s108 1520796041.886035
 !s107 /home/tklem2/ece411_mp3/plus2.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/plus2.sv|
 !s101 -O0
@@ -667,13 +667,13 @@ IdckP=Kh6kojcG@oZ^ol7B1
 S1
 R3
 R4
-Z70 8/home/tklem2/ece411_mp3/regfile.sv
-Z71 F/home/tklem2/ece411_mp3/regfile.sv
+Z71 8/home/tklem2/ece411_mp3/regfile.sv
+Z72 F/home/tklem2/ece411_mp3/regfile.sv
 L0 3
 R7
-Z72 !s108 1520789531.107925
-Z73 !s107 /home/tklem2/ece411_mp3/regfile.sv|
-Z74 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/regfile.sv|
+Z73 !s108 1520796042.287748
+Z74 !s107 /home/tklem2/ece411_mp3/regfile.sv|
+Z75 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/regfile.sv|
 R11
 R12
 !s85 0
@@ -691,13 +691,13 @@ IBVMZo>oXVOA65lB1cB`4@1
 S1
 R3
 R4
-R70
 R71
+R72
 L0 1
 R7
-R72
 R73
 R74
+R75
 R11
 R12
 !s85 0
@@ -724,7 +724,7 @@ R12
 !s100 GlYQ>75S9HLceJEQQkN;73
 !s105 register_sv_unit
 !s85 0
-!s108 1520789530.622165
+!s108 1520796041.767719
 !s107 /home/tklem2/ece411_mp3/register.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/register.sv|
 !s101 -O0
@@ -747,7 +747,7 @@ R12
 !s100 `M;W6hS?TcYGSH[<TCITF1
 !s105 wishbone_sv_unit
 !s85 0
-!s108 1520789530.540365
+!s108 1520796041.648175
 !s107 /home/tklem2/ece411_mp3/wishbone.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/wishbone.sv|
 !s101 -O0
@@ -761,14 +761,14 @@ r1
 Ia9JWYGz4dll:ZShlci37c1
 S1
 R3
-Z75 w1520780531
-Z76 8/home/tklem2/ece411_mp3/wishbone_interface.sv
-Z77 F/home/tklem2/ece411_mp3/wishbone_interface.sv
+Z76 w1520780531
+Z77 8/home/tklem2/ece411_mp3/wishbone_interface.sv
+Z78 F/home/tklem2/ece411_mp3/wishbone_interface.sv
 L0 3
 R7
-Z78 !s108 1520789530.967755
-Z79 !s107 /home/tklem2/ece411_mp3/wishbone_interface.sv|
-Z80 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/wishbone_interface.sv|
+Z79 !s108 1520796042.121717
+Z80 !s107 /home/tklem2/ece411_mp3/wishbone_interface.sv|
+Z81 !s90 -reportprogress|300|-sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/wishbone_interface.sv|
 R11
 R12
 !s85 0
@@ -785,14 +785,14 @@ r1
 IIMFbg]f^g7U]NGm8deilW3
 S1
 R3
-R75
 R76
 R77
+R78
 L0 1
 R7
-R78
 R79
 R80
+R81
 R11
 R12
 !s85 0
