@@ -12,7 +12,6 @@ entity memwb is
         mem_wdata_in    : in     vl_logic_vector(15 downto 0);
         wb_alu_in       : in     vl_logic_vector(15 downto 0);
         data_response   : in     vl_logic;
-        data_request    : out    vl_logic;
         load_mar        : out    vl_logic;
         load_mdr        : out    vl_logic;
         dest_out        : out    vl_logic_vector(2 downto 0);

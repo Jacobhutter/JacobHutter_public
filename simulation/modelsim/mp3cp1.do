@@ -27,8 +27,6 @@ add wave -noupdate -radix hexadecimal /mp3_tb/dut/cd/ALU/a
 add wave -noupdate /mp3_tb/dut/cd/ALU/aluop
 add wave -noupdate -radix hexadecimal /mp3_tb/dut/cd/ALU/b
 add wave -noupdate -radix hexadecimal /mp3_tb/dut/cd/ALU/f
-add wave -noupdate -radix hexadecimal /mp3_tb/dut/cd/idex_register/offset6_in
-add wave -noupdate -radix hexadecimal /mp3_tb/dut/cd/idex_register/offset6_out
 add wave -noupdate -radix hexadecimal /mp3_tb/dut/cd/alumux/a
 add wave -noupdate -radix hexadecimal /mp3_tb/dut/cd/alumux/b
 add wave -noupdate -radix hexadecimal /mp3_tb/dut/cd/alumux/f

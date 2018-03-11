@@ -28,13 +28,13 @@ begin
     if (advance == 1)                   // begin step1: increment pc
     begin
         load_pc = 1;                    // increment pc
-        pc = pc_in;
-        ctrl_word_out = ctrl_word_in;
+        pc = 0;
+        ctrl_word_out = 0;
         dest = 3'd0;
         src1 = 3'd0;
         src2 = 3'd0;
-        offset6_out = offset6_in;
-        offset9_out = offset9_out;
+        offset6_out = 0;
+        offset9_out = 0;
         offset11 = 11'd0;
         imm5 = 5'd0;
         ready = 0;                      // ensures advance = 1 not triggered more than once
@@ -46,8 +46,8 @@ begin
         load_pc = 0;
         mem_request = 1'b0;
         ready = 1;
-        pc = pc;
-        ctrl_word_out = ctrl_word_out;
+        pc = pc_in;
+        ctrl_word_out = ctrl_word_in;
         dest = instr[11:9];
         src1 = instr[8:6];
         src2 = instr[2:0];

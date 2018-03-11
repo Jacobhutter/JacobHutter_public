@@ -33,20 +33,21 @@ logic [2:0] bits4_5_11;
 assign instruction_address = pc_out;
 assign write_data = mem_wdata;
 assign write_enable = wb_ctrl.mem_write;
+assign data_request = mem_ctrl.mem_read | mem_ctrl.mem_write;
 /*******************************************************************************
   * PC
 ******************************************************************************/
 register pc
 (
     .clk,
-    .load(wb_ctrl.load_pc | load_pc), // load on wb demand or fetch
+    .load(advance), // load on wb demand or fetch
     .in(pcmux_out),
     .out(pc_out)
 );
 
 mux2 pcmux
 (
-    .sel(mem_ctrl.pcmux_sel & branch_enable),
+    .sel(wb_ctrl.pcmux_sel & branch_enable),
     .a(pc_plus2_out),
     .b(br_add_out),
     .f(pcmux_out)
@@ -60,7 +61,7 @@ plus2 pc_plus2
 
 mux2 offsetmux
 (
-    .sel(mem_ctrl.offsetmux_sel),
+    .sel(wb_ctrl.offsetmux_sel),
     .a(wb_offset9),
     .b(adj11_out),
     .f(offsetmux_out)
@@ -68,7 +69,7 @@ mux2 offsetmux
 
 always_comb
 begin
-    br_add_out = expc + offsetmux_out + 2;
+    br_add_out = mempc + offsetmux_out + 2;
 end
 
 adj #(.width(11)) adj11
@@ -152,7 +153,7 @@ adj #(.width(9)) adj9
 regfile r
 (
     .clk,
-    .load(mem_ctrl.load_regfile),
+    .load(wb_ctrl.load_regfile & advance),
     .in(regfilemux_out),
     .src_a(storemux_out),
     .src_b(src2),
@@ -233,7 +234,7 @@ exmem exmem_register
 ******************************************************************************/
 mux2 mdrmux
 (
-    .sel(ex_ctrl.mdrmux_sel),
+    .sel(mem_ctrl.mdrmux_sel),
     .a(ex_source_data_out),
     .b(mem_rdata),
     .f(mdrmux_out)
@@ -241,7 +242,7 @@ mux2 mdrmux
 
 mux2 marmux
 (
-    .sel(ex_ctrl.marmux_sel),
+    .sel(mem_ctrl.marmux_sel),
     .a(ex_alu_out),
     .b(mempc),
     .f(marmux_out)
@@ -250,7 +251,7 @@ mux2 marmux
 register MDR
 (
     .clk,
-    .load(ex_ctrl.mem_read | ex_ctrl.mem_write),
+    .load(mem_ctrl.mem_read | mem_ctrl.mem_write),
     .in(mdrmux_out),
     .out(mem_wdata)
 );
@@ -258,7 +259,7 @@ register MDR
 register MAR
 (
     .clk,
-    .load(ex_ctrl.mem_read),
+    .load(mem_ctrl.mem_read),
     .in(marmux_out),
     .out(mem_address)
 );
@@ -272,7 +273,7 @@ memwb memwb_register
     .ctrl_word_in(mem_ctrl),
     .wb_alu_in(ex_alu_out),
 	 .mem_wdata_in(mem_wdata),
-    .data_request,
+    //.data_request,
 	 .load_mar,
 	 .load_mdr,
     .data_response,

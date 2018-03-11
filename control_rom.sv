@@ -53,7 +53,6 @@ begin
            ctrl.mem_write = 1;
 			  ctrl.alumux_sel = 1;
            ctrl.mdrmux_sel = 0; // sel write dat
-           ctrl.load_regfile = 1;
        end
 		 
 		 op_br: begin

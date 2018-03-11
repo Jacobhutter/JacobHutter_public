@@ -10,37 +10,37 @@
 # ** Warning: Copied /software/altera/13.1/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini.
 #          Updated modelsim.ini.
 # 
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/wishbone.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wishbone.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling interface wishbone
 # 
 # Top level modules:
 # 	--none--
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/register.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/register.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module register
 # 
 # Top level modules:
 # 	register
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/plus2.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/plus2.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module plus2
 # 
 # Top level modules:
 # 	plus2
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/mux2.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mux2.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module mux2
 # 
 # Top level modules:
 # 	mux2
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/lc3b_types.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/lc3b_types.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package lc3b_types
 # 
 # Top level modules:
 # 	--none--
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/wishbone_interface.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wishbone_interface.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package wishbone_interface_sv_unit
 # -- Importing package lc3b_types
@@ -48,7 +48,7 @@
 # 
 # Top level modules:
 # 	wishbone_interface
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/regfile.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/regfile.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package regfile_sv_unit
 # -- Importing package lc3b_types
@@ -56,7 +56,7 @@
 # 
 # Top level modules:
 # 	regfile
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/memwb.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/memwb.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package memwb_sv_unit
 # -- Importing package lc3b_types
@@ -64,7 +64,7 @@
 # 
 # Top level modules:
 # 	memwb
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/ifid.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/ifid.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package ifid_sv_unit
 # -- Importing package lc3b_types
@@ -72,7 +72,7 @@
 # 
 # Top level modules:
 # 	ifid
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/idex.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/idex.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package idex_sv_unit
 # -- Importing package lc3b_types
@@ -80,7 +80,7 @@
 # 
 # Top level modules:
 # 	idex
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/gencc.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/gencc.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package gencc_sv_unit
 # -- Importing package lc3b_types
@@ -88,7 +88,7 @@
 # 
 # Top level modules:
 # 	gencc
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/exmem.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/exmem.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package exmem_sv_unit
 # -- Importing package lc3b_types
@@ -96,7 +96,7 @@
 # 
 # Top level modules:
 # 	exmem
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/control_rom.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/control_rom.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package control_rom_sv_unit
 # -- Importing package lc3b_types
@@ -104,7 +104,7 @@
 # 
 # Top level modules:
 # 	control_rom
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/cccomp.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cccomp.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cccomp_sv_unit
 # -- Importing package lc3b_types
@@ -112,7 +112,7 @@
 # 
 # Top level modules:
 # 	cccomp
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/alu.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/alu.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package alu_sv_unit
 # -- Importing package lc3b_types
@@ -120,7 +120,7 @@
 # 
 # Top level modules:
 # 	alu
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/adj.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/adj.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package adj_sv_unit
 # -- Importing package lc3b_types
@@ -128,7 +128,7 @@
 # 
 # Top level modules:
 # 	adj
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/cpu_datapath.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cpu_datapath.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cpu_datapath_sv_unit
 # -- Importing package lc3b_types
@@ -136,7 +136,7 @@
 # 
 # Top level modules:
 # 	cpu_datapath
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/cpu.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cpu.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cpu_sv_unit
 # -- Importing package lc3b_types
@@ -145,13 +145,13 @@
 # Top level modules:
 # 	cpu
 # 
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/mp3_tb.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mp3_tb.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module mp3_tb
 # 
 # Top level modules:
 # 	mp3_tb
-# vlog -sv -work work +incdir+/home/cblong2/ece411/mp3 {/home/cblong2/ece411/mp3/magic_memory_dual_port.sv}
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/magic_memory_dual_port.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module magic_memory
 # 
@@ -202,6 +202,8 @@
 # .main_pane.objects.interior.cs.body.tree
 # run 2000 ns
 do mp3cp1.do
+# ** Error: (vish-4014) No objects found matching '/mp3_tb/dut/cd/ifid_register/offset6'.
+# Executing ONERROR command at macro ./mp3cp1.do line 22
 restart -f
 # Loading sv_std.std
 # Loading work.mp3_tb
@@ -237,9 +239,9 @@ restart -f
 # Loading work.cccomp_sv_unit
 # Loading work.cccomp
 # Loading work.magic_memory
-run 2000ns
+run 20000ns
 add wave -position insertpoint  \
-sim:/mp3_tb/dut/instr
+sim:/mp3_tb/dut/cd/MDR/out
 restart -f
 # Loading sv_std.std
 # Loading work.mp3_tb
@@ -275,9 +277,9 @@ restart -f
 # Loading work.cccomp_sv_unit
 # Loading work.cccomp
 # Loading work.magic_memory
-run 2000ns
+run 20000ns
 add wave -position insertpoint  \
-sim:/mp3_tb/dut/cd/ifid_register/dest
+sim:/mp3_tb/dut/cd/MDR/in
 restart -f
 # Loading sv_std.std
 # Loading work.mp3_tb
@@ -313,9 +315,9 @@ restart -f
 # Loading work.cccomp_sv_unit
 # Loading work.cccomp
 # Loading work.magic_memory
-run 2000ns
+run 5000ns
 add wave -position insertpoint  \
-sim:/mp3_tb/dut/cd/idex_register/dest_out
+sim:/mp3_tb/dut/cd/mem_rdata
 restart -f
 # Loading sv_std.std
 # Loading work.mp3_tb
@@ -351,11 +353,9 @@ restart -f
 # Loading work.cccomp_sv_unit
 # Loading work.cccomp
 # Loading work.magic_memory
-run 2000ns
+run 5000ns
 add wave -position insertpoint  \
-sim:/mp3_tb/dut/cd/exmem_register/dest_out
-add wave -position insertpoint  \
-sim:/mp3_tb/dut/cd/memwb_register/dest_out
+sim:/mp3_tb/dut/cd/write_data
 restart -f
 # Loading sv_std.std
 # Loading work.mp3_tb
@@ -391,10 +391,9 @@ restart -f
 # Loading work.cccomp_sv_unit
 # Loading work.cccomp
 # Loading work.magic_memory
-run 2000ns
+run 5000ns
 add wave -position insertpoint  \
-sim:/mp3_tb/dut/cd/regfilemux/a \
-sim:/mp3_tb/dut/cd/regfilemux/b
+sim:/mp3_tb/dut/cd/idex_register/source_data_out
 restart -f
 # Loading sv_std.std
 # Loading work.mp3_tb
@@ -430,6 +429,196 @@ restart -f
 # Loading work.cccomp_sv_unit
 # Loading work.cccomp
 # Loading work.magic_memory
-run 2000ns
-write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/cblong2/ece411/mp3/simulation/modelsim/mp3cp1.do
-# Window cannot be closed because the modal window "Error in Tcl Script" is still open.
+run 5000ns
+add wave -position insertpoint  \
+sim:/mp3_tb/dut/cd/r/src_a
+restart -f
+# Loading sv_std.std
+# Loading work.mp3_tb
+# Loading work.wishbone
+# Loading work.lc3b_types
+# Loading work.cpu_sv_unit
+# Loading work.cpu
+# Loading work.wishbone_interface_sv_unit
+# Loading work.wishbone_interface
+# Loading work.cpu_datapath_sv_unit
+# Loading work.cpu_datapath
+# Loading work.register
+# Loading work.mux2
+# Loading work.plus2
+# Loading work.adj_sv_unit
+# Loading work.adj
+# Loading work.control_rom_sv_unit
+# Loading work.control_rom
+# Loading work.ifid_sv_unit
+# Loading work.ifid
+# Loading work.regfile_sv_unit
+# Loading work.regfile
+# Loading work.idex_sv_unit
+# Loading work.idex
+# Loading work.alu_sv_unit
+# Loading work.alu
+# Loading work.exmem_sv_unit
+# Loading work.exmem
+# Loading work.memwb_sv_unit
+# Loading work.memwb
+# Loading work.gencc_sv_unit
+# Loading work.gencc
+# Loading work.cccomp_sv_unit
+# Loading work.cccomp
+# Loading work.magic_memory
+run 5000ns
+add wave -position insertpoint  \
+sim:/mp3_tb/dut/cd/idex_register/sr1_out
+add wave -position insertpoint  \
+sim:/mp3_tb/dut/cd/idex_register/source_data_out
+restart -f
+# Loading sv_std.std
+# Loading work.mp3_tb
+# Loading work.wishbone
+# Loading work.lc3b_types
+# Loading work.cpu_sv_unit
+# Loading work.cpu
+# Loading work.wishbone_interface_sv_unit
+# Loading work.wishbone_interface
+# Loading work.cpu_datapath_sv_unit
+# Loading work.cpu_datapath
+# Loading work.register
+# Loading work.mux2
+# Loading work.plus2
+# Loading work.adj_sv_unit
+# Loading work.adj
+# Loading work.control_rom_sv_unit
+# Loading work.control_rom
+# Loading work.ifid_sv_unit
+# Loading work.ifid
+# Loading work.regfile_sv_unit
+# Loading work.regfile
+# Loading work.idex_sv_unit
+# Loading work.idex
+# Loading work.alu_sv_unit
+# Loading work.alu
+# Loading work.exmem_sv_unit
+# Loading work.exmem
+# Loading work.memwb_sv_unit
+# Loading work.memwb
+# Loading work.gencc_sv_unit
+# Loading work.gencc
+# Loading work.cccomp_sv_unit
+# Loading work.cccomp
+# Loading work.magic_memory
+run 5000ns
+add wave -position insertpoint  \
+sim:/mp3_tb/dut/cd/idex_register/source_data_in
+restart -f
+# Loading sv_std.std
+# Loading work.mp3_tb
+# Loading work.wishbone
+# Loading work.lc3b_types
+# Loading work.cpu_sv_unit
+# Loading work.cpu
+# Loading work.wishbone_interface_sv_unit
+# Loading work.wishbone_interface
+# Loading work.cpu_datapath_sv_unit
+# Loading work.cpu_datapath
+# Loading work.register
+# Loading work.mux2
+# Loading work.plus2
+# Loading work.adj_sv_unit
+# Loading work.adj
+# Loading work.control_rom_sv_unit
+# Loading work.control_rom
+# Loading work.ifid_sv_unit
+# Loading work.ifid
+# Loading work.regfile_sv_unit
+# Loading work.regfile
+# Loading work.idex_sv_unit
+# Loading work.idex
+# Loading work.alu_sv_unit
+# Loading work.alu
+# Loading work.exmem_sv_unit
+# Loading work.exmem
+# Loading work.memwb_sv_unit
+# Loading work.memwb
+# Loading work.gencc_sv_unit
+# Loading work.gencc
+# Loading work.cccomp_sv_unit
+# Loading work.cccomp
+# Loading work.magic_memory
+run 5000ns
+add wave -position insertpoint  \
+sim:/mp3_tb/dut/cd/idex_register/read_source
+restart -f
+# Loading sv_std.std
+# Loading work.mp3_tb
+# Loading work.wishbone
+# Loading work.lc3b_types
+# Loading work.cpu_sv_unit
+# Loading work.cpu
+# Loading work.wishbone_interface_sv_unit
+# Loading work.wishbone_interface
+# Loading work.cpu_datapath_sv_unit
+# Loading work.cpu_datapath
+# Loading work.register
+# Loading work.mux2
+# Loading work.plus2
+# Loading work.adj_sv_unit
+# Loading work.adj
+# Loading work.control_rom_sv_unit
+# Loading work.control_rom
+# Loading work.ifid_sv_unit
+# Loading work.ifid
+# Loading work.regfile_sv_unit
+# Loading work.regfile
+# Loading work.idex_sv_unit
+# Loading work.idex
+# Loading work.alu_sv_unit
+# Loading work.alu
+# Loading work.exmem_sv_unit
+# Loading work.exmem
+# Loading work.memwb_sv_unit
+# Loading work.memwb
+# Loading work.gencc_sv_unit
+# Loading work.gencc
+# Loading work.cccomp_sv_unit
+# Loading work.cccomp
+# Loading work.magic_memory
+run 5000ns
+add wave -position insertpoint  \
+sim:/mp3_tb/dut/cd/idex_register/advance
+restart -f
+# Loading sv_std.std
+# Loading work.mp3_tb
+# Loading work.wishbone
+# Loading work.lc3b_types
+# Loading work.cpu_sv_unit
+# Loading work.cpu
+# Loading work.wishbone_interface_sv_unit
+# Loading work.wishbone_interface
+# Loading work.cpu_datapath_sv_unit
+# Loading work.cpu_datapath
+# Loading work.register
+# Loading work.mux2
+# Loading work.plus2
+# Loading work.adj_sv_unit
+# Loading work.adj
+# Loading work.control_rom_sv_unit
+# Loading work.control_rom
+# Loading work.ifid_sv_unit
+# Loading work.ifid
+# Loading work.regfile_sv_unit
+# Loading work.regfile
+# Loading work.idex_sv_unit
+# Loading work.idex
+# Loading work.alu_sv_unit
+# Loading work.alu
+# Loading work.exmem_sv_unit
+# Loading work.exmem
+# Loading work.memwb_sv_unit
+# Loading work.memwb
+# Loading work.gencc_sv_unit
+# Loading work.gencc
+# Loading work.cccomp_sv_unit
+# Loading work.cccomp
+# Loading work.magic_memory
+run 5000ns
