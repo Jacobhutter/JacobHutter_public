@@ -24,7 +24,7 @@ lc3b_reg src1, src2, dest, storemux_out, wb_dest, dest_out, ex_dest, gencc_out, 
 lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifpc,
 idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offsetmux_out, imm5,
 sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, imm5_out, wb_offset9, source_data_out, ex_source_data_out, pc_out,
-regfilemux_out, alumux_out, ex_alu_out, ex_offset9, mdrmux_out, marmux_out, wb_alu_out;
+regfilemux_out, alumux_out, ex_alu_out, ex_offset9, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out;
 
 lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl;
 
@@ -67,7 +67,7 @@ mux2 offsetmux
 
 always_comb
 begin
-    br_add_out <= mempc + offsetmux_out;
+    br_add_out = mempc + offsetmux_out;
 end
 
 adj #(.width(11)) adj11
@@ -125,7 +125,7 @@ adj #(.width(6)) adj6
 (
 	.in(offset6),
 	.out(adj6_out),
-    .out2(adj6_out2)
+   .out2(adj6_out2)
 );
 
 adj #(.width(9)) adj9
@@ -228,8 +228,8 @@ mux2 mdrmux
 mux2 marmux
 (
     .sel(mem_ctrl.marmux_sel),
-    .a(alu_out),
-    .b(expc),
+    .a(ex_alu_out),
+    .b(mempc),
     .f(marmux_out)
 );
 
@@ -244,7 +244,7 @@ register MDR
 register MAR
 (
     .clk,
-    .load(load_mar),
+    .load(mem_ctrl.mem_read),
     .in(marmux_out),
     .out(mem_address)
 );
@@ -257,6 +257,7 @@ memwb memwb_register
     .pc_in(expc),
     .ctrl_word_in(mem_ctrl),
     .wb_alu_in(ex_alu_out),
+	 .mem_wdata_in(mem_wdata),
     .data_request,
 	 .load_mar,
 	 .load_mdr,
@@ -265,6 +266,7 @@ memwb memwb_register
     .offset9_in(ex_offset9),
     .dest_out(wb_dest),
     .wb_alu_out,
+	 .mem_wdata_out,
     .pc(mempc),
     .offset9_out(wb_offset9),
     .ctrl_word_out(wb_ctrl),
@@ -275,36 +277,37 @@ memwb memwb_register
   * WB Stage
   * finalize and stabalize values(needs to be done in 1 cycle)
 ******************************************************************************/
-mux2 refgilemux
+mux2 regfilemux
 (
     .sel(wb_ctrl.regfilemux_sel),
     .a(wb_alu_out),
-    .b(mem_wdata),
+    .b(mem_wdata_out),
     .f(regfilemux_out)
 );
 
 gencc Gencc
 (
-        .in(regfilemux_out),
-        .out(gencc_out)
+	.in(regfilemux_out),
+   .out(gencc_out)
 );
 
 register #(.width(3)) CC
 (
-        .clk,
-        .load(wb_ctrl.load_cc),
-        .in(gencc_out),
-        .out(cc_out)
+	.clk,
+	.load(wb_ctrl.load_cc),
+	.in(gencc_out),
+	.out(cc_out)
 );
 
 cccomp CCCOMP
 (
-        .cc(cc_out),
-        .dest(wb_dest),
-        .branch_enable(branch_enable)
+	.cc(cc_out),
+	.dest(wb_dest),
+	.branch_enable(branch_enable)
 );
+
 always_comb begin
-    advance <= readyifid & readyidex & readyexmem & readymemwb; // when all stages ready, move pipeline along
+    advance = readyifid & readyidex & readyexmem & readymemwb; // when all stages ready, move pipeline along
 end
 
 endmodule : cpu_datapath

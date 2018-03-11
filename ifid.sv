@@ -26,8 +26,8 @@ begin
     if (advance == 1)                   // begin step1: increment pc
     begin
         load_pc = 1;                    // increment pc
-        pc = pc;
-        ctrl_word_out = ctrl_word_out;
+        pc = pc_in;
+        ctrl_word_out = ctrl_word_in;
         dest = 3'd0;
         src1 = 3'd0;
         src2 = 3'd0;
@@ -44,8 +44,8 @@ begin
         load_pc = 0;
         mem_request = 1'b0;
         ready = 1;
-        pc = pc_in;
-        ctrl_word_out = ctrl_word_in;
+        pc = pc;
+        ctrl_word_out = ctrl_word_out;
         dest = instr[11:9];
         src1 = instr[8:6];
         src2 = instr[2:0];
