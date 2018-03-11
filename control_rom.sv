@@ -44,6 +44,7 @@ begin
            ctrl.mem_read = 1;
            ctrl.mdrmux_sel = 1; // sel read dat
 			  ctrl.alumux_sel = 1;
+			  ctrl.load_cc = 1;
 			  ctrl.regfilemux_sel = 1; // read data from memory
            ctrl.load_regfile = 1;
        end
@@ -56,8 +57,8 @@ begin
        end
 		 
 		 op_br: begin
-			  ctrl.load_pc = 1;
 			  ctrl.pcmux_sel = 1; // sel br_add and we compare when needed i.e. when command gets to wb, cc is compared
+			  ctrl.load_pc = 0;
 		 end 
 		 
        default: begin

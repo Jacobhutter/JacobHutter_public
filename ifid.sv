@@ -8,11 +8,13 @@ module ifid
     input lc3b_word instr,
     input lc3b_word pc_in,
     input lc3b_control_word ctrl_word_in,
+	 input lc3b_word offset6_in,
+    input lc3b_word offset9_in,
 
     output lc3b_reg dest, src1, src2,
     output logic load_pc,
-    output lc3b_offset6 offset6,
-    output lc3b_offset9 offset9,
+	 output lc3b_word offset6_out,
+    output lc3b_word offset9_out,
     output lc3b_offset11 offset11,
     output logic mem_request,
     output lc3b_word imm5, pc,
@@ -31,8 +33,8 @@ begin
         dest = 3'd0;
         src1 = 3'd0;
         src2 = 3'd0;
-        offset6 = 6'd0;
-        offset9 = 9'd0;
+        offset6_out = offset6_in;
+        offset9_out = offset9_out;
         offset11 = 11'd0;
         imm5 = 5'd0;
         ready = 0;                      // ensures advance = 1 not triggered more than once
@@ -49,8 +51,8 @@ begin
         dest = instr[11:9];
         src1 = instr[8:6];
         src2 = instr[2:0];
-        offset6 = instr[5:0];
-        offset9 = instr[8:0];
+        offset6_out = offset6_in;
+        offset9_out = offset9_in;
         offset11 = instr[10:0];
         imm5 = 16'(signed'(instr[4:0]));
     end
@@ -62,8 +64,8 @@ begin
         dest = dest;
         src1 = src1;
         src2 = src2;
-        offset6 = offset6;
-        offset9 = offset9;
+        offset6_out = offset6_out;
+        offset9_out = offset9_out;
         offset11 = offset11;
         mem_request = mem_request;
         imm5 = imm5;

@@ -19,12 +19,13 @@ logic load_pc, load_mar, load_mdr, advance, readyifid, readyidex, readyexmem, re
 lc3b_offset6 offset6;
 lc3b_offset9 offset9;
 lc3b_offset11 offset11;
+lc3b_opcode input_opcode;
 lc3b_reg src1, src2, dest, storemux_out, wb_dest, dest_out, ex_dest, gencc_out, cc_out;
 
 lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifpc,
 idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offsetmux_out, imm5,
 sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, imm5_out, wb_offset9, source_data_out, ex_source_data_out, pc_out,
-regfilemux_out, alumux_out, ex_alu_out, ex_offset9, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out;
+regfilemux_out, alumux_out, ex_alu_out, ex_offset9, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9;
 
 lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl;
 
@@ -59,7 +60,7 @@ plus2 pc_plus2
 
 mux2 offsetmux
 (
-    .sel(wb_ctrl.offsetmux_sel),
+    .sel(mem_ctrl.offsetmux_sel),
     .a(wb_offset9),
     .b(adj11_out),
     .f(offsetmux_out)
@@ -67,7 +68,7 @@ mux2 offsetmux
 
 always_comb
 begin
-    br_add_out = mempc + offsetmux_out;
+    br_add_out = expc + offsetmux_out + 2;
 end
 
 adj #(.width(11)) adj11
@@ -81,8 +82,14 @@ adj #(.width(11)) adj11
   * IF/ID Stage
   * pc+2, fetch data, build control word
 ******************************************************************************/
+always_comb begin
+	if(instr == 16'd0)
+		input_opcode = lc3b_opcode'({1'bx,1'bx,1'bx,1'bx});
+	else 
+		input_opcode = lc3b_opcode'(instr[15:12]);
+end
 control_rom cr(
-    .opcode(lc3b_opcode'(instr[15:12])),
+    .opcode(input_opcode),
     .bits4_5_11(3'({instr[4], instr[5], instr[11]})),
     .ctrl(if_ctrl)
 );
@@ -98,11 +105,13 @@ ifid ifid_register
     .dest,
     .src1,
     .src2,
-    .offset6,
-    .offset9,
+    .offset6_in(adj6_out),
+    .offset9_in(adj9_out),
     .offset11,
     .mem_request(instruction_request),
     .load_pc,
+	 .offset6_out(if_offset6),
+    .offset9_out(if_offset9),
     .pc(ifpc),
     .imm5,
     .ctrl_word_out(id_ctrl),
@@ -123,14 +132,14 @@ mux2 #(.width(3)) storemux
 
 adj #(.width(6)) adj6
 (
-	.in(offset6),
+	.in(instr[5:0]),
 	.out(adj6_out),
    .out2(adj6_out2)
 );
 
 adj #(.width(9)) adj9
 (
-    .in(offset9),
+    .in(instr[8:0]),
     .out(adj9_out),
     .out2(adj9_out2)
 );
@@ -138,7 +147,7 @@ adj #(.width(9)) adj9
 regfile r
 (
     .clk,
-    .load(wb_ctrl.load_regfile),
+    .load(mem_ctrl.load_regfile),
     .in(regfilemux_out),
     .src_a(storemux_out),
     .src_b(src2),
@@ -157,8 +166,8 @@ idex idex_register
     .sr1_in(sr1),
     .sr2_in(sr2),
     .source_data_in(sr1),
-    .offset6_in(adj6_out),
-    .offset9_in(adj9_out),
+    .offset6_in(if_offset6),
+    .offset9_in(if_offset9),
     .imm5_in(imm5),
     .pc(idpc),
     .force_dest,
@@ -219,7 +228,7 @@ exmem exmem_register
 ******************************************************************************/
 mux2 mdrmux
 (
-    .sel(mem_ctrl.mdrmux_sel),
+    .sel(ex_ctrl.mdrmux_sel),
     .a(ex_source_data_out),
     .b(mem_rdata),
     .f(mdrmux_out)
@@ -227,7 +236,7 @@ mux2 mdrmux
 
 mux2 marmux
 (
-    .sel(mem_ctrl.marmux_sel),
+    .sel(ex_ctrl.marmux_sel),
     .a(ex_alu_out),
     .b(mempc),
     .f(marmux_out)
@@ -236,7 +245,7 @@ mux2 marmux
 register MDR
 (
     .clk,
-    .load(load_mdr),
+    .load(ex_ctrl.mem_read | ex_ctrl.mem_write),
     .in(mdrmux_out),
     .out(mem_wdata)
 );
@@ -244,7 +253,7 @@ register MDR
 register MAR
 (
     .clk,
-    .load(mem_ctrl.mem_read),
+    .load(ex_ctrl.mem_read),
     .in(marmux_out),
     .out(mem_address)
 );
