@@ -57,8 +57,7 @@ begin
        end
 		 
 		 op_br: begin
-			  ctrl.pcmux_sel = 1; // sel br_add and we compare when needed i.e. when command gets to wb, cc is compared
-			  ctrl.load_pc = 0;
+			  ctrl.pcmux_sel = 1; // sel br_add and we compare when needed i.e. when command gets to wb, cc is compare
 		 end 
 		 
        default: begin

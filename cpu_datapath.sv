@@ -15,7 +15,7 @@ module cpu_datapath(
   output logic write_enable
 );
 
-logic load_pc, load_mar, load_mdr, advance, readyifid, readyidex, readyexmem, readymemwb, force_dest, branch_enable;
+logic load_pc, load_mar, load_mdr, advance, readyifid, readyidex, readyexmem, readymemwb, force_dest, branch_enable, nop_flag;
 lc3b_offset6 offset6;
 lc3b_offset9 offset9;
 lc3b_offset11 offset11;
@@ -27,7 +27,7 @@ idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offset
 sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, imm5_out, wb_offset9, source_data_out, ex_source_data_out, pc_out,
 regfilemux_out, alumux_out, ex_alu_out, ex_offset9, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9;
 
-lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl;
+lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out;
 
 logic [2:0] bits4_5_11;
 assign instruction_address = pc_out;
@@ -46,7 +46,7 @@ register pc
 
 mux2 pcmux
 (
-    .sel(wb_ctrl.pcmux_sel & branch_enable),
+    .sel(mem_ctrl.pcmux_sel & branch_enable),
     .a(pc_plus2_out),
     .b(br_add_out),
     .f(pcmux_out)
@@ -83,11 +83,16 @@ adj #(.width(11)) adj11
   * pc+2, fetch data, build control word
 ******************************************************************************/
 always_comb begin
-	if(instr == 16'd0)
-		input_opcode = lc3b_opcode'({1'bx,1'bx,1'bx,1'bx});
-	else 
+	if(instr == 16'd0) begin
+		input_opcode = lc3b_opcode'({1'b1,1'b1,1'b1,1'b1});
+		nop_flag = 1;
+	end
+	else begin
 		input_opcode = lc3b_opcode'(instr[15:12]);
+		nop_flag = 0;
+	end
 end
+
 control_rom cr(
     .opcode(input_opcode),
     .bits4_5_11(3'({instr[4], instr[5], instr[11]})),
