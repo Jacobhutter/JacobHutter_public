@@ -1,8 +1,8 @@
 import lc3b_types::*;
 
-module wishbone_intereface
+module wishbone_interface
 (
-  input lc3b_word cpu_address,
+  input logic [15:0] cpu_address,
   input lc3b_line mem_rdata_line,
   input lc3b_word write_data_cpu,
 
@@ -23,4 +23,4 @@ always_comb begin
   write_data_mem = 128'({112'd0, write_data_cpu }) << (8 * offset[3:0]);
 end
 
-endmodule : cpu
+endmodule : wishbone_interface
