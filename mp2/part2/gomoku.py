@@ -1,4 +1,5 @@
 import numpy as np
+from reflex import reflex_play
 from minimax import minimax_play
 from alphabeta import alphabeta_play
 from util import utility
@@ -20,7 +21,6 @@ def check_rows(board):
         		if(piece == x and piece != 0):
 	    			count += 1
 				if(count == 5):
-					print 'row winner'
 					return piece
         		else:
 				piece = x
@@ -39,8 +39,6 @@ def check_cols(board):
 			if(piece == x and piece != 0):
                         	count += 1
                         	if(count == 5):
-					print col
-					print 'col winner'
                                 	return piece
                 	else:
                         	piece = x
@@ -59,7 +57,6 @@ def check_lefttoright(board, pos):
 		if(piece == board[i][j] and piece != 0):
 			count += 1
 			if(count == 5):
-				print 'ltr winner'
 				return piece
 		else:
 			piece = board[i][j]
@@ -80,7 +77,6 @@ def check_righttoleft(board, pos):
                 if(piece == board[i][j] and piece != 0):
                         count += 1
                         if(count == 5):
-				print 'rtl winner'
                                 return piece
                 else:
                         piece = board[i][j]
@@ -131,9 +127,16 @@ for i in range(65, 91):
 chars2 = []
 for i in range(97, 123):
 	chars2.append(chr(i))
-print '\nMinimax (Red) vs. Alpha-Beta (Blue)\n'
-print 'Move\tRed Nodes Expanded\tBlue Nodes Expanded'
+print '\nMinimax (Red) vs. Reflex (Blue)\n'
+#print 'Move\tRed Nodes Expanded\tBlue Nodes Expanded'
 nodesout = []
+
+#board[5][5] = -1
+#board[1][1] = 1
+#out[5][5] = ' ' + chars1[0] + ' '
+#out[1][1] = ' ' + chars2[0] + ' '
+#plays = 2
+
 while not win and plays < 49:
 	temp = str(int((plays / 2)) + 1)
 	#Red
@@ -141,27 +144,31 @@ while not win and plays < 49:
 	board[pos[0]][pos[1]] = player
 	plays += 1
 	temp += '\t\t' + str(nodes)
-	out[pos[0]][pos[1]] = ' ' + chars2[plays / 2] + ' '
+	out[pos[0]][pos[1]] =  ' ' + chars2[plays / 2] + ' '
 	win = checkwin(board)
 	player *= -1
 	if win or plays >= 49:
 		nodesout.append(temp)
 		break
 	#Blue
-	pos, nodes = alphabeta_play(player, board)
+	pos, nodes = reflex_play(player, board)
         board[pos[0]][pos[1]] = player
         plays += 1
 	temp += '\t\t\t' + str(nodes)
-	out[pos[0]][pos[1]] = ' ' + chars1[(plays - 1) / 2] + ' '
+	out[pos[0]][pos[1]] =  ' ' + chars1[(plays - 1) / 2] + ' '
         win = checkwin(board)
         player *= -1
 	nodesout.append(temp)
-for line in nodesout:
-	print line
-print ''
-for row in out:
+	
+	#for row in board:
+	#	print row
+
+#for line in nodesout:
+#	print line
+#print ''
+for i in range(len(out) - 1, -1, -1):
 	temp = ''
-	for char in row:
+	for char in out[i]:
 		temp += char
 	print temp
 if win == 1:
