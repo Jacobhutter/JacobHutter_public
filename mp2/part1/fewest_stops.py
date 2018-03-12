@@ -148,5 +148,4 @@ def fewest_stops():
 
 print("starting graph traversal \n")
 end_node = fewest_stops()
-print graph
 print("ended traversal \n")

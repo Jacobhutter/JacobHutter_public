@@ -1,14 +1,14 @@
 import distmap as d
 import numpy as np
 import sys
-N = 5
+N = 8
 letter_hash = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E'}
 # index with [row][col]
-graph = [[-1, 'A', 'E', 'D', 'C', 'A', -1],
-         [-1, 'B', 'E', 'A', 'C', 'D', -1],
-         [-1, 'B', 'A', 'B', 'C', 'E', -1],
-         [-1, 'D', 'A', 'D', 'B', 'D', -1],
-         [-1, 'B', 'E', 'C', 'B', 'D', -1]]
+graph = [[-1, 'D', 'A', 'D', 'E', 'C', 'D', 'C', 'B', -1],
+         [-1, 'A', 'D', 'B', 'A', 'E', 'A', 'E', 'A', -1],
+         [-1, 'B', 'E', 'C', 'E', 'B', 'E', 'A', 'D', -1],
+         [-1, 'C', 'D', 'E', 'A', 'E', 'D', 'E', 'B', -1],
+         [-1, 'C', 'E', 'C', 'A', 'B', 'D', 'B', 'E', -1]]
 
 class successor:
     def __init__(self, loc):
@@ -31,7 +31,7 @@ def check_equal(l1, l2):
 
 def check_done( l ):
     for i in range(len(l)):
-        if l[i] != 5:
+        if l[i] != N:
             return 0
     print'success'
     return 1
