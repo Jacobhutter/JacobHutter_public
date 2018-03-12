@@ -1,4 +1,5 @@
 import numpy as np
+from human import human_play
 from reflex import reflex_play
 from minimax import minimax_play
 from alphabeta import alphabeta_play
@@ -127,7 +128,9 @@ for i in range(65, 91):
 chars2 = []
 for i in range(97, 123):
 	chars2.append(chr(i))
-print '\nMinimax (Red) vs. Reflex (Blue)\n'
+print '\nHuman (Red) vs. Alpha-Beta (Blue)\n'
+
+
 #print 'Move\tRed Nodes Expanded\tBlue Nodes Expanded'
 nodesout = []
 
@@ -136,14 +139,14 @@ nodesout = []
 #out[5][5] = ' ' + chars1[0] + ' '
 #out[1][1] = ' ' + chars2[0] + ' '
 #plays = 2
-
+print '\nEnter your move in the form x, y where 0, 0 would be the bottom left corner and 0, 7 is the bottom right corner\n'
 while not win and plays < 49:
 	temp = str(int((plays / 2)) + 1)
 	#Red
-	pos, nodes = minimax_play(player, board)
+	pos = human_play(player, board)
 	board[pos[0]][pos[1]] = player
 	plays += 1
-	temp += '\t\t' + str(nodes)
+	#temp += '\t\t' + str(nodes)
 	out[pos[0]][pos[1]] =  ' ' + chars2[plays / 2] + ' '
 	win = checkwin(board)
 	player *= -1
@@ -151,7 +154,7 @@ while not win and plays < 49:
 		nodesout.append(temp)
 		break
 	#Blue
-	pos, nodes = reflex_play(player, board)
+	pos, nodes = alphabeta_play(player, board)
         board[pos[0]][pos[1]] = player
         plays += 1
 	temp += '\t\t\t' + str(nodes)
@@ -159,7 +162,8 @@ while not win and plays < 49:
         win = checkwin(board)
         player *= -1
 	nodesout.append(temp)
-	
+	print 'Opponent Played:'
+	print pos	
 	#for row in board:
 	#	print row
 
