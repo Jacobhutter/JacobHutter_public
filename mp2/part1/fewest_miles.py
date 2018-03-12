@@ -2,6 +2,7 @@ import distmap as d
 import numpy as np
 import sys
 N = 5
+letter_hash = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E'}
 # index with [row][col]
 graph = [[-1, 'A', 'E', 'D', 'C', 'A', -1],
          [-1, 'B', 'E', 'A', 'C', 'D', -1],
@@ -19,6 +20,7 @@ class successor:
         self.parent = -1
         self.distance = 0
         self.cost = 0
+        self.letter = -1
         self.row_move = 0
 
 def check_equal(l1, l2):
@@ -35,27 +37,29 @@ def check_done( l ):
     return 1
 
 
-def letters_in_a_row_heuristic_plus( node ):
+def immediate_distance_heuristic( node ):
+    node_letter = node.letter
+    min_dist = 1934
+    min_remaining_moves = sum(np.subtract([7,7,7,7,7], node.progression_column_indices))
+    letter_hash = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E'}
+    for i in range(5):
+        cur_dist = d.dist(node_letter, letter_hash[i])
+        if(cur_dist < min_dist and cur_dist != 0):
+            min_dist = cur_dist
+    return min_dist
+
+def letters_in_a_row_heuristic( node ):
     letter_hash = { -1  : 0, 'A' : 0, 'B' : 0, 'C' : 0, 'D' : 0, 'E' : 0}
     max_freq = 0
-    max_dist = 1934
-    dist = 0
-    dist_arr = []
-    target_letter = graph[node.location[0]][node.location[1]]
     for i in range(5):
         cur_let = graph[i][node.progression_column_indices[i] + 1]
         if cur_let == -1:
             continue
         letter_hash[graph[i][node.progression_column_indices[i]+1]] += 1
     for key in letter_hash:
-        dist_arr.append(d.dist(target_letter, key))
         if letter_hash[key] > 1:
             max_freq += letter_hash[key]
-        else:
-            dist += d.dist(target_letter, key)
-    return max(dist_arr) + (5-max_freq) + (1934 - dist)
-
-
+    return 5 - max_freq
 
 def fewest_stops():
     start_successor = successor((0, 0))
@@ -74,83 +78,41 @@ def fewest_stops():
         x = cur.location[0]
         y = cur.location[1]
 
-        # check row 0
-        if(cur.progression_column_indices[0] < 5):
-            s = successor((0, cur.progression_column_indices[0] + 1))
+        # generate successors
+        for letter in range(5): # For each letter
+            s = successor((cur.location[0], cur.location[1]))
+            s.letter = letter_hash[letter]
             s.progression_column_indices = np.array([0,0,0,0,0])
             s.progression_column_indices += cur.progression_column_indices
-            s.progression_column_indices[0] += 1
-            s.row_move = 0
+            for i in range(5): # Each row progression
+                if letter_hash[letter] == graph[i][cur.progression_column_indices[i] + 1]:
+                    s.progression_column_indices[i] += 1
+                    s.location = (i, cur.progression_column_indices[i] + 1)
             cur_successors.append(s)
 
-
-        # check row 1
-        if(cur.progression_column_indices[1] < 5):
-
-            s = successor((1, cur.progression_column_indices[1] + 1))
-            s.progression_column_indices = np.array([0,0,0,0,0])
-            s.progression_column_indices += cur.progression_column_indices
-            s.progression_column_indices[1] += 1
-            s.row_move = 1
-            cur_successors.append(s)
-
-        # check row 2
-        if(cur.progression_column_indices[2] < 5):
-
-            s = successor((2, cur.progression_column_indices[2] + 1))
-            s.progression_column_indices = np.array([0,0,0,0,0])
-            s.progression_column_indices += cur.progression_column_indices
-            s.progression_column_indices[2] += 1
-            s.row_move = 2
-            cur_successors.append(s)
-
-
-        # check row 3
-        if(cur.progression_column_indices[3] < 5):
-
-            s = successor((3, cur.progression_column_indices[3] + 1))
-            s.progression_column_indices = np.array([0,0,0,0,0])
-            s.progression_column_indices += cur.progression_column_indices
-            s.progression_column_indices[3] += 1
-            s.row_move = 3
-            cur_successors.append(s)
-
-
-        # check row 4
-        if(cur.progression_column_indices[4] < 5):
-            s = successor((4, cur.progression_column_indices[4] + 1))
-            s.progression_column_indices = np.array([0,0,0,0,0])
-            s.progression_column_indices += cur.progression_column_indices
-            s.progression_column_indices[4] += 1
-            s.row_move = 4
-            cur_successors.append(s)
 
         for s in cur_successors:
-            target_letter = graph[s.location[0]][s.location[1]]
-            prev_letter = graph[cur.location[0]][cur.location[1]]
-            for i in range(5):
-                letter = graph[i][s.progression_column_indices[i] + 1]
-                if target_letter == letter and i != s.row_move:
-                    s.progression_column_indices[i] += 1 # all reachable factories from our own free move if same letter
+            target_letter = s.letter
+            prev_letter = cur.letter
+            if prev_letter == target_letter:
+                continue
             s.parent = cur
             s.distance = cur.distance + d.dist(prev_letter, target_letter)
-            s.g = cur.g + cur.distance + d.dist(prev_letter, target_letter)
-            s.h = letters_in_a_row_heuristic_plus(s)
+            s.g = cur.distance + d.dist(prev_letter, target_letter)
+            s.h = immediate_distance_heuristic(s) + letters_in_a_row_heuristic(s)
             s.f = s.g + s.h
 
-
-			#check for lower f entries already open
-            if [x for x in open_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
-                continue
+			#check for lower f entries already closed
+            if [x for x in closed_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
+		 		continue
             else:
                 open_list.append(s)
 
         closed_list.append(cur)
 
     print cur.distance
-    print cur.distance
     while(cur.parent != -1):
-        print(cur.location, cur.progression_column_indices, cur.distance, graph[cur.location[0]][cur.location[1]])
+        print(cur.location, cur.progression_column_indices, cur.distance, cur.letter)
         cur = cur.parent
 
 print("starting graph traversal \n")
