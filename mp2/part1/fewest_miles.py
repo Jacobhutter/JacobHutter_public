@@ -61,13 +61,15 @@ def letters_in_a_row_heuristic( node ):
             max_freq += letter_hash[key]
     return 5 - max_freq
 
-def fewest_stops():
+def fewest_miles():
+    nodes_expanded = 0
     start_successor = successor((0, 0))
     start_successor.progression_column_indices = np.array([0, 0, 0, 0, 0])
     open_list = []
     closed_list = []
     open_list.append(start_successor)
     while(open_list):
+        nodes_expanded += 1
         cur = min(open_list, key = lambda t: t.f) # priority queue
         open_list.remove(cur)
 
@@ -102,19 +104,21 @@ def fewest_stops():
             s.h = immediate_distance_heuristic(s) + letters_in_a_row_heuristic(s)
             s.f = s.g + s.h
 
-			#check for lower f entries already closed
-            if [x for x in closed_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
-		 		continue
+    		#check for lower f entries already open
+            if [x for x in open_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.letter == s.letter and x.f <= s.f]:
+                continue
+            elif [x for x in closed_list if check_equal(x.progression_column_indices, s.progression_column_indices) and x.f <= s.f]:
+                continue
             else:
                 open_list.append(s)
 
         closed_list.append(cur)
 
-    print cur.distance
+    print 'distance: ', cur.distance, 'nodes_expanded: ', nodes_expanded
     while(cur.parent != -1):
         print(cur.location, cur.progression_column_indices, cur.distance, cur.letter)
         cur = cur.parent
 
 print("starting graph traversal \n")
-end_node = fewest_stops()
+end_node = fewest_miles()
 print("ended traversal \n")
