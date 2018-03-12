@@ -1,90 +1,86 @@
 import sys
 import copy
 import numpy as np
+from util import utility
 
-def utility(board):
-        ret = 0
-        curr = 1
-        piece = 0
-        for row in board:
-                for x in row:
-                        if(x == piece and piece != 0):
-                                curr *= 10
-                                if(curr == 100000):
-                                        return -1 * float('inf')
-                        else:
-                                curr *= x
-                                if(x != 0):
-                                        curr /= 3
-                                piece = x
-                                ret += curr
-                                curr = 1
-        for i in range(len(board[0])):
-                col = board[:][i]
-                for x in col:
-                        if(x == piece and piece != 0):
-                                piece = x
-                                curr *= 10
-                                if(curr == 100000):
-                                        return -1 * float('inf')
-                        else:
-                                curr *= x
-                                if(x != 0):
-                                        curr /= 3
-                                piece = x
-                                ret += curr
-                                curr = 1
-
-        return ret
+pos = (-1, -1)
+nodes = 0
 
 def alphabeta_play(player, board):
-        high, pos = maxval(player, board, 1, float('-inf'), float('inf'))
-	print('play')
-        return pos
+	global nodes
+	global pos
+	nodes = 0
+	board *= player	
+	abmaxval(1, board, 0, -sys.maxsize, sys.maxsize)	
+	board *= player
+	return pos, nodes
 
-def maxval(player, board, count, a, b):
-        if(count == 3):
-                return utility(board)
-        high = float('-inf')
-        pos = (-1, -1)
-        for i in range(len(board)):
+def abmaxval(player, board, count, a, b):
+	global nodes
+	global pos
+	ut = utility(board)
+	if ut == sys.maxsize or ut == -sys.maxsize:
+		return ut
+	high = -sys.maxsize
+	loc = (-1, -1)
+	for i in range(len(board)):
                 for j in range(len(board[0])):
-                        if(board[i][j] != 0):
-                                continue
-                        temp = np.copy(board)
-                        temp[i][j] = player
-                        curr = minval(player, temp, count + 1, a, b)
-                        if(curr > high):
-                                high = curr
-                                pos = (i, j)
+			if(board[i][j] != 0):
+				continue	
+			temp = np.copy(board)
+			temp[i][j] = player
+			curr = abminval(player * -1, temp, count + 1, a, b)
+			if(curr == sys.maxsize):
+				high = sys.maxsize
+				loc = (i, j)
+			elif(curr == -sys.maxsize):
+				if(loc == (-1, -1)):
+					loc = (i, j)
+			elif(curr > high):
+				high = curr
+				loc = (i, j)
 			if(high >= b):
-				return high, pos
+				pos = loc
+				return high
 			a = max(a, high)
-        if(pos == (-1, -1)):
+	if(loc == (-1, -1)):
                 return 0
-	return high, pos
+	nodes += 1
+	pos = loc
+	return high
 
-def minval(player, board, count, a, b):
-        low = float('inf')
-        pos = (-1, -1)
+def abminval(player, board, count, a, b):
+	global nodes
+	global pos
+	if(count == 3):
+		return utility(board)
+	ut = utility(board)
+        if ut == sys.maxsize or ut == -sys.maxsize:
+                return ut
+	low = sys.maxsize
+        loc = (-1, -1)
         for i in range(len(board)):
                 for j in range(len(board[0])):
                         if(board[i][j] != 0):
                                 continue
                         temp = np.copy(board)
                         temp[i][j] = player
-                        curr = maxval(player, temp, count + 1, a, b)
-                        if(curr < low):
+                        curr = abmaxval(player, temp, count + 1, a, b)
+			if(curr == -sys.maxsize):
+				low = -sys.maxsize
+				loc = (i, j)
+                        elif(curr == sys.maxsize):
+				if(loc == (-1, -1)):
+					loc = (i, j)
+			elif(curr < low):
                                 low = curr
-                                pos = (i, j)
+                                loc = (i, j)
 			if(low <= a):
-                                return high, pos
-                        b = min(b, low)
-
-	if(pos == (-1, -1)):
-		return 0
-        return low, pos
-
-
-print('test')
-                                          
+				pos = loc
+				return low
+			b = min(b, low)
+	if(loc == (-1, -1)):
+                return 0
+	nodes += 1
+	pos = loc
+	return low
