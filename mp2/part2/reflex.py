@@ -80,7 +80,7 @@ def check_row(row, piece, tol):
         elif(row[x] != piece):
             count = 0
         
-        if((count >= tol) and tol == 3 and x < 6 and x > tol):
+        if((count >= tol) and tol == 3 and x < 6 and x >= tol):
             if((row[x - 3] == 0) and (row[x + 1] == 0)):
                 if(row[x - 3] == 0):
                     print "first"
@@ -277,6 +277,8 @@ def check_winblock(player, board):
     for x in range(len(board)):
         seq = 0
         for i in range(3):
+            block = []
+            seq = 0
             for y in range(5):
                     if(board[x][y + i] != player * -1):#
                         seq += 1
@@ -301,6 +303,8 @@ def check_winblock(player, board):
     for x in range(len(board)):
         seq = 0
         for i in range(3):
+            block = []
+            seq = 0
             for y in range(5):
                     if(board[y + i][x] != player * -1):#
                         seq += 1
@@ -322,6 +326,8 @@ def check_winblock(player, board):
     y_cord = 0
 
     for i in range(3):
+        x_cord = 0
+        y_cord = 0
         while(x_cord >= 0 and x_cord < 7 and y_cord >= 0 and y_cord < 7):
             if(player * -1 != board[x_cord + i][y_cord + i]):
                 seq += 1
@@ -364,7 +370,7 @@ def check_winblock(player, board):
 #
 #    if(!block.empty()):
 #        # compare to blocks
-
+    print blocks
     for i in range(len(blocks)):
         x = blocks[i][0]
         y = blocks[i][1]
@@ -396,10 +402,13 @@ def play(player, board):
 #### MAIN ####
 board = np.zeros((7, 7))
 
-for i in range(len(test4)):
-    for j in range(len(test4[i])):
-        if(test4 != 0):
-            board[i][j] = test4[i][j]
+#for i in range(len(test4)):
+#    for j in range(len(test4[i])):
+#        if(test4 != 0):
+#            board[i][j] = test4[i][j]
+
+board[1][1] = red_piece
+board[5][5] = blue_piece
 win = 0
 player = 1
 plays = 0
@@ -417,4 +426,5 @@ while not win and plays < 49:
         print(row)
     print('\n')
 print(win)
+
 
