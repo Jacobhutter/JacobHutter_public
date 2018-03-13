@@ -11,7 +11,10 @@ module idex
     input lc3b_word sr2_in,
     input lc3b_word offset6_in,
     input lc3b_word offset9_in,
+    input lc3b_word offset11_in
     input lc3b_word imm5_in,
+    input lc3b_word imm4_in,
+    input lc3b_word trapvect8_in,
 
     output lc3b_word pc,
     output lc3b_reg dest_out,
@@ -19,7 +22,10 @@ module idex
     output lc3b_word sr2_out,
     output lc3b_word offset6_out,
     output lc3b_word offset9_out,
+    output lc3b_word offset11_out,
     output lc3b_word imm5_out,
+    output lc3b_word imm4_out,
+    output lc3b_word trapvect8_out,
     output lc3b_control_word ctrl_word_out,
     output logic ready
 );
@@ -35,7 +41,10 @@ begin
         sr2_out = sr2_in;
         offset6_out = offset6_in;
         offset9_out = offset9_in;
+        offset11_out = offset11_in;
         imm5_out = imm5_in;
+        imm4_out = imm4_in;
+        trapvect8_out = trapvect8_in;
         ctrl_word_out = ctrl_word_in;
     end
     else
@@ -47,7 +56,10 @@ begin
         sr2_out = sr2_out;
         offset6_out = offset6_out;
         offset9_out = offset9_out;
+        offset11_out = offset11_out;
         imm5_out = imm5_out;
+        imm4_out = imm4_out;
+        trapvect8_out = trapvect8_out;
         ctrl_word_out = ctrl_word_out;
     end
 end

@@ -4,7 +4,7 @@ module cpu(
     wishbone.master ifetch, // instruction fetch stage, assumed to never write
     wishbone.master memory // memory stage
 );
-
+logic [1:0] mem_byte_enable;
 logic [3:0] instruction_offset;
 logic [3:0] data_offset;
 logic instruction_request, write_enable, data_request;
@@ -31,7 +31,7 @@ assign memory.CYC = data_request;
 assign memory.WE = write_enable;
 wishbone_interface data_interface
 (
-  .cpu_address(mem_address),
+  .cpu_address(mem_address & 16'hFFFE),
   .mem_rdata_line(memory.DAT_S),
   .write_data_cpu(write_data),
   .mem_address(memory.ADR),
@@ -49,6 +49,7 @@ cpu_datapath cd
   .mem_rdata,
   .data_response(memory.ACK),
   .instruction_address,
+  .mem_byte_enable,
   .mem_address,
   .write_data,
   .instruction_request,

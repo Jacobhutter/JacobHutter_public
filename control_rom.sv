@@ -11,55 +11,146 @@ begin
    ctrl.opcode = opcode;
    ctrl.aluop = alu_add;
    ctrl.load_cc = 1'b0;
-	ctrl.load_pc = 1'b0;
+   ctrl.load_pc = 1'b0;
    ctrl.load_regfile = 1'b0;
-   ctrl.alumux_sel = 1'b0;
-   ctrl.pcmux_sel = 1'b0;
+   ctrl.alumux_sel = 2'b00;
+   ctrl.pcmux_sel = 2'b00;
    ctrl.mem_read = 1'b0;
    ctrl.mem_write = 1'b0;
    ctrl.offsetmux_sel = 1'b0;
    ctrl.storemux_sel = 1'b0;
-   ctrl.regfilemux_sel = 1'b0;
-   ctrl.marmux_sel = 1'b0;
-   ctrl.mdrmux_sel = 1'b0;
+   ctrl.destmux_sel = 1'b0
+   ctrl.regfilemux_sel = 2'b00;
+   ctrl.marmux_sel = 2'b00;
+   ctrl.mdrmux_sel = 2'b00;
+   ctrl.wordinmux_sel = 1'b0;
 
    case(opcode)
        op_add: begin
+           if(bits4_5_11[1])
+                ctrl.alumux_sel = 2'b10; // select immediate add
+           else
+                ctrl.alumux_sel = 2'b00;
            ctrl.aluop = alu_add;
            ctrl.load_cc = 1;
            ctrl.load_regfile = 1;
        end
+
        op_and: begin
+           if(bits4_5_11[1])
+                ctrl.alumux_sel = 2'b10; // select immediate and
+           else
+                ctrl.alumux_sel = 2'b00;
            ctrl.aluop = alu_and;
            ctrl.load_cc = 1;
            ctrl.load_regfile = 1;
        end
+
+       op_jmp: begin // also ret
+            ctrl.aluop = alu_pass;
+            ctrl.pcmux_sel = 2'b10;
+       end
+
+       op_jsr: begin
+            ctrl.regfilemux_sel = 2'b10; // select pc
+            ctrl.load_regfile = 1; // load regfile
+            ctrl.destmux_sel = 1; //set dest to 7
+            if(bits4_5_11[2] == 0) begin
+                ctrl.aluop = alu_pass; // base reg value
+                ctrl.pcmux_sel = 2'b10; // select aluout
+            end
+            else begin
+                ctrl.offsetmux = 1; // seelect offset 11
+                 ctrl.pcmux_sel = 2'b01;
+            end
+       end
+
        op_not: begin
            ctrl.aluop = alu_not;
            ctrl.load_cc = 1;
            ctrl.load_regfile = 1;
        end
+
+       op_ldi: begin
+          ctrl.aluop = alu_add;
+          ctrl.mem_read = 1;
+          ctrl.mdrmux_sel = 2'b01; // sel read dat
+          ctrl.alumux_sel = 2'b01;
+          ctrl.regfilemux_sel = 2'b01; // read data from memory
+       ctrl.load_regfile = 1;
+       end
+
        op_ldr: begin
            ctrl.aluop = alu_add;
            ctrl.mem_read = 1;
-           ctrl.mdrmux_sel = 1; // sel read dat
-			  ctrl.alumux_sel = 1;
-			  ctrl.load_cc = 1;
-			  ctrl.regfilemux_sel = 1; // read data from memory
+           ctrl.mdrmux_sel = 2'b01; // sel read dat
+			  ctrl.alumux_sel = 2'b01;
+			  ctrl.regfilemux_sel = 2'b01; // read data from memory
            ctrl.load_regfile = 1;
        end
+
+       op_lea: begin
+            ctrl.regfilemux_sel = 2'b11; // sel br_add_out to load into dest register
+            ctrl.load_regfile = 1;
+            ctrl.load_cc = 1;
+       end
+
+       op_ldb: begin
+            ctrl.aluop = alu_add;
+            ctrl.mem_read = 1;
+            ctrl.mdrmux_sel = 2'b01; // sel read dat
+            ctrl.alumux_sel = 2'b01;
+            ctrl.regfilemux_sel = 2'b01; // read data from memory
+            ctrl.load_regfile = 1;
+            ctrl.wordinmux_sel = 1; // select half word input
+       end
+
+       op_stb: begin
+           ctrl.aluop = alu_add;
+           ctrl.mem_write = 1;
+           ctrl.alumux_sel = 2'b01;
+           ctrl.mdrmux_sel = 2'b10; // sel half write dat
+           ctrl.storemux_sel = 1;
+       end
+
        op_str: begin
            ctrl.aluop = alu_add;
            ctrl.mem_write = 1;
-			  ctrl.alumux_sel = 1;
-           ctrl.mdrmux_sel = 0; // sel write dat
+           ctrl.alumux_sel = 2'b01;
+           ctrl.mdrmux_sel = 2'b00; // sel write dat
            ctrl.storemux_sel = 1;
        end
-		 
+
+       op_shf: begin
+            if(bits4_5_11[0] == 0) begin // d == 0
+                ctrl.aluop = alu_sll;
+            end
+            else if (bits4_5_11[1] == 0)begin // a == 0
+                ctrl.aluop = alu_srl;
+            end
+            else begin
+                ctrl.aluop = alu_sra;
+            end
+            ctrl.load_regfile = 1;
+            ctrl.alumux_sel = 2'b11; // select imm4
+            ctrl.load_cc = 1;
+       end
+
 		 op_br: begin
-			  ctrl.pcmux_sel = 1; // sel br_add and we compare when needed i.e. when command gets to wb, cc is compare
-		 end 
-		 
+              // no need to load pc, just queue up data and let advance do the rest
+			  ctrl.pcmux_sel = 2'b01; // sel br_add and we compare when needed i.e. when command gets to wb, cc is compare
+		 end
+
+       op_trap: begin
+           ctrl.regfilemux_sel = 2'b10; // select pc
+           ctrl.load_regfile = 1; // load regfile
+           ctrl.destmux_sel = 1; //set dest to 7
+           ctrl.marmux_sel = 2'b01; // select trap input
+           ctrl.mem_read = 1;
+           ctrl.mdrmux_sel = 2'b01; // data in mdr = memrdata
+           ctrl.pcmux_sel = 2'b11; // put memwdata into pc
+       end
+
        default: begin
            ctrl = 0;
        end
