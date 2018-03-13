@@ -251,7 +251,13 @@ exmem exmem_register
   * MEM Stage
   * call out to memory
 ******************************************************************************/
-
+mem_controller mem_controller
+(
+    .clk,
+    .data_response,
+    .ctrl_word_in,
+    .ctrl_word_out 
+);
 always_comb begin
     if mem_ctrl.opcode == op_stb
         mem_byte_enable = mbemux_out;
