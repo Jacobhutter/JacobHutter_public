@@ -1,0 +1,8 @@
+
+State Machine - |cpu|cpu_datapath:cd|mem_controller:mem_controller|state
+Name state.s_sti_1 state.s_ldi_2 state.s_ldi_1 state.decode state.s_sti_2 
+state.decode 0 0 0 0 0 
+state.s_ldi_1 0 0 1 1 0 
+state.s_ldi_2 0 1 0 1 0 
+state.s_sti_1 1 0 0 1 0 
+state.s_sti_2 0 0 0 1 1 

@@ -19,7 +19,7 @@ begin
    ctrl.mem_write = 1'b0;
    ctrl.offsetmux_sel = 1'b0;
    ctrl.storemux_sel = 1'b0;
-   ctrl.destmux_sel = 1'b0
+   ctrl.destmux_sel = 1'b0;
    ctrl.regfilemux_sel = 2'b00;
    ctrl.marmux_sel = 2'b00;
    ctrl.mdrmux_sel = 2'b00;
@@ -60,7 +60,7 @@ begin
                 ctrl.pcmux_sel = 2'b10; // select aluout
             end
             else begin
-                ctrl.offsetmux = 1; // seelect offset 11
+                ctrl.offsetmux_sel = 1; // seelect offset 11
                  ctrl.pcmux_sel = 2'b01;
             end
        end
@@ -71,14 +71,26 @@ begin
            ctrl.load_regfile = 1;
        end
 
-       op_ldi: begin
+       op_ldi: begin // identical to ldr, state_controller will handle second cycle
           ctrl.aluop = alu_add;
           ctrl.mem_read = 1;
           ctrl.mdrmux_sel = 2'b01; // sel read dat
           ctrl.alumux_sel = 2'b01;
           ctrl.regfilemux_sel = 2'b01; // read data from memory
-       ctrl.load_regfile = 1;
+			 ctrl.load_regfile = 1;
+			 ctrl.load_cc = 1;
        end
+		 
+		 op_sti: begin  // identical to ldr, get address first and then write
+			 ctrl.aluop = alu_add;
+          ctrl.mem_read = 1;
+          ctrl.mdrmux_sel = 2'b01; // sel read dat
+          ctrl.alumux_sel = 2'b01;
+          ctrl.regfilemux_sel = 2'b01; // read data from memory
+			 ctrl.load_regfile = 1;
+			 ctrl.storemux_sel = 1; // load store data
+			 ctrl.load_cc = 1;
+		 end
 
        op_ldr: begin
            ctrl.aluop = alu_add;
@@ -87,6 +99,7 @@ begin
 			  ctrl.alumux_sel = 2'b01;
 			  ctrl.regfilemux_sel = 2'b01; // read data from memory
            ctrl.load_regfile = 1;
+			  ctrl.load_cc = 1;
        end
 
        op_lea: begin
@@ -103,6 +116,7 @@ begin
             ctrl.regfilemux_sel = 2'b01; // read data from memory
             ctrl.load_regfile = 1;
             ctrl.wordinmux_sel = 1; // select half word input
+				ctrl.load_cc = 1;
        end
 
        op_stb: begin

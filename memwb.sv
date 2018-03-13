@@ -24,6 +24,7 @@ module memwb
     output logic ready
 );
 logic mem_required, second_cycle_required;
+
 always_comb begin
     mem_required = ctrl_word_in.mem_read | ctrl_word_in.mem_write;
     if(ctrl_word_in.opcode == op_ldi || ctrl_word_in.opcode == op_sti)
@@ -31,6 +32,7 @@ always_comb begin
     else
         second_cycle_required = 0;
 end
+
 always_ff @(posedge clk)
 begin
     if (advance == 1)                   // begin step1: increment pc

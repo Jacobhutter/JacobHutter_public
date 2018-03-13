@@ -28,14 +28,14 @@ typedef enum bit [3:0] {
     op_jmp  = 4'b1100, ///* also RET */ //
     op_jsr  = 4'b0100, ///* also JSRR */ //
     op_ldb  = 4'b0010, // //
-    op_ldi  = 4'b1010, //
+    op_ldi  = 4'b1010, // // 
     op_ldr  = 4'b0110, // //
     op_lea  = 4'b1110, // //
     op_not  = 4'b1001, // //
     op_rti  = 4'b1000, // not needed
     op_shf  = 4'b1101, // //
     op_stb  = 4'b0011, // // 
-    op_sti  = 4'b1011, //
+    op_sti  = 4'b1011, // //
     op_str  = 4'b0111, // //
     op_trap = 4'b1111  // //
 } lc3b_opcode;
@@ -56,15 +56,17 @@ typedef struct packed {
         logic load_cc;
         logic load_pc;
 		  logic load_regfile;
-		  logic alumux_sel;
-		  logic pcmux_sel;
+		  logic [1:0] alumux_sel;
+		  logic [1:0] pcmux_sel;
 		  logic mem_read;
 		  logic mem_write;
         logic offsetmux_sel;
 		  logic storemux_sel;
-        logic regfilemux_sel;
-        logic marmux_sel;
-        logic mdrmux_sel;
+		  logic destmux_sel;
+        logic [1:0] regfilemux_sel;
+        logic [1:0] marmux_sel;
+        logic [1:0] mdrmux_sel;
+		  logic wordinmux_sel;
 
         /* ... other signals ... */
 } lc3b_control_word;

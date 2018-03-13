@@ -11,7 +11,7 @@ module idex
     input lc3b_word sr2_in,
     input lc3b_word offset6_in,
     input lc3b_word offset9_in,
-    input lc3b_word offset11_in
+    input lc3b_word offset11_in,
     input lc3b_word imm5_in,
     input lc3b_word imm4_in,
     input lc3b_word trapvect8_in,

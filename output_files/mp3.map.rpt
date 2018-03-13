@@ -1,5 +1,5 @@
 Analysis & Synthesis report for mp3
-Sat Mar 10 16:05:45 2018
+Tue Mar 13 16:01:27 2018
 Quartus II 32-bit Version 13.1.4 Build 182 03/12/2014 SJ Full Version
 
 
@@ -13,34 +13,45 @@ Quartus II 32-bit Version 13.1.4 Build 182 03/12/2014 SJ Full Version
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
-  8. Registers Removed During Synthesis
-  9. Removed Registers Triggering Further Register Optimizations
- 10. General Register Statistics
- 11. Multiplexer Restructuring Statistics (Restructuring Performed)
- 12. Parameter Settings for User Entity Instance: cpu_datapath:cd|register:pc
- 13. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:pcmux
- 14. Parameter Settings for User Entity Instance: cpu_datapath:cd|plus2:pc_plus2
- 15. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:offsetmux
- 16. Parameter Settings for User Entity Instance: cpu_datapath:cd|adj:adj11
- 17. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:storemux
+  8. State Machine - |cpu|cpu_datapath:cd|mem_controller:mem_controller|state
+  9. Registers Removed During Synthesis
+ 10. Removed Registers Triggering Further Register Optimizations
+ 11. General Register Statistics
+ 12. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 13. Parameter Settings for User Entity Instance: cpu_datapath:cd|register:pc
+ 14. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:pcmux
+ 15. Parameter Settings for User Entity Instance: cpu_datapath:cd|plus2:pc_plus2
+ 16. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:offsetmux
+ 17. Parameter Settings for User Entity Instance: cpu_datapath:cd|adj:adj11
  18. Parameter Settings for User Entity Instance: cpu_datapath:cd|adj:adj6
  19. Parameter Settings for User Entity Instance: cpu_datapath:cd|adj:adj9
- 20. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:alumux
- 21. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:mdrmux
- 22. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:marmux
- 23. Parameter Settings for User Entity Instance: cpu_datapath:cd|register:MDR
- 24. Parameter Settings for User Entity Instance: cpu_datapath:cd|register:MAR
- 25. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:refgilemux
- 26. Parameter Settings for User Entity Instance: cpu_datapath:cd|register:CC
- 27. Port Connectivity Checks: "cpu_datapath:cd|memwb:memwb_register"
- 28. Port Connectivity Checks: "cpu_datapath:cd|idex:idex_register"
- 29. Port Connectivity Checks: "cpu_datapath:cd|adj:adj9"
- 30. Port Connectivity Checks: "cpu_datapath:cd|adj:adj6"
- 31. Port Connectivity Checks: "cpu_datapath:cd|adj:adj11"
- 32. Port Connectivity Checks: "wishbone_interface:data_interface"
- 33. Port Connectivity Checks: "wishbone_interface:instr_interface"
- 34. Elapsed Time Per Partition
- 35. Analysis & Synthesis Messages
+ 20. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:storemux
+ 21. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:destmux
+ 22. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:alumux
+ 23. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:mbemux
+ 24. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:mdrmux
+ 25. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:marmux
+ 26. Parameter Settings for User Entity Instance: cpu_datapath:cd|register:MDR
+ 27. Parameter Settings for User Entity Instance: cpu_datapath:cd|register:MAR
+ 28. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:wordSliceMux
+ 29. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:wordinmux
+ 30. Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:regfilemux
+ 31. Parameter Settings for User Entity Instance: cpu_datapath:cd|register:CC
+ 32. Port Connectivity Checks: "cpu_datapath:cd|memwb:memwb_register"
+ 33. Port Connectivity Checks: "cpu_datapath:cd|mux2:wordSliceMux"
+ 34. Port Connectivity Checks: "cpu_datapath:cd|mux4:marmux"
+ 35. Port Connectivity Checks: "cpu_datapath:cd|mux4:mdrmux"
+ 36. Port Connectivity Checks: "cpu_datapath:cd|mux4:mbemux"
+ 37. Port Connectivity Checks: "cpu_datapath:cd|mux2:destmux"
+ 38. Port Connectivity Checks: "cpu_datapath:cd|adj:adj9"
+ 39. Port Connectivity Checks: "cpu_datapath:cd|adj:adj6"
+ 40. Port Connectivity Checks: "cpu_datapath:cd|adj:adj11"
+ 41. Port Connectivity Checks: "cpu_datapath:cd"
+ 42. Port Connectivity Checks: "wishbone_interface:data_interface"
+ 43. Port Connectivity Checks: "wishbone_interface:instr_interface"
+ 44. Elapsed Time Per Partition
+ 45. Analysis & Synthesis Messages
+ 46. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -66,16 +77,16 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                ;
 +-------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status   ; Successful - Sat Mar 10 16:05:45 2018       ;
+; Analysis & Synthesis Status   ; Successful - Tue Mar 13 16:01:27 2018       ;
 ; Quartus II 32-bit Version     ; 13.1.4 Build 182 03/12/2014 SJ Full Version ;
 ; Revision Name                 ; mp3                                         ;
 ; Top-level Entity Name         ; cpu                                         ;
 ; Family                        ; Stratix III                                 ;
 ; Logic utilization             ; N/A                                         ;
-;     Combinational ALUTs       ; 465                                         ;
+;     Combinational ALUTs       ; 715                                         ;
 ;     Memory ALUTs              ; 0                                           ;
-;     Dedicated logic registers ; 416                                         ;
-; Total registers               ; 416                                         ;
+;     Dedicated logic registers ; 462                                         ;
+; Total registers               ; 462                                         ;
 ; Total pins                    ; 580                                         ;
 ; Total virtual pins            ; 0                                           ;
 ; Total block memory bits       ; 0                                           ;
@@ -181,39 +192,41 @@ applicable agreement for further details.
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 2           ;
+; Maximum used               ; 4           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ; < 0.1%      ;
-;     Processors 3-8         ;   0.0%      ;
+;     Processors 2-4         ; < 0.1%      ;
+;     Processors 5-8         ;   0.0%      ;
 +----------------------------+-------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                       ;
-+----------------------------------+-----------------+------------------------------+------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                   ; Library ;
-+----------------------------------+-----------------+------------------------------+------------------------------------------------+---------+
-; wishbone_interface.sv            ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/wishbone_interface.sv ;         ;
-; wishbone.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/wishbone.sv           ;         ;
-; register.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/register.sv           ;         ;
-; regfile.sv                       ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/regfile.sv            ;         ;
-; plus2.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/plus2.sv              ;         ;
-; mux2.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/mux2.sv               ;         ;
-; memwb.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/memwb.sv              ;         ;
-; lc3b_types.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/lc3b_types.sv         ;         ;
-; ifid.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/ifid.sv               ;         ;
-; idex.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/idex.sv               ;         ;
-; gencc.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/gencc.sv              ;         ;
-; exmem.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/exmem.sv              ;         ;
-; cpu_datapath.sv                  ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/cpu_datapath.sv       ;         ;
-; cpu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/cpu.sv                ;         ;
-; control_rom.sv                   ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/control_rom.sv        ;         ;
-; cccomp.sv                        ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/cccomp.sv             ;         ;
-; alu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/alu.sv                ;         ;
-; adj.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/cblong2/ece411/mp3/adj.sv                ;         ;
-+----------------------------------+-----------------+------------------------------+------------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                        ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                    ; Library ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
+; wishbone_interface.sv            ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/wishbone_interface.sv ;         ;
+; wishbone.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/wishbone.sv           ;         ;
+; register.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/register.sv           ;         ;
+; regfile.sv                       ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/regfile.sv            ;         ;
+; plus2.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/plus2.sv              ;         ;
+; mux4.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/mux4.sv               ;         ;
+; mux2.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/mux2.sv               ;         ;
+; memwb.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/memwb.sv              ;         ;
+; lc3b_types.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/lc3b_types.sv         ;         ;
+; ifid.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/ifid.sv               ;         ;
+; idex.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/idex.sv               ;         ;
+; gencc.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/gencc.sv              ;         ;
+; exmem.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/exmem.sv              ;         ;
+; cpu_datapath.sv                  ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cpu_datapath.sv       ;         ;
+; cpu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cpu.sv                ;         ;
+; control_rom.sv                   ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/control_rom.sv        ;         ;
+; cccomp.sv                        ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cccomp.sv             ;         ;
+; alu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/alu.sv                ;         ;
+; adj.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/adj.sv                ;         ;
+; mem_controller.sv                ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/mem_controller.sv     ;         ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
 
 
 +------------------------------------------------------------------+
@@ -221,34 +234,34 @@ applicable agreement for further details.
 +-----------------------------------------------+------------------+
 ; Resource                                      ; Usage            ;
 +-----------------------------------------------+------------------+
-; Estimated ALUTs Used                          ; 465              ;
-;     -- Combinational ALUTs                    ; 465              ;
+; Estimated ALUTs Used                          ; 715              ;
+;     -- Combinational ALUTs                    ; 715              ;
 ;     -- Memory ALUTs                           ; 0                ;
 ;     -- LUT_REGs                               ; 0                ;
-; Dedicated logic registers                     ; 416              ;
+; Dedicated logic registers                     ; 462              ;
 ;                                               ;                  ;
-; Estimated ALUTs Unavailable                   ; 106              ;
-;     -- Due to unpartnered combinational logic ; 106              ;
+; Estimated ALUTs Unavailable                   ; 69               ;
+;     -- Due to unpartnered combinational logic ; 69               ;
 ;     -- Due to Memory ALUTs                    ; 0                ;
 ;                                               ;                  ;
-; Total combinational functions                 ; 465              ;
+; Total combinational functions                 ; 715              ;
 ; Combinational ALUT usage by number of inputs  ;                  ;
-;     -- 7 input functions                      ; 87               ;
-;     -- 6 input functions                      ; 213              ;
-;     -- 5 input functions                      ; 31               ;
-;     -- 4 input functions                      ; 44               ;
-;     -- <=3 input functions                    ; 90               ;
+;     -- 7 input functions                      ; 69               ;
+;     -- 6 input functions                      ; 156              ;
+;     -- 5 input functions                      ; 127              ;
+;     -- 4 input functions                      ; 205              ;
+;     -- <=3 input functions                    ; 158              ;
 ;                                               ;                  ;
 ; Combinational ALUTs by mode                   ;                  ;
-;     -- normal mode                            ; 347              ;
-;     -- extended LUT mode                      ; 87               ;
+;     -- normal mode                            ; 600              ;
+;     -- extended LUT mode                      ; 69               ;
 ;     -- arithmetic mode                        ; 31               ;
-;     -- shared arithmetic mode                 ; 0                ;
+;     -- shared arithmetic mode                 ; 15               ;
 ;                                               ;                  ;
-; Estimated ALUT/register pairs used            ; 806              ;
+; Estimated ALUT/register pairs used            ; 1002             ;
 ;                                               ;                  ;
-; Total registers                               ; 416              ;
-;     -- Dedicated logic registers              ; 416              ;
+; Total registers                               ; 462              ;
+;     -- Dedicated logic registers              ; 462              ;
 ;     -- I/O registers                          ; 0                ;
 ;     -- LUT_REGs                               ; 0                ;
 ;                                               ;                  ;
@@ -256,135 +269,268 @@ applicable agreement for further details.
 ; I/O pins                                      ; 580              ;
 ; DSP block 18-bit elements                     ; 0                ;
 ; Maximum fan-out node                          ; ifetch.CLK~input ;
-; Maximum fan-out                               ; 416              ;
-; Total fan-out                                 ; 4565             ;
-; Average fan-out                               ; 2.24             ;
+; Maximum fan-out                               ; 462              ;
+; Total fan-out                                 ; 5564             ;
+; Average fan-out                               ; 2.38             ;
 +-----------------------------------------------+------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                          ;
-+-----------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+-------------------------------------------+--------------+
-; Compilation Hierarchy Node              ; LC Combinationals ; LC Registers ; Block Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 12x12 ; DSP 18x18 ; DSP 36x36 ; Pins ; Virtual Pins ; Full Hierarchy Name                       ; Library Name ;
-+-----------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+-------------------------------------------+--------------+
-; |cpu                                    ; 465 (0)           ; 416 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 580  ; 0            ; |cpu                                      ; work         ;
-;    |cpu_datapath:cd|                    ; 281 (17)          ; 416 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd                      ; work         ;
-;       |alu:ALU|                         ; 32 (32)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|alu:ALU              ; work         ;
-;       |cccomp:CCCOMP|                   ; 1 (1)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|cccomp:CCCOMP        ; work         ;
-;       |control_rom:cr|                  ; 8 (8)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|control_rom:cr       ; work         ;
-;       |exmem:exmem_register|            ; 1 (1)             ; 65 (65)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|exmem:exmem_register ; work         ;
-;       |gencc:Gencc|                     ; 7 (7)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|gencc:Gencc          ; work         ;
-;       |idex:idex_register|              ; 2 (2)             ; 85 (85)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|idex:idex_register   ; work         ;
-;       |ifid:ifid_register|              ; 39 (39)           ; 37 (37)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|ifid:ifid_register   ; work         ;
-;       |memwb:memwb_register|            ; 4 (4)             ; 51 (51)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|memwb:memwb_register ; work         ;
-;       |mux2:mdrmux|                     ; 72 (72)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux2:mdrmux          ; work         ;
-;       |mux2:refgilemux|                 ; 16 (16)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux2:refgilemux      ; work         ;
-;       |mux2:storemux|                   ; 3 (3)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux2:storemux        ; work         ;
-;       |regfile:r|                       ; 72 (72)           ; 128 (128)    ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|regfile:r            ; work         ;
-;       |register:CC|                     ; 0 (0)             ; 3 (3)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|register:CC          ; work         ;
-;       |register:MAR|                    ; 0 (0)             ; 16 (16)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|register:MAR         ; work         ;
-;       |register:MDR|                    ; 7 (7)             ; 16 (16)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|register:MDR         ; work         ;
-;       |register:pc|                     ; 0 (0)             ; 15 (15)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|register:pc          ; work         ;
-;    |wishbone_interface:data_interface|  ; 168 (168)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|wishbone_interface:data_interface    ; work         ;
-;    |wishbone_interface:instr_interface| ; 16 (16)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|wishbone_interface:instr_interface   ; work         ;
-+-----------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+-------------------------------------------+--------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                   ;
++-----------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+----------------------------------------------------+--------------+
+; Compilation Hierarchy Node              ; LC Combinationals ; LC Registers ; Block Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 12x12 ; DSP 18x18 ; DSP 36x36 ; Pins ; Virtual Pins ; Full Hierarchy Name                                ; Library Name ;
++-----------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+----------------------------------------------------+--------------+
+; |cpu                                    ; 715 (0)           ; 462 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 580  ; 0            ; |cpu                                               ; work         ;
+;    |cpu_datapath:cd|                    ; 419 (20)          ; 462 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd                               ; work         ;
+;       |alu:ALU|                         ; 192 (192)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|alu:ALU                       ; work         ;
+;       |control_rom:cr|                  ; 20 (20)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|control_rom:cr                ; work         ;
+;       |exmem:exmem_register|            ; 3 (3)             ; 77 (77)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|exmem:exmem_register          ; work         ;
+;       |gencc:Gencc|                     ; 5 (5)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|gencc:Gencc                   ; work         ;
+;       |idex:idex_register|              ; 0 (0)             ; 81 (81)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|idex:idex_register            ; work         ;
+;       |ifid:ifid_register|              ; 12 (12)           ; 51 (51)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|ifid:ifid_register            ; work         ;
+;       |mem_controller:mem_controller|   ; 7 (7)             ; 5 (5)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mem_controller:mem_controller ; work         ;
+;       |memwb:memwb_register|            ; 3 (3)             ; 70 (70)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|memwb:memwb_register          ; work         ;
+;       |mux2:offsetmux|                  ; 2 (2)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux2:offsetmux                ; work         ;
+;       |mux2:storemux|                   ; 3 (3)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux2:storemux                 ; work         ;
+;       |mux4:alumux|                     ; 11 (11)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux4:alumux                   ; work         ;
+;       |mux4:marmux|                     ; 15 (15)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux4:marmux                   ; work         ;
+;       |mux4:mdrmux|                     ; 1 (1)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux4:mdrmux                   ; work         ;
+;       |mux4:pcmux|                      ; 15 (15)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux4:pcmux                    ; work         ;
+;       |mux4:regfilemux|                 ; 16 (16)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|mux4:regfilemux               ; work         ;
+;       |plus2:pc_plus2|                  ; 15 (15)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|plus2:pc_plus2                ; work         ;
+;       |regfile:r|                       ; 74 (74)           ; 128 (128)    ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|regfile:r                     ; work         ;
+;       |register:CC|                     ; 0 (0)             ; 3 (3)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|register:CC                   ; work         ;
+;       |register:MAR|                    ; 0 (0)             ; 15 (15)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|register:MAR                  ; work         ;
+;       |register:MDR|                    ; 2 (2)             ; 16 (16)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|register:MDR                  ; work         ;
+;       |register:pc|                     ; 3 (3)             ; 16 (16)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|cpu_datapath:cd|register:pc                   ; work         ;
+;    |wishbone_interface:data_interface|  ; 184 (184)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|wishbone_interface:data_interface             ; work         ;
+;    |wishbone_interface:instr_interface| ; 112 (112)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |cpu|wishbone_interface:instr_interface            ; work         ;
++-----------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+----------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                                               ;
-+-------------------------------------------------------------------+------------------------------------------------------------------------------+
-; Register name                                                     ; Reason for Removal                                                           ;
-+-------------------------------------------------------------------+------------------------------------------------------------------------------+
-; cpu_datapath:cd|idex:idex_register|offset9_out[0]                 ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|idex:idex_register|offset6_out[0]                 ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|exmem:exmem_register|offset9_out[0]               ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.marmux_sel       ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.storemux_sel     ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.offsetmux_sel    ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.aluop[2,3]       ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|idex:idex_register|ctrl_word_out.aluop[2,3]       ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|idex:idex_register|ctrl_word_out.offsetmux_sel    ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|idex:idex_register|ctrl_word_out.marmux_sel       ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.offsetmux_sel  ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.marmux_sel     ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|ifid:ifid_register|load_pc                        ; Merged with cpu_datapath:cd|exmem:exmem_register|ready                       ;
-; cpu_datapath:cd|idex:idex_register|read_source                    ; Merged with cpu_datapath:cd|exmem:exmem_register|ready                       ;
-; cpu_datapath:cd|idex:idex_register|offset9_out[10..15]            ; Merged with cpu_datapath:cd|idex:idex_register|offset9_out[9]                ;
-; cpu_datapath:cd|idex:idex_register|offset6_out[7..15]             ; Merged with cpu_datapath:cd|idex:idex_register|offset6_out[6]                ;
-; cpu_datapath:cd|exmem:exmem_register|offset9_out[10..15]          ; Merged with cpu_datapath:cd|exmem:exmem_register|offset9_out[9]              ;
-; cpu_datapath:cd|ifid:ifid_register|offset11[10]                   ; Merged with cpu_datapath:cd|ifid:ifid_register|dest[1]                       ;
-; cpu_datapath:cd|memwb:memwb_register|offset9_out[9,11..15]        ; Merged with cpu_datapath:cd|memwb:memwb_register|offset9_out[10]             ;
-; cpu_datapath:cd|memwb:memwb_register|offset9_out[0]               ; Merged with cpu_datapath:cd|memwb:memwb_register|ctrl_word_out.offsetmux_sel ;
-; cpu_datapath:cd|ifid:ifid_register|offset11[9]                    ; Merged with cpu_datapath:cd|ifid:ifid_register|dest[0]                       ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[8]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[8]                   ;
-; cpu_datapath:cd|ifid:ifid_register|src1[2]                        ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[8]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[7]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[7]                   ;
-; cpu_datapath:cd|ifid:ifid_register|src1[1]                        ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[7]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[6]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[6]                   ;
-; cpu_datapath:cd|ifid:ifid_register|src1[0]                        ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[6]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset6[5]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[5]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[5]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[5]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset6[4]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[4]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[4]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[4]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset6[3]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[3]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[3]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[3]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset6[2]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[2]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[2]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[2]                   ;
-; cpu_datapath:cd|ifid:ifid_register|src2[2]                        ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[2]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset6[1]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[1]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[1]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[1]                   ;
-; cpu_datapath:cd|ifid:ifid_register|src2[1]                        ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[1]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset6[0]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[0]                   ;
-; cpu_datapath:cd|ifid:ifid_register|offset9[0]                     ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[0]                   ;
-; cpu_datapath:cd|ifid:ifid_register|src2[0]                        ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11[0]                   ;
-; cpu_datapath:cd|memwb:memwb_register|ctrl_word_out.pcmux_sel      ; Merged with cpu_datapath:cd|memwb:memwb_register|ctrl_word_out.load_pc       ;
-; cpu_datapath:cd|idex:idex_register|offset9_out[6]                 ; Merged with cpu_datapath:cd|idex:idex_register|offset6_out[6]                ;
-; cpu_datapath:cd|idex:idex_register|offset9_out[5]                 ; Merged with cpu_datapath:cd|idex:idex_register|offset6_out[5]                ;
-; cpu_datapath:cd|idex:idex_register|offset9_out[4]                 ; Merged with cpu_datapath:cd|idex:idex_register|offset6_out[4]                ;
-; cpu_datapath:cd|idex:idex_register|offset9_out[3]                 ; Merged with cpu_datapath:cd|idex:idex_register|offset6_out[3]                ;
-; cpu_datapath:cd|idex:idex_register|offset9_out[2]                 ; Merged with cpu_datapath:cd|idex:idex_register|offset6_out[2]                ;
-; cpu_datapath:cd|idex:idex_register|offset9_out[1]                 ; Merged with cpu_datapath:cd|idex:idex_register|offset6_out[1]                ;
-; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.mem_read       ; Merged with cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.mdrmux_sel    ;
-; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.regfilemux_sel ; Merged with cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.mdrmux_sel    ;
-; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.pcmux_sel      ; Merged with cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.load_pc       ;
-; cpu_datapath:cd|idex:idex_register|ctrl_word_out.pcmux_sel        ; Merged with cpu_datapath:cd|idex:idex_register|ctrl_word_out.load_pc         ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.pcmux_sel        ; Merged with cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.load_pc         ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.mem_read         ; Merged with cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.mdrmux_sel      ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.regfilemux_sel   ; Merged with cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.mdrmux_sel      ;
-; cpu_datapath:cd|idex:idex_register|ctrl_word_out.mem_read         ; Merged with cpu_datapath:cd|idex:idex_register|ctrl_word_out.mdrmux_sel      ;
-; cpu_datapath:cd|idex:idex_register|ctrl_word_out.regfilemux_sel   ; Merged with cpu_datapath:cd|idex:idex_register|ctrl_word_out.mdrmux_sel      ;
-; cpu_datapath:cd|memwb:memwb_register|data_request                 ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|memwb:memwb_register|ctrl_word_out.offsetmux_sel  ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|ifid:ifid_register|pc[0]                          ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|idex:idex_register|pc[0]                          ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|exmem:exmem_register|pc[0]                        ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|memwb:memwb_register|pc[0]                        ; Stuck at GND due to stuck port data_in                                       ;
-; cpu_datapath:cd|register:pc|data[0]                               ; Stuck at GND due to stuck port data_in                                       ;
-; Total Number of Removed Registers = 90                            ;                                                                              ;
-+-------------------------------------------------------------------+------------------------------------------------------------------------------+
+Encoding Type:  One-Hot
++----------------------------------------------------------------------------------------------+
+; State Machine - |cpu|cpu_datapath:cd|mem_controller:mem_controller|state                     ;
++---------------+---------------+---------------+---------------+--------------+---------------+
+; Name          ; state.s_sti_1 ; state.s_ldi_2 ; state.s_ldi_1 ; state.decode ; state.s_sti_2 ;
++---------------+---------------+---------------+---------------+--------------+---------------+
+; state.decode  ; 0             ; 0             ; 0             ; 0            ; 0             ;
+; state.s_ldi_1 ; 0             ; 0             ; 1             ; 1            ; 0             ;
+; state.s_ldi_2 ; 0             ; 1             ; 0             ; 1            ; 0             ;
+; state.s_sti_1 ; 1             ; 0             ; 0             ; 1            ; 0             ;
+; state.s_sti_2 ; 0             ; 0             ; 0             ; 1            ; 1             ;
++---------------+---------------+---------------+---------------+--------------+---------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                                                                  ;
-+----------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------+
-; Register name                                                  ; Reason for Removal        ; Registers Removed due to This Register                                          ;
-+----------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------+
-; cpu_datapath:cd|ifid:ifid_register|pc[0]                       ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|pc[0],                                       ;
-;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|pc[0],                                     ;
-;                                                                ;                           ; cpu_datapath:cd|memwb:memwb_register|pc[0], cpu_datapath:cd|register:pc|data[0] ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.offsetmux_sel ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|ctrl_word_out.offsetmux_sel,                 ;
-;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.offsetmux_sel,               ;
-;                                                                ;                           ; cpu_datapath:cd|memwb:memwb_register|ctrl_word_out.offsetmux_sel                ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.marmux_sel    ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|ctrl_word_out.marmux_sel,                    ;
-;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.marmux_sel                   ;
-; cpu_datapath:cd|idex:idex_register|offset9_out[0]              ; Stuck at GND              ; cpu_datapath:cd|exmem:exmem_register|offset9_out[0]                             ;
-;                                                                ; due to stuck port data_in ;                                                                                 ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.aluop[2]      ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|ctrl_word_out.aluop[2]                       ;
-;                                                                ; due to stuck port data_in ;                                                                                 ;
-; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.aluop[3]      ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|ctrl_word_out.aluop[3]                       ;
-;                                                                ; due to stuck port data_in ;                                                                                 ;
-+----------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                              ;
++------------------------------------------------------------------+------------------------------------------------------------------------------+
+; Register name                                                    ; Reason for Removal                                                           ;
++------------------------------------------------------------------+------------------------------------------------------------------------------+
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[0,9..15]            ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[0]               ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[0]                ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset6_out[0]                ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.marmux_sel[1]   ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.aluop[3]        ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[0,9..15]        ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|idex:idex_register|ctrl_word_out.aluop[3]        ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|idex:idex_register|ctrl_word_out.marmux_sel[1]   ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|idex:idex_register|offset11_out[0]               ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[0]                ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|idex:idex_register|offset6_out[0]                ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.marmux_sel[1] ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[0,9..15]      ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|exmem:exmem_register|offset11_out[0]             ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[0]              ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|memwb:memwb_register|offset11_out[0]             ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[0]              ; Stuck at GND due to stuck port data_in                                       ;
+; cpu_datapath:cd|ifid:ifid_register|mem_request                   ; Merged with cpu_datapath:cd|exmem:exmem_register|ready                       ;
+; cpu_datapath:cd|idex:idex_register|ready                         ; Merged with cpu_datapath:cd|exmem:exmem_register|ready                       ;
+; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.mem_read      ; Merged with cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.mdrmux_sel[0] ;
+; cpu_datapath:cd|memwb:memwb_register|offset11_out[11..15]        ; Merged with cpu_datapath:cd|memwb:memwb_register|dest_out[1]                 ;
+; cpu_datapath:cd|memwb:memwb_register|offset11_out[10]            ; Merged with cpu_datapath:cd|memwb:memwb_register|dest_out[0]                 ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[9..15]          ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[9]             ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[8]              ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[8]             ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[7]              ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[7]             ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[6]              ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[6]             ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[5]              ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[5]             ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[4]              ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[4]             ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[3]              ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[3]             ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[2]              ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[2]             ;
+; cpu_datapath:cd|memwb:memwb_register|offset9_out[1]              ; Merged with cpu_datapath:cd|memwb:memwb_register|offset11_out[1]             ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[4]              ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[4]             ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[4]            ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[4]             ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[5]              ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[5]             ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[5]            ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[5]             ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[6]              ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[6]             ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[6]            ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[6]             ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[7]              ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[7]             ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[7]            ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[7]             ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[8]              ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[8]             ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[8]            ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[8]             ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[3]              ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[3]             ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[3]            ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[3]             ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[2]              ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[2]             ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[2]            ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[2]             ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[1]              ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[1]             ;
+; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[1]            ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[1]             ;
+; cpu_datapath:cd|idex:idex_register|ctrl_word_out.mem_read        ; Merged with cpu_datapath:cd|idex:idex_register|ctrl_word_out.mdrmux_sel[0]   ;
+; cpu_datapath:cd|exmem:exmem_register|offset11_out[11..15]        ; Merged with cpu_datapath:cd|exmem:exmem_register|dest_out[1]                 ;
+; cpu_datapath:cd|exmem:exmem_register|offset11_out[10]            ; Merged with cpu_datapath:cd|exmem:exmem_register|dest_out[0]                 ;
+; cpu_datapath:cd|exmem:exmem_register|offset9_out[9..15]          ; Merged with cpu_datapath:cd|exmem:exmem_register|offset11_out[9]             ;
+; cpu_datapath:cd|idex:idex_register|imm4_out[3..9,11..15]         ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|imm5_out[3]                   ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|offset11_out[4]               ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|offset6_out[4]                ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[4]                ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[4]              ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|imm5_out[4..9,11..15]         ; Merged with cpu_datapath:cd|idex:idex_register|imm5_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|offset11_out[5]               ; Merged with cpu_datapath:cd|idex:idex_register|imm5_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|offset6_out[5]                ; Merged with cpu_datapath:cd|idex:idex_register|imm5_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[5]                ; Merged with cpu_datapath:cd|idex:idex_register|imm5_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[5]              ; Merged with cpu_datapath:cd|idex:idex_register|imm5_out[10]                  ;
+; cpu_datapath:cd|idex:idex_register|offset6_out[6..15]            ; Merged with cpu_datapath:cd|idex:idex_register|offset11_out[6]               ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[6]                ; Merged with cpu_datapath:cd|idex:idex_register|offset11_out[6]               ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[6]              ; Merged with cpu_datapath:cd|idex:idex_register|offset11_out[6]               ;
+; cpu_datapath:cd|idex:idex_register|imm5_out[2]                   ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[2]                   ;
+; cpu_datapath:cd|idex:idex_register|offset11_out[3]               ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[2]                   ;
+; cpu_datapath:cd|idex:idex_register|offset6_out[3]                ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[2]                   ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[3]                ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[2]                   ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[3]              ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[2]                   ;
+; cpu_datapath:cd|idex:idex_register|imm5_out[1]                   ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[1]                   ;
+; cpu_datapath:cd|idex:idex_register|offset11_out[2]               ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[1]                   ;
+; cpu_datapath:cd|idex:idex_register|offset6_out[2]                ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[1]                   ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[2]                ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[1]                   ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[2]              ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[1]                   ;
+; cpu_datapath:cd|idex:idex_register|imm5_out[0]                   ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[0]                   ;
+; cpu_datapath:cd|idex:idex_register|offset11_out[1]               ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[0]                   ;
+; cpu_datapath:cd|idex:idex_register|offset6_out[1]                ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[0]                   ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[1]                ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[0]                   ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[1]              ; Merged with cpu_datapath:cd|idex:idex_register|imm4_out[0]                   ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[7]                ; Merged with cpu_datapath:cd|idex:idex_register|offset11_out[7]               ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[7]              ; Merged with cpu_datapath:cd|idex:idex_register|offset11_out[7]               ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[8]                ; Merged with cpu_datapath:cd|idex:idex_register|offset11_out[8]               ;
+; cpu_datapath:cd|idex:idex_register|trapvect8_out[8]              ; Merged with cpu_datapath:cd|idex:idex_register|offset11_out[8]               ;
+; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.mem_read        ; Merged with cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.mdrmux_sel[0]   ;
+; cpu_datapath:cd|idex:idex_register|offset11_out[11..15]          ; Merged with cpu_datapath:cd|idex:idex_register|dest_out[1]                   ;
+; cpu_datapath:cd|idex:idex_register|offset11_out[10]              ; Merged with cpu_datapath:cd|idex:idex_register|dest_out[0]                   ;
+; cpu_datapath:cd|idex:idex_register|offset9_out[9..15]            ; Merged with cpu_datapath:cd|idex:idex_register|offset11_out[9]               ;
+; cpu_datapath:cd|ifid:ifid_register|imm4[3..9,11..15]             ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|imm5[3]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[4]               ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|offset6_out[4]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[4]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[4]                  ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|imm5[4..9,11..15]             ; Merged with cpu_datapath:cd|ifid:ifid_register|imm5[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[5]               ; Merged with cpu_datapath:cd|ifid:ifid_register|imm5[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|offset6_out[5]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm5[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[5]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm5[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[5]                  ; Merged with cpu_datapath:cd|ifid:ifid_register|imm5[10]                      ;
+; cpu_datapath:cd|ifid:ifid_register|offset6_out[6..15]            ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[6]               ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[6]                ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[6]               ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[6]                  ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[6]               ;
+; cpu_datapath:cd|ifid:ifid_register|imm5[2]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[2]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[3]               ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[2]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset6_out[3]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[2]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[3]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[2]                       ;
+; cpu_datapath:cd|ifid:ifid_register|src2[2]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[2]                       ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[3]                  ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[2]                       ;
+; cpu_datapath:cd|ifid:ifid_register|imm5[1]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[1]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[2]               ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[1]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset6_out[2]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[1]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[2]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[1]                       ;
+; cpu_datapath:cd|ifid:ifid_register|src2[1]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[1]                       ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[2]                  ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[1]                       ;
+; cpu_datapath:cd|ifid:ifid_register|imm5[0]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[0]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[1]               ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[0]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset6_out[1]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[0]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[1]                ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[0]                       ;
+; cpu_datapath:cd|ifid:ifid_register|src2[0]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[0]                       ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[1]                  ; Merged with cpu_datapath:cd|ifid:ifid_register|imm4[0]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[7]                ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[7]               ;
+; cpu_datapath:cd|ifid:ifid_register|src1[0]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[7]               ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[7]                  ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[7]               ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[8]                ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[8]               ;
+; cpu_datapath:cd|ifid:ifid_register|src1[1]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[8]               ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[8]                  ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[8]               ;
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[11..15]          ; Merged with cpu_datapath:cd|ifid:ifid_register|dest[1]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[10]              ; Merged with cpu_datapath:cd|ifid:ifid_register|dest[0]                       ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[9..15]            ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[9]               ;
+; cpu_datapath:cd|ifid:ifid_register|src1[2]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|offset11_out[9]               ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~2            ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~3            ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~5            ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~6            ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~7            ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~8            ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~9            ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~10           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~11           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~12           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~13           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~14           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~15           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~16           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~17           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~18           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~19           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~20           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~21           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~22           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~23           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~24           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~25           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~26           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~27           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~28           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~29           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~30           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~31           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~32           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|mem_controller:mem_controller|state~33           ; Lost fanout                                                                  ;
+; cpu_datapath:cd|exmem:exmem_register|offset11_out[1]             ; Merged with cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.opcode[0]     ;
+; cpu_datapath:cd|idex:idex_register|imm4_out[0]                   ; Merged with cpu_datapath:cd|idex:idex_register|ctrl_word_out.opcode[0]       ;
+; cpu_datapath:cd|ifid:ifid_register|imm4[0]                       ; Merged with cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.opcode[0]       ;
+; Total Number of Removed Registers = 286                          ;                                                                              ;
++------------------------------------------------------------------+------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                                   ;
++----------------------------------------------------------------+---------------------------+------------------------------------------------------------------+
+; Register name                                                  ; Reason for Removal        ; Registers Removed due to This Register                           ;
++----------------------------------------------------------------+---------------------------+------------------------------------------------------------------+
+; cpu_datapath:cd|ifid:ifid_register|offset11_out[0]             ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|offset11_out[0],              ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|offset11_out[0],            ;
+;                                                                ;                           ; cpu_datapath:cd|memwb:memwb_register|offset11_out[0]             ;
+; cpu_datapath:cd|ifid:ifid_register|offset9_out[0]              ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|offset9_out[0],               ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|offset9_out[0],             ;
+;                                                                ;                           ; cpu_datapath:cd|memwb:memwb_register|offset9_out[0]              ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[15]               ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|trapvect8_out[15],            ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[15]           ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[14]               ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|trapvect8_out[14],            ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[14]           ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[13]               ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|trapvect8_out[13],            ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[13]           ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[12]               ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|trapvect8_out[12],            ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[12]           ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[11]               ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|trapvect8_out[11],            ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[11]           ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[10]               ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|trapvect8_out[10],            ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[10]           ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[9]                ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|trapvect8_out[9],             ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[9]            ;
+; cpu_datapath:cd|ifid:ifid_register|trapvect8[0]                ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|trapvect8_out[0],             ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|trapvect8_out[0]            ;
+; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.marmux_sel[1] ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|ctrl_word_out.marmux_sel[1],  ;
+;                                                                ; due to stuck port data_in ; cpu_datapath:cd|exmem:exmem_register|ctrl_word_out.marmux_sel[1] ;
+; cpu_datapath:cd|ifid:ifid_register|offset6_out[0]              ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|offset6_out[0]                ;
+;                                                                ; due to stuck port data_in ;                                                                  ;
+; cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.aluop[3]      ; Stuck at GND              ; cpu_datapath:cd|idex:idex_register|ctrl_word_out.aluop[3]        ;
+;                                                                ; due to stuck port data_in ;                                                                  ;
++----------------------------------------------------------------+---------------------------+------------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -392,32 +538,40 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 416   ;
-; Number of registers using Synchronous Clear  ; 17    ;
-; Number of registers using Synchronous Load   ; 17    ;
+; Total registers                              ; 462   ;
+; Number of registers using Synchronous Clear  ; 41    ;
+; Number of registers using Synchronous Load   ; 24    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 409   ;
+; Number of registers using Clock Enable       ; 454   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                         ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                               ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------+
-; 4:1                ; 49 bits   ; 98 ALUTs      ; 0 ALUTs              ; 98 ALUTs               ; Yes        ; |cpu|cpu_datapath:cd|memwb:memwb_register|wb_alu_out[10] ;
-; 13:1               ; 8 bits    ; 64 ALUTs      ; 56 ALUTs             ; 8 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|register:MDR|data[12]               ;
-; 13:1               ; 8 bits    ; 64 ALUTs      ; 64 ALUTs             ; 0 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|register:MDR|data[7]                ;
-; 14:1               ; 4 bits    ; 36 ALUTs      ; 32 ALUTs             ; 4 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|ifid:ifid_register|offset11[8]      ;
-; 14:1               ; 8 bits    ; 72 ALUTs      ; 64 ALUTs             ; 8 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|ifid:ifid_register|offset11[7]      ;
-; 3:1                ; 11 bits   ; 22 ALUTs      ; 22 ALUTs             ; 0 ALUTs                ; No         ; |cpu|cpu_datapath:cd|Add0                                ;
-; 4:1                ; 9 bits    ; 18 ALUTs      ; 18 ALUTs             ; 0 ALUTs                ; No         ; |cpu|wishbone_interface:data_interface|ShiftLeft0        ;
-; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; No         ; |cpu|wishbone_interface:data_interface|ShiftLeft1        ;
-; 4:1                ; 16 bits   ; 32 ALUTs      ; 32 ALUTs             ; 0 ALUTs                ; No         ; |cpu|cpu_datapath:cd|alu:ALU|Selector8                   ;
-; 12:1               ; 4 bits    ; 32 ALUTs      ; 32 ALUTs             ; 0 ALUTs                ; No         ; |cpu|wishbone_interface:instr_interface|ShiftRight0      ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
+; 3:1                ; 8 bits    ; 16 ALUTs      ; 0 ALUTs              ; 16 ALUTs               ; Yes        ; |cpu|cpu_datapath:cd|register:MDR|data[14]                      ;
+; 3:1                ; 8 bits    ; 16 ALUTs      ; 0 ALUTs              ; 16 ALUTs               ; Yes        ; |cpu|cpu_datapath:cd|memwb:memwb_register|mem_wdata_out[0]      ;
+; 3:1                ; 4 bits    ; 8 ALUTs       ; 8 ALUTs              ; 0 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.opcode[2] ;
+; 4:1                ; 15 bits   ; 30 ALUTs      ; 30 ALUTs             ; 0 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|register:pc|data[4]                        ;
+; 4:1                ; 7 bits    ; 14 ALUTs      ; 14 ALUTs             ; 0 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|register:MAR|data[13]                      ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|register:MAR|data[5]                       ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 0 ALUTs              ; 16 ALUTs               ; Yes        ; |cpu|cpu_datapath:cd|register:MDR|data[0]                       ;
+; 13:1               ; 2 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|exmem:exmem_register|ex_alu_out[10]        ;
+; 14:1               ; 2 bits    ; 18 ALUTs      ; 18 ALUTs             ; 0 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|exmem:exmem_register|ex_alu_out[1]         ;
+; 15:1               ; 2 bits    ; 20 ALUTs      ; 18 ALUTs             ; 2 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|exmem:exmem_register|ex_alu_out[13]        ;
+; 16:1               ; 2 bits    ; 20 ALUTs      ; 20 ALUTs             ; 0 ALUTs                ; Yes        ; |cpu|cpu_datapath:cd|exmem:exmem_register|ex_alu_out[6]         ;
+; 3:1                ; 5 bits    ; 10 ALUTs      ; 10 ALUTs             ; 0 ALUTs                ; No         ; |cpu|cpu_datapath:cd|mux4:alumux|f[3]                           ;
+; 3:1                ; 2 bits    ; 4 ALUTs       ; 4 ALUTs              ; 0 ALUTs                ; No         ; |cpu|cpu_datapath:cd|alu:ALU|ShiftRight0                        ;
+; 3:1                ; 4 bits    ; 8 ALUTs       ; 8 ALUTs              ; 0 ALUTs                ; No         ; |cpu|cpu_datapath:cd|alu:ALU|ShiftLeft0                         ;
+; 4:1                ; 15 bits   ; 30 ALUTs      ; 30 ALUTs             ; 0 ALUTs                ; No         ; |cpu|cpu_datapath:cd|mux4:regfilemux|f[1]                       ;
+; 8:1                ; 16 bits   ; 80 ALUTs      ; 80 ALUTs             ; 0 ALUTs                ; No         ; |cpu|wishbone_interface:data_interface|ShiftRight0              ;
+; 12:1               ; 8 bits    ; 64 ALUTs      ; 64 ALUTs             ; 0 ALUTs                ; No         ; |cpu|wishbone_interface:instr_interface|ShiftRight0             ;
+; 12:1               ; 8 bits    ; 64 ALUTs      ; 64 ALUTs             ; 0 ALUTs                ; No         ; |cpu|wishbone_interface:instr_interface|ShiftRight0             ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
 
 
 +--------------------------------------------------------------------------+
@@ -431,7 +585,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +-------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:pcmux ;
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:pcmux ;
 +----------------+-------+------------------------------------------------+
 ; Parameter Name ; Value ; Type                                           ;
 +----------------+-------+------------------------------------------------+
@@ -470,16 +624,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+----------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:storemux ;
-+----------------+-------+---------------------------------------------------+
-; Parameter Name ; Value ; Type                                              ;
-+----------------+-------+---------------------------------------------------+
-; width          ; 3     ; Signed Integer                                    ;
-+----------------+-------+---------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
 +-----------------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: cpu_datapath:cd|adj:adj6 ;
 +----------------+-------+----------------------------------------------+
@@ -500,8 +644,28 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:storemux ;
++----------------+-------+---------------------------------------------------+
+; Parameter Name ; Value ; Type                                              ;
++----------------+-------+---------------------------------------------------+
+; width          ; 3     ; Signed Integer                                    ;
++----------------+-------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:destmux ;
++----------------+-------+--------------------------------------------------+
+; Parameter Name ; Value ; Type                                             ;
++----------------+-------+--------------------------------------------------+
+; width          ; 3     ; Signed Integer                                   ;
++----------------+-------+--------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +--------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:alumux ;
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:alumux ;
 +----------------+-------+-------------------------------------------------+
 ; Parameter Name ; Value ; Type                                            ;
 +----------------+-------+-------------------------------------------------+
@@ -511,7 +675,17 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +--------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:mdrmux ;
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:mbemux ;
++----------------+-------+-------------------------------------------------+
+; Parameter Name ; Value ; Type                                            ;
++----------------+-------+-------------------------------------------------+
+; width          ; 2     ; Signed Integer                                  ;
++----------------+-------+-------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++--------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:mdrmux ;
 +----------------+-------+-------------------------------------------------+
 ; Parameter Name ; Value ; Type                                            ;
 +----------------+-------+-------------------------------------------------+
@@ -521,7 +695,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +--------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:marmux ;
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:marmux ;
 +----------------+-------+-------------------------------------------------+
 ; Parameter Name ; Value ; Type                                            ;
 +----------------+-------+-------------------------------------------------+
@@ -550,8 +724,28 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
++--------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:wordSliceMux ;
++----------------+-------+-------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                  ;
++----------------+-------+-------------------------------------------------------+
+; width          ; 16    ; Signed Integer                                        ;
++----------------+-------+-------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:wordinmux ;
++----------------+-------+----------------------------------------------------+
+; Parameter Name ; Value ; Type                                               ;
++----------------+-------+----------------------------------------------------+
+; width          ; 16    ; Signed Integer                                     ;
++----------------+-------+----------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux2:refgilemux ;
+; Parameter Settings for User Entity Instance: cpu_datapath:cd|mux4:regfilemux ;
 +----------------+-------+-----------------------------------------------------+
 ; Parameter Name ; Value ; Type                                                ;
 +----------------+-------+-----------------------------------------------------+
@@ -570,28 +764,75 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "cpu_datapath:cd|memwb:memwb_register"                                                                     ;
-+----------------------------+--------+----------+-------------------------------------------------------------------------------------+
-; Port                       ; Type   ; Severity ; Details                                                                             ;
-+----------------------------+--------+----------+-------------------------------------------------------------------------------------+
-; ctrl_word_out.opcode       ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; ctrl_word_out.aluop        ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; ctrl_word_out.alumux_sel   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; ctrl_word_out.mem_read     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; ctrl_word_out.storemux_sel ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; ctrl_word_out.marmux_sel   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; ctrl_word_out.mdrmux_sel   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+----------------------------+--------+----------+-------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu_datapath:cd|memwb:memwb_register"                                                                      ;
++-----------------------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port                        ; Type   ; Severity ; Details                                                                             ;
++-----------------------------+--------+----------+-------------------------------------------------------------------------------------+
+; ctrl_word_out.opcode        ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.aluop         ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.load_pc       ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.alumux_sel    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.mem_read      ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.mem_write     ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.storemux_sel  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.marmux_sel    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.mdrmux_sel    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; ctrl_word_out.wordinmux_sel ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-----------------------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "cpu_datapath:cd|idex:idex_register"                                                     ;
-+----------+--------+----------+-------------------------------------------------------------------------------------+
-; Port     ; Type   ; Severity ; Details                                                                             ;
-+----------+--------+----------+-------------------------------------------------------------------------------------+
-; imm5_out ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+----------+--------+----------+-------------------------------------------------------------------------------------+
++---------------------------------------------------------------+
+; Port Connectivity Checks: "cpu_datapath:cd|mux2:wordSliceMux" ;
++----------+-------+----------+---------------------------------+
+; Port     ; Type  ; Severity ; Details                         ;
++----------+-------+----------+---------------------------------+
+; a[15..8] ; Input ; Info     ; Stuck at GND                    ;
+; b[15..8] ; Input ; Info     ; Stuck at GND                    ;
++----------+-------+----------+---------------------------------+
+
+
++---------------------------------------------------------+
+; Port Connectivity Checks: "cpu_datapath:cd|mux4:marmux" ;
++------+-------+----------+-------------------------------+
+; Port ; Type  ; Severity ; Details                       ;
++------+-------+----------+-------------------------------+
+; d    ; Input ; Info     ; Stuck at GND                  ;
++------+-------+----------+-------------------------------+
+
+
++---------------------------------------------------------+
+; Port Connectivity Checks: "cpu_datapath:cd|mux4:mdrmux" ;
++----------+-------+----------+---------------------------+
+; Port     ; Type  ; Severity ; Details                   ;
++----------+-------+----------+---------------------------+
+; c[15..8] ; Input ; Info     ; Stuck at GND              ;
+; d        ; Input ; Info     ; Stuck at GND              ;
++----------+-------+----------+---------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu_datapath:cd|mux4:mbemux"                                                                                                                ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+; Port ; Type  ; Severity ; Details                                                                                                                                      ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+; sel  ; Input ; Warning  ; Input port expression (1 bits) is smaller than the input port (2 bits) it drives.  Extra input bit(s) "sel[1..1]" will be connected to GND.  ;
+; a[1] ; Input ; Info     ; Stuck at GND                                                                                                                                 ;
+; a[0] ; Input ; Info     ; Stuck at VCC                                                                                                                                 ;
+; b[1] ; Input ; Info     ; Stuck at VCC                                                                                                                                 ;
+; b[0] ; Input ; Info     ; Stuck at GND                                                                                                                                 ;
+; c    ; Input ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
+; d    ; Input ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------+
+; Port Connectivity Checks: "cpu_datapath:cd|mux2:destmux" ;
++------+-------+----------+--------------------------------+
+; Port ; Type  ; Severity ; Details                        ;
++------+-------+----------+--------------------------------+
+; b    ; Input ; Info     ; Stuck at VCC                   ;
++------+-------+----------+--------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------+
@@ -621,13 +862,24 @@ Note: In order to hide this table in the UI and the text report file, please set
 +------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "wishbone_interface:data_interface"                                                    ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
-; Port   ; Type   ; Severity ; Details                                                                             ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
-; offset ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "cpu_datapath:cd"                                                                               ;
++-----------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port            ; Type   ; Severity ; Details                                                                             ;
++-----------------+--------+----------+-------------------------------------------------------------------------------------+
+; mem_byte_enable ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; mem_address[0]  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-----------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "wishbone_interface:data_interface"                                                            ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port           ; Type   ; Severity ; Details                                                                             ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; cpu_address[0] ; Input  ; Info     ; Stuck at GND                                                                        ;
+; offset         ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +--------------------------------------------------------------------------------------------------------------------------+
@@ -646,7 +898,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:02     ;
 +----------------+--------------+
 
 
@@ -656,7 +908,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 32-bit Analysis & Synthesis
     Info: Version 13.1.4 Build 182 03/12/2014 SJ Full Version
-    Info: Processing started: Sat Mar 10 16:05:41 2018
+    Info: Processing started: Tue Mar 13 16:01:22 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off mp3 -c mp3
 Info (11104): Parallel Compilation has detected 8 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 4 of the 4 physical processors detected instead.
 Info (12021): Found 1 design units, including 1 entities, in source file wishbone_interface.sv
@@ -701,28 +953,36 @@ Info (12021): Found 1 design units, including 1 entities, in source file alu.sv
     Info (12023): Found entity 1: alu
 Info (12021): Found 1 design units, including 1 entities, in source file adj.sv
     Info (12023): Found entity 1: adj
+Info (12021): Found 1 design units, including 1 entities, in source file mem_controller.sv
+    Info (12023): Found entity 1: mem_controller
 Info (12127): Elaborating entity "cpu" for the top level hierarchy
 Info (12128): Elaborating entity "wishbone_interface" for hierarchy "wishbone_interface:instr_interface"
 Info (12128): Elaborating entity "cpu_datapath" for hierarchy "cpu_datapath:cd"
+Warning (10230): Verilog HDL assignment warning at cpu_datapath.sv(83): truncated value with size 32 to match size of target (16)
 Info (12128): Elaborating entity "register" for hierarchy "cpu_datapath:cd|register:pc"
-Info (12128): Elaborating entity "mux2" for hierarchy "cpu_datapath:cd|mux2:pcmux"
+Info (12128): Elaborating entity "mux4" for hierarchy "cpu_datapath:cd|mux4:pcmux"
 Info (12128): Elaborating entity "plus2" for hierarchy "cpu_datapath:cd|plus2:pc_plus2"
+Info (12128): Elaborating entity "mux2" for hierarchy "cpu_datapath:cd|mux2:offsetmux"
 Info (12128): Elaborating entity "adj" for hierarchy "cpu_datapath:cd|adj:adj11"
+Info (12128): Elaborating entity "adj" for hierarchy "cpu_datapath:cd|adj:adj6"
+Info (12128): Elaborating entity "adj" for hierarchy "cpu_datapath:cd|adj:adj9"
 Info (12128): Elaborating entity "control_rom" for hierarchy "cpu_datapath:cd|control_rom:cr"
 Info (12128): Elaborating entity "ifid" for hierarchy "cpu_datapath:cd|ifid:ifid_register"
 Info (12128): Elaborating entity "mux2" for hierarchy "cpu_datapath:cd|mux2:storemux"
-Info (12128): Elaborating entity "adj" for hierarchy "cpu_datapath:cd|adj:adj6"
-Info (12128): Elaborating entity "adj" for hierarchy "cpu_datapath:cd|adj:adj9"
 Info (12128): Elaborating entity "regfile" for hierarchy "cpu_datapath:cd|regfile:r"
 Info (12128): Elaborating entity "idex" for hierarchy "cpu_datapath:cd|idex:idex_register"
 Info (12128): Elaborating entity "alu" for hierarchy "cpu_datapath:cd|alu:ALU"
 Info (12128): Elaborating entity "exmem" for hierarchy "cpu_datapath:cd|exmem:exmem_register"
+Info (12128): Elaborating entity "mem_controller" for hierarchy "cpu_datapath:cd|mem_controller:mem_controller"
+Info (12128): Elaborating entity "mux4" for hierarchy "cpu_datapath:cd|mux4:mbemux"
 Info (12128): Elaborating entity "memwb" for hierarchy "cpu_datapath:cd|memwb:memwb_register"
 Info (12128): Elaborating entity "gencc" for hierarchy "cpu_datapath:cd|gencc:Gencc"
 Info (12128): Elaborating entity "register" for hierarchy "cpu_datapath:cd|register:CC"
 Info (12128): Elaborating entity "cccomp" for hierarchy "cpu_datapath:cd|cccomp:CCCOMP"
+Info (286030): Timing-Driven Synthesis is running
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276006): RAM logic "cpu_datapath:cd|regfile:r|data" is uninferred due to "logic" being set as ramstyle synthesis attribute
+Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "ifetch.WE" is stuck at GND
     Warning (13410): Pin "ifetch.DAT_M[0]" is stuck at GND
@@ -853,23 +1113,28 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "ifetch.DAT_M[125]" is stuck at GND
     Warning (13410): Pin "ifetch.DAT_M[126]" is stuck at GND
     Warning (13410): Pin "ifetch.DAT_M[127]" is stuck at GND
-    Warning (13410): Pin "memory.STB" is stuck at GND
-    Warning (13410): Pin "memory.CYC" is stuck at GND
-Info (286030): Timing-Driven Synthesis is running
+Info (17049): 31 registers lost all their fanouts during netlist optimizations.
+Info (144001): Generated suppressed messages file /home/jhutter2/ece411/mp3/output_files/mp3.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 3 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "ifetch.RTY"
     Warning (15610): No output dependent on input pin "memory.RTY"
     Warning (15610): No output dependent on input pin "memory.CLK"
-Info (21057): Implemented 1386 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 1648 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 262 input pins
     Info (21059): Implemented 318 output pins
-    Info (21061): Implemented 806 logic cells
+    Info (21061): Implemented 1068 logic cells
 Info: Quartus II 32-bit Analysis & Synthesis was successful. 0 errors, 136 warnings
-    Info: Peak virtual memory: 448 megabytes
-    Info: Processing ended: Sat Mar 10 16:05:45 2018
-    Info: Elapsed time: 00:00:04
-    Info: Total CPU time (on all processors): 00:00:02
+    Info: Peak virtual memory: 451 megabytes
+    Info: Processing ended: Tue Mar 13 16:01:27 2018
+    Info: Elapsed time: 00:00:05
+    Info: Total CPU time (on all processors): 00:00:04
+
+
++------------------------------------------+
+; Analysis & Synthesis Suppressed Messages ;
++------------------------------------------+
+The suppressed messages can be found in /home/jhutter2/ece411/mp3/output_files/mp3.map.smsg.
 
 

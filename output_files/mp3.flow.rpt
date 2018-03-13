@@ -1,5 +1,5 @@
 Flow report for mp3
-Sat Mar 10 16:05:45 2018
+Tue Mar 13 16:01:27 2018
 Quartus II 32-bit Version 13.1.4 Build 182 03/12/2014 SJ Full Version
 
 
@@ -40,16 +40,16 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------+
 ; Flow Summary                                                                ;
 +-------------------------------+---------------------------------------------+
-; Flow Status                   ; Successful - Sat Mar 10 16:05:45 2018       ;
+; Flow Status                   ; Successful - Tue Mar 13 16:01:27 2018       ;
 ; Quartus II 32-bit Version     ; 13.1.4 Build 182 03/12/2014 SJ Full Version ;
 ; Revision Name                 ; mp3                                         ;
 ; Top-level Entity Name         ; cpu                                         ;
 ; Family                        ; Stratix III                                 ;
 ; Logic utilization             ; N/A                                         ;
-;     Combinational ALUTs       ; 465                                         ;
+;     Combinational ALUTs       ; 715                                         ;
 ;     Memory ALUTs              ; 0                                           ;
-;     Dedicated logic registers ; 416                                         ;
-; Total registers               ; 416                                         ;
+;     Dedicated logic registers ; 462                                         ;
+; Total registers               ; 462                                         ;
 ; Total pins                    ; 580                                         ;
 ; Total virtual pins            ; 0                                           ;
 ; Total block memory bits       ; 0                                           ;
@@ -64,7 +64,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/10/2018 16:05:41 ;
+; Start date & time ; 03/13/2018 16:01:22 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; mp3                 ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ applicable agreement for further details.
 +--------------------------------------+---------------------------------+---------------+-------------+----------------+
 ; Assignment Name                      ; Value                           ; Default Value ; Entity Name ; Section Id     ;
 +--------------------------------------+---------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 176831337766936.152071954160311 ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID                ; 176831337767555.152097488252213 ; --            ; --          ; --             ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                              ; --            ; --          ; mp3_tb         ;
 ; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; mp3_tb                          ; --            ; --          ; eda_simulation ;
 ; EDA_OUTPUT_DATA_FORMAT               ; Vhdl                            ; --            ; --          ; eda_simulation ;
@@ -99,8 +99,8 @@ applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:03     ; 1.0                     ; 448 MB              ; 00:00:02                           ;
-; Total                ; 00:00:03     ; --                      ; --                  ; 00:00:02                           ;
+; Analysis & Synthesis ; 00:00:04     ; 1.0                     ; 451 MB              ; 00:00:03                           ;
+; Total                ; 00:00:04     ; --                      ; --                  ; 00:00:03                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -109,7 +109,7 @@ applicable agreement for further details.
 +----------------------+-------------------------------+--------------+--------------+----------------+
 ; Module Name          ; Machine Hostname              ; OS Name      ; OS Version   ; Processor type ;
 +----------------------+-------------------------------+--------------+--------------+----------------+
-; Analysis & Synthesis ; eceb-2022-03.ews.illinois.edu ; CentOS Linux ; CentOS Linux ; x86_64         ;
+; Analysis & Synthesis ; eceb-2022-33.ews.illinois.edu ; CentOS Linux ; CentOS Linux ; x86_64         ;
 +----------------------+-------------------------------+--------------+--------------+----------------+
 
 
