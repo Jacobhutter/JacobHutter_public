@@ -21,10 +21,7 @@ state.write_back 0 1 0 1 0
 state.mem_reset 1 0 0 1 0 
 state.reload 0 0 0 1 1 
 
-State Machine - |mp3|cpu:mp3_cpu|cpu_datapath:cd|mem_controller:mem_controller|state
-Name state.s_sti_1 state.s_ldi_2 state.s_ldi_1 state.decode state.s_sti_2 
-state.decode 0 0 0 0 0 
-state.s_ldi_1 0 0 1 1 0 
-state.s_ldi_2 0 1 0 1 0 
-state.s_sti_1 1 0 0 1 0 
-state.s_sti_2 0 0 0 1 1 
+State Machine - |mp3|cpu:mp3_cpu|cpu_datapath:cd|mem_control:mem_ctrl_unit|state
+Name state.second_hit 
+state.first_hit 0 
+state.second_hit 1 

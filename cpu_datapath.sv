@@ -26,7 +26,8 @@ lc3b_reg src1, src2, dest, storemux_out, wb_dest, dest_out, ex_dest, gencc_out, 
 lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifpc,
 idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offsetmux_out, imm5, imm4, imm4_out,
 sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, offset11_out, imm5_out, trapvect8, trapvect8_out, ex_trapvect8, wb_offset9, wb_offset11, source_data_out, ex_source_data_out, pc_out,
-regfilemux_out, alumux_out, ex_alu_out, ex_offset9, ex_offset11, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9, if_offset11, wordslicemux_out, wordinmux_out;
+regfilemux_out, alumux_out, ex_alu_out, ex_offset9, ex_offset11, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9, if_offset11, wordslicemux_out, wordinmux_out,
+mem_output;
 
 lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out, mem_ctrl_out;
 
@@ -34,8 +35,8 @@ logic [2:0] bits4_5_11;
 logic [1:0] pcmux_sel, mbemux_out;
 assign instruction_address = pc_out;
 assign write_data = mem_wdata;
-assign write_enable = mem_ctrl_out.mem_write;
-assign data_request = mem_ctrl_out.mem_read | mem_ctrl_out.mem_write | second_cycle_request;
+//assign write_enable = mem_ctrl_out.mem_write;
+//assign data_request = mem_ctrl_out.mem_read | mem_ctrl_out.mem_write | second_cycle_request;
 /*******************************************************************************
   * PC
 ******************************************************************************/
@@ -251,81 +252,103 @@ exmem exmem_register
   * MEM Stage
   * call out to memory
 ******************************************************************************/
-mem_controller mem_controller
+
+mem_control mem_ctrl_unit
 (
     .clk,
+    .advance,
+    .mem_control_word(mem_ctrl),
+    .src_data(ex_source_data_out),
+    .alu_data(ex_alu_out),
+    .trapvect8(ex_trapvect8),
+    .mem_rdata,
     .data_response,
-    .ctrl_word_in(mem_ctrl),
-    .ctrl_word_out(mem_ctrl_out) 
+    
+    .mem_wdata,
+    .mem_byte_enable,
+    .data_request,
+    .mem_address,
+    .mem_output,
+    .write_enable,
+    .ready(readymemwb)
 );
 
-always_comb 
-begin
-    if (mem_ctrl_out.opcode == op_stb)
-        mem_byte_enable = mbemux_out;
-    else
-        mem_byte_enable = 2'b11;
-end
 
-mux2 #(.width(2)) mbemux
-(
-	.sel(marmux_out[0]),
-	.a(2'b01),
-	.b(2'b10),
-	.f(mbemux_out)
-);
-
-mux4 mdrmux
-(
-	.sel(mem_ctrl_out.mdrmux_sel),
-	.a(ex_source_data_out),
-	.b(mem_rdata),
-    .c(16'({8'd0, ex_source_data_out[7:0]})),
-    .d(16'd0),
-	.f(mdrmux_out)
-);
-
-mux4 marmux
-(
-	.sel(mem_ctrl_out.marmux_sel),
-	.a(ex_alu_out),
-	.b(ex_trapvect8),
-   .c(mem_rdata),
-   .d(16'd0),
-	.f(marmux_out)
-);
-
-register MDR
-(
-	.clk,
-	.load(mem_ctrl_out.mem_read | mem_ctrl_out.mem_write),
-	.in(mdrmux_out),
-	.out(mem_wdata)
-);
-
-register MAR
-(
-	.clk,
-	.load(mem_ctrl_out.mem_read | mem_ctrl_out.mem_write),
-	.in(marmux_out),
-	.out(mem_address) // want to always pass even address even though input may be odd so mask at top level
-);
-
-mux2 wordSliceMux
-(
-	.sel(marmux_out[0]),
-	.a(16'({8'd0,mem_rdata[7:0]})),
-	.b(16'({8'd0,mem_rdata[15:8]})),
-	.f(wordslicemux_out)
-);
-
-mux2 wordinmux
-(
-	.sel(mem_ctrl_out.wordinmux_sel),
-	.a(mem_rdata),
-	.b(wordslicemux_out),
-	.f(wordinmux_out)
-);
+//mem_controller mem_controller
+//(
+//    .clk,
+//    .data_response,
+//    .ctrl_word_in(mem_ctrl),
+//    .ctrl_word_out(mem_ctrl_out) 
+//);
+//
+//always_comb 
+//begin
+//    if (mem_ctrl_out.opcode == op_stb)
+//        mem_byte_enable = mbemux_out;
+//    else
+//        mem_byte_enable = 2'b11;
+//end
+//
+//mux2 #(.width(2)) mbemux
+//(
+//	.sel(marmux_out[0]),
+//	.a(2'b01),
+//	.b(2'b10),
+//	.f(mbemux_out)
+//);
+//
+//mux4 mdrmux
+//(
+//	.sel(mem_ctrl_out.mdrmux_sel),
+//	.a(ex_source_data_out),
+//	.b(mem_rdata),
+//    .c(16'({8'd0, ex_source_data_out[7:0]})),
+//    .d(16'd0),
+//	.f(mdrmux_out)
+//);
+//
+//mux4 marmux
+//(
+//	.sel(mem_ctrl_out.marmux_sel),
+//	.a(ex_alu_out),
+//	.b(ex_trapvect8),
+//   .c(mem_rdata),
+//   .d(16'd0),
+//	.f(marmux_out)
+//);
+//
+//register MDR
+//(
+//	.clk,
+//	.load(mem_ctrl_out.mem_read | mem_ctrl_out.mem_write),
+//	.in(mdrmux_out),
+//	.out(mem_wdata)
+//);
+//
+//register MAR
+//(
+//	.clk,
+//	.load(mem_ctrl_out.mem_read | mem_ctrl_out.mem_write),
+//	.in(marmux_out),
+//	.out(mem_address) // want to always pass even address even though input may be odd so mask at top level
+//);
+//
+//mux2 wordSliceMux
+//(
+//	.sel(marmux_out[0]),
+//	.a(16'({8'd0,mem_rdata[7:0]})),
+//	.b(16'({8'd0,mem_rdata[15:8]})),
+//	.f(wordslicemux_out)
+//);
+//
+//mux2 wordinmux
+//(
+//	.sel(mem_ctrl_out.wordinmux_sel),
+//	.a(mem_rdata),
+//	.b(wordslicemux_out),
+//	.f(wordinmux_out)
+//);
 
 
 memwb memwb_register
@@ -333,10 +356,9 @@ memwb memwb_register
 	.clk,
 	.advance,
 	.pc_in(expc),
-	.ctrl_word_in(mem_ctrl_out),
+	.ctrl_word_in(mem_ctrl),
 	.wb_alu_in(ex_alu_out),
-	.mem_wdata_in(wordinmux_out),
-	.data_response,
+	.mem_wdata_in(mem_output),
 	.dest_in(ex_dest),
 	.offset9_in(ex_offset9),
 	.offset11_in(ex_offset11),
@@ -344,11 +366,9 @@ memwb memwb_register
 	.wb_alu_out,
 	.mem_wdata_out,
 	.pc(mempc),
-    .second_cycle_request,
 	.offset9_out(wb_offset9),
 	.offset11_out(wb_offset11),
-	.ctrl_word_out(wb_ctrl),
-	.ready(readymemwb)
+	.ctrl_word_out(wb_ctrl)
 );
 
 /*******************************************************************************

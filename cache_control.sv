@@ -70,7 +70,7 @@ begin : next_state_logic
                     (cache_lru && cache_dirty[1]))
                     next_state = load_addr;
                 else
-                    next_state = reload;
+                    next_state = mem_reset;
             end
         end
         load_addr: begin
