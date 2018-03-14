@@ -24,6 +24,25 @@ module ifid
 	  output logic ready
 );
 
+initial
+begin
+    mem_request = 1'b1;
+    ready = 1'b0;
+    pc = 0;
+    ctrl_word_out = 0;
+    dest = 0;
+    src1 = 0;
+    src2 = 0;
+    offset6_out = 0;
+    offset9_out = 0;
+    offset11_out = 0;
+    imm5 = 0;
+    imm4 = 0;
+    trapvect8 = 0;
+end
+
+
+
 always_ff @(posedge clk)
 begin
     if (advance == 1)                   // begin step1: increment pc

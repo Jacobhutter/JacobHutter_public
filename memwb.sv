@@ -25,6 +25,19 @@ module memwb
 );
 logic mem_required, second_cycle_required;
 
+initial
+begin
+    dest_out = 0;
+    mem_wdata_out = 0;
+    wb_alu_out = 0;
+    pc = 0;
+    offset9_out = 0;
+    offset11_out = 0;
+    ctrl_word_out = 0;
+    ready = 1;
+    second_cycle_request = 0;
+end
+
 always_comb begin
     mem_required = ctrl_word_in.mem_read | ctrl_word_in.mem_write;
     if(ctrl_word_in.opcode == op_ldi || ctrl_word_in.opcode == op_sti)
