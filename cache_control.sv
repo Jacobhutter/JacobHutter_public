@@ -36,7 +36,6 @@ begin : state_actions
     ctrl_reload = 1'b0;
     mem_we = 1'b0;
     mem_strobe = 1'b0;
-    
     case(state)
         rw_hit: begin
             ctrl_hit = 1'b1;

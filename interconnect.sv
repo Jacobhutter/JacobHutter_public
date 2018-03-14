@@ -36,7 +36,7 @@ begin : state_actions
             wb_mem.WE = wb_icache.WE;
             wb_mem.SEL = wb_icache.SEL;
             wb_mem.ADR = wb_icache.ADR;
-            wb_mem.STB = 1;
+            wb_mem.STB = wb_icache.STB;
         end
         data: begin
             wb_dcache.DAT_S = wb_mem.DAT_S;
@@ -48,7 +48,7 @@ begin : state_actions
             wb_mem.WE = wb_dcache.WE;
             wb_mem.SEL = wb_dcache.SEL;
             wb_mem.ADR = wb_dcache.ADR;
-            wb_mem.STB = 1;
+            wb_mem.STB = wb_dcache.STB;
         end
         default: ;
     endcase
@@ -65,11 +65,11 @@ begin : next_state_logic
                 next_state = data;
         end
         instr: begin
-            if(!wb_icache.STB)
+            if(wb_mem.ACK)
                 next_state = ready;
         end
         data: begin
-            if(!wb_dcache.STB)
+            if(wb_mem.ACK)
                 next_state = ready;
         end
         default: ;
