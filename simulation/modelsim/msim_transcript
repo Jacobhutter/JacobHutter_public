@@ -9,13 +9,13 @@
 # ** Warning: Copied /software/altera/13.1/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini.
 #          Updated modelsim.ini.
 # 
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/lc3b_types.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/lc3b_types.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package lc3b_types
 # 
 # Top level modules:
 # 	--none--
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/tagwrite.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/tagwrite.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package tagwrite_sv_unit
 # -- Importing package lc3b_types
@@ -23,7 +23,7 @@
 # 
 # Top level modules:
 # 	tagwrite
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/lruwrite.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/lruwrite.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package lruwrite_sv_unit
 # -- Importing package lc3b_types
@@ -31,7 +31,7 @@
 # 
 # Top level modules:
 # 	lruwrite
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/dirtywrite.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/dirtywrite.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package dirtywrite_sv_unit
 # -- Importing package lc3b_types
@@ -39,7 +39,7 @@
 # 
 # Top level modules:
 # 	dirtywrite
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/datawrite.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/datawrite.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package datawrite_sv_unit
 # -- Importing package lc3b_types
@@ -47,7 +47,7 @@
 # 
 # Top level modules:
 # 	datawrite
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cache_control.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache_control.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cache_control_sv_unit
 # -- Importing package lc3b_types
@@ -55,31 +55,31 @@
 # 
 # Top level modules:
 # 	cache_control
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wishbone.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/wishbone.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling interface wishbone
 # 
 # Top level modules:
 # 	--none--
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/register.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/register.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module register
 # 
 # Top level modules:
 # 	register
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/plus2.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/plus2.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module plus2
 # 
 # Top level modules:
 # 	plus2
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mux2.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mux2.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module mux2
 # 
 # Top level modules:
 # 	mux2
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wordswap.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/wordswap.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package wordswap_sv_unit
 # -- Importing package lc3b_types
@@ -87,7 +87,7 @@
 # 
 # Top level modules:
 # 	wordswap
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/tagchecker.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/tagchecker.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package tagchecker_sv_unit
 # -- Importing package lc3b_types
@@ -95,7 +95,7 @@
 # 
 # Top level modules:
 # 	tagchecker
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/swapaddress.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/swapaddress.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package swapaddress_sv_unit
 # -- Importing package lc3b_types
@@ -103,7 +103,7 @@
 # 
 # Top level modules:
 # 	swapaddress
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/selectway.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/selectway.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package selectway_sv_unit
 # -- Importing package lc3b_types
@@ -111,7 +111,7 @@
 # 
 # Top level modules:
 # 	selectway
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/array.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/array.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package array_sv_unit
 # -- Importing package lc3b_types
@@ -119,7 +119,7 @@
 # 
 # Top level modules:
 # 	array
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wishbone_interface.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/wishbone_interface.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package wishbone_interface_sv_unit
 # -- Importing package lc3b_types
@@ -127,7 +127,7 @@
 # 
 # Top level modules:
 # 	wishbone_interface
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/regfile.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/regfile.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package regfile_sv_unit
 # -- Importing package lc3b_types
@@ -135,7 +135,7 @@
 # 
 # Top level modules:
 # 	regfile
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mux4.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mux4.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package mux4_sv_unit
 # -- Importing package lc3b_types
@@ -143,7 +143,7 @@
 # 
 # Top level modules:
 # 	mux4
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/memwb.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/memwb.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package memwb_sv_unit
 # -- Importing package lc3b_types
@@ -151,7 +151,7 @@
 # 
 # Top level modules:
 # 	memwb
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/ifid.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/ifid.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package ifid_sv_unit
 # -- Importing package lc3b_types
@@ -159,7 +159,7 @@
 # 
 # Top level modules:
 # 	ifid
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/idex.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/idex.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package idex_sv_unit
 # -- Importing package lc3b_types
@@ -167,7 +167,7 @@
 # 
 # Top level modules:
 # 	idex
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/gencc.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/gencc.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package gencc_sv_unit
 # -- Importing package lc3b_types
@@ -175,7 +175,7 @@
 # 
 # Top level modules:
 # 	gencc
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/exmem.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/exmem.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package exmem_sv_unit
 # -- Importing package lc3b_types
@@ -183,7 +183,7 @@
 # 
 # Top level modules:
 # 	exmem
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/control_rom.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/control_rom.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package control_rom_sv_unit
 # -- Importing package lc3b_types
@@ -191,7 +191,7 @@
 # 
 # Top level modules:
 # 	control_rom
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cccomp.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cccomp.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cccomp_sv_unit
 # -- Importing package lc3b_types
@@ -199,7 +199,7 @@
 # 
 # Top level modules:
 # 	cccomp
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/alu.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/alu.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package alu_sv_unit
 # -- Importing package lc3b_types
@@ -207,7 +207,7 @@
 # 
 # Top level modules:
 # 	alu
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/adj.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/adj.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package adj_sv_unit
 # -- Importing package lc3b_types
@@ -215,7 +215,7 @@
 # 
 # Top level modules:
 # 	adj
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mem_controller.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mem_controller.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package mem_controller_sv_unit
 # -- Importing package lc3b_types
@@ -223,13 +223,13 @@
 # 
 # Top level modules:
 # 	mem_controller
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/interconnect.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/interconnect.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module interconnect
 # 
 # Top level modules:
 # 	interconnect
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cache_datapath.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache_datapath.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cache_datapath_sv_unit
 # -- Importing package lc3b_types
@@ -237,7 +237,7 @@
 # 
 # Top level modules:
 # 	cache_datapath
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cpu_datapath.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cpu_datapath.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cpu_datapath_sv_unit
 # -- Importing package lc3b_types
@@ -245,7 +245,7 @@
 # 
 # Top level modules:
 # 	cpu_datapath
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cache.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cache_sv_unit
 # -- Importing package lc3b_types
@@ -253,7 +253,7 @@
 # 
 # Top level modules:
 # 	cache
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cpu.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cpu.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cpu_sv_unit
 # -- Importing package lc3b_types
@@ -261,20 +261,20 @@
 # 
 # Top level modules:
 # 	cpu
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mp3.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mp3.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module mp3
 # 
 # Top level modules:
 # 	mp3
 # 
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mp3_tb.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mp3_tb.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module mp3_tb
 # 
 # Top level modules:
 # 	mp3_tb
-# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/physical_memory.sv}
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/physical_memory.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling module physical_memory
 # 
@@ -354,74 +354,6 @@
 # view signals
 # .main_pane.objects.interior.cs.body.tree
 # run 2000 ns
-restart -f
-# Loading sv_std.std
-# Loading work.mp3_tb
-# Loading work.wishbone
-# Loading work.mp3
-# Loading work.lc3b_types
-# Loading work.cpu_sv_unit
-# Loading work.cpu
-# Loading work.wishbone_interface_sv_unit
-# Loading work.wishbone_interface
-# Loading work.cpu_datapath_sv_unit
-# Loading work.cpu_datapath
-# Loading work.register
-# Loading work.mux4_sv_unit
-# Loading work.mux4
-# Loading work.plus2
-# Loading work.mux2
-# Loading work.adj_sv_unit
-# Loading work.adj
-# Loading work.control_rom_sv_unit
-# Loading work.control_rom
-# Loading work.ifid_sv_unit
-# Loading work.ifid
-# Loading work.regfile_sv_unit
-# Loading work.regfile
-# Loading work.idex_sv_unit
-# Loading work.idex
-# Loading work.alu_sv_unit
-# Loading work.alu
-# Loading work.exmem_sv_unit
-# Loading work.exmem
-# Loading work.mem_controller_sv_unit
-# Loading work.mem_controller
-# Loading work.memwb_sv_unit
-# Loading work.memwb
-# Loading work.gencc_sv_unit
-# Loading work.gencc
-# Loading work.cccomp_sv_unit
-# Loading work.cccomp
-# Loading work.cache_sv_unit
-# Loading work.cache
-# Loading work.cache_control_sv_unit
-# Loading work.cache_control
-# Loading work.cache_datapath_sv_unit
-# Loading work.cache_datapath
-# Loading work.tagwrite_sv_unit
-# Loading work.tagwrite
-# Loading work.array_sv_unit
-# Loading work.array
-# Loading work.tagchecker_sv_unit
-# Loading work.tagchecker
-# Loading work.lruwrite_sv_unit
-# Loading work.lruwrite
-# Loading work.dirtywrite_sv_unit
-# Loading work.dirtywrite
-# Loading work.wordswap_sv_unit
-# Loading work.wordswap
-# Loading work.datawrite_sv_unit
-# Loading work.datawrite
-# Loading work.selectway_sv_unit
-# Loading work.selectway
-# Loading work.swapaddress_sv_unit
-# Loading work.swapaddress
-# Loading work.interconnect
-# Loading work.physical_memory
-run 5000ns
-do mp2cp2.do
-# Cannot open macro file: mp2cp2.do
 do mp3cp2.do
 restart -f
 # Loading sv_std.std
@@ -488,5 +420,4 @@ restart -f
 # Loading work.swapaddress
 # Loading work.interconnect
 # Loading work.physical_memory
-run 5000ns
-# WARNING: No extended dataflow license exists
+run 50000ns

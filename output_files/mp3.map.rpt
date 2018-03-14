@@ -1,5 +1,5 @@
 Analysis & Synthesis report for mp3
-Wed Mar 14 15:26:51 2018
+Wed Mar 14 16:34:35 2018
 Quartus II 32-bit Version 13.1.4 Build 182 03/12/2014 SJ Full Version
 
 
@@ -20,62 +20,63 @@ Quartus II 32-bit Version 13.1.4 Build 182 03/12/2014 SJ Full Version
  12. Registers Removed During Synthesis
  13. Removed Registers Triggering Further Register Optimizations
  14. General Register Statistics
- 15. Multiplexer Restructuring Statistics (Restructuring Performed)
- 16. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|register:pc
- 17. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:pcmux
- 18. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|plus2:pc_plus2
- 19. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:offsetmux
- 20. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|adj:adj11
- 21. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|adj:adj6
- 22. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|adj:adj9
- 23. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:storemux
- 24. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:destmux
- 25. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:alumux
- 26. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:mbemux
- 27. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:mdrmux
- 28. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:marmux
- 29. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|register:MDR
- 30. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|register:MAR
- 31. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:wordSliceMux
- 32. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:wordinmux
- 33. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:regfilemux
- 34. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|register:CC
- 35. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:valid_arr0
- 36. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:tag_arr0
- 37. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:valid_arr1
- 38. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:tag_arr1
- 39. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:lru_arr
- 40. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:dirty_arr0
- 41. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:dirty_arr1
- 42. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:data_arr0
- 43. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:data_arr1
- 44. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:valid_arr0
- 45. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:tag_arr0
- 46. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:valid_arr1
- 47. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:tag_arr1
- 48. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:lru_arr
- 49. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:dirty_arr0
- 50. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:dirty_arr1
- 51. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:data_arr0
- 52. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:data_arr1
- 53. Port Connectivity Checks: "cache:icache|cache_datapath:cache_dpth|array:valid_arr1"
- 54. Port Connectivity Checks: "cache:icache|cache_datapath:cache_dpth|array:valid_arr0"
- 55. Port Connectivity Checks: "cache:icache|cache_datapath:cache_dpth"
- 56. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|memwb:memwb_register"
- 57. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux2:wordSliceMux"
- 58. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux4:marmux"
- 59. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux4:mdrmux"
- 60. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux2:mbemux"
- 61. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux2:destmux"
- 62. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|adj:adj9"
- 63. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|adj:adj6"
- 64. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|adj:adj11"
- 65. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd"
- 66. Port Connectivity Checks: "cpu:mp3_cpu|wishbone_interface:data_interface"
- 67. Port Connectivity Checks: "cpu:mp3_cpu|wishbone_interface:instr_interface"
- 68. Elapsed Time Per Partition
- 69. Analysis & Synthesis Messages
- 70. Analysis & Synthesis Suppressed Messages
+ 15. Inverted Register Statistics
+ 16. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 17. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|register:pc
+ 18. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:pcmux
+ 19. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|plus2:pc_plus2
+ 20. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:offsetmux
+ 21. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|adj:adj11
+ 22. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|adj:adj6
+ 23. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|adj:adj9
+ 24. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:storemux
+ 25. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:destmux
+ 26. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:alumux
+ 27. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:mbemux
+ 28. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:mdrmux
+ 29. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:marmux
+ 30. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|register:MDR
+ 31. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|register:MAR
+ 32. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:wordSliceMux
+ 33. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux2:wordinmux
+ 34. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|mux4:regfilemux
+ 35. Parameter Settings for User Entity Instance: cpu:mp3_cpu|cpu_datapath:cd|register:CC
+ 36. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:valid_arr0
+ 37. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:tag_arr0
+ 38. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:valid_arr1
+ 39. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:tag_arr1
+ 40. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:lru_arr
+ 41. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:dirty_arr0
+ 42. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:dirty_arr1
+ 43. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:data_arr0
+ 44. Parameter Settings for User Entity Instance: cache:icache|cache_datapath:cache_dpth|array:data_arr1
+ 45. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:valid_arr0
+ 46. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:tag_arr0
+ 47. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:valid_arr1
+ 48. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:tag_arr1
+ 49. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:lru_arr
+ 50. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:dirty_arr0
+ 51. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:dirty_arr1
+ 52. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:data_arr0
+ 53. Parameter Settings for User Entity Instance: cache:dcache|cache_datapath:cache_dpth|array:data_arr1
+ 54. Port Connectivity Checks: "cache:icache|cache_datapath:cache_dpth|array:valid_arr1"
+ 55. Port Connectivity Checks: "cache:icache|cache_datapath:cache_dpth|array:valid_arr0"
+ 56. Port Connectivity Checks: "cache:icache|cache_datapath:cache_dpth"
+ 57. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|memwb:memwb_register"
+ 58. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux2:wordSliceMux"
+ 59. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux4:marmux"
+ 60. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux4:mdrmux"
+ 61. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux2:mbemux"
+ 62. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|mux2:destmux"
+ 63. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|adj:adj9"
+ 64. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|adj:adj6"
+ 65. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd|adj:adj11"
+ 66. Port Connectivity Checks: "cpu:mp3_cpu|cpu_datapath:cd"
+ 67. Port Connectivity Checks: "cpu:mp3_cpu|wishbone_interface:data_interface"
+ 68. Port Connectivity Checks: "cpu:mp3_cpu|wishbone_interface:instr_interface"
+ 69. Elapsed Time Per Partition
+ 70. Analysis & Synthesis Messages
+ 71. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -101,13 +102,13 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                ;
 +-------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status   ; Successful - Wed Mar 14 15:26:51 2018       ;
+; Analysis & Synthesis Status   ; Successful - Wed Mar 14 16:34:35 2018       ;
 ; Quartus II 32-bit Version     ; 13.1.4 Build 182 03/12/2014 SJ Full Version ;
 ; Revision Name                 ; mp3                                         ;
 ; Top-level Entity Name         ; mp3                                         ;
 ; Family                        ; Stratix III                                 ;
 ; Logic utilization             ; N/A                                         ;
-;     Combinational ALUTs       ; 2,751                                       ;
+;     Combinational ALUTs       ; 2,750                                       ;
 ;     Memory ALUTs              ; 0                                           ;
 ;     Dedicated logic registers ; 4,966                                       ;
 ; Total registers               ; 4966                                        ;
@@ -225,46 +226,46 @@ applicable agreement for further details.
 +----------------------------+-------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                      ;
-+----------------------------------+-----------------+------------------------------+-----------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                  ; Library ;
-+----------------------------------+-----------------+------------------------------+-----------------------------------------------+---------+
-; lc3b_types.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/lc3b_types.sv         ;         ;
-; mp3.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/mp3.sv                ;         ;
-; wordswap.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/wordswap.sv           ;         ;
-; tagwrite.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/tagwrite.sv           ;         ;
-; tagchecker.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/tagchecker.sv         ;         ;
-; swapaddress.sv                   ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/swapaddress.sv        ;         ;
-; selectway.sv                     ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/selectway.sv          ;         ;
-; lruwrite.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/lruwrite.sv           ;         ;
-; dirtywrite.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/dirtywrite.sv         ;         ;
-; datawrite.sv                     ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/datawrite.sv          ;         ;
-; array.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/array.sv              ;         ;
-; cache_datapath.sv                ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/cache_datapath.sv     ;         ;
-; cache_control.sv                 ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/cache_control.sv      ;         ;
-; cache.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/cache.sv              ;         ;
-; wishbone_interface.sv            ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/wishbone_interface.sv ;         ;
-; wishbone.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/wishbone.sv           ;         ;
-; register.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/register.sv           ;         ;
-; regfile.sv                       ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/regfile.sv            ;         ;
-; plus2.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/plus2.sv              ;         ;
-; mux4.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/mux4.sv               ;         ;
-; mux2.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/mux2.sv               ;         ;
-; memwb.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/memwb.sv              ;         ;
-; ifid.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/ifid.sv               ;         ;
-; idex.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/idex.sv               ;         ;
-; gencc.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/gencc.sv              ;         ;
-; exmem.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/exmem.sv              ;         ;
-; cpu_datapath.sv                  ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/cpu_datapath.sv       ;         ;
-; cpu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/cpu.sv                ;         ;
-; control_rom.sv                   ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/control_rom.sv        ;         ;
-; cccomp.sv                        ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/cccomp.sv             ;         ;
-; alu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/alu.sv                ;         ;
-; adj.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/adj.sv                ;         ;
-; mem_controller.sv                ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/mem_controller.sv     ;         ;
-; interconnect.sv                  ; yes             ; User SystemVerilog HDL File  ; /home/tklem2/ece411_mp3/interconnect.sv       ;         ;
-+----------------------------------+-----------------+------------------------------+-----------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                        ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                    ; File Name with Absolute Path                    ; Library ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
+; lc3b_types.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/lc3b_types.sv         ;         ;
+; mp3.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/mp3.sv                ;         ;
+; wordswap.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/wordswap.sv           ;         ;
+; tagwrite.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/tagwrite.sv           ;         ;
+; tagchecker.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/tagchecker.sv         ;         ;
+; swapaddress.sv                   ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/swapaddress.sv        ;         ;
+; selectway.sv                     ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/selectway.sv          ;         ;
+; lruwrite.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/lruwrite.sv           ;         ;
+; dirtywrite.sv                    ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/dirtywrite.sv         ;         ;
+; datawrite.sv                     ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/datawrite.sv          ;         ;
+; array.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/array.sv              ;         ;
+; cache_datapath.sv                ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cache_datapath.sv     ;         ;
+; cache_control.sv                 ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cache_control.sv      ;         ;
+; cache.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cache.sv              ;         ;
+; wishbone_interface.sv            ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/wishbone_interface.sv ;         ;
+; wishbone.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/wishbone.sv           ;         ;
+; register.sv                      ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/register.sv           ;         ;
+; regfile.sv                       ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/regfile.sv            ;         ;
+; plus2.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/plus2.sv              ;         ;
+; mux4.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/mux4.sv               ;         ;
+; mux2.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/mux2.sv               ;         ;
+; memwb.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/memwb.sv              ;         ;
+; ifid.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/ifid.sv               ;         ;
+; idex.sv                          ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/idex.sv               ;         ;
+; gencc.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/gencc.sv              ;         ;
+; exmem.sv                         ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/exmem.sv              ;         ;
+; cpu_datapath.sv                  ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cpu_datapath.sv       ;         ;
+; cpu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cpu.sv                ;         ;
+; control_rom.sv                   ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/control_rom.sv        ;         ;
+; cccomp.sv                        ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/cccomp.sv             ;         ;
+; alu.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/alu.sv                ;         ;
+; adj.sv                           ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/adj.sv                ;         ;
+; mem_controller.sv                ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/mem_controller.sv     ;         ;
+; interconnect.sv                  ; yes             ; User SystemVerilog HDL File  ; /home/jhutter2/ece411/mp3/interconnect.sv       ;         ;
++----------------------------------+-----------------+------------------------------+-------------------------------------------------+---------+
 
 
 +----------------------------------------------------------------------+
@@ -272,8 +273,8 @@ applicable agreement for further details.
 +-----------------------------------------------+----------------------+
 ; Resource                                      ; Usage                ;
 +-----------------------------------------------+----------------------+
-; Estimated ALUTs Used                          ; 2751                 ;
-;     -- Combinational ALUTs                    ; 2751                 ;
+; Estimated ALUTs Used                          ; 2750                 ;
+;     -- Combinational ALUTs                    ; 2750                 ;
 ;     -- Memory ALUTs                           ; 0                    ;
 ;     -- LUT_REGs                               ; 0                    ;
 ; Dedicated logic registers                     ; 4966                 ;
@@ -282,21 +283,21 @@ applicable agreement for further details.
 ;     -- Due to unpartnered combinational logic ; 1214                 ;
 ;     -- Due to Memory ALUTs                    ; 0                    ;
 ;                                               ;                      ;
-; Total combinational functions                 ; 2751                 ;
+; Total combinational functions                 ; 2750                 ;
 ; Combinational ALUT usage by number of inputs  ;                      ;
 ;     -- 7 input functions                      ; 1214                 ;
 ;     -- 6 input functions                      ; 523                  ;
 ;     -- 5 input functions                      ; 353                  ;
 ;     -- 4 input functions                      ; 344                  ;
-;     -- <=3 input functions                    ; 317                  ;
+;     -- <=3 input functions                    ; 316                  ;
 ;                                               ;                      ;
 ; Combinational ALUTs by mode                   ;                      ;
-;     -- normal mode                            ; 1491                 ;
+;     -- normal mode                            ; 1490                 ;
 ;     -- extended LUT mode                      ; 1214                 ;
 ;     -- arithmetic mode                        ; 31                   ;
 ;     -- shared arithmetic mode                 ; 15                   ;
 ;                                               ;                      ;
-; Estimated ALUT/register pairs used            ; 8049                 ;
+; Estimated ALUT/register pairs used            ; 8048                 ;
 ;                                               ;                      ;
 ; Total registers                               ; 4966                 ;
 ;     -- Dedicated logic registers              ; 4966                 ;
@@ -308,7 +309,7 @@ applicable agreement for further details.
 ; DSP block 18-bit elements                     ; 0                    ;
 ; Maximum fan-out node                          ; wb_physmem.CLK~input ;
 ; Maximum fan-out                               ; 4966                 ;
-; Total fan-out                                 ; 30941                ;
+; Total fan-out                                 ; 30940                ;
 ; Average fan-out                               ; 3.73                 ;
 +-----------------------------------------------+----------------------+
 
@@ -318,7 +319,7 @@ applicable agreement for further details.
 +--------------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+----------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                 ; LC Combinationals ; LC Registers ; Block Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 12x12 ; DSP 18x18 ; DSP 36x36 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                  ; Library Name ;
 +--------------------------------------------+-------------------+--------------+-------------------+--------------+---------+-----------+-----------+-----------+------+--------------+----------------------------------------------------------------------+--------------+
-; |mp3                                       ; 2751 (0)          ; 4966 (0)     ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 290  ; 0            ; |mp3                                                                 ; work         ;
+; |mp3                                       ; 2750 (0)          ; 4966 (0)     ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 290  ; 0            ; |mp3                                                                 ; work         ;
 ;    |cache:dcache|                          ; 914 (0)           ; 2249 (12)    ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cache:dcache                                                    ; work         ;
 ;       |cache_control:cache_ctrl|           ; 8 (8)             ; 5 (5)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cache:dcache|cache_control:cache_ctrl                           ; work         ;
 ;       |cache_datapath:cache_dpth|          ; 906 (0)           ; 2232 (0)     ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cache:dcache|cache_datapath:cache_dpth                          ; work         ;
@@ -355,11 +356,11 @@ applicable agreement for further details.
 ;          |swapaddress:swap_address|        ; 9 (9)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cache:icache|cache_datapath:cache_dpth|swapaddress:swap_address ; work         ;
 ;          |tagchecker:tag_checker|          ; 10 (10)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cache:icache|cache_datapath:cache_dpth|tagchecker:tag_checker   ; work         ;
 ;          |wordswap:word_swap|              ; 128 (128)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cache:icache|cache_datapath:cache_dpth|wordswap:word_swap       ; work         ;
-;    |cpu:mp3_cpu|                           ; 573 (0)           ; 465 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu                                                     ; work         ;
-;       |cpu_datapath:cd|                    ; 400 (18)          ; 465 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd                                     ; work         ;
+;    |cpu:mp3_cpu|                           ; 572 (0)           ; 465 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu                                                     ; work         ;
+;       |cpu_datapath:cd|                    ; 399 (18)          ; 465 (0)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd                                     ; work         ;
 ;          |alu:ALU|                         ; 172 (172)         ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|alu:ALU                             ; work         ;
 ;          |control_rom:cr|                  ; 20 (20)           ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|control_rom:cr                      ; work         ;
-;          |exmem:exmem_register|            ; 5 (5)             ; 78 (78)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|exmem:exmem_register                ; work         ;
+;          |exmem:exmem_register|            ; 4 (4)             ; 78 (78)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|exmem:exmem_register                ; work         ;
 ;          |gencc:Gencc|                     ; 5 (5)             ; 0 (0)        ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|gencc:Gencc                         ; work         ;
 ;          |idex:idex_register|              ; 0 (0)             ; 82 (82)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|idex:idex_register                  ; work         ;
 ;          |ifid:ifid_register|              ; 12 (12)           ; 52 (52)      ; 0                 ; 0            ; 0       ; 0         ; 0         ; 0         ; 0    ; 0            ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|ifid:ifid_register                  ; work         ;
@@ -756,19 +757,30 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 
 
++------------------------------------------------------------------+
+; Inverted Register Statistics                                     ;
++--------------------------------------------------------+---------+
+; Inverted Register                                      ; Fan out ;
++--------------------------------------------------------+---------+
+; cpu:mp3_cpu|cpu_datapath:cd|exmem:exmem_register|ready ; 3       ;
+; cpu:mp3_cpu|cpu_datapath:cd|memwb:memwb_register|ready ; 2       ;
+; Total number of inverted registers = 2                 ;         ;
++--------------------------------------------------------+---------+
+
+
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                            ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                  ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------+
-; 3:1                ; 9 bits    ; 18 ALUTs      ; 18 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cache:dcache|wb_addr_reg[3]                                            ;
-; 3:1                ; 9 bits    ; 18 ALUTs      ; 18 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cache:icache|wb_addr_reg[4]                                            ;
-; 3:1                ; 8 bits    ; 16 ALUTs      ; 0 ALUTs              ; 16 ALUTs               ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:MDR|data[14]                      ;
-; 3:1                ; 4 bits    ; 8 ALUTs       ; 8 ALUTs              ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.opcode[2] ;
+; 3:1                ; 9 bits    ; 18 ALUTs      ; 18 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cache:dcache|wb_addr_reg[10]                                           ;
+; 3:1                ; 9 bits    ; 18 ALUTs      ; 18 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cache:icache|wb_addr_reg[3]                                            ;
+; 3:1                ; 8 bits    ; 16 ALUTs      ; 0 ALUTs              ; 16 ALUTs               ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:MDR|data[8]                       ;
+; 3:1                ; 4 bits    ; 8 ALUTs       ; 8 ALUTs              ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|ifid:ifid_register|ctrl_word_out.opcode[3] ;
 ; 3:1                ; 8 bits    ; 16 ALUTs      ; 0 ALUTs              ; 16 ALUTs               ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|memwb:memwb_register|mem_wdata_out[7]      ;
-; 4:1                ; 7 bits    ; 14 ALUTs      ; 14 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:MAR|data[14]                      ;
-; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:MAR|data[8]                       ;
-; 4:1                ; 15 bits   ; 30 ALUTs      ; 30 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:pc|data[9]                        ;
+; 4:1                ; 7 bits    ; 14 ALUTs      ; 14 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:MAR|data[9]                       ;
+; 4:1                ; 8 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:MAR|data[5]                       ;
+; 4:1                ; 15 bits   ; 30 ALUTs      ; 30 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:pc|data[1]                        ;
 ; 4:1                ; 8 bits    ; 16 ALUTs      ; 0 ALUTs              ; 16 ALUTs               ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|register:MDR|data[6]                       ;
 ; 13:1               ; 2 bits    ; 16 ALUTs      ; 16 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|exmem:exmem_register|ex_alu_out[10]        ;
 ; 14:1               ; 2 bits    ; 18 ALUTs      ; 18 ALUTs             ; 0 ALUTs                ; Yes        ; |mp3|cpu:mp3_cpu|cpu_datapath:cd|exmem:exmem_register|ex_alu_out[2]         ;
@@ -1354,7 +1366,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:09     ;
+; Top            ; 00:00:08     ;
 +----------------+--------------+
 
 
@@ -1364,7 +1376,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 32-bit Analysis & Synthesis
     Info: Version 13.1.4 Build 182 03/12/2014 SJ Full Version
-    Info: Processing started: Wed Mar 14 15:26:34 2018
+    Info: Processing started: Wed Mar 14 16:34:21 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off mp3 -c mp3
 Info (11104): Parallel Compilation has detected 8 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 4 of the 4 physical processors detected instead.
 Info (12021): Found 1 design units, including 0 entities, in source file lc3b_types.sv
@@ -1507,7 +1519,7 @@ Info (276014): Found 19 instances of uninferred RAM logic
     Info (276007): RAM logic "cache:icache|cache_datapath:cache_dpth|array:data_arr0|data" is uninferred due to asynchronous read logic
     Info (276006): RAM logic "cpu:mp3_cpu|cpu_datapath:cd|regfile:r|data" is uninferred due to "logic" being set as ramstyle synthesis attribute
 Info (17049): 123 registers lost all their fanouts during netlist optimizations.
-Info (144001): Generated suppressed messages file /home/tklem2/ece411_mp3/output_files/mp3.map.smsg
+Info (144001): Generated suppressed messages file /home/jhutter2/ece411/mp3/output_files/mp3.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 1 input pin(s) that do not drive logic
@@ -1517,15 +1529,15 @@ Info (21057): Implemented 7812 device resources after synthesis - the final reso
     Info (21059): Implemented 159 output pins
     Info (21061): Implemented 7522 logic cells
 Info: Quartus II 32-bit Analysis & Synthesis was successful. 0 errors, 5 warnings
-    Info: Peak virtual memory: 477 megabytes
-    Info: Processing ended: Wed Mar 14 15:26:51 2018
-    Info: Elapsed time: 00:00:17
-    Info: Total CPU time (on all processors): 00:00:13
+    Info: Peak virtual memory: 479 megabytes
+    Info: Processing ended: Wed Mar 14 16:34:35 2018
+    Info: Elapsed time: 00:00:14
+    Info: Total CPU time (on all processors): 00:00:12
 
 
 +------------------------------------------+
 ; Analysis & Synthesis Suppressed Messages ;
 +------------------------------------------+
-The suppressed messages can be found in /home/tklem2/ece411_mp3/output_files/mp3.map.smsg.
+The suppressed messages can be found in /home/jhutter2/ece411/mp3/output_files/mp3.map.smsg.
 
 

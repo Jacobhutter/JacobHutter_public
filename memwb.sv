@@ -102,8 +102,20 @@ begin
         end
     end
     else begin // hold
-        dest_out = dest_out;
-		mem_wdata_out = mem_wdata_out;
+		if(mem_required) begin
+		  dest_out = dest_out;
+		  mem_wdata_out = mem_wdata_out;
+        wb_alu_out = wb_alu_out;
+        pc = pc;
+        offset9_out = offset9_out;
+        offset11_out = offset11_out;
+        ctrl_word_out = ctrl_word_out;
+        ready = 0;
+        second_cycle_request = second_cycle_request;
+		end
+		else begin
+		  dest_out = dest_out;
+		  mem_wdata_out = mem_wdata_out;
         wb_alu_out = wb_alu_out;
         pc = pc;
         offset9_out = offset9_out;
@@ -111,6 +123,8 @@ begin
         ctrl_word_out = ctrl_word_out;
         ready = ready;
         second_cycle_request = second_cycle_request;
+		end
+
     end
 end
 
