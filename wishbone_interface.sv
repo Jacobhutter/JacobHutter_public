@@ -3,11 +3,11 @@ import lc3b_types::*;
 module wishbone_interface
 (
   input logic [15:0] cpu_address,
-  input lc3b_line mem_rdata_line,
+  input lc3b_c_line mem_rdata_line,
   input lc3b_word write_data_cpu,
 
   output lc3b_address mem_address,
-  output lc3b_line write_data_mem,
+  output lc3b_c_line write_data_mem,
   output lc3b_word mem_rdata,
   output logic [3:0] offset,
   output lc3b_word select

@@ -26,7 +26,7 @@ module cache_control (
 );
 
 enum int unsigned {
-    rw_hit, write_back, mem_reset, reload
+    rw_hit, load_addr, write_back, mem_reset, reload
 } state, next_state;
 
 always_comb
@@ -40,6 +40,10 @@ begin : state_actions
     case(state)
         rw_hit: begin
             ctrl_hit = 1'b1;
+        end
+        load_addr: begin
+            ctrl_write = 1'b0;
+            mem_strobe = 1'b0;
         end
         write_back: begin
             ctrl_write = 1'b1;
@@ -65,10 +69,13 @@ begin : next_state_logic
             if(cpu_strobe && ~cpu_resp) begin
                 if((~cache_lru && cache_dirty[0]) || 
                     (cache_lru && cache_dirty[1]))
-                    next_state = write_back;
+                    next_state = load_addr;
                 else
                     next_state = reload;
             end
+        end
+        load_addr: begin
+            next_state = write_back;
         end
         write_back: begin
             if(mem_resp)

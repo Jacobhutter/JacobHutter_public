@@ -8,6 +8,7 @@ entity cpu_datapath is
         mem_rdata       : in     vl_logic_vector(15 downto 0);
         data_response   : in     vl_logic;
         instruction_address: out    vl_logic_vector(15 downto 0);
+        mem_byte_enable : out    vl_logic_vector(1 downto 0);
         mem_address     : out    vl_logic_vector(15 downto 0);
         write_data      : out    vl_logic_vector(15 downto 0);
         instruction_request: out    vl_logic;

@@ -1,0 +1,9 @@
+module interconnect
+(
+    wishbone.slave wb_icache,
+    wishbone.slave wb_dcache,
+    wishbone.master wb_mem
+);
+
+
+endmodule : interconnect

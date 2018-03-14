@@ -3,7 +3,7 @@ package lc3b_types;
 typedef logic [15:0] lc3b_word;
 typedef logic  [7:0] lc3b_byte;
 typedef logic  [2:0] lc3b_c_index;
-typedef logic  [127:0] lc3b_line;
+typedef logic  [127:0] lc3b_c_line;
 typedef logic  [3:0] lc3b_c_offset;
 typedef logic  [8:0] lc3b_c_tag;
 typedef logic  [10:0] lc3b_offset11;

@@ -109,8 +109,8 @@ adj #(.width(9)) adj9
   * load_pc, fetch data, build control word
 ******************************************************************************/
 control_rom cr(
-	.opcode(lc3b_opcode'(instr[3:0])),
-	.bits4_5_11(3'({instr[11], instr[5], instr[4]})),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.bits4_5_11(3'({instr[4], instr[5], instr[11]})),
 	.ctrl(if_ctrl)
 );
 
@@ -267,7 +267,7 @@ begin
         mem_byte_enable = 2'b11;
 end
 
-mux4 #(.width(2)) mbemux
+mux2 #(.width(2)) mbemux
 (
 	.sel(marmux_out[0]),
 	.a(2'b01),
