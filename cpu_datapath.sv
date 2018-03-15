@@ -27,7 +27,7 @@ lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifp
 idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offsetmux_out, imm5, imm4, imm4_out,
 sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, offset11_out, imm5_out, trapvect8, trapvect8_out, ex_trapvect8, wb_offset9, wb_offset11, source_data_out, ex_source_data_out, pc_out,
 regfilemux_out, alumux_out, ex_alu_out, ex_offset9, ex_offset11, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9, if_offset11, wordslicemux_out, wordinmux_out,
-mem_output;
+mem_output, if_offset6_in;
 
 lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out, mem_ctrl_out;
 
@@ -49,7 +49,7 @@ register pc
 );
 
 always_comb begin
-	if (wb_ctrl.pcmux_sel == 2'b01 && branch_enable == 0)
+	if (wb_ctrl.pcmux_sel == 2'b01 && branch_enable == 0 && wb_ctrl.opcode == op_br)
 		pcmux_sel = 2'b00; // branch not taken
 	else
 		pcmux_sel = wb_ctrl.pcmux_sel;
@@ -81,7 +81,6 @@ mux2 offsetmux
 always_comb
 begin
 	br_add_out = mempc + offsetmux_out;
-	br_add_out = br_add_out + 2;
 end
 
 adj #(.width(11)) adj11
@@ -115,6 +114,13 @@ control_rom cr(
 	.ctrl(if_ctrl)
 );
 
+mux2 #(.width(16)) offset6mux(
+    .sel(if_ctrl.offset6mux_sel),
+    .a(adj6_out),
+    .b(adj6_out2),
+    .f(if_offset6_in)
+);
+
 ifid ifid_register
 (
 	.clk,
@@ -126,7 +132,7 @@ ifid ifid_register
 	.dest,
 	.src1,
 	.src2,
-	.offset6_in(adj6_out),
+	.offset6_in(if_offset6_in),
 	.offset9_in(adj9_out),
 	.offset11_in(adj11_out),
 	.mem_request(instruction_request),

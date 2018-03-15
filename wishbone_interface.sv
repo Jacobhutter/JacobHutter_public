@@ -4,6 +4,7 @@ module wishbone_interface
 (
   input logic [15:0] cpu_address,
   input lc3b_c_line mem_rdata_line,
+  input [1:0] mem_byte_enable,
   input lc3b_word write_data_cpu,
 
   output lc3b_address mem_address,
@@ -16,8 +17,8 @@ module wishbone_interface
 logic [127:0] raw_data;
 always_comb begin
   mem_address = cpu_address[15:4];
-  offset = cpu_address[3:0];
-  select = 16'({14'd0,2'b11} << offset[3:0]);
+  offset = {cpu_address[3:1], 1'b0};
+  select = 16'({14'd0, mem_byte_enable} << offset[3:0]);
   raw_data = (mem_rdata_line >> (8 * offset[3:0]));
   mem_rdata = raw_data[15:0];
   write_data_mem = 128'({112'd0, write_data_cpu }) << (8 * offset[3:0]);

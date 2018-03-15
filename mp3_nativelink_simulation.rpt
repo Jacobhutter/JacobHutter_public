@@ -9,7 +9,7 @@ Quartus root          :  /software/altera/13.1/quartus/linux/
 Quartus sim root      :  /software/altera/13.1/quartus/eda/sim_lib
 Simulation Tool       :  modelsim-altera
 Simulation Language   :  verilog
-Simulation Mode       :  GUI
+Simulation Mode       :  Command Line
 Sim Output File       :  
 Sim SDF file          :  
 Sim dir               :  simulation/modelsim
@@ -19,4 +19,360 @@ Sim dir               :  simulation/modelsim
 Info: Starting NativeLink simulation with ModelSim-Altera software
 Sourced NativeLink script /software/altera/13.1/quartus/common/tcl/internal/nativelink/modelsim.tcl
 Warning: File mp3_run_msim_rtl_verilog.do already exists - backing up current file as mp3_run_msim_rtl_verilog.do.bak11
-Info: Spawning ModelSim-Altera Simulation software 
+Probing transcript
+ModelSim-Altera Info: # do mp3_run_msim_rtl_verilog.do 
+ModelSim-Altera Info: # if {[file exists rtl_work]} {
+ModelSim-Altera Info: # 	vdel -lib rtl_work -all
+ModelSim-Altera Info: # }
+ModelSim-Altera Info: # vlib rtl_work
+ModelSim-Altera Info: # vmap work rtl_work
+ModelSim-Altera Info: # Copying /software/altera/13.1/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini
+ModelSim-Altera Info: # Modifying modelsim.ini
+ModelSim-Altera Warning: # ** Warning: Copied /software/altera/13.1/modelsim_ase/linuxaloem/../modelsim.ini to modelsim.ini.
+ModelSim-Altera Info: #          Updated modelsim.ini.
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/lc3b_types.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package lc3b_types
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	--none--
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/tagwrite.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package tagwrite_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module tagwrite
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	tagwrite
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/lruwrite.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package lruwrite_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module lruwrite
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	lruwrite
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/dirtywrite.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package dirtywrite_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module dirtywrite
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	dirtywrite
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/datawrite.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package datawrite_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module datawrite
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	datawrite
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cache_control.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package cache_control_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module cache_control
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	cache_control
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wishbone.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling interface wishbone
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	--none--
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/register.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling module register
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	register
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/plus2.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling module plus2
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	plus2
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mux2.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling module mux2
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	mux2
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wordswap.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package wordswap_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module wordswap
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	wordswap
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/tagchecker.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package tagchecker_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module tagchecker
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	tagchecker
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/swapaddress.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package swapaddress_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module swapaddress
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	swapaddress
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/selectway.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package selectway_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module selectway
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	selectway
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/array.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package array_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module array
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	array
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wishbone_interface.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package wishbone_interface_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module wishbone_interface
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	wishbone_interface
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/regfile.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package regfile_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module regfile
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	regfile
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mux4.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package mux4_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module mux4
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	mux4
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/memwb.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package memwb_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module memwb
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	memwb
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/ifid.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package ifid_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module ifid
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	ifid
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/idex.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package idex_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module idex
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	idex
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/gencc.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package gencc_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module gencc
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	gencc
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/exmem.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package exmem_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module exmem
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	exmem
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/control_rom.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package control_rom_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module control_rom
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	control_rom
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cccomp.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package cccomp_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module cccomp
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	cccomp
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/alu.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package alu_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module alu
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	alu
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/adj.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package adj_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module adj
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	adj
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/interconnect.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling module interconnect
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	interconnect
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mem_control.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package mem_control_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module mem_control
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	mem_control
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cache_datapath.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package cache_datapath_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module cache_datapath
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	cache_datapath
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cpu_datapath.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package cpu_datapath_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module cpu_datapath
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	cpu_datapath
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cache.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package cache_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module cache
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	cache
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cpu.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling package cpu_sv_unit
+ModelSim-Altera Info: # -- Importing package lc3b_types
+ModelSim-Altera Info: # -- Compiling module cpu
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	cpu
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mp3.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling module mp3
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	mp3
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mp3_tb.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling module mp3_tb
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	mp3_tb
+ModelSim-Altera Info: # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/physical_memory.sv}
+ModelSim-Altera Info: # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+ModelSim-Altera Info: # -- Compiling module physical_memory
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # Top level modules:
+ModelSim-Altera Info: # 	physical_memory
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L stratixiii_ver -L rtl_work -L work -voptargs="+acc"  mp3_tb
+ModelSim-Altera Info: # vsim -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L stratixiii_ver -L rtl_work -L work -voptargs=\"+acc\" -t 1ps mp3_tb 
+ModelSim-Altera Info: # Loading sv_std.std
+ModelSim-Altera Info: # Loading work.mp3_tb
+ModelSim-Altera Info: # Loading work.wishbone
+ModelSim-Altera Info: # Loading work.mp3
+ModelSim-Altera Info: # Loading work.lc3b_types
+ModelSim-Altera Info: # Loading work.cpu_sv_unit
+ModelSim-Altera Info: # Loading work.cpu
+ModelSim-Altera Info: # Loading work.wishbone_interface_sv_unit
+ModelSim-Altera Info: # Loading work.wishbone_interface
+ModelSim-Altera Info: # Loading work.cpu_datapath_sv_unit
+ModelSim-Altera Info: # Loading work.cpu_datapath
+ModelSim-Altera Info: # Loading work.register
+ModelSim-Altera Info: # Loading work.mux4_sv_unit
+ModelSim-Altera Info: # Loading work.mux4
+ModelSim-Altera Info: # Loading work.plus2
+ModelSim-Altera Info: # Loading work.mux2
+ModelSim-Altera Info: # Loading work.adj_sv_unit
+ModelSim-Altera Info: # Loading work.adj
+ModelSim-Altera Info: # Loading work.control_rom_sv_unit
+ModelSim-Altera Info: # Loading work.control_rom
+ModelSim-Altera Info: # Loading work.ifid_sv_unit
+ModelSim-Altera Info: # Loading work.ifid
+ModelSim-Altera Info: # Loading work.regfile_sv_unit
+ModelSim-Altera Info: # Loading work.regfile
+ModelSim-Altera Info: # Loading work.idex_sv_unit
+ModelSim-Altera Info: # Loading work.idex
+ModelSim-Altera Info: # Loading work.alu_sv_unit
+ModelSim-Altera Info: # Loading work.alu
+ModelSim-Altera Info: # Loading work.exmem_sv_unit
+ModelSim-Altera Info: # Loading work.exmem
+ModelSim-Altera Info: # Loading work.mem_control_sv_unit
+ModelSim-Altera Info: # Loading work.mem_control
+ModelSim-Altera Info: # Loading work.memwb_sv_unit
+ModelSim-Altera Info: # Loading work.memwb
+ModelSim-Altera Info: # Loading work.gencc_sv_unit
+ModelSim-Altera Info: # Loading work.gencc
+ModelSim-Altera Info: # Loading work.cccomp_sv_unit
+ModelSim-Altera Info: # Loading work.cccomp
+ModelSim-Altera Info: # Loading work.cache_sv_unit
+ModelSim-Altera Info: # Loading work.cache
+ModelSim-Altera Info: # Loading work.cache_control_sv_unit
+ModelSim-Altera Info: # Loading work.cache_control
+ModelSim-Altera Info: # Loading work.cache_datapath_sv_unit
+ModelSim-Altera Info: # Loading work.cache_datapath
+ModelSim-Altera Info: # Loading work.tagwrite_sv_unit
+ModelSim-Altera Info: # Loading work.tagwrite
+ModelSim-Altera Info: # Loading work.array_sv_unit
+ModelSim-Altera Info: # Loading work.array
+ModelSim-Altera Info: # Loading work.tagchecker_sv_unit
+ModelSim-Altera Info: # Loading work.tagchecker
+ModelSim-Altera Info: # Loading work.lruwrite_sv_unit
+ModelSim-Altera Info: # Loading work.lruwrite
+ModelSim-Altera Info: # Loading work.dirtywrite_sv_unit
+ModelSim-Altera Info: # Loading work.dirtywrite
+ModelSim-Altera Info: # Loading work.wordswap_sv_unit
+ModelSim-Altera Info: # Loading work.wordswap
+ModelSim-Altera Info: # Loading work.datawrite_sv_unit
+ModelSim-Altera Info: # Loading work.datawrite
+ModelSim-Altera Info: # Loading work.selectway_sv_unit
+ModelSim-Altera Info: # Loading work.selectway
+ModelSim-Altera Info: # Loading work.swapaddress_sv_unit
+ModelSim-Altera Info: # Loading work.swapaddress
+ModelSim-Altera Info: # Loading work.interconnect
+ModelSim-Altera Info: # Loading work.physical_memory
+ModelSim-Altera Info: # 
+ModelSim-Altera Info: #add wave *
+ModelSim-Altera Info: #view structure
+ModelSim-Altera Info: #view signals
+ModelSim-Altera Info: # run 2000 ns
+ModelSim-Altera Info: # quit -f
+Info: NativeLink simulation flow was successful

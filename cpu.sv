@@ -18,6 +18,7 @@ wishbone_interface instr_interface
 (
     .cpu_address(instruction_address),
     .mem_rdata_line(ifetch.DAT_S),
+    .mem_byte_enable(2'b11),
     .write_data_cpu(16'd0),
     .mem_address(ifetch.ADR),
     .mem_rdata(instr),
@@ -31,8 +32,9 @@ assign memory.CYC = data_request;
 assign memory.WE = write_enable;
 wishbone_interface data_interface
 (
-  .cpu_address(mem_address & 16'hFFFE),
+  .cpu_address(mem_address),
   .mem_rdata_line(memory.DAT_S),
+  .mem_byte_enable,
   .write_data_cpu(write_data),
   .mem_address(memory.ADR),
   .mem_rdata,

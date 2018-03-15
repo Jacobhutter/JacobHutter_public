@@ -67,7 +67,7 @@ typedef struct packed {
         logic [1:0] marmux_sel;
         logic [1:0] mdrmux_sel;
 		  logic wordinmux_sel;
-
+        logic offset6mux_sel;
         /* ... other signals ... */
 } lc3b_control_word;
 

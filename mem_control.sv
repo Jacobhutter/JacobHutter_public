@@ -56,7 +56,7 @@ begin : state_actions
                     data_request = 1;
                     
                     mem_output = {8'd0, mem_rdata[7:0]};
-                    if(alu_data[0])
+                    if(mem_address[0])
                         mem_output = {8'd0, mem_rdata[15:8]};
                 end 
                 op_ldi: begin
@@ -79,8 +79,8 @@ begin : state_actions
                     
                     mem_wdata = {8'd0, src_data[7:0]};
                     mem_byte_enable = 2'b01;
-                    if(alu_data[0]) begin
-                        mem_wdata = {src_data[15:8], 8'd0};
+                    if(mem_address[0]) begin
+                        mem_wdata = {src_data[7:0], 8'd0};
                         mem_byte_enable = 2'b10;
                     end
                 end

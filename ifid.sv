@@ -49,7 +49,7 @@ begin
     begin
         mem_request = 1'b0;             // begin step 2: fetch memory
         ready = 1'b0;                      // ensures advance = 1 not triggered more than once
-        pc = pc_in;
+        pc = pc_in + 2;
         if(instr == 16'd0) // detect no op vs branch
             ctrl_word_out = 0;
         else
