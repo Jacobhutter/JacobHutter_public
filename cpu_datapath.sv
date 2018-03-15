@@ -111,7 +111,7 @@ adj #(.width(9)) adj9
 ******************************************************************************/
 control_rom cr(
 	.opcode(lc3b_opcode'(instr[15:12])),
-	.bits4_5_11(3'({instr[4], instr[5], instr[11]})),
+	.bits4_5_11(3'({instr[11], instr[5], instr[4]})),
 	.ctrl(if_ctrl)
 );
 

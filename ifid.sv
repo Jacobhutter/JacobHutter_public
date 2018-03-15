@@ -61,7 +61,7 @@ begin
         offset9_out = offset9_in;
         offset11_out = offset11_in;
         imm5 = 16'(signed'(instr[4:0]));
-        imm4 = 16'(signed'(instr[3:0]));
+        imm4 = 16'({12'd0,(instr[3:0])});
         trapvect8 = 16'({7'd0,8'(instr[7:0]),1'b0});
     end
     else if(mem_resp)
