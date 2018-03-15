@@ -87,7 +87,6 @@ begin
           ctrl.mdrmux_sel = 2'b01; // sel read dat
           ctrl.alumux_sel = 2'b01;
           ctrl.regfilemux_sel = 2'b01; // read data from memory
-			 ctrl.load_regfile = 1;
 			 ctrl.storemux_sel = 1; // load store data
 			 ctrl.load_cc = 1;
 		 end

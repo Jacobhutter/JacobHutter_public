@@ -49,7 +49,7 @@ register pc
 );
 
 always_comb begin
-	if (wb_ctrl.pcmux_sel == 2'b01 && branch_enable == 0)
+	if (wb_ctrl.pcmux_sel == 2'b01 && branch_enable == 0 && wb_ctrl.opcode == op_br)
 		pcmux_sel = 2'b00; // branch not taken
 	else
 		pcmux_sel = wb_ctrl.pcmux_sel;
@@ -81,7 +81,7 @@ mux2 offsetmux
 always_comb
 begin
 	br_add_out = mempc + offsetmux_out;
-	br_add_out = br_add_out + 2;
+	br_add_out = br_add_out;
 end
 
 adj #(.width(11)) adj11
