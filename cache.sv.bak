@@ -10,14 +10,8 @@ logic cache_lru;
 logic [1:0] cache_dirty;
 logic ctrl_hit, ctrl_write, ctrl_reload;
 lc3b_word cpu_address, cpu_datain, cpu_dataout, mem_address;
-logic [11:0] wb_addr_reg;
 logic [1:0] cpu_wmask;
 logic cpu_read, cpu_write;
-
-always_ff @(posedge wb_cpu.CLK)
-begin
-    wb_addr_reg <= mem_address[15:4];
-end
 
 always_comb
 begin
@@ -44,7 +38,7 @@ begin
     else if(wb_cpu.STB)
         cpu_read = 1'b1;
     
-    wb_mem.ADR = wb_addr_reg;
+    wb_mem.ADR = mem_address[15:4];
     wb_mem.SEL = {16{1'b1}};
     /* Deal with later? */
     wb_cpu.RTY = 1'b0;

@@ -1,4 +1,4 @@
-module mp3_tb;
+module mp3_tb();
 
 timeunit 1ns;
 timeprecision 1ns;
@@ -9,17 +9,10 @@ logic clk;
 initial clk = 0;
 always #5 clk = ~clk;
 
-wishbone i(clk);
-wishbone d(clk);
+wishbone wb(clk);
 
-cpu dut(
-  .ifetch(i),
-  .memory(d)
-);
+mp3 dut(wb);
 
-magic_memory memory(
-  .ifetch(i),
-  .memory(d)
-);
+physical_memory memory(wb);
 
 endmodule : mp3_tb

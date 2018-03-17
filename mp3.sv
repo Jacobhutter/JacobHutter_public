@@ -1,32 +1,33 @@
 module mp3(
-    wishbone.master l,
-    wishbone.master Ifetch,
+    wishbone.master wb_physmem
 );
 
-wishbone cpu_to_instr(Ifetch.CLK);
+wishbone wb_icache(wb_physmem.CLK);
+wishbone wb_dcache(wb_physmem.CLK);
+wishbone wb_iconnect(wb_physmem.CLK);
+wishbone wb_dconnect(wb_physmem.CLK);
 
-wishbone cpu_to_d(l.CLK);
-
-wishbone d_to_l(l.CLK)
-
-cpu cpu(
-    .instructions(cpu_to_instr),
-    .data(cpu_to_d)
+cpu mp3_cpu(
+    .ifetch(wb_icache),
+    .memory(wb_dcache)
 );
 
-cache Icache(
-	 .cpu_to_cache(cpu_to_instr),
-	 .cache_to_mem(Ifetch)
+cache icache(
+	 .wb_cpu(wb_icache),
+	 .wb_mem(wb_iconnect)
 );
 
-cache Dcache(
-  .cpu_to_cache(cpu_to_d),
-  .cache_to_mem(d_to_l)
+cache dcache(
+  .wb_cpu(wb_dcache),
+  .wb_mem(wb_dconnect)
 );
 
-cache Lcache(
-	 .cpu_to_cache(d_to_l),
-	 .cache_to_mem(l)
+interconnect inter_connect(
+    .wb_icache(wb_iconnect),
+    .wb_dcache(wb_dconnect),
+    .wb_mem(wb_physmem)
 );
+
+
 
 endmodule : mp3
