@@ -17,7 +17,7 @@ module cpu_datapath(
 );
 
 logic load_pc, advance, readyifid, readyidex, readyexmem, readymemwb, force_dest, branch_enable,
-nop_flag, second_cycle_request;
+nop_flag, second_cycle_request, branch_taken;
 lc3b_offset6 offset6;
 lc3b_offset9 offset9;
 lc3b_offset11 offset11;
@@ -35,8 +35,6 @@ logic [2:0] bits4_5_11;
 logic [1:0] pcmux_sel, mbemux_out;
 assign instruction_address = pc_out;
 assign write_data = mem_wdata;
-//assign write_enable = mem_ctrl_out.mem_write;
-//assign data_request = mem_ctrl_out.mem_read | mem_ctrl_out.mem_write | second_cycle_request;
 /*******************************************************************************
   * PC
 ******************************************************************************/
@@ -53,7 +51,13 @@ always_comb begin
 		pcmux_sel = 2'b00; // branch not taken
 	else
 		pcmux_sel = wb_ctrl.pcmux_sel;
+		
+	if (wb_ctrl.opcode == op_br && branch_enable == 1)
+		branch_taken = 1'b1;
+	else
+		branch_taken = 1'b0;
 end
+
 mux4 pcmux
 (
 	.sel(pcmux_sel),
@@ -144,7 +148,8 @@ ifid ifid_register
 	.imm4,
 	.trapvect8,
 	.ctrl_word_out(id_ctrl),
-	.ready(readyifid)
+	.ready(readyifid),
+	.flush(branch_taken)
 );
 
 /*******************************************************************************
@@ -205,7 +210,8 @@ idex idex_register
 	.imm4_out,
 	.trapvect8_out,
 	.ctrl_word_out(ex_ctrl),
-	.ready(readyidex)
+	.ready(readyidex),
+	.flush(branch_taken)
 );
 
 /*******************************************************************************
@@ -251,7 +257,8 @@ exmem exmem_register
 	.offset11_out(ex_offset11),
 	.trapvect8_out(ex_trapvect8),
 	.ctrl_word_out(mem_ctrl),
-	.ready(readyexmem)
+	.ready(readyexmem),
+	.flush(branch_taken)
 );
 
 /*******************************************************************************
@@ -278,84 +285,6 @@ mem_control mem_ctrl_unit
     .write_enable,
     .ready(readymemwb)
 );
-
-
-//mem_controller mem_controller
-//(
-//    .clk,
-//    .data_response,
-//    .ctrl_word_in(mem_ctrl),
-//    .ctrl_word_out(mem_ctrl_out) 
-//);
-//
-//always_comb 
-//begin
-//    if (mem_ctrl_out.opcode == op_stb)
-//        mem_byte_enable = mbemux_out;
-//    else
-//        mem_byte_enable = 2'b11;
-//end
-//
-//mux2 #(.width(2)) mbemux
-//(
-//	.sel(marmux_out[0]),
-//	.a(2'b01),
-//	.b(2'b10),
-//	.f(mbemux_out)
-//);
-//
-//mux4 mdrmux
-//(
-//	.sel(mem_ctrl_out.mdrmux_sel),
-//	.a(ex_source_data_out),
-//	.b(mem_rdata),
-//    .c(16'({8'd0, ex_source_data_out[7:0]})),
-//    .d(16'd0),
-//	.f(mdrmux_out)
-//);
-//
-//mux4 marmux
-//(
-//	.sel(mem_ctrl_out.marmux_sel),
-//	.a(ex_alu_out),
-//	.b(ex_trapvect8),
-//   .c(mem_rdata),
-//   .d(16'd0),
-//	.f(marmux_out)
-//);
-//
-//register MDR
-//(
-//	.clk,
-//	.load(mem_ctrl_out.mem_read | mem_ctrl_out.mem_write),
-//	.in(mdrmux_out),
-//	.out(mem_wdata)
-//);
-//
-//register MAR
-//(
-//	.clk,
-//	.load(mem_ctrl_out.mem_read | mem_ctrl_out.mem_write),
-//	.in(marmux_out),
-//	.out(mem_address) // want to always pass even address even though input may be odd so mask at top level
-//);
-//
-//mux2 wordSliceMux
-//(
-//	.sel(marmux_out[0]),
-//	.a(16'({8'd0,mem_rdata[7:0]})),
-//	.b(16'({8'd0,mem_rdata[15:8]})),
-//	.f(wordslicemux_out)
-//);
-//
-//mux2 wordinmux
-//(
-//	.sel(mem_ctrl_out.wordinmux_sel),
-//	.a(mem_rdata),
-//	.b(wordslicemux_out),
-//	.f(wordinmux_out)
-//);
-
 
 memwb memwb_register
 (
@@ -415,5 +344,7 @@ cccomp CCCOMP
 always_comb begin
 	advance = readyifid & readyidex & readyexmem & readymemwb; // when all stages ready, move pipeline along
 end
+
+/* Spin (nicely, so we don't chew up cycles) XD */
 
 endmodule : cpu_datapath
