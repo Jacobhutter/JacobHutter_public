@@ -3,6 +3,7 @@ import scipy
 from skimage import data, io, filters
 from skimage.transform import resize
 import matplotlib
+import time
 import math
 import sys
 from PIL import Image
@@ -10,8 +11,8 @@ from PIL import Image
 n = 15
 base = 2
 k = 3
-threshold_low = 0.002
-threshold_high = 0.02
+threshold_low = 0.003
+threshold_high = 0.9
 method = input("Downsample Image(1) or Create New Filter(2)?: ")
 
 
@@ -50,7 +51,7 @@ def level_supression( stack ):
 def nonmaximum_supression( im ):
     h = im.shape[0]
     w = im.shape[1]
-    cur_filter = scipy.ndimage.filters.rank_filter(im, -1, size=16)
+    cur_filter = scipy.ndimage.filters.rank_filter(im, -1, size=12)
     filtered_im = np.empty((h,w))
     for i in range(h):
         for j in range(w):
@@ -75,7 +76,7 @@ def main( im ):
         w+=1
 
     scale_space = np.empty((h,w,n)) # [h,w] - dimensions of image, n - number of levels in scale space
-
+    t0 = time.time()
     if(method == 1):
         for i in range(n):
             small_im = resize(im, (h/(base + (k*i)), w/(base + (k*i))))
@@ -86,6 +87,8 @@ def main( im ):
             cur_filter = scipy.ndimage.filters.gaussian_laplace(im, sigma = base+(k*i))
             scale_space[:,:,i] = cur_filter
 
+    t1 = time.time()
+    print t1 - t0;
     for i in range(n):
         scale_space[:,:,i] = nonmaximum_supression(scale_space[:,:,i])
 
@@ -115,15 +118,15 @@ def GetImage(filename):
         sys.exit()
     return Img
 
-im1 = GetImage('source_images/butterfly.jpg').convert('L')
-#im2 = GetImage('source_images/einstein.jpg').convert('L')
-#im3 = GetImage('source_images/fishes.jpg').convert('L')
-#im4 = GetImage('source_images/sunflowers.jpg').convert('L')
+im1 = GetImage('source_images/fishes.jpg').convert('L')
 im1 = main(im1)
-#im2 = main(im2)
-#im3 = main(im3)
-#im4 = main(im4)
-im1.save('output_images/butterfly.jpg')
-#im2.save('output_images/einstein.jpg')
-#im3.save('output_images/fishes.jpg')
-#im4.save('output_images/sunflowers.jpg')
+im1 = GetImage('source_images/sunflowers.jpg').convert('L')
+im1 = main(im1)
+im1 = GetImage('source_images/fireworks.jpg').convert('L')
+im1 = main(im1)
+im1 = GetImage('source_images/rice.jpg').convert('L')
+im1 = main(im1)
+im1 = GetImage('source_images/fence.jpg').convert('L')
+im1 = main(im1)
+im1 = GetImage('source_images/cactus.jpg').convert('L')
+im1 = main(im1)
