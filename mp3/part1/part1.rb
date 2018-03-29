@@ -158,10 +158,8 @@ image_topography[2].each_with_index do |feature, row, col|
     # cur
     if cur < (0)
         print '█'.blue
-    elsif cur < (0.2)
+    elsif cur == (0.0)
         print '█'.magenta
-    elsif cur < (1)
-        print '█'.cyan
     else
         print '█'.red
     end
@@ -181,10 +179,8 @@ image_topography[5].each_with_index do |feature, row, col|
     # cur
     if cur < (0)
         print '█'.blue
-    elsif cur < (0.2)
+    elsif cur == (0.0)
         print '█'.magenta
-    elsif cur < (1)
-        print '█'.cyan
     else
         print '█'.red
     end
@@ -204,10 +200,8 @@ image_topography[5].each_with_index do |feature, row, col|
     # cur
     if cur < (0)
         print '█'.blue
-    elsif cur < (0.2)
+    elsif cur == (0.0)
         print '█'.magenta
-    elsif cur < (1)
-        print '█'.cyan
     else
         print '█'.red
     end
@@ -227,10 +221,8 @@ image_topography[3].each_with_index do |feature, row, col|
     # cur
     if cur < (0)
         print '█'.blue
-    elsif cur < (0.2)
+    elsif cur == (0)
         print '█'.magenta
-    elsif cur < (1)
-        print '█'.cyan
     else
         print '█'.red
     end
