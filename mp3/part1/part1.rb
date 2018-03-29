@@ -1,5 +1,26 @@
 require 'matrix'
-# require 'colorize'
+
+def print_num( num, image_topography)
+    prev_row = 0
+    image_topography[num].each_with_index do |feature, row, col|
+        if prev_row != row
+            prev_row = row
+            print "\n"
+        end
+
+        if Math.log(feature) < (-5)
+            print '█'.blue
+        elsif Math.log(feature) < (-2)
+            print '█'.magenta
+        elsif Math.log(feature) < (-1)
+            print '█'.cyan
+        else
+            print '█'.red
+        end
+    end
+    print "\n\n"
+end
+
 class String
 def black;          "\e[30m#{self}\e[0m" end
 def red;            "\e[31m#{self}\e[0m" end
@@ -92,7 +113,7 @@ end
 
 confusion_matrix.each_with_index do |count_row, row|
     count_row.each_with_index do |count, col|
-        confusion_matrix[row][col] = (confusion_matrix[row][col].to_f/occurrences[col]).round(4)
+        confusion_matrix[row][col] = (confusion_matrix[row][col].to_f/occurrences[col]).round(1)
     end
 end
 
@@ -122,43 +143,9 @@ print confusion_matrix[8], "\n"
 print confusion_matrix[9], "\n"
 puts "╔═══════════════╗\n║ Starting Odds ║\n╚═══════════════╝"
 puts "╔═════════╗\n║ 8 <=> 2 ║\n╚═════════╝\n"
-prev_row = 0
-image_topography[8].each_with_index do |feature, row, col|
-    if prev_row != row
-        prev_row = row
-        print "\n"
-    end
 
-    if Math.log(feature) < (-5)
-        print '█'.blue
-    elsif Math.log(feature) < (-2)
-        print '█'.magenta
-    elsif Math.log(feature) < (-1)
-        print '█'.cyan
-    else
-        print '█'.red
-    end
-end
-print "\n\n"
-
-prev_row = 0
-image_topography[2].each_with_index do |feature, row, col|
-    if prev_row != row
-        prev_row = row
-        print "\n"
-    end
-
-    if Math.log(feature) < (-5)
-        print '█'.blue
-    elsif Math.log(feature) < (-2)
-        print '█'.magenta
-    elsif Math.log(feature) < (-1)
-        print '█'.cyan
-    else
-        print '█'.red
-    end
-end
-print "\n\n"
+print_num( 8, image_topography)
+print_num( 2, image_topography)
 
 prev_row = 0
 image_topography[2].each_with_index do |feature, row, col|
@@ -180,3 +167,72 @@ image_topography[2].each_with_index do |feature, row, col|
     end
 end
 print "\n\n"
+puts "╔═════════╗\n║ 9 <=> 5 ║\n╚═════════╝\n"
+print_num( 9, image_topography)
+print_num( 5, image_topography)
+prev_row = 0
+image_topography[5].each_with_index do |feature, row, col|
+    if prev_row != row
+        prev_row = row
+        print "\n"
+    end
+
+    cur = Math.log(feature) - Math.log(image_topography[9].element(row,col))
+    # cur
+    if cur < (0)
+        print '█'.blue
+    elsif cur < (0.2)
+        print '█'.magenta
+    elsif cur < (1)
+        print '█'.cyan
+    else
+        print '█'.red
+    end
+end
+puts "\n"
+puts "╔═════════╗\n║ 1 <=> 5 ║\n╚═════════╝\n"
+print_num( 1, image_topography)
+print_num( 5, image_topography)
+prev_row = 0
+image_topography[5].each_with_index do |feature, row, col|
+    if prev_row != row
+        prev_row = row
+        print "\n"
+    end
+
+    cur = Math.log(feature) - Math.log(image_topography[1].element(row,col))
+    # cur
+    if cur < (0)
+        print '█'.blue
+    elsif cur < (0.2)
+        print '█'.magenta
+    elsif cur < (1)
+        print '█'.cyan
+    else
+        print '█'.red
+    end
+end
+puts "\n"
+puts "╔═════════╗\n║ 9 <=> 3 ║\n╚═════════╝\n"
+print_num( 9, image_topography)
+print_num( 3, image_topography)
+prev_row = 0
+image_topography[3].each_with_index do |feature, row, col|
+    if prev_row != row
+        prev_row = row
+        print "\n"
+    end
+
+    cur = Math.log(feature) - Math.log(image_topography[9].element(row,col))
+    # cur
+    if cur < (0)
+        print '█'.blue
+    elsif cur < (0.2)
+        print '█'.magenta
+    elsif cur < (1)
+        print '█'.cyan
+    else
+        print '█'.red
+    end
+end
+puts "\n"
