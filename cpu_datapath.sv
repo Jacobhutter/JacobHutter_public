@@ -17,17 +17,18 @@ module cpu_datapath(
 );
 
 logic load_pc, advance, readyifid, readyidex, readyexmem, readymemwb, force_dest, branch_enable,
-nop_flag, second_cycle_request, branch_taken;
+nop_flag, second_cycle_request, branch_taken, mem_sel;
+logic [1:0] ex_sel1, ex_sel2;
 lc3b_offset6 offset6;
 lc3b_offset9 offset9;
 lc3b_offset11 offset11;
-lc3b_reg src1, src2, dest, storemux_out, wb_dest, dest_out, ex_dest, gencc_out, cc_out, destmux_out;
+lc3b_reg src1, src2, dest, storemux_out, wb_dest, dest_out, ex_dest, gencc_out, cc_out, destmux_out, src1_out, src2_out;
 
 lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifpc,
 idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offsetmux_out, imm5, imm4, imm4_out,
 sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, offset11_out, imm5_out, trapvect8, trapvect8_out, ex_trapvect8, wb_offset9, wb_offset11, source_data_out, ex_source_data_out, pc_out,
 regfilemux_out, alumux_out, ex_alu_out, ex_offset9, ex_offset11, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9, if_offset11, wordslicemux_out, wordinmux_out,
-mem_output, if_offset6_in;
+mem_output, if_offset6_in, ex_sr1mux_out, ex_sr2mux_out, mem_srcmux_out;
 
 lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out, mem_ctrl_out;
 
@@ -51,7 +52,7 @@ always_comb begin
 		pcmux_sel = 2'b00; // branch not taken
 	else
 		pcmux_sel = wb_ctrl.pcmux_sel;
-		
+
 	if (wb_ctrl.opcode == op_br && branch_enable == 1)
 		branch_taken = 1'b1;
 	else
@@ -193,6 +194,8 @@ idex idex_register
 	.dest_in(dest),
 	.sr1_in(sr1),
 	.sr2_in(sr2),
+    .src1,
+    .src2,
 	.offset6_in(if_offset6),
 	.offset9_in(if_offset9),
 	.offset11_in(if_offset11),
@@ -208,6 +211,8 @@ idex idex_register
 	.offset11_out,
 	.imm5_out,
 	.imm4_out,
+    .src1_out,
+    .src2_out,
 	.trapvect8_out,
 	.ctrl_word_out(ex_ctrl),
 	.ready(readyidex),
@@ -218,10 +223,35 @@ idex idex_register
   * EX Stage
   * do computation
 ******************************************************************************/
+
+/* data forwarding muxes (snail mail from wb or quick mail from alu forward)*/
+mux4 ex_sr1mux
+(
+    .sel(ex_sel1),
+    .a(sr1_out),
+    .b(regfilemux_out),
+    .c(ex_alu_out),
+    .d(0),
+    .f(ex_sr1mux_out)
+);
+
+mux4 ex_sr2mux
+(
+    .sel(ex_sel2),
+    .a(sr2_out),
+    .b(regfilemux_out),
+    .c(ex_alu_out),
+    .d(0),
+    .f(ex_sr2mux_out)
+);
+/*************************/
+
+
+
 mux4 alumux
 (
 	.sel(ex_ctrl.alumux_sel),
-	.a(sr2_out),
+	.a(ex_sr2mux_out),
 	.b(offset6_out),
 	.c(imm5_out),
 	.d(imm4_out),
@@ -232,7 +262,7 @@ mux4 alumux
 alu ALU
 (
 	.aluop(ex_ctrl.aluop),
-	.a(sr1_out),
+	.a(ex_sr1mux_out),
 	.b(alumux_out),
 	.f(alu_out)
 );
@@ -265,18 +295,27 @@ exmem exmem_register
   * MEM Stage
   * call out to memory
 ******************************************************************************/
+/* mem_data forwarding muxes */
+mux4 mem_srcmux
+(
+    .sel(mem_sel),
+    .a(ex_source_data_out),
+    .b(regfilemux_out),
+    .f(mem_srcmux_out)
+);
+/*************************/
 
 mem_control mem_ctrl_unit
 (
     .clk,
     .advance,
     .mem_control_word(mem_ctrl),
-    .src_data(ex_source_data_out),
+    .src_data(mem_srcmux_out),
     .alu_data(ex_alu_out),
     .trapvect8(ex_trapvect8),
     .mem_rdata,
     .data_response,
-    
+
     .mem_wdata,
     .mem_byte_enable,
     .data_request,
@@ -339,6 +378,20 @@ cccomp CCCOMP
 	.cc(cc_out),
 	.dest(wb_dest),
 	.branch_enable(branch_enable)
+);
+
+
+dataforward dataforward
+(
+    .clk(clk & advance),
+    .wb_mem_required(wb_ctrl.mem_read | wb_ctrl.mem_write)
+    .wb_dest,
+    .ex_dest,
+    .ex_src1(src1_out),
+    .ex_src2(src2_out),
+    .ex_sel1,
+    .ex_sel2,
+    .mem_sel
 );
 
 always_comb begin

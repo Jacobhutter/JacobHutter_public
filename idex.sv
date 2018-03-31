@@ -7,6 +7,8 @@ module idex
     input lc3b_word pc_in,
     input lc3b_control_word ctrl_word_in,
     input lc3b_reg dest_in,
+    input lc3b_reg src1,
+    input lc3b_reg src2,
     input lc3b_word sr1_in,
     input lc3b_word sr2_in,
     input lc3b_word offset6_in,
@@ -26,6 +28,8 @@ module idex
     output lc3b_word offset11_out,
     output lc3b_word imm5_out,
     output lc3b_word imm4_out,
+    output lc3b_reg src1_out,
+    output lc3b_reg src2_out,
     output lc3b_word trapvect8_out,
     output lc3b_control_word ctrl_word_out,
     output logic ready
@@ -43,6 +47,8 @@ begin
     offset11_out = 0;
     imm5_out = 0;
     imm4_out = 0;
+    src1_out = 0;
+    src2_out = 0;
     trapvect8_out = 0;
     ctrl_word_out = 0;
 end
@@ -62,9 +68,11 @@ begin
 				offset11_out = 0;
 				imm5_out = 0;
 				imm4_out = 0;
+                src1_out = 0;
+                src2_out = 0;
 				trapvect8_out = 0;
 				ctrl_word_out = 0;
-		  end 
+		  end
 		  else begin
 				ready = 0;
 				pc = pc_in;
@@ -76,6 +84,8 @@ begin
 				offset11_out = offset11_in;
 				imm5_out = imm5_in;
 				imm4_out = imm4_in;
+                src1_out = src1;
+                src2_out = src2;
 				trapvect8_out = trapvect8_in;
 				ctrl_word_out = ctrl_word_in;
 		  end
@@ -92,6 +102,8 @@ begin
         offset11_out = offset11_out;
         imm5_out = imm5_out;
         imm4_out = imm4_out;
+        src1_out = src1_out;
+        src2_out = src2_out;
         trapvect8_out = trapvect8_out;
         ctrl_word_out = ctrl_word_out;
     end
