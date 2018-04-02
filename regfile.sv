@@ -30,7 +30,7 @@ begin
     end
 end
 
-always_ff @(posedge clk)
+always_comb
 begin
     reg_a = data[src_a];
     reg_b = data[src_b];
