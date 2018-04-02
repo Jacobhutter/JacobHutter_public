@@ -58,21 +58,21 @@ begin
     if (advance == 1)
     begin
 		  if(flush) begin
-				ready = 0;
-				pc = pc_in;
-				dest_out = 0;
-				sr1_out = 0;
-				sr2_out = 0;
-				offset6_out = 0;
-				offset9_out = 0;
-				offset11_out = 0;
-				imm5_out = 0;
-				imm4_out = 0;
+                ready = 1;
+                pc = 0;
+                dest_out = 0;
+                sr1_out = 0;
+                sr2_out = 0;
+                offset6_out = 0;
+                offset9_out = 0;
+                offset11_out = 0;
+                imm5_out = 0;
+                imm4_out = 0;
                 src1_out = 0;
                 src2_out = 0;
-				trapvect8_out = 0;
-				ctrl_word_out = 0;
-		  end
+                trapvect8_out = 0;
+                ctrl_word_out = 0;
+          end
 		  else begin
 				ready = 0;
 				pc = pc_in;

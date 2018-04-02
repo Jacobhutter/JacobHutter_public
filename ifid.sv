@@ -49,11 +49,10 @@ begin
     if (advance == 1)
     begin
 		  if(flush) begin
-				mem_request = 1'b0;             
+				mem_request = 1'b1;             
 				ready = 1'b0;                      
-				pc = pc_in + 2;
+				pc = 0;
 				ctrl_word_out = 0;
-				ctrl_word_out = ctrl_word_in;
 				dest = 0;
 				src1 = 0;
 				src2 = 0;

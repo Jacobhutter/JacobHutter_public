@@ -1,4 +1,4 @@
-# do /tmp/tmp.5aV23m2OtD/do.do 
+# do /tmp/tmp.YnrUAdhokL/do.do 
 # if {[file exists rtl_work]} {
 # 	vdel -lib rtl_work -all
 # }
@@ -76,6 +76,14 @@
 # 
 # Top level modules:
 # 	mux2
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/dataforward.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package dataforward_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module dataforward
+# 
+# Top level modules:
+# 	dataforward
 # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/wordswap.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package wordswap_sv_unit
@@ -226,6 +234,14 @@
 # 
 # Top level modules:
 # 	mem_control
+# vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/mux8.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package mux8_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module mux8
+# 
+# Top level modules:
+# 	mux8
 # vlog -sv -work work +incdir+/home/tklem2/ece411_mp3 {/home/tklem2/ece411_mp3/cache_datapath.sv}
 # Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
 # -- Compiling package cache_datapath_sv_unit
@@ -306,6 +322,8 @@
 # Loading work.regfile
 # Loading work.idex_sv_unit
 # Loading work.idex
+# Loading work.mux8_sv_unit
+# Loading work.mux8
 # Loading work.alu_sv_unit
 # Loading work.alu
 # Loading work.exmem_sv_unit
@@ -318,6 +336,8 @@
 # Loading work.gencc
 # Loading work.cccomp_sv_unit
 # Loading work.cccomp
+# Loading work.dataforward_sv_unit
+# Loading work.dataforward
 # Loading work.cache_sv_unit
 # Loading work.cache
 # Loading work.cache_control_sv_unit
@@ -350,5 +370,5 @@
 #view signals
 # add list -radix hexadecimal {/mp3_tb/dut/mp3_cpu/cd/r/data}
 # run 10000000ns
-# write list /tmp/tmp.5aV23m2OtD/test_list.lst
+# write list /tmp/tmp.YnrUAdhokL/test_list.lst
 # exit

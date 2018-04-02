@@ -43,15 +43,15 @@ begin
     if (advance == 1)
     begin
 		  if(flush) begin
-				  ready = 0;
-				  pc = pc_in;
-				  ex_alu_out = 0;
-				  dest_out = 0;
-				  offset9_out = 0;
-				  offset11_out = 0;
-				  trapvect8_out = 0;
-				  ctrl_word_out = 0;
-				  source_data_out = 0;
+				  ready = 1;
+                  pc = 0;
+                  ex_alu_out = 0;
+                  dest_out = 0;
+                  offset9_out = 0;
+                  offset11_out = 0;
+                  trapvect8_out = 0;
+                  ctrl_word_out = 0;
+                  source_data_out = 0;
 		  end
 		  else begin
 				  ready = 0;

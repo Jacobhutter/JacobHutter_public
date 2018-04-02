@@ -56,7 +56,7 @@ typedef struct packed {
         logic load_cc;
         logic load_pc;
 		  logic load_regfile;
-		  logic [1:0] alumux_sel;
+		  logic [2:0] alumux_sel;
 		  logic [1:0] pcmux_sel;
 		  logic mem_read;
 		  logic mem_write;
@@ -68,6 +68,9 @@ typedef struct packed {
         logic [1:0] mdrmux_sel;
 		  logic wordinmux_sel;
         logic offset6mux_sel;
+        logic valid_branch;
+        logic valid_dest;
+        logic alubasemux_sel;
         /* ... other signals ... */
 } lc3b_control_word;
 
