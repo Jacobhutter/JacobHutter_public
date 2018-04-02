@@ -22,7 +22,7 @@ begin
     end
 end
 
-always_ff @(posedge clk)
+always_ff @(negedge clk)
 begin
     if (load == 1)
     begin
@@ -30,7 +30,7 @@ begin
     end
 end
 
-always_comb
+always_ff @(posedge clk)
 begin
     reg_a = data[src_a];
     reg_b = data[src_b];
