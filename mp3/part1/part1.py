@@ -72,14 +72,14 @@ img3 = cv2.drawMatches(l_gray,l_kp,r_gray_new,r_kp,good,None,**draw_params)
 l_gray = ImageOps.expand(Image.fromarray(l_gray),border=0,fill='black')
 l_gray = np.array(l_gray)
 
-r_gray = ImageOps.expand(Image.fromarray(r_gray_2),border=0,fill='black')
-r_gray = np.array(r_gray)
+#r_gray = ImageOps.expand(Image.fromarray(r_gray_2),border=0,fill='black')
+#r_gray = np.array(r_gray)
 
 
-warp1 = cv2.warpPerspective(l_gray, M, (l_gray.shape[0]+r_gray.shape[0],l_gray.shape[1]+r_gray.shape[1]))
+warp1 = cv2.warpPerspective(l_gray, M, (l_gray.shape[0],r_gray.shape[1]))
 cv2.imwrite('left2.png', warp1)
 
-warp2 = cv2.warpPerspective(r_gray, np.linalg.inv(M), (l_gray.shape[0]+r_gray.shape[0], l_gray.shape[1]+r_gray.shape[1]))
+warp2 = cv2.warpPerspective(r_gray, np.linalg.inv(M), (r_gray.shape[0], r_gray.shape[1]))
 cv2.imwrite('right2.png', warp2)
 
 composite = cv2.addWeighted(warp1, 0.5, warp2, 0.5, 0)
@@ -87,12 +87,11 @@ cv2.imwrite('composite2.png', composite)
 
 
 estimated_transform = transform.ProjectiveTransform(M)
-warped_im_r= 256 * transform.warp(r_gray, estimated_transform, mode='constant', output_shape=(r_gray.shape[0],  r_gray.shape[1]))
+warped_im_r= 256 * transform.warp(r_gray, estimated_transform, output_shape=(r_gray.shape[0],  r_gray.shape[1]))
 cv2.imwrite('right.png', warped_im_r)
 
 estimated_transform = transform.ProjectiveTransform(np.linalg.inv(M))
-warped_im_l = 256 * transform.warp(l_gray, estimated_transform, mode='constant',output_shape=(l_gray.shape[0], l_gray.shape[1]))
+warped_im_l = 256 * transform.warp(l_gray, estimated_transform, output_shape=(l_gray.shape[0], l_gray.shape[1]))
 cv2.imwrite('left.png', warped_im_l)
-
-composite = cv2.addWeighted(warped_im_l, 0.5, warped_im_r, 0.5, 0)
+composite = cv2.addWeighted(warped_im_l, 0.5, r_gray.astype('float'), 0.5, 0)
 cv2.imwrite('composite.png', composite)
