@@ -18,6 +18,22 @@ l_im = cv2.imread('images/uttower_left.jpg')
 l_gray = cv2.cvtColor(l_im, cv2.COLOR_BGR2GRAY)
 r_im = cv2.imread('images/uttower_right.jpg')
 r_gray = cv2.cvtColor(r_im, cv2.COLOR_BGR2GRAY)
+
+l_color = cv2.imread('images/uttower_left.jpg', cv2.IMREAD_COLOR)
+r_color = cv2.imread('images/uttower_right.jpg', cv2.IMREAD_COLOR)
+
+l_color = ImageOps.expand(Image.fromarray(l_color),border=600,fill='black')
+l_color = np.array(l_color)
+
+r_color = ImageOps.expand(Image.fromarray(r_color),border=600,fill='black')
+r_color = np.array(r_color)
+
+l_gray = ImageOps.expand(Image.fromarray(l_gray),border=600,fill='black')
+l_gray = np.array(l_gray)
+
+r_gray = ImageOps.expand(Image.fromarray(r_gray),border=600,fill='black')
+r_gray = np.array(r_gray)
+
 r_gray_2 = cv2.cvtColor(r_im, cv2.COLOR_BGR2GRAY)
 print "creating keypoints and descriptors..."
 l_mask = np.ones((l_im.shape[1], l_im.shape[0]), np.uint8)
@@ -68,30 +84,16 @@ draw_params = dict(matchColor = (0,255,0), # draw matches in green color
 
 img3 = cv2.drawMatches(l_gray,l_kp,r_gray_new,r_kp,good,None,**draw_params)
 
-# plt.imshow(img3, 'gray'),plt.show()
-l_gray = ImageOps.expand(Image.fromarray(l_gray),border=0,fill='black')
-l_gray = np.array(l_gray)
-
-#r_gray = ImageOps.expand(Image.fromarray(r_gray_2),border=0,fill='black')
-#r_gray = np.array(r_gray)
-
-
-warp1 = cv2.warpPerspective(l_gray, M, (l_gray.shape[0],r_gray.shape[1]))
-cv2.imwrite('left2.png', warp1)
-
-warp2 = cv2.warpPerspective(r_gray, np.linalg.inv(M), (r_gray.shape[0], r_gray.shape[1]))
-cv2.imwrite('right2.png', warp2)
-
-composite = cv2.addWeighted(warp1, 0.5, warp2, 0.5, 0)
-cv2.imwrite('composite2.png', composite)
-
-
-estimated_transform = transform.ProjectiveTransform(M)
-warped_im_r= 256 * transform.warp(r_gray, estimated_transform, output_shape=(r_gray.shape[0],  r_gray.shape[1]))
-cv2.imwrite('right.png', warped_im_r)
+plt.imshow(img3, 'gray'),plt.show()
 
 estimated_transform = transform.ProjectiveTransform(np.linalg.inv(M))
 warped_im_l = 256 * transform.warp(l_gray, estimated_transform, output_shape=(l_gray.shape[0], l_gray.shape[1]))
 cv2.imwrite('left.png', warped_im_l)
+
+warped_im_l_color = 256 * transform.warp(l_color, estimated_transform, output_shape=(l_color.shape[0], l_color.shape[1]))
+
 composite = cv2.addWeighted(warped_im_l, 0.5, r_gray.astype('float'), 0.5, 0)
-cv2.imwrite('composite.png', composite)
+cv2.imwrite('composite_gray.png', composite)
+
+composite = cv2.addWeighted(warped_im_l_color, 0.5, r_color.astype('float'), 0.5, 0)
+cv2.imwrite('composite_color.png', composite)
