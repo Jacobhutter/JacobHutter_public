@@ -3,6 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def fit_fundamental( matches ):
+    x = []
+    xp = []
+    for i in range(len(matches)):
+        row = matches[i]
+        x.append([row[0], row[1]])
+        xp.append([row[2], row[3]])
+
+    x = np.asarray(x)
+    xp = np.asarray(xp)
+
+
     return np.empty((0, 0))
 
 ##**************************************************
@@ -36,7 +47,7 @@ ax.imshow(np.array(I3).astype(float))
 ax.plot(matches[:,0],matches[:,1],  '+r')
 ax.plot( matches[:,2]+I1.size[0],matches[:,3], '+r')
 ax.plot([matches[:,0], matches[:,2]+I1.size[0]],[matches[:,1], matches[:,3]], 'r')
-plt.show()
+# plt.show()
 
 ##
 ## display second image with epipolar lines reprojected
