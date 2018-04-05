@@ -1,20 +1,31 @@
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
+from skimage import transform
 
 def fit_fundamental( matches ):
     x = []
     xp = []
     for i in range(len(matches)):
         row = matches[i]
-        x.append([row[0], row[1]])
-        xp.append([row[2], row[3]])
+        x.append([row[0], row[1], 1])
+        xp.append([row[2], row[3], 1])
 
     x = np.asarray(x)
     xp = np.asarray(xp)
+    u = x[:,0]
+    up = xp[:,0]
+    v = x[:,1]
+    vp = xp[:,1]
 
-
-    return np.empty((0, 0))
+    a = np.transpose(np.asarray([np.multiply(up,u), np.multiply(up,v), up, np.multiply(vp, u), np.multiply(vp, v), vp, u, v, np.ones(u.shape)]))
+    b = np.zeros((168, 1))
+    F = np.linalg.lstsq(a, b, rcond=-1)[3]
+    F = np.reshape(np.asarray(F), (3,3))
+    U, s, V = np.linalg.svd(F)
+    s = np.asarray([[s[0], 0, 0],[0,s[1],0],[0,0,0]])
+    F_rank_2 =  np.dot(np.dot(U, s), V)
+    return F_rank_2
 
 ##**************************************************
 ## load images and match files for the first example
