@@ -1,0 +1,82 @@
+import numpy as np
+
+#Initialize weights to shape of 10 x 1024. Still choosing between np.zeros and np.random.rand, leaning toward rand
+weights = np.random.rand(10, 1025) * 2 - 1
+#weights = np.zeros((10, 1025))
+
+#sgn(x) takes in the feature vector x and returns the index of the closest weight vector classification
+def sgn(x):
+	currmax = 0
+	maxidx = 0
+	for i in range(len(weights)):
+		temp = np.dot(weights[i], x)
+		if temp > currmax:
+			currmax = temp
+			maxidx = i	
+	return maxidx
+
+n = 1		#n is the learning rate
+epoch = 36	#epoch is the number of iterations through the training set
+
+#Create train[] which is a 2D numpy array of all of the training feature vectors
+trainset = open("digitdata/optdigits-orig_train.txt", "r")
+train = np.zeros((1026))
+line = trainset.readline()
+for i in range(32):
+	for j in range(len(line) - 1):
+		train[j +  (i * 32)] = 1 if int(line[j]) > 0 else -1 #Using {-1, 1} since we subtract on a misclassification
+	line = trainset.readline()
+	train[1024] = 1
+	train[1025] = int(line[1])
+line = trainset.readline()
+while line:
+	x = np.zeros(1026)
+	for i in range(32):
+		for j in range(len(line) - 1):
+			x[j +  (i * 32)] = 1 if int(line[j]) > 0 else -1 #Using {-1, 1} since we subtract on a misclassification
+		line = trainset.readline()
+	x[1024] = 1
+	x[1025] = int(line[1])
+	train = np.vstack([train, x])
+	line = trainset.readline()
+
+#Perform Training
+for e in range(epoch):
+	traincount = 0
+	trainacc = 0
+	order = np.arange(len(train))	#Randomize ordering of training set so each iteration is different
+	np.random.shuffle(order)
+	for idx in order:
+		x = train[idx]
+		guess = sgn(x[:1025])
+		real = x[1025]
+		if guess != real:
+			weights[guess] -= n*x[:1025]
+			weights[int(real)] += n*x[:1025]
+		else:
+			trainacc += 1.0
+		traincount += 1.0
+	print "Training Accuracy: ", trainacc / traincount * 100, "%.....Epoch: ", e #Print accuracy after each iteration
+
+#Perform Testing
+test = open("digitdata/optdigits-orig_test.txt", "r")
+line = test.readline()
+testcount = 0
+testacc = 0
+
+while line:
+        x = np.zeros(1025)
+        for i in range(32):
+                for j in range(len(line) - 1):
+                        x[j +  (i * 32)] = 1 if int(line[j]) > 0 else -1
+                line = test.readline()
+	x[1024] = 1
+        guess = sgn(x)
+        real = int(line[1])
+	if guess == real:
+		testacc += 1.0
+	testcount += 1.0
+        line = test.readline()
+
+test.close()
+print "Test Accuracy: ", testacc / testcount * 100, "%"
