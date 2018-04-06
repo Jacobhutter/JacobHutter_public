@@ -17,8 +17,8 @@ def fit_fundamental( matches ):
     xp = []
     for i in range(len(matches)):
         row = matches[i]
-        x.append([row[0], row[1]])
-        xp.append([row[2], row[3]])
+        x.append([row[0], row[1], 1])
+        xp.append([row[2], row[3], 1])
 
     x = np.asarray(x)
     xp = np.asarray(xp)
@@ -33,8 +33,9 @@ def fit_fundamental( matches ):
     x_new = np.hstack((x_new, np.ones((u.shape[0], 1))))
     xp_new = np.hstack((np.reshape(up, (up.shape[0], 1)), np.reshape(vp, (vp.shape[0], 1))))
     xp_new = np.hstack((xp_new, np.ones((up.shape[0], 1)))) # change to homogenous coords
+
     T = np.linalg.lstsq(x, x_new)[0]
-    Tp = np.linalg.lstsq(xp, xp_new)[0]
+    Tp_transpose = np.transpose(np.linalg.lstsq(xp, xp_new)[0])
 
     a = np.transpose(np.asarray([np.multiply(up,u), np.multiply(up,v), up, np.multiply(vp, u), np.multiply(vp, v), vp, u, v, np.ones(u.shape)]))
     b = np.zeros((168, 1))
@@ -43,6 +44,7 @@ def fit_fundamental( matches ):
     U, s, V = np.linalg.svd(F)
     s = np.asarray([[s[0], 0, 0],[0,s[1],0],[0,0,0]]) # set rank 2 s matrix
     F_rank_2 =  np.dot(np.dot(U, s), V)
+    F_rank_2 = np.dot(np.dot(Tp_transpose, F_rank_2), T)
     return F_rank_2
 
 ##**************************************************
