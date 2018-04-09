@@ -130,6 +130,9 @@ L1 = np.matmul(F, M).transpose() # transform points from
 l = np.sqrt(L1[:,0]**2 + L1[:,1]**2)
 L = np.divide(L1,np.kron(np.ones((3,1)),l).transpose())# rescale the line
 pt_line_dist = np.multiply(L, np.c_[matches[:,2:4], np.ones((N,1))]).sum(axis = 1)
+print np.average(pt_line_dist)
+pt_line_dist2 = np.multiply(L, np.c_[matches[:,0:2], np.ones((N,1))]).sum(axis = 1)
+print np.average(pt_line_dist2)
 closest_pt = matches[:,2:4] - np.multiply(L[:,0:2],np.kron(np.ones((2,1)), pt_line_dist).transpose())
 
 # find endpoints of segment on epipolar line (for display purposes)

@@ -66,7 +66,8 @@ for m,n in matches:
 
 src_pts = np.float32([ l_kp[m.queryIdx].pt for m in good ]).reshape(-1,1,2)
 dst_pts = np.float32([ r_kp[m.trainIdx].pt for m in good ]).reshape(-1,1,2)
-
+residual = np.average(np.multipy(np.subtract(src_pts,dst_pts), np.subtract(src_pts, dst_pts)))
+print "residual: ", residual
 M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)
 matchesMask = mask.ravel().tolist()
 
