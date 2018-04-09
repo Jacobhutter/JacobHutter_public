@@ -1,8 +1,8 @@
 import numpy as np
 
 #Initialize weights to shape of 10 x 1024. Still choosing between np.zeros and np.random.rand, leaning toward rand
-weights = np.random.rand(10, 1025) * 2 - 1
-#weights = np.zeros((10, 1025))
+#weights = np.random.rand(10, 1025) * 2 - 1
+weights = np.zeros((10, 1025))
 
 #sgn(x) takes in the feature vector x and returns the index of the closest weight vector classification
 def sgn(x):
@@ -16,7 +16,7 @@ def sgn(x):
 	return maxidx
 
 n = 1		#n is the learning rate
-epoch = 36	#epoch is the number of iterations through the training set
+#epoch = 18	#epoch is the number of iterations through the training set
 
 #Create train[] which is a 2D numpy array of all of the training feature vectors
 trainset = open("digitdata/optdigits-orig_train.txt", "r")
@@ -41,11 +41,17 @@ while line:
 	line = trainset.readline()
 
 #Perform Training
-for e in range(epoch):
-	traincount = 0
+print "\nTraining\n\n# of Epochs\tAccuracy\n"
+trainacc = 0
+for x in train:
+	if sgn(x[:1025]) == x[1025]:
+		trainacc += 1.0
+print "0\t\t", trainacc / len(train) * 100
+e = 0
+while trainacc / len(train) * 100 != 100:
 	trainacc = 0
 	order = np.arange(len(train))	#Randomize ordering of training set so each iteration is different
-	np.random.shuffle(order)
+	#np.random.shuffle(order)
 	for idx in order:
 		x = train[idx]
 		guess = sgn(x[:1025])
@@ -53,17 +59,21 @@ for e in range(epoch):
 		if guess != real:
 			weights[guess] -= n*x[:1025]
 			weights[int(real)] += n*x[:1025]
-		else:
+	for idx in order:
+		x = train[idx]
+		guess = sgn(x[:1025])
+                real = x[1025]
+                if guess == real:
 			trainacc += 1.0
-		traincount += 1.0
-	print "Training Accuracy: ", trainacc / traincount * 100, "%.....Epoch: ", e #Print accuracy after each iteration
+	print e + 1, "\t\t", trainacc / len(train) * 100 #Print accuracy after each iteration
+	e += 1
 
 #Perform Testing
 test = open("digitdata/optdigits-orig_test.txt", "r")
 line = test.readline()
 testcount = 0
 testacc = 0
-
+conf = np.zeros((10, 10))
 while line:
         x = np.zeros(1025)
         for i in range(32):
@@ -73,10 +83,13 @@ while line:
 	x[1024] = 1
         guess = sgn(x)
         real = int(line[1])
+	conf[guess][real] += 1
 	if guess == real:
 		testacc += 1.0
 	testcount += 1.0
         line = test.readline()
-
+for i in range(len(conf)):
+	conf[:, i] /= np.sum(conf[:, i])
+print "\nConfusion Matrix:\n\n", np.around(conf, 3)
 test.close()
-print "Test Accuracy: ", testacc / testcount * 100, "%"
+print "\nOverall Test Accuracy:", testacc / testcount * 100, "%\n"
