@@ -19,7 +19,7 @@ def fit_fundamental( matches ):
     vp = xp[:,1]
 
     a = np.transpose(np.asarray([np.multiply(up,u), np.multiply(up,v), up, np.multiply(vp, u), np.multiply(vp, v), vp, u, v, np.ones(u.shape)]))
-    b = np.zeros((168, 1))
+    b = np.zeros((len(matches), 1))
     F = np.linalg.lstsq(a, b, rcond=-1)[3]
     F = np.reshape(np.asarray(F), (3,3))
     U, s, V = np.linalg.svd(F)
@@ -31,9 +31,9 @@ def fit_fundamental( matches ):
 ## load images and match files for the first example
 ##**************************************************
 
-I1 = Image.open('house1.jpg');
-I2 = Image.open('house2.jpg');
-matches = np.loadtxt('house_matches.txt');
+I1 = Image.open('library1.jpg');
+I2 = Image.open('library2.jpg');
+matches = np.loadtxt('library_matches.txt');
 
 # this is a N x 4 file where the first two numbers of each row
 # are coordinates of corners in the first image and the last two

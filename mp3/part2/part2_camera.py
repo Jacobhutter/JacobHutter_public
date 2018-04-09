@@ -103,10 +103,14 @@ N = len(matches)
 #
 P1 = np.loadtxt('house1_camera.txt')
 U1, s1, V1 = np.linalg.svd(P1)
+print V1
 center_1 = V1[:, V1.shape[1]-1]
+print center_1
 P2 = np.loadtxt('house2_camera.txt')
 U2, s2, V2 = np.linalg.svd(P2)
+print V2
 center_2 = V2[:, V2.shape[1]-1]
+print center_2
 x, xp = get_coords(matches)
 
 A = []
@@ -131,8 +135,32 @@ for i in range(len(x)):
 x_points = points[:, 0]
 y_points = points[:, 1]
 z_points = points[:, 2]
-print x_points.shape
+T1 = np.linalg.lstsq(x, points)[0]
+T2 = np.linalg.lstsq(xp, points)[0]
+T1i = np.linalg.inv(T1)
+T2i = np.linalg.inv(T2)
+print T1.shape, T2.shape
+c1 = np.dot(T1, center_1[0:3])
+c2 = np.dot(T2, center_2[0:3])
+print c1, c2
+projections = []
+for i in range(len(points)):
+    cur_3dpt = points[i]
+    cur_2dpt1 = np.dot(T1i, cur_3dpt)[:2]
+    cur_2dpt2 = np.dot(T2i, cur_3dpt)[:2]
+    metric_pt = np.transpose(np.array([cur_2dpt1[0], cur_2dpt1[1], cur_2dpt2[0], cur_2dpt2[1]]))
+    metric_pt = np.reshape(metric_pt, (1,4))
+    print metric_pt
+    if i == 0:
+        projections = metric_pt
+    else:
+        projections = np.concatenate((projections, metric_pt), axis=0)
+residual = np.average(np.multiply(np.subtract(matches, projections), np.subtract(matches, projections)))
+print residual
+
 fig = plt.figure()
 ax = Axes3D(fig)
 ax.scatter(x_points, y_points, z_points)
+ax.scatter(c1[0], c1[1], c1[2], c='r')
+ax.scatter(c2[0], c2[1], c2[2], c='g')
 plt.show()
