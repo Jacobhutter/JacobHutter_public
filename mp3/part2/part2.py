@@ -1,3 +1,5 @@
+
+import matplotlib.pyplot as plt
 import numpy as np
 
 #Initialize weights to shape of 10 x 1024. Still choosing between np.zeros and np.random.rand, leaning toward rand
@@ -93,3 +95,9 @@ for i in range(len(conf)):
 print "\nConfusion Matrix:\n\n", np.around(conf, 3)
 test.close()
 print "\nOverall Test Accuracy:", testacc / testcount * 100, "%\n"
+for i in range(10):
+	digit = np.zeros((32, 32))
+	for line in range(32):
+		digit[line, :] = weights[i, line * 32 : (line + 1) * 32]
+	plt.imshow(digit, cmap='hot')
+	plt.show()
