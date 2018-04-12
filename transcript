@@ -1,4 +1,4 @@
-# do /tmp/tmp.2XQny6QboM/do.do 
+# do /tmp/tmp.OyAuzPMk4F/do.do 
 # if {[file exists rtl_work]} {
 # 	vdel -lib rtl_work -all
 # }
@@ -379,5 +379,5 @@
 # view structure
 # add list -radix hexadecimal {/mp3_tb/dut/mp3_cpu/cd/r/data}
 # run 10000000ns
-# write list /tmp/tmp.2XQny6QboM/test_list.lst
+# write list /tmp/tmp.OyAuzPMk4F/test_list.lst
 # exit

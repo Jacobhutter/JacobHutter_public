@@ -9,14 +9,18 @@ add wave -noupdate -label {IDEX Opcode} -radix hexadecimal /mp3_tb/dut/mp3_cpu/c
 add wave -noupdate -label {EXMEM Opcode} -radix hexadecimal /mp3_tb/dut/mp3_cpu/cd/exmem_register/ctrl_word_out.opcode
 add wave -noupdate -label {MEMWB Opcode} -radix hexadecimal /mp3_tb/dut/mp3_cpu/cd/memwb_register/ctrl_word_out.opcode
 add wave -noupdate -label Advance -radix hexadecimal /mp3_tb/dut/mp3_cpu/cd/advance
-add wave -noupdate /mp3_tb/dut/mp3_cpu/cd/flush
+add wave -noupdate -label Flush /mp3_tb/dut/mp3_cpu/cd/flush
+add wave -noupdate /mp3_tb/dut/mp3_cpu/cd/data_request
+add wave -noupdate /mp3_tb/dut/mp3_cpu/cd/data_response
+add wave -noupdate -radix hexadecimal /mp3_tb/dut/mp3_cpu/cd/mem_address
+add wave -noupdate -radix hexadecimal /mp3_tb/dut/mp3_cpu/cd/mem_output
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {293473 ps} 0}
+WaveRestoreCursors {{Cursor 1} {25740000 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
-configure wave -signalnamewidth 0
+configure wave -signalnamewidth 1
 configure wave -snapdistance 10
 configure wave -datasetprefix 0
 configure wave -rowmargin 4
@@ -27,4 +31,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ps} {2048 ns}
+WaveRestoreZoom {24406 ns} {26454 ns}
