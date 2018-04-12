@@ -28,6 +28,7 @@ begin
    ctrl.valid_branch = 1'b0;
    ctrl.valid_dest = 1'b0;
    ctrl.alubasemux_sel = 1'b0;
+	ctrl.predicted_branch = 1'b0; // track predicted branch value
 
    case(opcode)
        op_add: begin
@@ -60,12 +61,14 @@ begin
        op_jmp: begin // also ret
             ctrl.aluop = alu_pass;
             ctrl.pcmux_sel = 2'b10;
+				ctrl.valid_branch = 1'b1;
        end
 
        op_jsr: begin
             ctrl.regfilemux_sel = 2'b10; // select pc
             ctrl.load_regfile = 1; // load regfile
             ctrl.destmux_sel = 1; //set dest to 7
+				ctrl.valid_branch = 1'b1;
             if(bits4_5_11[2] == 0) begin
                 ctrl.aluop = alu_pass; // base reg value
                 ctrl.pcmux_sel = 2'b10; // select aluout
@@ -185,6 +188,7 @@ begin
            ctrl.mem_read = 1;
            ctrl.mdrmux_sel = 2'b01; // data in mdr = memrdata
            ctrl.pcmux_sel = 2'b11; // put memwdata into pc
+			  ctrl.valid_branch = 1'b1;
        end
 
        default: begin

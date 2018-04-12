@@ -71,6 +71,7 @@ typedef struct packed {
         logic valid_branch;
         logic valid_dest;
         logic alubasemux_sel;
+		  logic predicted_branch;
         /* ... other signals ... */
 } lc3b_control_word;
 

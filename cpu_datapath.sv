@@ -30,7 +30,7 @@ sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, offset11_out, imm5_out, tr
 regfilemux_out, alumux_out, ex_alu_out, ex_offset9, ex_offset11, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9, if_offset11, wordslicemux_out, wordinmux_out,
 mem_output, if_offset6_in, ex_sr1mux_out, ex_sr2mux_out, mem_srcmux_out, ex_storemux_out, alubasemux_out;
 
-lc3b_control_word if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out, mem_ctrl_out;
+lc3b_control_word if_ctrl_initial, if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out, mem_ctrl_out;
 
 logic [2:0] bits4_5_11;
 logic [1:0] pcmux_sel, mbemux_out;
@@ -118,19 +118,20 @@ adj #(.width(9)) adj9
 control_rom cr(
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.bits4_5_11(3'({instr[11], instr[5], instr[4]})),
-	.ctrl(if_ctrl)
+	.ctrl(if_ctrl_initial)
 );
 
 bp branch_predictor
 (
 	.clk, /*inputs*/
-	.incoming_opcode(lc3b_opcode'(instr[15:12])),
-	.outgoing_opcode(wb_ctrl.opcode),
+	.incoming_control_word(if_ctrl_initial),
+	.outgoing_control_word(wb_ctrl),
 	.branch_enable,
 	.incoming_valid_branch(if_ctrl.valid_branch),
 	.outgoing_valid_branch(wb_ctrl.valid_branch),
 	.outgoing_pcmux_sel(wb_ctrl.pcmux_sel),
-	.pcmux_sel, /* outputs */
+	.if_control_word(if_ctrl), /* outputs */
+	.pcmux_sel, 
 	.flush,
 	.bp_miss,
 	.stall
