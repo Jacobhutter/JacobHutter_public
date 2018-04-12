@@ -45,13 +45,14 @@ always_comb begin
 	endcase 
 	
 	if(outgoing_pcmux_sel == 2'b01 && branch_enable == 0 && outgoing_valid_branch && outgoing_opcode == op_br) begin
-		pcmux_sel = outgoing_pcmux_sel;
+		pcmux_sel = 2'b00; // fix incorrect assumption 
 	end 
 	else begin
 		pcmux_sel = outgoing_pcmux_sel;
 	end
 
 	if(outgoing_valid_branch && outgoing_opcode == op_br && branch_enable == 1) begin
+	    pcmux_sel = outgoing_pcmux_sel; // if branch good, trump previous declarations of pcmux_sel and take branch and flush
 		flush = 1;
 		bp_miss = 1;
 	end 
