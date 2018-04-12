@@ -9,10 +9,10 @@ entity cache_datapath is
         lru_out         : out    vl_logic;
         dirty_out       : out    vl_logic_vector(1 downto 0);
         cpu_address     : in     vl_logic_vector(15 downto 0);
-        cpu_datain      : in     vl_logic_vector(15 downto 0);
+        cpu_sel         : in     vl_logic_vector(15 downto 0);
+        cpu_datain      : in     vl_logic_vector(127 downto 0);
         cpu_read        : in     vl_logic;
         cpu_write       : in     vl_logic;
-        cpu_wmask       : in     vl_logic_vector(1 downto 0);
         cpu_resp        : out    vl_logic;
         cpu_dataout     : out    vl_logic_vector(127 downto 0);
         mem_datain      : in     vl_logic_vector(127 downto 0);
