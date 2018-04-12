@@ -3,18 +3,91 @@ import lc3b_types::*;
 module ebcontrol
 (
     input clk,
-    input lc3b_address orig_address,
-    input lc3b_c_line orig_dataout,
-    input lc3b_c_line dest_dataout,
+    input orig_strobe,
+    input orig_write,
+    input dest_resp,
+    input hit_detect,
     
-    output lc3b_address dest_address,
-    output lc3b_c_line orig_datain,
-    output lc3b_c_line dest_datain,
-    
-    input dataout_mux,
-    input datain_mux,
-    input hit_detect
+    output logic datain_mux,
+    output logic dataout_mux,
+    output logic buffer_write,
+    output logic dest_strobe,
+    output logic dest_write,
+    output logic orig_resp
 );
+
+enum int unsigned {
+    idle, read, toggle, write
+} state, next_state;
+
+always_ff @(posedge clk)
+begin
+    state <= next_state;
+end 
+
+always_comb
+begin
+    datain_mux = 0;
+    dataout_mux = 0;
+    buffer_write = 0;
+    dest_strobe = 0;
+    dest_write = 0;
+    orig_resp = 0;
+    case(state)
+        idle: begin
+            if(orig_write) begin
+                buffer_write = 1;
+                orig_resp = 1;
+            end
+            else if(hit_detect) begin
+                datain_mux = 1;
+                orig_resp = 1;
+            end
+            else begin
+                orig_resp = dest_resp;
+                dest_strobe = orig_strobe;
+                dest_write = 0;
+            end
+        end
+        read: begin
+            dest_strobe = orig_strobe;
+            dest_write = 1;
+            orig_resp = dest_resp;
+        end
+        toggle: begin
+            if(hit_detect && ~orig_write) begin
+                datain_mux = 1;
+                orig_resp = 1;
+            end
+        end
+        write: begin
+            dest_strobe = 1;
+            dest_write = 1;
+            dataout_mux = 1;
+            if(hit_detect && ~orig_write) begin
+                datain_mux = 1;
+                orig_resp = 1;
+            end
+       end
+    endcase
+end
+
+always_comb
+begin
+    next_state = state;
+    case(state)
+        idle: 
+            if(orig_write && ~hit_detect)
+                next_state = read;
+        read:
+            if(orig_strobe && dest_resp)
+                next_state = toggle;
+        toggle: next_state = write;
+        write:
+            if(dest_resp)
+                next_state = idle;
+    endcase
+end
 
 
 

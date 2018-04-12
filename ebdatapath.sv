@@ -45,31 +45,36 @@ register #(.width(1)) valid_reg
     .out(valid_out)
 );
 
-hitchecker hit_checker
+ebhitchecker eb_hit_checker
 (
     .orig_address,
-    .orig_datain,
-    .buf_cache(cline_out),
     .buf_address(addr_out),
-    .buf_valid(valid_out)
+    .buf_valid(valid_out),
+    .hit_detect
 );
 
 mux2 #(.width($size(lc3b_address))) slave_addr_mux
 (
     .sel(dataout_mux),
-    .a(orig_dataout),
-    .b(cline_out),
+    .a(orig_address),
+    .b(addr_out),
     .f(dest_address)
 );
 
 mux2 #(.width($size(lc3b_c_line))) slave_cline_mux
 (
     .sel(dataout_mux),
-    .a(orig_address),
-    .b(addr_out),
+    .a(orig_dataout),
+    .b(cline_out),
     .f(dest_datain)
 );
 
-
+mux2 #(.width($size(lc3b_c_line))) master_cline_mux
+(
+    .sel(datain_mux),
+    .a(dest_dataout),
+    .b(cline_out),
+    .f(orig_datain)
+);
 
 endmodule : ebdatapath

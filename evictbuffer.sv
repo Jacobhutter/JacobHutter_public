@@ -4,9 +4,13 @@ module evictbuffer
     wishbone.master wb_dest
 );
 
-logic datain_mux, dataout_mux, hit_detect, clk;
+logic datain_mux, dataout_mux, hit_detect, clk, buffer_write;
 
 assign clk = wb_orig.CLK;
+/* Assuming full cache line reads and writes */
+assign wb_dest.CYC = wb_dest.STB;
+assign wb_dest.SEL = {16{1'b1}};
+assign wb_orig.RTY = 0;
 
 ebdatapath eb_datapath
 (
@@ -28,12 +32,17 @@ ebdatapath eb_datapath
 ebcontrol eb_control
 (
     .clk,
+    .orig_strobe(wb_orig.STB),
     .orig_write(wb_orig.WE),
     .dest_resp(wb_dest.ACK),
     .hit_detect,
     
     .datain_mux,
-    .dataout_mux
+    .dataout_mux,
+    .buffer_write,
+    .dest_strobe(wb_dest.STB),
+    .dest_write(wb_dest.WE),
+    .orig_resp(wb_orig.ACK)
 );
 
 
