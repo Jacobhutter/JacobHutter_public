@@ -17,7 +17,7 @@ module cpu_datapath(
 );
 
 logic load_pc, advance, readyifid, readyidex, readyexmem, readymemwb, force_dest, branch_enable,
-nop_flag, second_cycle_request, branch_taken, mem_sel;
+nop_flag, second_cycle_request, flush, bp_miss, stall, mem_sel;
 logic [1:0] ex_sel1, ex_sel2, ex_storesel;
 lc3b_offset6 offset6;
 lc3b_offset9 offset9;
@@ -47,6 +47,7 @@ register pc
 	.out(pc_out)
 );
 
+/*
 always_comb begin
 	if (wb_ctrl.pcmux_sel == 2'b01 && branch_enable == 0 && wb_ctrl.valid_branch && wb_ctrl.opcode == op_br)
 		pcmux_sel = 2'b00; // branch not taken
@@ -56,8 +57,9 @@ always_comb begin
 	if (wb_ctrl.opcode == op_br && wb_ctrl.valid_branch && branch_enable == 1)
 		branch_taken = 1'b1;
 	else
-		branch_taken = 1'b0;
+		branch_taken = 1'b0; 
 end
+*/
 
 mux4 pcmux
 (
@@ -119,6 +121,21 @@ control_rom cr(
 	.ctrl(if_ctrl)
 );
 
+bp branch_predictor
+(
+	.clk, /*inputs*/
+	.incoming_opcode(lc3b_opcode'(instr[15:12])),
+	.outgoing_opcode(wb_ctrl.opcode),
+	.branch_enable,
+	.incoming_valid_branch(if_ctrl.valid_branch),
+	.outgoing_valid_branch(wb_ctrl.valid_branch),
+	.outgoing_pcmux_sel(wb_ctrl.pcmux_sel),
+	.pcmux_sel, /* outputs */
+	.flush,
+	.bp_miss,
+	.stall
+);
+
 mux2 #(.width(16)) offset6mux(
     .sel(if_ctrl.offset6mux_sel),
     .a(adj6_out),
@@ -150,7 +167,7 @@ ifid ifid_register
 	.trapvect8,
 	.ctrl_word_out(id_ctrl),
 	.ready(readyifid),
-	.flush(branch_taken)
+	.flush
 );
 
 /*******************************************************************************
@@ -216,7 +233,7 @@ idex idex_register
 	.trapvect8_out,
 	.ctrl_word_out(ex_ctrl),
 	.ready(readyidex),
-	.flush(branch_taken)
+	.flush
 );
 
 /*******************************************************************************
@@ -308,7 +325,7 @@ exmem exmem_register
 	.trapvect8_out(ex_trapvect8),
 	.ctrl_word_out(mem_ctrl),
 	.ready(readyexmem),
-	.flush(branch_taken)
+	.flush
 );
 
 /*******************************************************************************
@@ -363,7 +380,7 @@ memwb memwb_register
 	.offset9_out(wb_offset9),
 	.offset11_out(wb_offset11),
 	.ctrl_word_out(wb_ctrl),
-    .flush(branch_taken)
+    .flush
 );
 
 /*******************************************************************************
