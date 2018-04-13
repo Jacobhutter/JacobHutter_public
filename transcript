@@ -1,4 +1,4 @@
-# do /tmp/tmp.5AFCibILJ7/do.do 
+# do /tmp/tmp.UWdFXAmCkV/do.do 
 # if {[file exists rtl_work]} {
 # 	vdel -lib rtl_work -all
 # }
@@ -375,9 +375,10 @@
 # Loading work.interconnect
 # Loading work.physical_memory
 # 
-# add wave *
-# view structure
+#add wave *
+#view structure
+#view signals
 # add list -radix hexadecimal {/mp3_tb/dut/mp3_cpu/cd/r/data}
 # run 10000000ns
-# write list /tmp/tmp.5AFCibILJ7/test_list.lst
+# write list /tmp/tmp.UWdFXAmCkV/test_list.lst
 # exit

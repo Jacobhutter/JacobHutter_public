@@ -69,7 +69,7 @@ always_comb begin
 				bp_miss = 1;
 			end 
 			else begin
-				pcmux_sel = pcmux_sel; // let the predictor above decide 
+				pcmux_sel = 2'b00;
 			end
 		end 
 		
