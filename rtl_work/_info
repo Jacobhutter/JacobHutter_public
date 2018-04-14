@@ -18,7 +18,7 @@ Z5 8/home/jhutter2/ece411/mp3/adj.sv
 Z6 F/home/jhutter2/ece411/mp3/adj.sv
 L0 6
 Z7 OV;L;10.1d;51
-Z8 !s108 1523649043.370357
+Z8 !s108 1523668176.541089
 Z9 !s107 /home/jhutter2/ece411/mp3/adj.sv|
 Z10 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/adj.sv|
 Z11 o-sv -work work -O0
@@ -67,7 +67,7 @@ Z13 8/home/jhutter2/ece411/mp3/alu.sv
 Z14 F/home/jhutter2/ece411/mp3/alu.sv
 L0 3
 R7
-Z15 !s108 1523649043.176418
+Z15 !s108 1523668176.395041
 Z16 !s107 /home/jhutter2/ece411/mp3/alu.sv|
 Z17 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/alu.sv|
 R11
@@ -116,7 +116,7 @@ Z18 8/home/jhutter2/ece411/mp3/array.sv
 Z19 F/home/jhutter2/ece411/mp3/array.sv
 L0 3
 R7
-Z20 !s108 1523649040.127310
+Z20 !s108 1523668174.372052
 Z21 !s107 /home/jhutter2/ece411/mp3/array.sv|
 Z22 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/array.sv|
 R11
@@ -165,7 +165,7 @@ Z24 8/home/jhutter2/ece411/mp3/bp.sv
 Z25 F/home/jhutter2/ece411/mp3/bp.sv
 L0 3
 R7
-Z26 !s108 1523649043.886456
+Z26 !s108 1523668177.068553
 Z27 !s107 /home/jhutter2/ece411/mp3/bp.sv|
 Z28 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/bp.sv|
 R11
@@ -214,7 +214,7 @@ Z30 8/home/jhutter2/ece411/mp3/cache.sv
 Z31 F/home/jhutter2/ece411/mp3/cache.sv
 L0 3
 R7
-Z32 !s108 1523649044.741859
+Z32 !s108 1523668177.534052
 Z33 !s107 /home/jhutter2/ece411/mp3/cache.sv|
 Z34 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/cache.sv|
 R11
@@ -231,22 +231,22 @@ DXx4 work 21 cache_control_sv_unit 0 22 Hk`VFgg1fgl2XJ;IOf`n^1
 VX?;F0?<Z;WoKWbAh0^C[03
 r1
 31
-I5OGz=YIK8_5_<Wmb30BNT2
+I8]i>Nd2N0j1Pm7C9W;zD90
 S1
 R3
-Z35 w1521730295
+Z35 w1523668071
 Z36 8/home/jhutter2/ece411/mp3/cache_control.sv
 Z37 F/home/jhutter2/ece411/mp3/cache_control.sv
 L0 3
 R7
-Z38 !s108 1523649038.369062
+Z38 !s108 1523668173.284126
 Z39 !s107 /home/jhutter2/ece411/mp3/cache_control.sv|
 Z40 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/cache_control.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 gGnclBER<_L4J7z5HneJZ3
+!s100 4Q9VPzk[`AFcbH8z[5RJz1
 !s105 cache_control_sv_unit
 !s101 -O0
 Xcache_control_sv_unit
@@ -288,7 +288,7 @@ Z42 8/home/jhutter2/ece411/mp3/cache_datapath.sv
 Z43 F/home/jhutter2/ece411/mp3/cache_datapath.sv
 L0 3
 R7
-Z44 !s108 1523649044.048237
+Z44 !s108 1523668177.229495
 Z45 !s107 /home/jhutter2/ece411/mp3/cache_datapath.sv|
 Z46 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/cache_datapath.sv|
 R11
@@ -361,7 +361,7 @@ Z47 8/home/jhutter2/ece411/mp3/cccomp.sv
 Z48 F/home/jhutter2/ece411/mp3/cccomp.sv
 L0 3
 R7
-Z49 !s108 1523649043.032755
+Z49 !s108 1523668176.212923
 Z50 !s107 /home/jhutter2/ece411/mp3/cccomp.sv|
 Z51 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/cccomp.sv|
 R11
@@ -410,7 +410,7 @@ Z53 8/home/jhutter2/ece411/mp3/control_rom.sv
 Z54 F/home/jhutter2/ece411/mp3/control_rom.sv
 L0 2
 R7
-Z55 !s108 1523649042.886817
+Z55 !s108 1523668176.026629
 Z56 !s107 /home/jhutter2/ece411/mp3/control_rom.sv|
 Z57 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/control_rom.sv|
 R11
@@ -459,7 +459,7 @@ Z59 8/home/jhutter2/ece411/mp3/cpu.sv
 Z60 F/home/jhutter2/ece411/mp3/cpu.sv
 L0 3
 R7
-Z61 !s108 1523649045.092189
+Z61 !s108 1523668177.659441
 Z62 !s107 /home/jhutter2/ece411/mp3/cpu.sv|
 Z63 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/cpu.sv|
 R11
@@ -484,7 +484,7 @@ Z65 8/home/jhutter2/ece411/mp3/cpu_datapath.sv
 Z66 F/home/jhutter2/ece411/mp3/cpu_datapath.sv
 L0 3
 R7
-Z67 !s108 1523649044.525849
+Z67 !s108 1523668177.393137
 Z68 !s107 /home/jhutter2/ece411/mp3/cpu_datapath.sv|
 Z69 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/cpu_datapath.sv|
 R11
@@ -557,7 +557,7 @@ Z71 8/home/jhutter2/ece411/mp3/dataforward.sv
 Z72 F/home/jhutter2/ece411/mp3/dataforward.sv
 L0 3
 R7
-Z73 !s108 1523649038.951207
+Z73 !s108 1523668173.745189
 Z74 !s107 /home/jhutter2/ece411/mp3/dataforward.sv|
 Z75 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/dataforward.sv|
 R11
@@ -606,7 +606,7 @@ Z76 8/home/jhutter2/ece411/mp3/datawrite.sv
 Z77 F/home/jhutter2/ece411/mp3/datawrite.sv
 L0 3
 R7
-Z78 !s108 1523649038.169009
+Z78 !s108 1523668173.118191
 Z79 !s107 /home/jhutter2/ece411/mp3/datawrite.sv|
 Z80 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/datawrite.sv|
 R11
@@ -655,7 +655,7 @@ Z82 8/home/jhutter2/ece411/mp3/dirtywrite.sv
 Z83 F/home/jhutter2/ece411/mp3/dirtywrite.sv
 L0 3
 R7
-Z84 !s108 1523649037.991477
+Z84 !s108 1523668172.951467
 Z85 !s107 /home/jhutter2/ece411/mp3/dirtywrite.sv|
 Z86 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/dirtywrite.sv|
 R11
@@ -704,7 +704,7 @@ Z87 8/home/jhutter2/ece411/mp3/exmem.sv
 Z88 F/home/jhutter2/ece411/mp3/exmem.sv
 L0 3
 R7
-Z89 !s108 1523649042.667024
+Z89 !s108 1523668175.901568
 Z90 !s107 /home/jhutter2/ece411/mp3/exmem.sv|
 Z91 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/exmem.sv|
 R11
@@ -753,7 +753,7 @@ Z92 8/home/jhutter2/ece411/mp3/gencc.sv
 Z93 F/home/jhutter2/ece411/mp3/gencc.sv
 L0 3
 R7
-Z94 !s108 1523649042.535543
+Z94 !s108 1523668175.735417
 Z95 !s107 /home/jhutter2/ece411/mp3/gencc.sv|
 Z96 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/gencc.sv|
 R11
@@ -802,7 +802,7 @@ Z97 8/home/jhutter2/ece411/mp3/idex.sv
 Z98 F/home/jhutter2/ece411/mp3/idex.sv
 L0 3
 R7
-Z99 !s108 1523649042.208542
+Z99 !s108 1523668175.526175
 Z100 !s107 /home/jhutter2/ece411/mp3/idex.sv|
 Z101 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/idex.sv|
 R11
@@ -851,7 +851,7 @@ Z103 8/home/jhutter2/ece411/mp3/ifid.sv
 Z104 F/home/jhutter2/ece411/mp3/ifid.sv
 L0 3
 R7
-Z105 !s108 1523649041.841645
+Z105 !s108 1523668175.090725
 Z106 !s107 /home/jhutter2/ece411/mp3/ifid.sv|
 Z107 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/ifid.sv|
 R11
@@ -904,7 +904,7 @@ R12
 !s100 SO5=O<l@Nd4h[?;Tl[DV01
 !s105 interconnect_sv_unit
 !s85 0
-!s108 1523649043.492753
+!s108 1523668176.680663
 !s107 /home/jhutter2/ece411/mp3/interconnect.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/interconnect.sv|
 !s101 -O0
@@ -926,7 +926,7 @@ R12
 !i10b 1
 !s100 _fkOlTRIe]UIlKAjA:6[e0
 !s85 0
-!s108 1523649037.360912
+!s108 1523668172.557579
 !s107 /home/jhutter2/ece411/mp3/lc3b_types.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/lc3b_types.sv|
 !s101 -O0
@@ -945,7 +945,7 @@ Z109 8/home/jhutter2/ece411/mp3/lruwrite.sv
 Z110 F/home/jhutter2/ece411/mp3/lruwrite.sv
 L0 3
 R7
-Z111 !s108 1523649037.785122
+Z111 !s108 1523668172.770283
 Z112 !s107 /home/jhutter2/ece411/mp3/lruwrite.sv|
 Z113 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/lruwrite.sv|
 R11
@@ -979,6 +979,29 @@ R12
 !s100 :U00][RiMi15dSIDSZ:EL0
 !i103 1
 !s101 -O0
+vmagic_memory
+R1
+!i10b 1
+!s100 C=50TOJ:cziAJABXLSDiT2
+IkkOo6Pb:bj:]>TQ42M5eX2
+VFVD<m905E]77I77nc2bUb3
+!s105 magic_memory_dual_port_sv_unit
+S1
+R3
+R108
+8/home/jhutter2/ece411/mp3/magic_memory_dual_port.sv
+F/home/jhutter2/ece411/mp3/magic_memory_dual_port.sv
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1523668178.071221
+!s107 /home/jhutter2/ece411/mp3/magic_memory_dual_port.sv|
+!s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/magic_memory_dual_port.sv|
+!s101 -O0
+R11
+R12
 vmem_control
 R1
 R2
@@ -994,7 +1017,7 @@ Z114 8/home/jhutter2/ece411/mp3/mem_control.sv
 Z115 F/home/jhutter2/ece411/mp3/mem_control.sv
 L0 3
 R7
-Z116 !s108 1523649043.582192
+Z116 !s108 1523668176.776200
 Z117 !s107 /home/jhutter2/ece411/mp3/mem_control.sv|
 Z118 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/mem_control.sv|
 R11
@@ -1043,7 +1066,7 @@ Z119 8/home/jhutter2/ece411/mp3/memwb.sv
 Z120 F/home/jhutter2/ece411/mp3/memwb.sv
 L0 3
 R7
-Z121 !s108 1523649041.659281
+Z121 !s108 1523668174.964121
 Z122 !s107 /home/jhutter2/ece411/mp3/memwb.sv|
 Z123 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/memwb.sv|
 R11
@@ -1083,7 +1106,7 @@ IG7>H4BinGzWa4fS^`nz8^1
 Vf@cPPaQ1>@j<NzVJ3FoKn0
 S1
 R3
-R102
+w1523664655
 8/home/jhutter2/ece411/mp3/mp3.sv
 F/home/jhutter2/ece411/mp3/mp3.sv
 L0 1
@@ -1096,17 +1119,17 @@ R12
 !s100 h9RLTTDOI3aZoC66fgRWS1
 !s105 mp3_sv_unit
 !s85 0
-!s108 1523649045.291715
+!s108 1523668177.788883
 !s107 /home/jhutter2/ece411/mp3/mp3.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/mp3.sv|
 !s101 -O0
 vmp3_tb
 R1
-IO;0DAEY7>ZF3l^93@FeAO1
+Id9`8kj:K4BC9k[Pl9aC=A1
 VGRaNXc@:Z3jVCaTT0F9jW2
 S1
 R3
-R58
+w1523665156
 8/home/jhutter2/ece411/mp3/mp3_tb.sv
 F/home/jhutter2/ece411/mp3/mp3_tb.sv
 L0 1
@@ -1116,10 +1139,10 @@ r1
 R11
 R12
 !i10b 1
-!s100 f>3OfBBhnYRo0TZZ67oX=2
+!s100 5E`5iiiUZIIUhSWFQXNGC0
 !s105 mp3_tb_sv_unit
 !s85 0
-!s108 1523649045.408891
+!s108 1523668177.869240
 !s107 /home/jhutter2/ece411/mp3/mp3_tb.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/mp3_tb.sv|
 !s101 -O0
@@ -1142,7 +1165,7 @@ R12
 !s100 049WAkj18jCRja9l^S6NV0
 !s105 mux2_sv_unit
 !s85 0
-!s108 1523649038.843773
+!s108 1523668173.670500
 !s107 /home/jhutter2/ece411/mp3/mux2.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/mux2.sv|
 !s101 -O0
@@ -1161,7 +1184,7 @@ Z124 8/home/jhutter2/ece411/mp3/mux4.sv
 Z125 F/home/jhutter2/ece411/mp3/mux4.sv
 L0 3
 R7
-Z126 !s108 1523649041.452163
+Z126 !s108 1523668174.784167
 Z127 !s107 /home/jhutter2/ece411/mp3/mux4.sv|
 Z128 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/mux4.sv|
 R11
@@ -1210,7 +1233,7 @@ Z129 8/home/jhutter2/ece411/mp3/mux8.sv
 Z130 F/home/jhutter2/ece411/mp3/mux8.sv
 L0 3
 R7
-Z131 !s108 1523649043.707541
+Z131 !s108 1523668176.910584
 Z132 !s107 /home/jhutter2/ece411/mp3/mux8.sv|
 Z133 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/mux8.sv|
 R11
@@ -1246,11 +1269,8 @@ R12
 !s101 -O0
 vphysical_memory
 R1
-!i10b 1
-!s100 nKe5QjRYTQfRkJ<e1onL23
 IF5X00:e]U5=IBE^fbfN>22
 Vb6PGT=m5H:B?37KfbU`bO3
-!s105 physical_memory_sv_unit
 S1
 R3
 R58
@@ -1259,14 +1279,17 @@ F/home/jhutter2/ece411/mp3/physical_memory.sv
 L0 1
 R7
 r1
-!s85 0
 31
-!s108 1523649045.521200
+R11
+R12
+!i10b 1
+!s100 nKe5QjRYTQfRkJ<e1onL23
+!s105 physical_memory_sv_unit
+!s85 0
+!s108 1523668177.970209
 !s107 /home/jhutter2/ece411/mp3/physical_memory.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/physical_memory.sv|
 !s101 -O0
-R11
-R12
 vplus2
 R1
 I5;eno3zX3?aWSWWYCBMF82
@@ -1286,7 +1309,7 @@ R12
 !s100 ;XRg9TYUIjihi@]MRQk6R1
 !s105 plus2_sv_unit
 !s85 0
-!s108 1523649038.767549
+!s108 1523668173.581624
 !s107 /home/jhutter2/ece411/mp3/plus2.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/plus2.sv|
 !s101 -O0
@@ -1305,7 +1328,7 @@ Z134 8/home/jhutter2/ece411/mp3/regfile.sv
 Z135 F/home/jhutter2/ece411/mp3/regfile.sv
 L0 3
 R7
-Z136 !s108 1523649041.131020
+Z136 !s108 1523668174.623870
 Z137 !s107 /home/jhutter2/ece411/mp3/regfile.sv|
 Z138 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/regfile.sv|
 R11
@@ -1358,7 +1381,7 @@ R12
 !s100 [d7S3L9:NQGlDzUkiO7]81
 !s105 register_sv_unit
 !s85 0
-!s108 1523649038.690309
+!s108 1523668173.500222
 !s107 /home/jhutter2/ece411/mp3/register.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/register.sv|
 !s101 -O0
@@ -1377,7 +1400,7 @@ Z139 8/home/jhutter2/ece411/mp3/selectway.sv
 Z140 F/home/jhutter2/ece411/mp3/selectway.sv
 L0 3
 R7
-Z141 !s108 1523649039.903540
+Z141 !s108 1523668174.250277
 Z142 !s107 /home/jhutter2/ece411/mp3/selectway.sv|
 Z143 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/selectway.sv|
 R11
@@ -1426,7 +1449,7 @@ Z145 8/home/jhutter2/ece411/mp3/swapaddress.sv
 Z146 F/home/jhutter2/ece411/mp3/swapaddress.sv
 L0 3
 R7
-Z147 !s108 1523649039.743797
+Z147 !s108 1523668174.110202
 Z148 !s107 /home/jhutter2/ece411/mp3/swapaddress.sv|
 Z149 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/swapaddress.sv|
 R11
@@ -1475,7 +1498,7 @@ Z150 8/home/jhutter2/ece411/mp3/tagchecker.sv
 Z151 F/home/jhutter2/ece411/mp3/tagchecker.sv
 L0 3
 R7
-Z152 !s108 1523649039.504078
+Z152 !s108 1523668173.993032
 Z153 !s107 /home/jhutter2/ece411/mp3/tagchecker.sv|
 Z154 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/tagchecker.sv|
 R11
@@ -1524,7 +1547,7 @@ Z155 8/home/jhutter2/ece411/mp3/tagwrite.sv
 Z156 F/home/jhutter2/ece411/mp3/tagwrite.sv
 L0 3
 R7
-Z157 !s108 1523649037.638695
+Z157 !s108 1523668172.635101
 Z158 !s107 /home/jhutter2/ece411/mp3/tagwrite.sv|
 Z159 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/tagwrite.sv|
 R11
@@ -1577,7 +1600,7 @@ R12
 !s100 fVHC?NmH239AJCF<19^;_0
 !s105 wishbone_sv_unit
 !s85 0
-!s108 1523649038.564210
+!s108 1523668173.417504
 !s107 /home/jhutter2/ece411/mp3/wishbone.sv|
 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/wishbone.sv|
 !s101 -O0
@@ -1596,7 +1619,7 @@ Z160 8/home/jhutter2/ece411/mp3/wishbone_interface.sv
 Z161 F/home/jhutter2/ece411/mp3/wishbone_interface.sv
 L0 3
 R7
-Z162 !s108 1523649040.557772
+Z162 !s108 1523668174.501987
 Z163 !s107 /home/jhutter2/ece411/mp3/wishbone_interface.sv|
 Z164 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/wishbone_interface.sv|
 R11
@@ -1645,7 +1668,7 @@ Z166 8/home/jhutter2/ece411/mp3/wordswap.sv
 Z167 F/home/jhutter2/ece411/mp3/wordswap.sv
 L0 3
 R7
-Z168 !s108 1523649039.248042
+Z168 !s108 1523668173.869320
 Z169 !s107 /home/jhutter2/ece411/mp3/wordswap.sv|
 Z170 !s90 -sv|-work|work|+incdir+/home/jhutter2/ece411/mp3|/home/jhutter2/ece411/mp3/wordswap.sv|
 R11
