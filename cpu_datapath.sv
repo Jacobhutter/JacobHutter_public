@@ -519,7 +519,7 @@ performence_counter d_cache_hits_counter
 	.trigger(data_response & data_request & advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
-	.thresh(16'd2),
+	.thresh(16'd1),
 	.count(d_cache_hits),
 	.cont(1),
 	.reset(reset_d_cache_hits)
