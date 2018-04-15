@@ -491,12 +491,12 @@ dataforward dataforward
 performence_counter i_cache_hits_counter
 (
 	.clk(clk),
-	.trigger(instruction_request & instruction_response),
+	.trigger(instruction_request & instruction_response & advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd1),
 	.count(i_cache_hits),
-	.cont(0),
+	.cont(1),
 	.reset(reset_i_cache_hits)
 );
 
@@ -516,12 +516,12 @@ performence_counter i_cache_misses_counter
 performence_counter d_cache_hits_counter
 (
 	.clk(clk),
-	.trigger(data_response & data_request),
+	.trigger(data_response & data_request & advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd2),
 	.count(d_cache_hits),
-	.cont(0),
+	.cont(1),
 	.reset(reset_d_cache_hits)
 );
 
@@ -539,7 +539,7 @@ performence_counter d_cache_misses_counter
 
 performence_counter l2_cache_hits_counter
 (
-	.clk(instruction_request| data_request),
+	.clk((instruction_request| data_request) & clk),
 	.trigger(instruction_response | data_response),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),

@@ -58,8 +58,7 @@ always_ff @(posedge clk) begin
 		update <= 1;
 	end
 	
-	else
-		prev_pc <= pc_in;
+	prev_pc <= pc_in;
 	
 end
 endmodule : performence_counter
