@@ -53,7 +53,7 @@ always_ff @(posedge clk) begin
 		update <= 0;
 	end
 	
-	if((internal_count == thresh) & ((!update) | (cont))) begin
+	else if((internal_count == thresh) & ((!update) | (cont))) begin
 		count <= count + 1;
 		update <= 1;
 	end
