@@ -598,7 +598,7 @@ performence_counter stalls_counter
 );
 	
 always_comb begin
-	advance = readyifid & readyidex & readyexmem & readymemwb; // when all stages ready, move pipeline along
+	advance = instruction_response & readymemwb; // when all stages ready, move pipeline along
 end
 
 /* Spin (nicely, so we don't chew up cycles) XD */
