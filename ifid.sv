@@ -64,7 +64,7 @@ begin
 				trapvect8 = 0;
 		  end
 		  else begin
-				mem_request = 1'b0;   
+				mem_request = 1'b1;   
 				ready = 1'b0;                      
 				pc = pc_in + 2;
 				if(instr == 16'd0) // detect no op vs branch
