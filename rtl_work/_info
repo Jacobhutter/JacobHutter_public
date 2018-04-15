@@ -18,7 +18,7 @@ Z5 8/home/tklem2/ece411_mp3/adj.sv
 Z6 F/home/tklem2/ece411_mp3/adj.sv
 L0 6
 Z7 OV;L;10.1d;51
-Z8 !s108 1523813623.947868
+Z8 !s108 1523814558.384022
 Z9 !s107 /home/tklem2/ece411_mp3/adj.sv|
 Z10 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/adj.sv|
 Z11 o-sv -work work -O0
@@ -67,7 +67,7 @@ Z14 8/home/tklem2/ece411_mp3/alu.sv
 Z15 F/home/tklem2/ece411_mp3/alu.sv
 L0 3
 R7
-Z16 !s108 1523813623.792237
+Z16 !s108 1523814558.210302
 Z17 !s107 /home/tklem2/ece411_mp3/alu.sv|
 Z18 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/alu.sv|
 R11
@@ -116,7 +116,7 @@ Z20 8/home/tklem2/ece411_mp3/array.sv
 Z21 F/home/tklem2/ece411_mp3/array.sv
 L0 3
 R7
-Z22 !s108 1523813621.484009
+Z22 !s108 1523814556.082767
 Z23 !s107 /home/tklem2/ece411_mp3/array.sv|
 Z24 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/array.sv|
 R11
@@ -165,7 +165,7 @@ Z26 8/home/tklem2/ece411_mp3/bp.sv
 Z27 F/home/tklem2/ece411_mp3/bp.sv
 L0 3
 R7
-Z28 !s108 1523813624.558343
+Z28 !s108 1523814559.060447
 Z29 !s107 /home/tklem2/ece411_mp3/bp.sv|
 Z30 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/bp.sv|
 R11
@@ -214,7 +214,7 @@ Z32 8/home/tklem2/ece411_mp3/cache.sv
 Z33 F/home/tklem2/ece411_mp3/cache.sv
 L0 3
 R7
-Z34 !s108 1523813625.815762
+Z34 !s108 1523814559.971758
 Z35 !s107 /home/tklem2/ece411_mp3/cache.sv|
 Z36 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cache.sv|
 R11
@@ -239,7 +239,7 @@ Z38 8/home/tklem2/ece411_mp3/cache_control.sv
 Z39 F/home/tklem2/ece411_mp3/cache_control.sv
 L0 3
 R7
-Z40 !s108 1523813619.718970
+Z40 !s108 1523814553.933356
 Z41 !s107 /home/tklem2/ece411_mp3/cache_control.sv|
 Z42 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cache_control.sv|
 R11
@@ -288,7 +288,7 @@ Z43 8/home/tklem2/ece411_mp3/cache_datapath.sv
 Z44 F/home/tklem2/ece411_mp3/cache_datapath.sv
 L0 3
 R7
-Z45 !s108 1523813624.873959
+Z45 !s108 1523814559.420318
 Z46 !s107 /home/tklem2/ece411_mp3/cache_datapath.sv|
 Z47 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cache_datapath.sv|
 R11
@@ -361,7 +361,7 @@ Z48 8/home/tklem2/ece411_mp3/cccomp.sv
 Z49 F/home/tklem2/ece411_mp3/cccomp.sv
 L0 3
 R7
-Z50 !s108 1523813623.622859
+Z50 !s108 1523814558.049574
 Z51 !s107 /home/tklem2/ece411_mp3/cccomp.sv|
 Z52 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cccomp.sv|
 R11
@@ -410,7 +410,7 @@ Z53 8/home/tklem2/ece411_mp3/control_rom.sv
 Z54 F/home/tklem2/ece411_mp3/control_rom.sv
 L0 2
 R7
-Z55 !s108 1523813623.449051
+Z55 !s108 1523814557.822025
 Z56 !s107 /home/tklem2/ece411_mp3/control_rom.sv|
 Z57 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/control_rom.sv|
 R11
@@ -451,22 +451,22 @@ DXx4 work 11 cpu_sv_unit 0 22 >U]WznnDKg8L4z[9=YJ]41
 Vh1g>PZF>:fH;@=22ObH[P3
 r1
 31
-IXEK`5LGC1m7n5dU?_Dj^83
+I9o8Ke5f?0WMU9WGgDcP>h1
 S1
 R3
-Z58 w1521088434
+Z58 w1523813862
 Z59 8/home/tklem2/ece411_mp3/cpu.sv
 Z60 F/home/tklem2/ece411_mp3/cpu.sv
 L0 3
 R7
-Z61 !s108 1523813626.181037
+Z61 !s108 1523814560.183365
 Z62 !s107 /home/tklem2/ece411_mp3/cpu.sv|
 Z63 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cpu.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 aJaM6?TP0ZNK^l_UQV@O03
+!s100 8n=2b3X^hJR`cn34_Pgo^0
 !s105 cpu_sv_unit
 !s101 -O0
 vcpu_datapath
@@ -476,22 +476,22 @@ DXx4 work 20 cpu_datapath_sv_unit 0 22 >_nNh59<`<j==z68oG:nc2
 V4O7iTb61NfiNLFfGFXX7a1
 r1
 31
-IBYaA@W_CMi>FGUg;KHjhM1
+Ia7zU1ag`OTEgh_5PWDgH00
 S1
 R3
-R31
+R58
 Z64 8/home/tklem2/ece411_mp3/cpu_datapath.sv
 Z65 F/home/tklem2/ece411_mp3/cpu_datapath.sv
 L0 3
 R7
-Z66 !s108 1523813625.143033
+Z66 !s108 1523814559.620588
 Z67 !s107 /home/tklem2/ece411_mp3/cpu_datapath.sv|
 Z68 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/cpu_datapath.sv|
 R11
 R12
 !s85 0
 !i10b 1
-!s100 JW?E]^Nl?ECMz=ZA5]1^H1
+!s100 9oG8]TUV1I33ENmacW?X[1
 !s105 cpu_datapath_sv_unit
 !s101 -O0
 Xcpu_datapath_sv_unit
@@ -503,7 +503,7 @@ r1
 I>_nNh59<`<j==z68oG:nc2
 S1
 R3
-R31
+R58
 R64
 R65
 L0 1
@@ -557,7 +557,7 @@ Z70 8/home/tklem2/ece411_mp3/dataforward.sv
 Z71 F/home/tklem2/ece411_mp3/dataforward.sv
 L0 3
 R7
-Z72 !s108 1523813620.560020
+Z72 !s108 1523814555.129985
 Z73 !s107 /home/tklem2/ece411_mp3/dataforward.sv|
 Z74 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/dataforward.sv|
 R11
@@ -606,7 +606,7 @@ Z75 8/home/tklem2/ece411_mp3/datawrite.sv
 Z76 F/home/tklem2/ece411_mp3/datawrite.sv
 L0 3
 R7
-Z77 !s108 1523813619.564555
+Z77 !s108 1523814553.727318
 Z78 !s107 /home/tklem2/ece411_mp3/datawrite.sv|
 Z79 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/datawrite.sv|
 R11
@@ -655,7 +655,7 @@ Z80 8/home/tklem2/ece411_mp3/dirtywrite.sv
 Z81 F/home/tklem2/ece411_mp3/dirtywrite.sv
 L0 3
 R7
-Z82 !s108 1523813619.406014
+Z82 !s108 1523814553.544523
 Z83 !s107 /home/tklem2/ece411_mp3/dirtywrite.sv|
 Z84 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/dirtywrite.sv|
 R11
@@ -704,7 +704,7 @@ Z86 8/home/tklem2/ece411_mp3/ebcontrol.sv
 Z87 F/home/tklem2/ece411_mp3/ebcontrol.sv
 L0 3
 R7
-Z88 !s108 1523813618.905841
+Z88 !s108 1523814553.093851
 Z89 !s107 /home/tklem2/ece411_mp3/ebcontrol.sv|
 Z90 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/ebcontrol.sv|
 R11
@@ -753,7 +753,7 @@ Z92 8/home/tklem2/ece411_mp3/ebdatapath.sv
 Z93 F/home/tklem2/ece411_mp3/ebdatapath.sv
 L0 3
 R7
-Z94 !s108 1523813624.719825
+Z94 !s108 1523814559.241578
 Z95 !s107 /home/tklem2/ece411_mp3/ebdatapath.sv|
 Z96 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/ebdatapath.sv|
 R11
@@ -802,7 +802,7 @@ Z98 8/home/tklem2/ece411_mp3/ebhitchecker.sv
 Z99 F/home/tklem2/ece411_mp3/ebhitchecker.sv
 L0 3
 R7
-Z100 !s108 1523813620.360435
+Z100 !s108 1523814554.901308
 Z101 !s107 /home/tklem2/ece411_mp3/ebhitchecker.sv|
 Z102 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/ebhitchecker.sv|
 R11
@@ -855,7 +855,7 @@ R12
 !s100 NQ[LUMnTGU>=EGWbV0oJB1
 !s105 evictbuffer_sv_unit
 !s85 0
-!s108 1523813625.443861
+!s108 1523814559.835919
 !s107 /home/tklem2/ece411_mp3/evictbuffer.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/evictbuffer.sv|
 !s101 -O0
@@ -874,7 +874,7 @@ Z104 8/home/tklem2/ece411_mp3/exmem.sv
 Z105 F/home/tklem2/ece411_mp3/exmem.sv
 L0 3
 R7
-Z106 !s108 1523813623.260798
+Z106 !s108 1523814557.624900
 Z107 !s107 /home/tklem2/ece411_mp3/exmem.sv|
 Z108 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/exmem.sv|
 R11
@@ -923,7 +923,7 @@ Z110 8/home/tklem2/ece411_mp3/gencc.sv
 Z111 F/home/tklem2/ece411_mp3/gencc.sv
 L0 3
 R7
-Z112 !s108 1523813623.080922
+Z112 !s108 1523814557.431680
 Z113 !s107 /home/tklem2/ece411_mp3/gencc.sv|
 Z114 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/gencc.sv|
 R11
@@ -972,7 +972,7 @@ Z116 8/home/tklem2/ece411_mp3/idex.sv
 Z117 F/home/tklem2/ece411_mp3/idex.sv
 L0 3
 R7
-Z118 !s108 1523813622.891002
+Z118 !s108 1523814557.215882
 Z119 !s107 /home/tklem2/ece411_mp3/idex.sv|
 Z120 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/idex.sv|
 R11
@@ -1021,7 +1021,7 @@ Z122 8/home/tklem2/ece411_mp3/ifid.sv
 Z123 F/home/tklem2/ece411_mp3/ifid.sv
 L0 3
 R7
-Z124 !s108 1523813622.691971
+Z124 !s108 1523814557.025038
 Z125 !s107 /home/tklem2/ece411_mp3/ifid.sv|
 Z126 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/ifid.sv|
 R11
@@ -1074,7 +1074,7 @@ R12
 !s100 lk@25G61PVL5n@1MC:H8P1
 !s105 interconnect_sv_unit
 !s85 0
-!s108 1523813624.129599
+!s108 1523814558.558330
 !s107 /home/tklem2/ece411_mp3/interconnect.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/interconnect.sv|
 !s101 -O0
@@ -1096,7 +1096,7 @@ R12
 !i10b 1
 !s100 =il2hnS]KPh^?P>Wo4iH<3
 !s85 0
-!s108 1523813618.699452
+!s108 1523814552.997842
 !s107 /home/tklem2/ece411_mp3/lc3b_types.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/lc3b_types.sv|
 !s101 -O0
@@ -1115,7 +1115,7 @@ Z127 8/home/tklem2/ece411_mp3/lruwrite.sv
 Z128 F/home/tklem2/ece411_mp3/lruwrite.sv
 L0 3
 R7
-Z129 !s108 1523813619.259500
+Z129 !s108 1523814553.396930
 Z130 !s107 /home/tklem2/ece411_mp3/lruwrite.sv|
 Z131 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/lruwrite.sv|
 R11
@@ -1166,7 +1166,7 @@ R7
 r1
 !s85 0
 31
-!s108 1523813627.150088
+!s108 1523814560.818253
 !s107 /home/tklem2/ece411_mp3/magic_memory_dual_port.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/magic_memory_dual_port.sv|
 !s101 -O0
@@ -1187,7 +1187,7 @@ Z133 8/home/tklem2/ece411_mp3/mem_control.sv
 Z134 F/home/tklem2/ece411_mp3/mem_control.sv
 L0 3
 R7
-Z135 !s108 1523813624.254839
+Z135 !s108 1523814558.648344
 Z136 !s107 /home/tklem2/ece411_mp3/mem_control.sv|
 Z137 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mem_control.sv|
 R11
@@ -1236,7 +1236,7 @@ Z139 8/home/tklem2/ece411_mp3/memwb.sv
 Z140 F/home/tklem2/ece411_mp3/memwb.sv
 L0 3
 R7
-Z141 !s108 1523813622.535798
+Z141 !s108 1523814556.801239
 Z142 !s107 /home/tklem2/ece411_mp3/memwb.sv|
 Z143 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/memwb.sv|
 R11
@@ -1270,6 +1270,57 @@ R12
 !s100 aAQdGJDU4czOd`2S=N2Di1
 !i103 1
 !s101 -O0
+XMMIO_counter_sv_unit
+R1
+R2
+V8jjmHQ8aCjnThTc2SR7<F3
+r1
+31
+I8jjmHQ8aCjnThTc2SR7<F3
+S1
+R3
+R58
+Z144 8/home/tklem2/ece411_mp3/MMIO_counter.sv
+Z145 F/home/tklem2/ece411_mp3/MMIO_counter.sv
+L0 1
+R7
+Z146 !s108 1523814554.735008
+Z147 !s107 /home/tklem2/ece411_mp3/MMIO_counter.sv|
+Z148 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/MMIO_counter.sv|
+R11
+R12
+n@m@m@i@o_counter_sv_unit
+!s85 0
+!i10b 1
+!s100 `B@l]hf69YWX>D^oQFlW40
+!i103 1
+!s101 -O0
+vMMIO_counters
+R1
+R2
+DXx4 work 20 MMIO_counter_sv_unit 0 22 8jjmHQ8aCjnThTc2SR7<F3
+VYSnQO[NUA[A4@Giid:H3m0
+r1
+31
+IIIYBP<V[a]SfC?mR[1EX@1
+S1
+R3
+R58
+R144
+R145
+L0 3
+R7
+R146
+R147
+R148
+R11
+R12
+n@m@m@i@o_counters
+!s85 0
+!i10b 1
+!s100 24N>2>fIlOjV7>kS?E0mO1
+!s105 MMIO_counter_sv_unit
+!s101 -O0
 vmp3
 R1
 IKUdfZ2PAkBFGY60aW_kzG2
@@ -1289,7 +1340,7 @@ R12
 !s100 aUboOo4KE[1CTgMml;8QV2
 !s105 mp3_sv_unit
 !s85 0
-!s108 1523813626.397881
+!s108 1523814560.458799
 !s107 /home/tklem2/ece411_mp3/mp3.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mp3.sv|
 !s101 -O0
@@ -1312,7 +1363,7 @@ R12
 !s100 1jf0WkUgdD;K:ob63V:Ck3
 !s105 mp3_tb_sv_unit
 !s85 0
-!s108 1523813626.645845
+!s108 1523814560.589417
 !s107 /home/tklem2/ece411_mp3/mp3_tb.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mp3_tb.sv|
 !s101 -O0
@@ -1335,7 +1386,7 @@ R12
 !s100 RmjSBGTf>[UK0=]FIHJTG3
 !s105 mux2_sv_unit
 !s85 0
-!s108 1523813620.248617
+!s108 1523814554.468204
 !s107 /home/tklem2/ece411_mp3/mux2.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mux2.sv|
 !s101 -O0
@@ -1350,13 +1401,13 @@ I8gMncL^:dFmR]PJJ2efVg3
 S1
 R3
 R4
-Z144 8/home/tklem2/ece411_mp3/mux4.sv
-Z145 F/home/tklem2/ece411_mp3/mux4.sv
+Z149 8/home/tklem2/ece411_mp3/mux4.sv
+Z150 F/home/tklem2/ece411_mp3/mux4.sv
 L0 3
 R7
-Z146 !s108 1523813622.379668
-Z147 !s107 /home/tklem2/ece411_mp3/mux4.sv|
-Z148 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mux4.sv|
+Z151 !s108 1523814556.621306
+Z152 !s107 /home/tklem2/ece411_mp3/mux4.sv|
+Z153 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mux4.sv|
 R11
 R12
 !s85 0
@@ -1374,13 +1425,13 @@ Ic[Go7[zSI@dKPHZX?Pa_32
 S1
 R3
 R4
-R144
-R145
+R149
+R150
 L0 1
 R7
-R146
-R147
-R148
+R151
+R152
+R153
 R11
 R12
 !s85 0
@@ -1398,14 +1449,14 @@ r1
 I3nD_=Z;XSbW`Q<gLG:A9d0
 S1
 R3
-Z149 w1522700200
-Z150 8/home/tklem2/ece411_mp3/mux8.sv
-Z151 F/home/tklem2/ece411_mp3/mux8.sv
+Z154 w1522700200
+Z155 8/home/tklem2/ece411_mp3/mux8.sv
+Z156 F/home/tklem2/ece411_mp3/mux8.sv
 L0 3
 R7
-Z152 !s108 1523813624.409234
-Z153 !s107 /home/tklem2/ece411_mp3/mux8.sv|
-Z154 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mux8.sv|
+Z157 !s108 1523814558.841001
+Z158 !s107 /home/tklem2/ece411_mp3/mux8.sv|
+Z159 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/mux8.sv|
 R11
 R12
 !s85 0
@@ -1422,19 +1473,68 @@ r1
 IcJGIDEeiSEYlZHia>54jT3
 S1
 R3
-R149
-R150
-R151
+R154
+R155
+R156
 L0 1
 R7
-R152
-R153
-R154
+R157
+R158
+R159
 R11
 R12
 !s85 0
 !i10b 1
 !s100 caaS5:W@EoVn=aP:AIE=Z0
+!i103 1
+!s101 -O0
+vperformence_counter
+R1
+R2
+DXx4 work 27 performence_counter_sv_unit 0 22 QcK`3?P3b7_FgGblLC]ZT0
+V`7@4o=:2U5L16h[8P1D]C2
+r1
+31
+Ig[;ZHzQT[9D3VCF_jR45K2
+S1
+R3
+R58
+Z160 8/home/tklem2/ece411_mp3/performence_counter.sv
+Z161 F/home/tklem2/ece411_mp3/performence_counter.sv
+L0 15
+R7
+Z162 !s108 1523814554.591184
+Z163 !s107 /home/tklem2/ece411_mp3/performence_counter.sv|
+Z164 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/performence_counter.sv|
+R11
+R12
+!s85 0
+!i10b 1
+!s100 [b`1XY?A59VDXem0WS02;1
+!s105 performence_counter_sv_unit
+!s101 -O0
+Xperformence_counter_sv_unit
+R1
+R2
+VQcK`3?P3b7_FgGblLC]ZT0
+r1
+31
+IQcK`3?P3b7_FgGblLC]ZT0
+S1
+R3
+R58
+R160
+R161
+L0 1
+R7
+R162
+R163
+R164
+R11
+R12
+!s85 0
+!i10b 1
+!s100 I_E`97zDe:oAl4b[079G<3
 !i103 1
 !s101 -O0
 vphysical_memory
@@ -1456,7 +1556,7 @@ R12
 !s100 TcQXlBc5K5jk[;UC3lMX;2
 !s105 physical_memory_sv_unit
 !s85 0
-!s108 1523813626.920898
+!s108 1523814560.695053
 !s107 /home/tklem2/ece411_mp3/physical_memory.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/physical_memory.sv|
 !s101 -O0
@@ -1479,7 +1579,7 @@ R12
 !s100 l69Y?d8]_TOh^NR1zLGCk0
 !s105 plus2_sv_unit
 !s85 0
-!s108 1523813620.151012
+!s108 1523814554.384161
 !s107 /home/tklem2/ece411_mp3/plus2.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/plus2.sv|
 !s101 -O0
@@ -1493,14 +1593,14 @@ r1
 IzPb@S1XRLH60mK5X3i>C72
 S1
 R3
-Z155 w1522702605
-Z156 8/home/tklem2/ece411_mp3/regfile.sv
-Z157 F/home/tklem2/ece411_mp3/regfile.sv
+Z165 w1522702605
+Z166 8/home/tklem2/ece411_mp3/regfile.sv
+Z167 F/home/tklem2/ece411_mp3/regfile.sv
 L0 3
 R7
-Z158 !s108 1523813622.234449
-Z159 !s107 /home/tklem2/ece411_mp3/regfile.sv|
-Z160 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/regfile.sv|
+Z168 !s108 1523814556.435267
+Z169 !s107 /home/tklem2/ece411_mp3/regfile.sv|
+Z170 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/regfile.sv|
 R11
 R12
 !s85 0
@@ -1517,14 +1617,14 @@ r1
 IBVMZo>oXVOA65lB1cB`4@1
 S1
 R3
-R155
-R156
-R157
+R165
+R166
+R167
 L0 1
 R7
-R158
-R159
-R160
+R168
+R169
+R170
 R11
 R12
 !s85 0
@@ -1551,7 +1651,7 @@ R12
 !s100 GlYQ>75S9HLceJEQQkN;73
 !s105 register_sv_unit
 !s85 0
-!s108 1523813620.043951
+!s108 1523814554.275317
 !s107 /home/tklem2/ece411_mp3/register.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/register.sv|
 !s101 -O0
@@ -1566,13 +1666,13 @@ IU1m1RAK^SRLB:Xd@36@>;3
 S1
 R3
 R19
-Z161 8/home/tklem2/ece411_mp3/selectway.sv
-Z162 F/home/tklem2/ece411_mp3/selectway.sv
+Z171 8/home/tklem2/ece411_mp3/selectway.sv
+Z172 F/home/tklem2/ece411_mp3/selectway.sv
 L0 3
 R7
-Z163 !s108 1523813621.302358
-Z164 !s107 /home/tklem2/ece411_mp3/selectway.sv|
-Z165 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/selectway.sv|
+Z173 !s108 1523814555.880097
+Z174 !s107 /home/tklem2/ece411_mp3/selectway.sv|
+Z175 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/selectway.sv|
 R11
 R12
 !s85 0
@@ -1590,13 +1690,13 @@ I=XFDo>89D96o8<0n<RJib2
 S1
 R3
 R19
-R161
-R162
+R171
+R172
 L0 1
 R7
-R163
-R164
-R165
+R173
+R174
+R175
 R11
 R12
 !s85 0
@@ -1614,14 +1714,14 @@ r1
 IN?La_5GOfeMK[`PPe7_^X0
 S1
 R3
-Z166 w1519004913
-Z167 8/home/tklem2/ece411_mp3/swapaddress.sv
-Z168 F/home/tklem2/ece411_mp3/swapaddress.sv
+Z176 w1519004913
+Z177 8/home/tklem2/ece411_mp3/swapaddress.sv
+Z178 F/home/tklem2/ece411_mp3/swapaddress.sv
 L0 3
 R7
-Z169 !s108 1523813621.148863
-Z170 !s107 /home/tklem2/ece411_mp3/swapaddress.sv|
-Z171 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/swapaddress.sv|
+Z179 !s108 1523814555.700490
+Z180 !s107 /home/tklem2/ece411_mp3/swapaddress.sv|
+Z181 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/swapaddress.sv|
 R11
 R12
 !s85 0
@@ -1638,14 +1738,14 @@ r1
 I8>`SdS8;S0L=<a=AZCAYW1
 S1
 R3
-R166
-R167
-R168
+R176
+R177
+R178
 L0 1
 R7
-R169
-R170
-R171
+R179
+R180
+R181
 R11
 R12
 !s85 0
@@ -1664,13 +1764,13 @@ IY:JNXzCJkL@d=Lf?4zjJg1
 S1
 R3
 R19
-Z172 8/home/tklem2/ece411_mp3/tagchecker.sv
-Z173 F/home/tklem2/ece411_mp3/tagchecker.sv
+Z182 8/home/tklem2/ece411_mp3/tagchecker.sv
+Z183 F/home/tklem2/ece411_mp3/tagchecker.sv
 L0 3
 R7
-Z174 !s108 1523813620.945541
-Z175 !s107 /home/tklem2/ece411_mp3/tagchecker.sv|
-Z176 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/tagchecker.sv|
+Z184 !s108 1523814555.492532
+Z185 !s107 /home/tklem2/ece411_mp3/tagchecker.sv|
+Z186 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/tagchecker.sv|
 R11
 R12
 !s85 0
@@ -1688,13 +1788,13 @@ IXX2<SdEf_3LAmi>DM3jRi3
 S1
 R3
 R19
-R172
-R173
+R182
+R183
 L0 1
 R7
-R174
-R175
-R176
+R184
+R185
+R186
 R11
 R12
 !s85 0
@@ -1713,13 +1813,13 @@ IGjifoz1:gh<741<9M_UZV3
 S1
 R3
 R19
-Z177 8/home/tklem2/ece411_mp3/tagwrite.sv
-Z178 F/home/tklem2/ece411_mp3/tagwrite.sv
+Z187 8/home/tklem2/ece411_mp3/tagwrite.sv
+Z188 F/home/tklem2/ece411_mp3/tagwrite.sv
 L0 3
 R7
-Z179 !s108 1523813619.104807
-Z180 !s107 /home/tklem2/ece411_mp3/tagwrite.sv|
-Z181 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/tagwrite.sv|
+Z189 !s108 1523814553.245383
+Z190 !s107 /home/tklem2/ece411_mp3/tagwrite.sv|
+Z191 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/tagwrite.sv|
 R11
 R12
 !s85 0
@@ -1737,13 +1837,13 @@ I:<XVZKYo1emR^^@DJ`<8h1
 S1
 R3
 R19
-R177
-R178
+R187
+R188
 L0 1
 R7
-R179
-R180
-R181
+R189
+R190
+R191
 R11
 R12
 !s85 0
@@ -1770,7 +1870,7 @@ R12
 !s100 `M;W6hS?TcYGSH[<TCITF1
 !s105 wishbone_sv_unit
 !s85 0
-!s108 1523813619.898450
+!s108 1523814554.132155
 !s107 /home/tklem2/ece411_mp3/wishbone.sv|
 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/wishbone.sv|
 !s101 -O0
@@ -1784,14 +1884,14 @@ r1
 IkY;cKn;KDN_LG09oXi5nC2
 S1
 R3
-Z182 w1521088354
-Z183 8/home/tklem2/ece411_mp3/wishbone_interface.sv
-Z184 F/home/tklem2/ece411_mp3/wishbone_interface.sv
+Z192 w1521088354
+Z193 8/home/tklem2/ece411_mp3/wishbone_interface.sv
+Z194 F/home/tklem2/ece411_mp3/wishbone_interface.sv
 L0 3
 R7
-Z185 !s108 1523813621.879976
-Z186 !s107 /home/tklem2/ece411_mp3/wishbone_interface.sv|
-Z187 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/wishbone_interface.sv|
+Z195 !s108 1523814556.260139
+Z196 !s107 /home/tklem2/ece411_mp3/wishbone_interface.sv|
+Z197 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/wishbone_interface.sv|
 R11
 R12
 !s85 0
@@ -1808,14 +1908,14 @@ r1
 IIMFbg]f^g7U]NGm8deilW3
 S1
 R3
-R182
-R183
-R184
+R192
+R193
+R194
 L0 1
 R7
-R185
-R186
-R187
+R195
+R196
+R197
 R11
 R12
 !s85 0
@@ -1833,14 +1933,14 @@ r1
 IW7W1XU6]k6]78kI]31UG`1
 S1
 R3
-Z188 w1523570284
-Z189 8/home/tklem2/ece411_mp3/wordswap.sv
-Z190 F/home/tklem2/ece411_mp3/wordswap.sv
+Z198 w1523570284
+Z199 8/home/tklem2/ece411_mp3/wordswap.sv
+Z200 F/home/tklem2/ece411_mp3/wordswap.sv
 L0 3
 R7
-Z191 !s108 1523813620.756749
-Z192 !s107 /home/tklem2/ece411_mp3/wordswap.sv|
-Z193 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/wordswap.sv|
+Z201 !s108 1523814555.307874
+Z202 !s107 /home/tklem2/ece411_mp3/wordswap.sv|
+Z203 !s90 -sv|-work|work|+incdir+/home/tklem2/ece411_mp3|/home/tklem2/ece411_mp3/wordswap.sv|
 R11
 R12
 !s85 0
@@ -1857,14 +1957,14 @@ r1
 IIMEM_S^YIBK^2D`zhNQLV3
 S1
 R3
-R188
-R189
-R190
+R198
+R199
+R200
 L0 1
 R7
-R191
-R192
-R193
+R201
+R202
+R203
 R11
 R12
 !s85 0
