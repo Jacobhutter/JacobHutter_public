@@ -32,6 +32,27 @@ mem_output, if_offset6_in, ex_sr1mux_out, ex_sr2mux_out, mem_srcmux_out, ex_stor
 
 lc3b_control_word if_ctrl_initial, if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out, mem_ctrl_out;
 
+/* Counters */
+reg [15:0] i_cache_hits;
+reg [15:0] i_cache_misses;
+reg [15:0] d_cache_hits;
+reg [15:0] d_cache_misses;
+reg [15:0] l2_cache_hits;
+reg [15:0] l2_cache_misses;
+reg [15:0] mispredictions;
+reg [15:0] total_branches;
+reg [15:0] total_stalls;
+logic reset_i_cache_hits;
+logic reset_i_cache_misses;
+logic reset_d_cache_hits;
+logic reset_d_cache_misses;
+logic reset_l2_cache_hits;
+logic reset_l2_cache_misses;
+logic reset_total_branchs;
+logic reset_mispredictions;
+logic reset_stalls;
+lc3b_word mem_rdata_out;
+
 logic [2:0] bits4_5_11;
 logic [1:0] pcmux_sel, mbemux_out;
 assign instruction_address = pc_out;
@@ -351,7 +372,7 @@ mem_control mem_ctrl_unit
     .src_data(ex_source_data_out),
     .alu_data(ex_alu_out),
     .trapvect8(ex_trapvect8),
-    .mem_rdata,
+    .mem_rdata(mem_rdata_out),
     .data_response,
 
     .mem_wdata,
@@ -382,6 +403,34 @@ memwb memwb_register
 	.offset11_out(wb_offset11),
 	.ctrl_word_out(wb_ctrl),
     .flush
+);
+
+MMIO_counters memory_mapped_counters
+(
+	.i_cache_hits(i_cache_hits),
+	.i_cache_misses(i_cache_misses),
+	.d_cache_hits(d_cache_hits),
+	.d_cache_misses(d_cache_misses),
+	.l2_cache_hits(l2_cache_hits),
+	.l2_cache_misses(l2_cache_misses),
+	.total_branches(total_branches),
+	.mispredictions(mispredictions),
+	.total_stalls(total_stalls),
+	.opcode(mem_ctrl.opcode),
+	.mem_address,
+	.mem_rdata_in(mem_rdata),
+	
+	.reset_i_cache_hits,
+	.reset_i_cache_misses,
+	.reset_d_cache_hits,
+	.reset_d_cache_misses,
+	.reset_l2_cache_hits,
+	.reset_l2_cache_misses,
+	.reset_total_branchs,
+	.reset_mispredictions,
+	.reset_stalls,
+	.mem_rdata_out
+	
 );
 
 /*******************************************************************************
@@ -435,6 +484,119 @@ dataforward dataforward
     .ex_storesel
 );
 
+/********************************************/
+/*						Counters						  */
+/********************************************/
+
+performence_counter i_cache_hits_counter
+(
+	.clk(clk),
+	.trigger(instruction_request & instruction_response),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.thresh(16'd1),
+	.count(i_cache_hits),
+	.cont(0),
+	.reset(reset_i_cache_hits)
+);
+
+/* Count misses not cycles */
+performence_counter i_cache_misses_counter
+(
+	.clk(clk),
+	.trigger(instruction_request),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.thresh(16'd2),
+	.count(i_cache_misses),
+	.cont(0),
+	.reset(reset_i_cache_misses)
+);
+
+performence_counter d_cache_hits_counter
+(
+	.clk(clk),
+	.trigger(data_response & data_request),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.thresh(16'd2),
+	.count(d_cache_hits),
+	.cont(0),
+	.reset(reset_d_cache_hits)
+);
+
+performence_counter d_cache_misses_counter
+(
+	.clk(clk),
+	.trigger(data_request),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.thresh(16'd2),
+	.count(d_cache_misses),
+	.cont(0),
+	.reset(reset_d_cache_misses)
+);
+
+performence_counter l2_cache_hits_counter
+(
+	.clk(instruction_request| data_request),
+	.trigger(instruction_response | data_response),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.thresh(16'd2),
+	.count(l2_cache_hits),
+	.cont(0),
+	.reset(reset_l2_cache_hits)
+);
+
+performence_counter l2_cache_misses_counter
+(
+	.clk(clk),
+	.trigger(instruction_request | data_request),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.thresh(16'd4),
+	.count(l2_cache_misses),
+	.cont(0),
+	.reset(reset_l2_cache_misses)
+);
+
+performence_counter branch_prediction_counter
+(
+	.clk(clk),
+	.trigger(wb_ctrl.valid_branch),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.count(total_branches),
+	.thresh(16'd1),
+	.cont(0),
+	.reset(reset_total_branchs)
+);
+
+performence_counter mispredictions_counter
+(
+	.clk(clk),
+	.trigger(bp_miss),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.count(mispredictions),
+	.thresh(16'd1),
+	.cont(0),
+	.reset(reset_mispredictions)
+);
+
+performence_counter stalls_counter
+(
+	.clk(clk),
+	.trigger(stall),
+	.pc_in(instruction_address),
+	.opcode(lc3b_opcode'(instr[15:12])),
+	.count(total_stalls),
+	.thresh(16'd1),
+	.cont(1),
+	.reset(reset_stalls)
+);
+	
 always_comb begin
 	advance = readyifid & readyidex & readyexmem & readymemwb; // when all stages ready, move pipeline along
 end
