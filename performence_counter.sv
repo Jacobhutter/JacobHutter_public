@@ -15,7 +15,6 @@ import lc3b_types::*;
 module performence_counter(
 	input logic clk,
 	input logic trigger, // Some signal we want to base our counter on
-	input lc3b_word pc_in,
 	input lc3b_opcode opcode,
 	input lc3b_word thresh,
 	input cont,
@@ -25,13 +24,11 @@ module performence_counter(
 );
 
 logic [3:0] internal_count;
-lc3b_word prev_pc;
 logic update;
 
 initial begin
 	count <= 0;
 	internal_count <= 0;
-	prev_pc <= 0;
 	update <= 0;
 end
 
@@ -39,10 +36,9 @@ always_ff @(posedge clk) begin
 	// Determine when a stall occurs, STB is high for more than 2 cycles
 	// When stall occurs, increment counter
 	if(reset) begin
-		internal_count <= 0;
-		count <= 0;
+		internal_count <= 4'b0;
+		count <= 16'b0;
 		update <= 0;
-		prev_pc <= 0;
 	end
 	
 	else if((trigger == 1) & (internal_count != thresh))
@@ -54,11 +50,9 @@ always_ff @(posedge clk) begin
 	end
 	
 	else if((internal_count == thresh) & ((!update) | (cont))) begin
-		count <= count + 1;
+		count <= count + 16'b1;
 		update <= 1;
 	end
-	
-	prev_pc <= pc_in;
 	
 end
 endmodule : performence_counter
