@@ -11,6 +11,7 @@ entity mem_control is
         trapvect8       : in     vl_logic_vector(15 downto 0);
         mem_rdata       : in     vl_logic_vector(15 downto 0);
         data_response   : in     vl_logic;
+        flush           : in     vl_logic;
         mem_wdata       : out    vl_logic_vector(15 downto 0);
         mem_byte_enable : out    vl_logic_vector(1 downto 0);
         data_request    : out    vl_logic;

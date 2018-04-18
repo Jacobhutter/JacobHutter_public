@@ -57,13 +57,20 @@ logic [2:0] bits4_5_11;
 logic [1:0] pcmux_sel, mbemux_out;
 assign instruction_address = pc_out;
 assign write_data = mem_wdata;
-/*******************************************************************************
+logic load_regfile;
+// Eventually, we'll be able to predict with JSR offset mode
+assign load_regfile = (wb_ctrl.load_regfile && advance) || 
+    (wb_ctrl.opcode == op_jsr && flush) ||
+    (wb_ctrl.opcode == op_trap && flush);
+logic icache_request;
+assign instruction_request = icache_request & ~flush;
+    /*******************************************************************************
   * PC
 ******************************************************************************/
 register pc
 (
 	.clk,
-	.load(advance), // load on wb demand or fetch
+	.load(advance | flush), // load on wb demand or fetch
 	.in(pcmux_out),
 	.out(pc_out)
 );
@@ -179,7 +186,7 @@ ifid ifid_register
 	.offset6_in(if_offset6_in),
 	.offset9_in(adj9_out),
 	.offset11_in(adj11_out),
-	.mem_request(instruction_request),
+	.mem_request(icache_request),
     .offset6_out(if_offset6),
 	.offset9_out(if_offset9),
 	.offset11_out(if_offset11),
@@ -215,7 +222,7 @@ mux2 #(.width(3)) destmux
 regfile r
 (
 	.clk,
-	.load(wb_ctrl.load_regfile & advance),
+	.load(load_regfile),
 	.in(regfilemux_out),
 	.src_a(src1),
 	.src_b(storemux_out),

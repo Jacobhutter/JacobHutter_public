@@ -1,4 +1,4 @@
-# do /tmp/tmp.jCfkRzHtuR/do.do 
+# do /tmp/tmp.BmMucEbx86/do.do 
 # if {[file exists rtl_work]} {
 # 	vdel -lib rtl_work -all
 # }
@@ -437,23 +437,23 @@
 # Loading work.ebcontrol_sv_unit
 # Loading work.ebcontrol
 # Loading work.physical_memory
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(501): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(509): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/i_cache_hits_counter
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(514): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(522): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/i_cache_misses_counter
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(526): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(534): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/d_cache_hits_counter
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(538): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(546): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/d_cache_misses_counter
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(550): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(558): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/l2_cache_hits_counter
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(562): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(570): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/l2_cache_misses_counter
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(574): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(582): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/branch_prediction_counter
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(586): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(594): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/mispredictions_counter
-# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(598): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
+# ** Warning: (vsim-3015) /home/tklem2/ece411_mp3/cpu_datapath.sv(606): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/tklem2/ece411_mp3/performence_counter.sv(21).
 #         Region: /mp3_tb/dut/mp3_cpu/cd/stalls_counter
 # 
 #add wave *
@@ -461,5 +461,5 @@
 #view signals
 # add list -radix hexadecimal {/mp3_tb/dut/mp3_cpu/cd/r/data}
 # run 10000000ns
-# write list /tmp/tmp.jCfkRzHtuR/test_list.lst
+# write list /tmp/tmp.BmMucEbx86/test_list.lst
 # exit

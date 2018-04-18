@@ -29,7 +29,8 @@ begin
    ctrl.valid_dest = 1'b0;
    ctrl.alubasemux_sel = 1'b0;
 	ctrl.predicted_branch = 1'b0; // track predicted branch value
-
+    ctrl.reg_mode = 1'b0;
+    
    case(opcode)
        op_add: begin
            
@@ -77,6 +78,7 @@ begin
                 ctrl.offsetmux_sel = 1; // seelect offset 11
                  ctrl.pcmux_sel = 2'b01;
             end
+            ctrl.reg_mode = bits4_5_11[2];
        end
 
        op_not: begin
