@@ -40,30 +40,29 @@ end
 
 always_ff @(posedge clk)
 begin
-    if (advance == 1)
-    begin
-		  if(flush) begin
-				  ready = 1;
-                  pc = 0;
-                  ex_alu_out = 0;
-                  dest_out = 0;
-                  offset9_out = 0;
-                  offset11_out = 0;
-                  trapvect8_out = 0;
-                  ctrl_word_out = 0;
-                  source_data_out = 0;
-		  end
-		  else begin
-				  ready = 0;
-				  pc = pc_in;
-				  ex_alu_out = ex_alu_in;
-				  dest_out = dest_in;
-				  offset9_out = offset9_in;
-				  offset11_out = offset11_in;
-				  trapvect8_out = trapvect8_in;
-				  ctrl_word_out = ctrl_word_in;
-				  source_data_out = source_data_in;
-		  end
+    if(flush) begin
+      ready = 1;
+      pc = 0;
+      ex_alu_out = 0;
+      dest_out = 0;
+      offset9_out = 0;
+      offset11_out = 0;
+      trapvect8_out = 0;
+      ctrl_word_out = 0;
+      source_data_out = 0;
+    end
+    else if (advance == 1)
+    begin  
+      ready = 0;
+      pc = pc_in;
+      ex_alu_out = ex_alu_in;
+      dest_out = dest_in;
+      offset9_out = offset9_in;
+      offset11_out = offset11_in;
+      trapvect8_out = trapvect8_in;
+      ctrl_word_out = ctrl_word_in;
+      source_data_out = source_data_in;
+		  
     end
     else begin
         ready = 1;

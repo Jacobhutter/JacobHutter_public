@@ -55,40 +55,39 @@ end
 
 always_ff @(posedge clk)
 begin
-    if (advance == 1)
+    if(flush) 
     begin
-		  if(flush) begin
-                ready = 1;
-                pc = 0;
-                dest_out = 0;
-                sr1_out = 0;
-                sr2_out = 0;
-                offset6_out = 0;
-                offset9_out = 0;
-                offset11_out = 0;
-                imm5_out = 0;
-                imm4_out = 0;
-                src1_out = 0;
-                src2_out = 0;
-                trapvect8_out = 0;
-                ctrl_word_out = 0;
-          end
-		  else begin
-				ready = 0;
-				pc = pc_in;
-				dest_out = dest_in;
-				sr1_out = sr1_in;
-				sr2_out = sr2_in;
-				offset6_out = offset6_in;
-				offset9_out = offset9_in;
-				offset11_out = offset11_in;
-				imm5_out = imm5_in;
-				imm4_out = imm4_in;
-                src1_out = src1;
-                src2_out = src2;
-				trapvect8_out = trapvect8_in;
-				ctrl_word_out = ctrl_word_in;
-		  end
+        ready = 1;
+        pc = 0;
+        dest_out = 0;
+        sr1_out = 0;
+        sr2_out = 0;
+        offset6_out = 0;
+        offset9_out = 0;
+        offset11_out = 0;
+        imm5_out = 0;
+        imm4_out = 0;
+        src1_out = 0;
+        src2_out = 0;
+        trapvect8_out = 0;
+        ctrl_word_out = 0;
+    end
+    else if (advance == 1)
+    begin
+        ready = 0;
+        pc = pc_in;
+        dest_out = dest_in;
+        sr1_out = sr1_in;
+        sr2_out = sr2_in;
+        offset6_out = offset6_in;
+        offset9_out = offset9_in;
+        offset11_out = offset11_in;
+        imm5_out = imm5_in;
+        imm4_out = imm4_in;
+        src1_out = src1;
+        src2_out = src2;
+        trapvect8_out = trapvect8_in;
+        ctrl_word_out = ctrl_word_in;
     end
     else
     begin

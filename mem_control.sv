@@ -10,6 +10,7 @@ module mem_control
     input lc3b_word trapvect8,
     input lc3b_word mem_rdata,
     input data_response,
+    input flush,
     
     output lc3b_word mem_wdata,
     output logic [1:0] mem_byte_enable,
@@ -47,97 +48,101 @@ begin : state_actions
     write_enable = 0;
     ready = 1;
     get_rdata = 0;
-    case(state)
-        first_hit: begin
-            case(mem_control_word.opcode)
-                op_ldb: begin
-                    mem_address = alu_data;
-                    ready = data_response;
-                    data_request = 1;
-                    
-                    mem_output = {8'd0, mem_rdata[7:0]};
-                    if(mem_address[0])
-                        mem_output = {8'd0, mem_rdata[15:8]};
-                end 
-                op_ldi: begin
-                    mem_address = alu_data;
-                    ready = 0;
-                    data_request = 1;
-                    get_rdata = 1;
-                end
-                op_ldr: begin
-                    mem_address = alu_data;
-                    ready = data_response;
-                    data_request = 1;
-                    mem_output = mem_rdata;
-                end
-                op_stb: begin
-                    mem_address = alu_data;
-                    ready = data_response;
-                    data_request = 1;
-                    write_enable = 1;
-                    
-                    mem_wdata = {8'd0, src_data[7:0]};
-                    mem_byte_enable = 2'b01;
-                    if(mem_address[0]) begin
-                        mem_wdata = {src_data[7:0], 8'd0};
-                        mem_byte_enable = 2'b10;
+    if(!flush) begin
+        case(state)
+            first_hit: begin
+                case(mem_control_word.opcode)
+                    op_ldb: begin
+                        mem_address = alu_data;
+                        ready = data_response;
+                        data_request = 1;
+                        
+                        mem_output = {8'd0, mem_rdata[7:0]};
+                        if(mem_address[0])
+                            mem_output = {8'd0, mem_rdata[15:8]};
+                    end 
+                    op_ldi: begin
+                        mem_address = alu_data;
+                        ready = 0;
+                        data_request = 1;
+                        get_rdata = 1;
                     end
-                end
-                op_sti: begin
-                    mem_address = alu_data;
-                    ready = 0;
-                    data_request = 1;
-                    get_rdata = 1;
-                end
-                op_str: begin
-                    mem_address = alu_data;
-                    ready = data_response;
-                    data_request = 1;
-                    write_enable = 1;
-                    mem_wdata = src_data;
-                end
-                op_trap: begin
-                    mem_address = trapvect8;
-                    ready = data_response;
-                    data_request = 1;
-                    mem_output = mem_rdata;
-                end
-                default: ;
-            endcase
-        end
-        second_hit: begin
-            case(mem_control_word.opcode)
-                op_ldi: begin 
-                    mem_address = last_data_out;
-                    ready = data_response;
-                    data_request = 1;
-                    mem_output = mem_rdata;
-                end
-                op_sti: begin
-                    mem_address = last_data_out;
-                    ready = data_response;
-                    data_request = 1;
-                    write_enable = 1;
-                    mem_wdata = src_data;
-                end
-                default: ;
-            endcase
-        end
-    endcase
+                    op_ldr: begin
+                        mem_address = alu_data;
+                        ready = data_response;
+                        data_request = 1;
+                        mem_output = mem_rdata;
+                    end
+                    op_stb: begin
+                        mem_address = alu_data;
+                        ready = data_response;
+                        data_request = 1;
+                        write_enable = 1;
+                        
+                        mem_wdata = {8'd0, src_data[7:0]};
+                        mem_byte_enable = 2'b01;
+                        if(mem_address[0]) begin
+                            mem_wdata = {src_data[7:0], 8'd0};
+                            mem_byte_enable = 2'b10;
+                        end
+                    end
+                    op_sti: begin
+                        mem_address = alu_data;
+                        ready = 0;
+                        data_request = 1;
+                        get_rdata = 1;
+                    end
+                    op_str: begin
+                        mem_address = alu_data;
+                        ready = data_response;
+                        data_request = 1;
+                        write_enable = 1;
+                        mem_wdata = src_data;
+                    end
+                    op_trap: begin
+                        mem_address = trapvect8;
+                        ready = data_response;
+                        data_request = 1;
+                        mem_output = mem_rdata;
+                    end
+                    default: ;
+                endcase
+            end
+            second_hit: begin
+                case(mem_control_word.opcode)
+                    op_ldi: begin 
+                        mem_address = last_data_out;
+                        ready = data_response;
+                        data_request = 1;
+                        mem_output = mem_rdata;
+                    end
+                    op_sti: begin
+                        mem_address = last_data_out;
+                        ready = data_response;
+                        data_request = 1;
+                        write_enable = 1;
+                        mem_wdata = src_data;
+                    end
+                    default: ;
+                endcase
+            end
+        endcase
+    end
 end
 
 always_comb
 begin : next_state_logic
     next_state = state;
-    case(state)
-        first_hit:
-            if(need_second & data_response)
-                next_state = second_hit;
-        second_hit:
-            if(data_response & advance)
-                next_state = first_hit;
-    endcase
+    if(!flush) begin
+        case(state)
+            first_hit:
+                if(need_second & data_response)
+                    next_state = second_hit;
+            second_hit:
+                if(data_response & advance)
+                    next_state = first_hit;
+        endcase
+    end
 end
 
 always_ff @(posedge clk)

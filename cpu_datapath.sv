@@ -374,6 +374,7 @@ mem_control mem_ctrl_unit
     .trapvect8(ex_trapvect8),
     .mem_rdata(mem_rdata_out),
     .data_response,
+    .flush,
 
     .mem_wdata,
     .mem_byte_enable,

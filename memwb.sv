@@ -35,26 +35,24 @@ end
 
 always_ff @(posedge clk)
 begin
-    if (advance == 1)                   // begin step1: increment pc
+    if(flush) begin
+        dest_out = 0;
+        mem_wdata_out = 0;
+        wb_alu_out = 0;
+        pc = 0;
+        offset9_out = 0;
+        offset11_out = 0;
+        ctrl_word_out = 0;
+    end
+    else if (advance == 1)                   // begin step1: increment pc
     begin
-        if(flush) begin
-            dest_out = 0;
-            mem_wdata_out = 0;
-            wb_alu_out = 0;
-            pc = 0;
-            offset9_out = 0;
-            offset11_out = 0;
-            ctrl_word_out = 0;
-        end
-        else begin
-            mem_wdata_out = mem_wdata_in;
-            dest_out = dest_in;
-            wb_alu_out = wb_alu_in;
-            pc = pc_in;
-            offset9_out = offset9_in;
-            offset11_out = offset11_in;
-            ctrl_word_out = ctrl_word_in;
-        end
+        mem_wdata_out = mem_wdata_in;
+        dest_out = dest_in;
+        wb_alu_out = wb_alu_in;
+        pc = pc_in;
+        offset9_out = offset9_in;
+        offset11_out = offset11_in;
+        ctrl_word_out = ctrl_word_in;
     end
     else begin
         dest_out = dest_out;
