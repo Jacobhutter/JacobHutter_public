@@ -492,12 +492,12 @@ dataforward dataforward
 performence_counter i_cache_hits_counter
 (
 	.clk(clk),
-	.trigger(instruction_request & instruction_response),
+	.trigger(instruction_request & instruction_response & advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
-	.thresh(16'd1),
+	.thresh(16'd0),
 	.count(i_cache_hits),
-	.cont(0),
+	.cont(1),
 	.reset(reset_i_cache_hits)
 );
 
@@ -505,7 +505,7 @@ performence_counter i_cache_hits_counter
 performence_counter i_cache_misses_counter
 (
 	.clk(clk),
-	.trigger(instruction_request),
+	.trigger(instruction_request & !advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd2),
@@ -517,19 +517,19 @@ performence_counter i_cache_misses_counter
 performence_counter d_cache_hits_counter
 (
 	.clk(clk),
-	.trigger(data_response & data_request),
+	.trigger(data_response & data_request & advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
-	.thresh(16'd2),
+	.thresh(16'd0),
 	.count(d_cache_hits),
-	.cont(0),
+	.cont(1),
 	.reset(reset_d_cache_hits)
 );
 
 performence_counter d_cache_misses_counter
 (
 	.clk(clk),
-	.trigger(data_request),
+	.trigger(data_request & !advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd2),
@@ -540,8 +540,8 @@ performence_counter d_cache_misses_counter
 
 performence_counter l2_cache_hits_counter
 (
-	.clk(instruction_request| data_request),
-	.trigger(instruction_response | data_response),
+	.clk((instruction_request| data_request) & clk),
+	.trigger((instruction_response & instruction_request & !advance) | (data_response & data_request & !advance)),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd2),
@@ -553,7 +553,7 @@ performence_counter l2_cache_hits_counter
 performence_counter l2_cache_misses_counter
 (
 	.clk(clk),
-	.trigger(instruction_request | data_request),
+	.trigger((instruction_request | data_request) & !advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd4),
@@ -569,7 +569,7 @@ performence_counter branch_prediction_counter
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.count(total_branches),
-	.thresh(16'd1),
+	.thresh(16'd0),
 	.cont(0),
 	.reset(reset_total_branchs)
 );
@@ -581,7 +581,7 @@ performence_counter mispredictions_counter
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.count(mispredictions),
-	.thresh(16'd1),
+	.thresh(16'd0),
 	.cont(0),
 	.reset(reset_mispredictions)
 );
@@ -593,7 +593,7 @@ performence_counter stalls_counter
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.count(total_stalls),
-	.thresh(16'd1),
+	.thresh(16'd0),
 	.cont(1),
 	.reset(reset_stalls)
 );
