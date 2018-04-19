@@ -18,7 +18,6 @@ class Ball:
         self.score = 0
 
     def draw(self):
-        self.canvas.move(self.id, self.xspeed, self.yspeed)
         pos = self.canvas.coords(self.id)
         if pos[1] <= 0:
             self.yspeed = -self.yspeed
@@ -50,7 +49,7 @@ class Ball:
         if pos[2] >= 500 and self.hit_paddle(pos) == False:
             self.hit_right = True
 
-
+        self.canvas.move(self.id, self.xspeed, self.yspeed)
     def hit_paddle(self, pos):
         paddle_pos = self.canvas.coords(self.paddle.id)
 
@@ -117,4 +116,4 @@ while ball.hit_right == False:
 # Game Over
 go_label = canvas.create_text(250,200,text="GAME OVER",font=("Helvetica",30))
 tk.update()
-time.sleep(5.0)
+time.sleep(3.0)
