@@ -12,8 +12,8 @@ class Ball:
         self.paddle = paddle
         self.id = canvas.create_oval(10, 10, size, size, fill=color)
         self.canvas.move(self.id, 245, 100)
-        self.xspeed = random.randrange(-15,15) # absolute value of motion is atleast .03 * 500
-        self.yspeed = -1
+        self.xspeed = 15 # initial is .03 * 500
+        self.yspeed = 5 # initial is .01 * 500
         self.hit_right = False
         self.score = 0
 
@@ -36,7 +36,7 @@ class Ball:
 
     def hit_paddle(self, pos):
         paddle_pos = self.canvas.coords(self.paddle.id)
-        
+
         # first check we didnt hit on edge
         if((pos[1] <= paddle_pos[1] and pos[3] >= paddle_pos[3]) or (pos[3] <= paddle_pos[3] and pos[1] >= paddle_pos[1])) and pos[0] >= paddle_pos[0]:
             return False
