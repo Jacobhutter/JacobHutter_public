@@ -64,6 +64,7 @@ assign load_regfile = (wb_ctrl.load_regfile && advance) ||
     (wb_ctrl.opcode == op_trap && flush);
 logic icache_request;
 assign instruction_request = icache_request & ~flush;
+logic load_memaddr;
     /*******************************************************************************
   * PC
 ******************************************************************************/
@@ -316,11 +317,13 @@ mux8 alumux
     .f(alumux_out)
 );
 
-mux2 alubasemux
+mux4 alubasemux
 (
     .sel(ex_ctrl.alubasemux_sel),
     .a(ex_sr1mux_out),
     .b(idpc),
+    .c(trapvect8_out),
+    .d(16'd0),
     .f(alubasemux_out)
 );
 
@@ -345,6 +348,8 @@ exmem exmem_register
 	.trapvect8_in(trapvect8_out),
 	.source_data_in(ex_storemux_out),
 	.ctrl_word_in(ex_ctrl),
+    .load_memaddr,
+    .next_memaddr(mem_rdata),
 	.pc(expc),
 	.ex_alu_out,
 	.dest_out(mem_dest),
@@ -389,6 +394,7 @@ mem_control mem_ctrl_unit
     .mem_address,
     .mem_output,
     .write_enable,
+    .load_memaddr,
     .ready(readymemwb)
 );
 

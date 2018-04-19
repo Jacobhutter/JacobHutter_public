@@ -83,7 +83,7 @@ begin
     next_state = state;
     case(state)
         idle: 
-            if(orig_write && ~hit_detect)
+            if(orig_write)
                 next_state = read;
         read:
             if(orig_strobe && dest_resp)

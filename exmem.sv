@@ -12,6 +12,8 @@ module exmem
     input lc3b_word offset11_in,
     input lc3b_word trapvect8_in,
     input lc3b_control_word ctrl_word_in,
+    input load_memaddr,
+    input lc3b_word next_memaddr,
 	 input flush,
 
     output lc3b_word pc,
@@ -64,6 +66,19 @@ begin
       source_data_out = source_data_in;
 		  
     end
+    else if (load_memaddr)
+    begin
+      ready = ready;
+      pc = pc;
+      ex_alu_out = next_memaddr;
+      dest_out = dest_out;
+      offset9_out = offset9_out;
+      offset11_out = offset11_out;
+      trapvect8_out = trapvect8_out;
+      ctrl_word_out = ctrl_word_out;
+      source_data_out = source_data_out;
+    end
+    
     else begin
         ready = 1;
         pc = pc;

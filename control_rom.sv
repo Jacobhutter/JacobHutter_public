@@ -27,7 +27,7 @@ begin
    ctrl.offset6mux_sel = 1'b0;
    ctrl.valid_branch = 1'b0;
    ctrl.valid_dest = 1'b0;
-   ctrl.alubasemux_sel = 1'b0;
+   ctrl.alubasemux_sel = 2'b00;
 	ctrl.predicted_branch = 1'b0; // track predicted branch value
     ctrl.reg_mode = 1'b0;
     
@@ -127,7 +127,7 @@ begin
             ctrl.load_regfile = 1;
             ctrl.load_cc = 1;
             ctrl.valid_dest = 1'b1;
-            ctrl.alubasemux_sel = 1'b1;
+            ctrl.alubasemux_sel = 2'b01;
        end
 
        op_ldb: begin
@@ -191,6 +191,8 @@ begin
            ctrl.mdrmux_sel = 2'b01; // data in mdr = memrdata
            ctrl.pcmux_sel = 2'b11; // put memwdata into pc
 			  ctrl.valid_branch = 1'b1;
+           ctrl.alubasemux_sel = 2'b10;
+           ctrl.alumux_sel = 3'b101;
        end
 
        default: begin

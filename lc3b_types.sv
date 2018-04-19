@@ -70,7 +70,7 @@ typedef struct packed {
         logic offset6mux_sel;
         logic valid_branch;
         logic valid_dest;
-        logic alubasemux_sel;
+        logic [1:0] alubasemux_sel;
 		  logic predicted_branch;
         logic reg_mode;
         /* ... other signals ... */
