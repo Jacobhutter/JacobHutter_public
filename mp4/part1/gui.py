@@ -21,14 +21,31 @@ class Ball:
         self.canvas.move(self.id, self.xspeed, self.yspeed)
         pos = self.canvas.coords(self.id)
         if pos[1] <= 0:
-            self.yspeed = 15
+            self.yspeed = -self.yspeed
         if pos[3] >= 500:
-            self.yspeed = -15
+            self.yspeed = -self.yspeed
         if pos[0] <= 0:
-            self.xspeed = 15
+            self.xspeed = -self.xspeed
         if self.hit_paddle(pos) == True:
-            self.yspeed = -15
-            self.xspeed = random.randrange(-15,0)
+            self.yspeed = self.yspeed + 15 * random.randrange(-1, 1)
+
+            if self.yspeed < -500:
+                self.yspeed = -500
+            if self.yspeed > 500:
+                self.yspeed = 500
+
+            self.xspeed = -self.xspeed + 7.5 * random.randrange(-1, 1)
+            if self.xspeed <= 0 and self.xspeed > -15:
+                self.xspeed = -15
+            if self.xspeed > 0 and self.xspeed < 15:
+                self.xspeed = 15
+
+            if self.xspeed < -500:
+                self.xspeed = -500
+            if self.xspeed > 500:
+                self.xspeed = 500
+
+
             self.score += 1
         if pos[2] >= 500 and self.hit_paddle(pos) == False:
             self.hit_right = True
