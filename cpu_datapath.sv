@@ -28,7 +28,7 @@ lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifp
 idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offsetmux_out, imm5, imm4, imm4_out,
 sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, offset11_out, imm5_out, trapvect8, trapvect8_out, ex_trapvect8, wb_offset9, wb_offset11, source_data_out, ex_source_data_out, pc_out,
 regfilemux_out, alumux_out, ex_alu_out, ex_offset9, ex_offset11, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9, if_offset11, wordslicemux_out, wordinmux_out,
-mem_output, if_offset6_in, ex_sr1mux_out, ex_sr2mux_out, mem_srcmux_out, ex_storemux_out, alubasemux_out;
+mem_output, if_offset6_in, ex_sr1mux_out, ex_sr2mux_out, mem_srcmux_out, ex_storemux_out, alubasemux_out, predicted_pc;
 
 lc3b_control_word if_ctrl_initial, if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out, mem_ctrl_out;
 
@@ -59,7 +59,7 @@ assign instruction_address = pc_out;
 assign write_data = mem_wdata;
 logic load_regfile;
 // Eventually, we'll be able to predict with JSR offset mode
-assign load_regfile = (wb_ctrl.load_regfile && advance) || 
+assign load_regfile = (wb_ctrl.load_regfile && advance) ||
     (wb_ctrl.opcode == op_jsr && flush) ||
     (wb_ctrl.opcode == op_trap && flush);
 logic icache_request;
@@ -76,27 +76,17 @@ register pc
 	.out(pc_out)
 );
 
-/*
-always_comb begin
-	if (wb_ctrl.pcmux_sel == 2'b01 && branch_enable == 0 && wb_ctrl.valid_branch && wb_ctrl.opcode == op_br)
-		pcmux_sel = 2'b00; // branch not taken
-	else
-		pcmux_sel = wb_ctrl.pcmux_sel;
-
-	if (wb_ctrl.opcode == op_br && wb_ctrl.valid_branch && branch_enable == 1)
-		branch_taken = 1'b1;
-	else
-		branch_taken = 1'b0; 
-end
-*/
-
-mux4 pcmux
+mux8 pcmux
 (
 	.sel(pcmux_sel),
-	.a(pc_plus2_out),
-	.b(br_add_out),
-	.c(wb_alu_out),
-	.d(mem_wdata_out),
+	.in0(pc_plus2_out),
+	.in1(br_add_out),
+	.in2(wb_alu_out),
+	.in3(mem_wdata_out),
+  .in4(predicted_pc),
+  .in5(16'd0),
+  .in6(16'd0),
+  .in7(16'd0),
 	.f(pcmux_out)
 );
 
@@ -153,6 +143,9 @@ control_rom cr(
 bp branch_predictor
 (
 	.clk, /*inputs*/
+  .incoming_pc(pc_out),
+  .outgoing_pc(mempc),
+  .br_add_out,
 	.incoming_control_word(if_ctrl_initial),
 	.outgoing_control_word(wb_ctrl),
 	.branch_enable,
@@ -160,7 +153,8 @@ bp branch_predictor
 	.outgoing_valid_branch(wb_ctrl.valid_branch),
 	.outgoing_pcmux_sel(wb_ctrl.pcmux_sel),
 	.if_control_word(if_ctrl), /* outputs */
-	.pcmux_sel, 
+  .predicted_pc,
+	.pcmux_sel,
 	.flush,
 	.bp_miss,
 	.stall
@@ -433,7 +427,7 @@ MMIO_counters memory_mapped_counters
 	.opcode(mem_ctrl.opcode),
 	.mem_address,
 	.mem_rdata_in(mem_rdata),
-	
+
 	.reset_i_cache_hits,
 	.reset_i_cache_misses,
 	.reset_d_cache_hits,
@@ -444,7 +438,7 @@ MMIO_counters memory_mapped_counters
 	.reset_mispredictions,
 	.reset_stalls,
 	.mem_rdata_out
-	
+
 );
 
 /*******************************************************************************
@@ -610,7 +604,7 @@ performence_counter stalls_counter
 	.cont(1),
 	.reset(reset_stalls)
 );
-	
+
 always_comb begin
 	advance = instruction_response & readymemwb; // when all stages ready, move pipeline along
 end
