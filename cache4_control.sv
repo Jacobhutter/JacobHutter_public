@@ -1,5 +1,3 @@
-import lc3b_types::*;
-
 module cache4_control (
     input clk,
     

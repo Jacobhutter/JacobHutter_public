@@ -11,7 +11,8 @@ module btb(
 );
 
 logic write1, write2, write3, write4;
-logic [2:0] index = target_addr[2:0];
+logic [2:0] index;
+assign index = target_addr[2:0];
 logic [15:0] tag1;
 logic [15:0] tag2;
 logic [15:0] tag3;
@@ -161,26 +162,30 @@ array #(.width(3)) lru
 );
 
 always_comb begin
-  miss = 1'b0;
   case(hit)
 
     4'b0001: begin
       branch_address = d1;
+		miss = 0;
     end
 
     4'b0010: begin
       branch_address = d2;
+		miss = 0;
     end
 
     4'b0100: begin
       branch_address = d3;
+		miss = 0;
     end
 
     4'b1000: begin
       branch_address = d4;
+		miss = 0;
     end
 
     default: begin
+		branch_address = 16'd0;
       miss = 1'b1;
     end
 
@@ -224,10 +229,10 @@ array #(.width(16)) data4
 );
 
 always_comb begin
-  hit[0] = tag1 & target_addr;
-  hit[1] = tag2 & target_addr;
-  hit[2] = tag3 & target_addr;
-  hit[3] = tag4 & target_addr;
+  hit[0] = tag1 == target_addr;
+  hit[1] = tag2 == target_addr;
+  hit[2] = tag3 == target_addr;
+  hit[3] = tag4 == target_addr;
 end
 
 array #(.width(16)) t1

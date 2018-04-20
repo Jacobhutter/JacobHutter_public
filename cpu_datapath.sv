@@ -53,8 +53,8 @@ logic reset_mispredictions;
 logic reset_stalls;
 lc3b_word mem_rdata_out;
 
-logic [2:0] bits4_5_11;
-logic [1:0] pcmux_sel, mbemux_out;
+logic [2:0] pcmux_sel, bits4_5_11;
+logic [1:0] mbemux_out;
 assign instruction_address = pc_out;
 assign write_data = mem_wdata;
 logic load_regfile;

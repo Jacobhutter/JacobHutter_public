@@ -20,10 +20,9 @@ performence_counter DUT
 	.trigger(signal),
 	.pc_in(pc),
 	.opcode,
-	.counter_type(0)
+	.counter_type(0),
 	.count1(counter_1),
 	.count2(counter_2)
-	
 );
 
 initial begin

@@ -1,4 +1,3 @@
-import lc3b_types::*;
 
 module tagwrite4 (
     input lru_sel,

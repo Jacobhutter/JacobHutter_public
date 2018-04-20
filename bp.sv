@@ -48,8 +48,7 @@ always_comb begin
 	if_control_word = incoming_control_word;
 
 	/* make initial guess based on incoming word */
-	if(incoming_valid_branch)
-
+	if(incoming_valid_branch) begin 
 		if(miss | outgoing_valid_branch) begin
 			pcmux_sel = 3'b000; // predict not taken
 			if_control_word.predicted_branch = 1'b0;
@@ -58,7 +57,6 @@ always_comb begin
 			pcmux_sel = 3'b100; // predict taken daddy
 			if_control_word.predicted_branch = 1'b1;
 		end
-
 	end
 
 	/* after initial assumptions and predictions made, final decision by outgoing word */
@@ -66,16 +64,28 @@ always_comb begin
 		flush = 0;
 		pcmux_sel = pcmux_sel;
 		bp_miss = 0;
-		if(branch_enable != outgoing_control_word.predicted_branch && outgoing_valid_branch) begin // made wrong guess
-			pcmux_sel = outgoing_pcmux_sel;
-			flush = 1;
-			bp_miss = 1;
-		end
-		else begin // guess was right, continue
-			pcmux_sel = pcmux_sel;
-		end
+		
+		if(branch_enable) begin 
+			if(outgoing_control_word.predicted_branch == 0) begin // wrong guess
+				pcmux_sel = outgoing_pcmux_sel;
+				flush = 1;
+				bp_miss = 1;
+			end
+			else begin // right guess continue 
+				pcmux_sel = 3'b000;
+			end 
+		end 
+		else begin
+			if(outgoing_control_word.predicted_branch == 1) begin // wrong guess
+				pcmux_sel = outgoing_pcmux_sel;
+				flush = 1;
+				bp_miss = 1;
+			end 
+			else begin
+				pcmux_sel = 3'b000;
+			end 
+		end 
 	end
-
 end
 
 
