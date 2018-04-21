@@ -54,7 +54,7 @@ always_comb begin
 			if_control_word.predicted_branch = 1'b0;
 		end
 		else begin
-			if(incoming_control_word.opcode == op_jmp || incoming_control_word.opcode == op_jsr) begin
+			if(incoming_control_word.opcode == op_jmp || incoming_control_word.opcode == op_jsr || incoming_control_word.opcode == op_trap) begin
 				pcmux_sel = 3'b000; // predict not taken
 				if_control_word.predicted_branch = 1'b0;
 			end
