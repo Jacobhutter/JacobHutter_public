@@ -2,20 +2,54 @@ import lc3b_types::*;
 
 module bp(
 	input clk,
+	input lc3b_word incoming_pc,
+	input lc3b_word outgoing_pc,
+	input lc3b_word br_add_out,
 	input lc3b_control_word incoming_control_word,
 	input lc3b_control_word outgoing_control_word,
 	input branch_enable,
 	input incoming_valid_branch,
 	input outgoing_valid_branch,
-	input logic [1:0] outgoing_pcmux_sel,
-	
+	input logic [2:0] outgoing_pcmux_sel,
+
 	output lc3b_control_word if_control_word,
-	output logic [1:0] pcmux_sel,
+	output lc3b_word predicted_pc,
+	output logic [2:0] pcmux_sel,
 	output logic flush,
 	output logic bp_miss,
 	output logic stall
 );
+logic miss;
+logic predict;
+lc3b_word target_addr_out;
 
+mux2 target_addr_mux
+(
+		.a(incoming_pc),
+		.b(outgoing_pc - 2),
+		.sel(outgoing_valid_branch),
+		.f(target_addr_out)
+);
+
+btb btb
+(
+	.clk,
+	.target_addr(target_addr_out),
+	.new_branch_address(br_add_out),
+	.we(outgoing_valid_branch & miss),
+	.branch_address(predicted_pc),
+	.miss
+);
+
+global_bht bht
+(
+	.clk,
+	.update(branch_enable | bp_miss),
+	.pc_in(incoming_pc),
+	.branch_taken(branch_enable),
+	
+	.predict
+);
 
 
 always_comb begin
@@ -26,81 +60,52 @@ always_comb begin
 	if_control_word = incoming_control_word;
 
 	/* make initial guess based on incoming word */
-	case(incoming_control_word.opcode) 
-	
-		op_br: begin
-			pcmux_sel = 2'b00; // predict not taken
+	if(incoming_valid_branch) begin 
+		if(miss | outgoing_valid_branch) begin
+			pcmux_sel = 3'b000; // predict not taken
 			if_control_word.predicted_branch = 1'b0;
-		end 
-	
-		op_jsr: begin
-			pcmux_sel = 2'b00; // predict not taken
-			stall = 1;
-			if_control_word.predicted_branch = 1'b0;
-		end 
-	
-		op_jmp: begin
-			pcmux_sel = 2'b00; // predict not taken
-			stall = 1;
-			if_control_word.predicted_branch = 1'b0;
-		end 
-		
-		op_trap: begin
-			pcmux_sel = 2'b00; // predict not taken
-			stall = 1;
-			if_control_word.predicted_branch = 1'b0;
-		end 
-		
-		default: begin
-			pcmux_sel = outgoing_pcmux_sel;
-			stall = 0;
-			flush = 0;
-			bp_miss = 0;
-		end 
-		
-	endcase 
-	
+		end
+		else begin
+			if(!predict || incoming_control_word.opcode == op_jmp || incoming_control_word.opcode == op_jsr || incoming_control_word.opcode == op_trap) begin
+				pcmux_sel = 3'b000; // predict not taken
+				if_control_word.predicted_branch = 1'b0;
+			end
+			else begin
+				pcmux_sel = 3'b100; // predict taken daddy
+				if_control_word.predicted_branch = 1'b1;
+			end 
+		end
+	end
+
 	/* after initial assumptions and predictions made, final decision by outgoing word */
-	case(outgoing_control_word.opcode)
-		op_br: begin
-			if(branch_enable && !outgoing_control_word.predicted_branch && outgoing_valid_branch) begin // made wrong guess 
+	if(outgoing_valid_branch) begin
+		flush = 0;
+		pcmux_sel = pcmux_sel;
+		bp_miss = 0;
+		
+		if(branch_enable || outgoing_control_word.opcode == op_trap || 
+		outgoing_control_word.opcode == op_jsr || outgoing_control_word.opcode == op_jmp) begin 
+			if(outgoing_control_word.predicted_branch == 0) begin // wrong guess
 				pcmux_sel = outgoing_pcmux_sel;
+				flush = 1;
+				bp_miss = 1;
+			end
+			else begin // right guess continue 
+				pcmux_sel = 3'b000;
+			end 
+		end 
+		else begin
+			if(outgoing_control_word.predicted_branch == 1) begin // wrong guess
+				pcmux_sel = 3'b101;
 				flush = 1;
 				bp_miss = 1;
 			end 
 			else begin
-				pcmux_sel = 2'b00;
-			end
+				pcmux_sel = 3'b000;
+			end 
 		end 
-		
-		op_jsr: begin
-			pcmux_sel = outgoing_pcmux_sel;
-			flush = 1;
-			bp_miss = 1;
-		end 
-		
-		op_jmp: begin
-			pcmux_sel = outgoing_pcmux_sel;
-			flush = 1;
-			bp_miss = 1;
-		end 
-		
-		op_trap: begin
-			pcmux_sel = outgoing_pcmux_sel;
-			flush = 1;
-			bp_miss = 1;
-		end
-		
-		default: begin
-			pcmux_sel = outgoing_pcmux_sel;
-			stall = 0;
-			flush = 0;
-			bp_miss = 0;
-		end 
-		
-	endcase 
-	
-end 
+	end
+end
 
 
 endmodule : bp

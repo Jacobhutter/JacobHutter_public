@@ -18,6 +18,7 @@ entity mem_control is
         mem_address     : out    vl_logic_vector(15 downto 0);
         mem_output      : out    vl_logic_vector(15 downto 0);
         write_enable    : out    vl_logic;
+        load_memaddr    : out    vl_logic;
         ready           : out    vl_logic
     );
 end mem_control;

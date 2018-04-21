@@ -14,7 +14,7 @@ begin
    ctrl.load_pc = 1'b0;
    ctrl.load_regfile = 1'b0;
    ctrl.alumux_sel = 3'b000;
-   ctrl.pcmux_sel = 2'b00;
+   ctrl.pcmux_sel = 3'b000;
    ctrl.mem_read = 1'b0;
    ctrl.mem_write = 1'b0;
    ctrl.offsetmux_sel = 1'b0;
@@ -27,13 +27,13 @@ begin
    ctrl.offset6mux_sel = 1'b0;
    ctrl.valid_branch = 1'b0;
    ctrl.valid_dest = 1'b0;
-   ctrl.alubasemux_sel = 1'b0;
+   ctrl.alubasemux_sel = 2'b00;
 	ctrl.predicted_branch = 1'b0; // track predicted branch value
     ctrl.reg_mode = 1'b0;
-    
+
    case(opcode)
        op_add: begin
-           
+
            if(bits4_5_11[1]) begin
                 ctrl.alumux_sel = 3'b011; // select immediate add
            end
@@ -61,7 +61,7 @@ begin
 
        op_jmp: begin // also ret
             ctrl.aluop = alu_pass;
-            ctrl.pcmux_sel = 2'b10;
+            ctrl.pcmux_sel = 3'b010;
 				ctrl.valid_branch = 1'b1;
        end
 
@@ -72,11 +72,11 @@ begin
 				ctrl.valid_branch = 1'b1;
             if(bits4_5_11[2] == 0) begin
                 ctrl.aluop = alu_pass; // base reg value
-                ctrl.pcmux_sel = 2'b10; // select aluout
+                ctrl.pcmux_sel = 3'b010; // select aluout
             end
             else begin
                 ctrl.offsetmux_sel = 1; // seelect offset 11
-                 ctrl.pcmux_sel = 2'b01;
+                 ctrl.pcmux_sel = 3'b001;
             end
             ctrl.reg_mode = bits4_5_11[2];
        end
@@ -98,7 +98,7 @@ begin
 			 ctrl.load_cc = 1;
           ctrl.valid_dest = 1'b1;
        end
-		 
+
 		 op_sti: begin  // identical to ldr, get address first and then write
 			 ctrl.aluop = alu_add;
           ctrl.mem_write = 1;
@@ -127,7 +127,7 @@ begin
             ctrl.load_regfile = 1;
             ctrl.load_cc = 1;
             ctrl.valid_dest = 1'b1;
-            ctrl.alubasemux_sel = 1'b1;
+            ctrl.alubasemux_sel = 2'b01;
        end
 
        op_ldb: begin
@@ -178,7 +178,7 @@ begin
 
 		 op_br: begin
               // no need to load pc, just queue up data and let advance do the rest
-              ctrl.pcmux_sel = 2'b01; // sel br_add and we compare when needed i.e. when command gets to wb, cc is compare
+              ctrl.pcmux_sel = 3'b001; // sel br_add and we compare when needed i.e. when command gets to wb, cc is compare
               ctrl.valid_branch = 1'b1;
          end
 
@@ -189,8 +189,10 @@ begin
            ctrl.marmux_sel = 2'b01; // select trap input
            ctrl.mem_read = 1;
            ctrl.mdrmux_sel = 2'b01; // data in mdr = memrdata
-           ctrl.pcmux_sel = 2'b11; // put memwdata into pc
+           ctrl.pcmux_sel = 3'b011; // put memwdata into pc
 			  ctrl.valid_branch = 1'b1;
+           ctrl.alubasemux_sel = 2'b10;
+           ctrl.alumux_sel = 3'b101;
        end
 
        default: begin

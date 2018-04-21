@@ -24,7 +24,7 @@ cache dcache(
   .wb_mem(wb_dconnect)
 );
 
-cache l2cache(
+cache4 l2cache(
     .wb_cpu(wb_l2connect),
     .wb_mem(wb_ebconnect)
 );

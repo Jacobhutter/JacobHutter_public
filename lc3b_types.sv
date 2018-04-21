@@ -28,13 +28,13 @@ typedef enum bit [3:0] {
     op_jmp  = 4'b1100, ///* also RET */ //
     op_jsr  = 4'b0100, ///* also JSRR */ //
     op_ldb  = 4'b0010, // //
-    op_ldi  = 4'b1010, // // 
+    op_ldi  = 4'b1010, // //
     op_ldr  = 4'b0110, // //
     op_lea  = 4'b1110, // //
     op_not  = 4'b1001, // //
     op_rti  = 4'b1000, // not needed
     op_shf  = 4'b1101, // //
-    op_stb  = 4'b0011, // // 
+    op_stb  = 4'b0011, // //
     op_sti  = 4'b1011, // //
     op_str  = 4'b0111, // //
     op_trap = 4'b1111  // //
@@ -57,7 +57,7 @@ typedef struct packed {
         logic load_pc;
 		  logic load_regfile;
 		  logic [2:0] alumux_sel;
-		  logic [1:0] pcmux_sel;
+		  logic [2:0] pcmux_sel;
 		  logic mem_read;
 		  logic mem_write;
         logic offsetmux_sel;
@@ -70,7 +70,7 @@ typedef struct packed {
         logic offset6mux_sel;
         logic valid_branch;
         logic valid_dest;
-        logic alubasemux_sel;
+        logic [1:0] alubasemux_sel;
 		  logic predicted_branch;
         logic reg_mode;
         /* ... other signals ... */
