@@ -13,6 +13,8 @@ entity exmem is
         offset11_in     : in     vl_logic_vector(15 downto 0);
         trapvect8_in    : in     vl_logic_vector(15 downto 0);
         ctrl_word_in    : in     work.lc3b_types.lc3b_control_word;
+        load_memaddr    : in     vl_logic;
+        next_memaddr    : in     vl_logic_vector(15 downto 0);
         flush           : in     vl_logic;
         pc              : out    vl_logic_vector(15 downto 0);
         ex_alu_out      : out    vl_logic_vector(15 downto 0);

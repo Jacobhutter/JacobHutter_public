@@ -19,13 +19,18 @@ module bp(
 	output logic bp_miss,
 	output logic stall
 );
-logic miss;
+logic miss, wb_should_branch, wb_predict;
 lc3b_word target_addr_out;
 
+assign wb_should_branch = branch_enable || outgoing_control_word.opcode == op_trap || 
+		outgoing_control_word.opcode == op_jsr || outgoing_control_word.opcode == op_jmp;
+assign wb_predict = outgoing_control_word.predicted_branch;
+		
+		
 mux2 target_addr_mux
 (
 		.a(incoming_pc),
-		.b(outgoing_pc),
+		.b(outgoing_pc - 2),
 		.sel(outgoing_valid_branch),
 		.f(target_addr_out)
 );
@@ -42,50 +47,28 @@ btb btb
 
 always_comb begin
 	flush = 0;
-	pcmux_sel = outgoing_pcmux_sel;
+	pcmux_sel = 0;
 	stall = 0;
 	bp_miss = 0;
 	if_control_word = incoming_control_word;
 
+	if_control_word.predicted_branch = 0;
+	if(outgoing_valid_branch && wb_should_branch && !wb_predict) begin
+		pcmux_sel = outgoing_pcmux_sel;
+		flush = 1;
+		bp_miss = 1;
+	end
+	else if(outgoing_valid_branch && !wb_should_branch && wb_predict) begin
+		pcmux_sel = 3'b101;
+		flush = 1;
+		bp_miss = 1;
+	end
 	/* make initial guess based on incoming word */
-	if(incoming_valid_branch) begin 
-		if(miss | outgoing_valid_branch) begin
-			pcmux_sel = 3'b000; // predict not taken
-			if_control_word.predicted_branch = 1'b0;
-		end
-		else begin
-			pcmux_sel = 3'b100; // predict taken daddy
+	else if(incoming_valid_branch && !miss) begin 
+			pcmux_sel = 3'b100; // predict taken
 			if_control_word.predicted_branch = 1'b1;
-		end
 	end
 
-	/* after initial assumptions and predictions made, final decision by outgoing word */
-	if(outgoing_valid_branch) begin
-		flush = 0;
-		pcmux_sel = pcmux_sel;
-		bp_miss = 0;
-		
-		if(branch_enable) begin 
-			if(outgoing_control_word.predicted_branch == 0) begin // wrong guess
-				pcmux_sel = outgoing_pcmux_sel;
-				flush = 1;
-				bp_miss = 1;
-			end
-			else begin // right guess continue 
-				pcmux_sel = 3'b000;
-			end 
-		end 
-		else begin
-			if(outgoing_control_word.predicted_branch == 1) begin // wrong guess
-				pcmux_sel = outgoing_pcmux_sel;
-				flush = 1;
-				bp_miss = 1;
-			end 
-			else begin
-				pcmux_sel = 3'b000;
-			end 
-		end 
-	end
 end
 
 

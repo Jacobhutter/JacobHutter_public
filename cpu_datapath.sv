@@ -84,7 +84,7 @@ mux8 pcmux
 	.in2(wb_alu_out),
 	.in3(mem_wdata_out),
   .in4(predicted_pc),
-  .in5(16'd0),
+  .in5(mempc),
   .in6(16'd0),
   .in7(16'd0),
 	.f(pcmux_out)
@@ -143,9 +143,9 @@ control_rom cr(
 bp branch_predictor
 (
 	.clk, /*inputs*/
-  .incoming_pc(pc_out),
-  .outgoing_pc(mempc),
-  .br_add_out,
+   .incoming_pc(pc_out),
+   .outgoing_pc(mempc),
+   .br_add_out,
 	.incoming_control_word(if_ctrl_initial),
 	.outgoing_control_word(wb_ctrl),
 	.branch_enable,
@@ -153,7 +153,7 @@ bp branch_predictor
 	.outgoing_valid_branch(wb_ctrl.valid_branch),
 	.outgoing_pcmux_sel(wb_ctrl.pcmux_sel),
 	.if_control_word(if_ctrl), /* outputs */
-  .predicted_pc,
+   .predicted_pc,
 	.pcmux_sel,
 	.flush,
 	.bp_miss,
