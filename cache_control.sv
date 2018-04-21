@@ -41,7 +41,7 @@ begin : state_actions
             ctrl_hit = 1'b1;
         end
         load_addr: begin
-            ctrl_write = 1'b0;
+            ctrl_write = 1'b1;
             mem_strobe = 1'b0;
         end
         write_back: begin

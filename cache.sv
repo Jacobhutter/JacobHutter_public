@@ -9,9 +9,8 @@ logic clk;
 logic cache_lru; 
 logic [1:0] cache_dirty;
 logic ctrl_hit, ctrl_write, ctrl_reload;
-lc3b_word cpu_address, cpu_datain, cpu_dataout, mem_address;
+lc3b_word mem_address;
 logic [11:0] wb_addr_reg;
-logic [1:0] cpu_wmask;
 logic cpu_read, cpu_write;
 
 always_ff @(posedge wb_cpu.CLK)
@@ -22,21 +21,6 @@ end
 always_comb
 begin
     clk = wb_cpu.CLK;
-    cpu_address = wb_cpu.ADR << 4;
-    cpu_datain = 0;
-    cpu_wmask = 0;
-    for(int i=0; i<8; i++) begin
-        if(wb_cpu.SEL[2*i]) begin
-            cpu_datain[7:0] = wb_cpu.DAT_M[16*i +: 8];
-            cpu_wmask[0] = 1'b1;
-            cpu_address[3:0] = (i << 1);
-        end
-        if(wb_cpu.SEL[2*i+1]) begin
-            cpu_datain[15:8] = wb_cpu.DAT_M[16*i+8 +: 8];
-            cpu_wmask[1] = 1'b1;
-            cpu_address[3:0] = (i << 1);
-        end
-    end
     cpu_read = 0;
     cpu_write = 0;
     if(wb_cpu.STB && wb_cpu.WE)
@@ -73,11 +57,11 @@ cache_datapath cache_dpth (
     .ctrl_hit,
     .lru_out(cache_lru),
     .dirty_out(cache_dirty),
-    .cpu_address,
-    .cpu_datain,
+    .cpu_address({wb_cpu.ADR, 4'd0}),
+    .cpu_sel(wb_cpu.SEL),
+    .cpu_datain(wb_cpu.DAT_M),
     .cpu_read,
     .cpu_write,
-    .cpu_wmask,
     .cpu_resp(wb_cpu.ACK),
     .cpu_dataout(wb_cpu.DAT_S),
     .mem_datain(wb_mem.DAT_S),

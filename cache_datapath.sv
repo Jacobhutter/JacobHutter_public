@@ -13,10 +13,10 @@ module cache_datapath (
     
     /* From cpu */
     input lc3b_word cpu_address,
-    input lc3b_word cpu_datain,
+    input lc3b_word cpu_sel,
+    input lc3b_c_line cpu_datain,
     input cpu_read,
     input cpu_write,
-    input [1:0] cpu_wmask,
     
     /* To cpu */
     output cpu_resp,
@@ -34,11 +34,9 @@ module cache_datapath (
 
 lc3b_c_tag cpu_tag;
 lc3b_c_index cpu_index;
-lc3b_c_offset cpu_offset;
 
 assign cpu_tag = cpu_address[15:7];
 assign cpu_index = cpu_address[6:4];
-assign cpu_offset = cpu_address[3:0];
 
 logic tagwrite_out0, tagwrite_out1;
 logic dirty_out0, dirty_out1;
@@ -175,8 +173,7 @@ array #(.width(1)) dirty_arr1
 
 wordswap word_swap
 (
-    .cpu_offset,
-    .cpu_wmask, 
+    .cpu_sel, 
     .cpu_write,
     .cpu_datain,
     .mem_datain, 

@@ -10,6 +10,18 @@ logic [3:0] data_offset;
 logic instruction_request, write_enable, data_request;
 lc3b_word instr, mem_rdata, write_data, mem_address, instruction_address;
 
+/* Counters */
+lc3b_word i_cache_hits;
+lc3b_word i_cache_misses;
+lc3b_word d_cache_hits;
+lc3b_word d_cache_misses;
+lc3b_word l2_cache_hits;
+lc3b_word l2_cache_misses;
+lc3b_word mispredictions;
+lc3b_word total_branches;
+lc3b_word total_stalls;
+lc3b_word unused;
+
 assign ifetch.STB = instruction_request;
 assign ifetch.CYC = instruction_request;
 assign ifetch.WE = 0;
@@ -58,5 +70,7 @@ cpu_datapath cd
   .data_request,
   .write_enable
 );
+
+
 
 endmodule : cpu

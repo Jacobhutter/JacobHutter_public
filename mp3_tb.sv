@@ -11,7 +11,9 @@ always #5 clk = ~clk;
 
 wishbone wb(clk);
 
-mp3 dut(wb);
+mp3 dut(
+	.wb_physmem(wb)
+);
 
 physical_memory memory(wb);
 
