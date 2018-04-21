@@ -512,7 +512,7 @@ performence_counter i_cache_hits_counter
 performence_counter i_cache_misses_counter
 (
 	.clk(clk),
-	.trigger(instruction_request & !advance),
+	.trigger(instruction_request & !instruction_response & !advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd2),
@@ -536,7 +536,7 @@ performence_counter d_cache_hits_counter
 performence_counter d_cache_misses_counter
 (
 	.clk(clk),
-	.trigger(data_request & !advance),
+	.trigger(data_request & !data_response & !advance),
 	.pc_in(instruction_address),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd2),

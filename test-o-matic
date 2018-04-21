@@ -8,7 +8,7 @@
 #MP project name
 MP=mp3
 #MP directory
-MP_DIR=$HOME/ece411_mp3
+MP_DIR=$HOME/ece411/mp3
 #Location of LC3bAssembler; Should usually be in bin
 ASSEMBLER=$HOME/ece411/bin/LC3bAssembler
 #Addressability of physical memory; from load_memory.sh
@@ -23,7 +23,7 @@ TESTCODE_DIR=$HOME/ece411/testcode
 #See line :183
 #If regfile not found comment out 184 and uncomment 183 and the following line
 REG_FILE={/mp3_tb/dut/mp3_cpu/cd/r/data}
-RUN_TIME=10000000ns
+RUN_TIME=30000000ns
 
 #Other debug signals
 #signals can be prefixed with -radix
