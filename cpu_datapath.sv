@@ -33,15 +33,15 @@ mem_output, if_offset6_in, ex_sr1mux_out, ex_sr2mux_out, mem_srcmux_out, ex_stor
 lc3b_control_word if_ctrl_initial, if_ctrl, id_ctrl, ex_ctrl, mem_ctrl, wb_ctrl, control_word_out, mem_ctrl_out;
 
 /* Counters */
-reg [15:0] i_cache_hits;
-reg [15:0] i_cache_misses;
-reg [15:0] d_cache_hits;
-reg [15:0] d_cache_misses;
-reg [15:0] l2_cache_hits;
-reg [15:0] l2_cache_misses;
-reg [15:0] mispredictions;
-reg [15:0] total_branches;
-reg [15:0] total_stalls;
+reg [31:0] i_cache_hits;
+reg [31:0] i_cache_misses;
+reg [31:0] d_cache_hits;
+reg [31:0] d_cache_misses;
+reg [31:0] l2_cache_hits;
+reg [31:0] l2_cache_misses;
+reg [31:0] mispredictions;
+reg [31:0] total_branches;
+reg [31:0] total_stalls;
 logic reset_i_cache_hits;
 logic reset_i_cache_misses;
 logic reset_d_cache_hits;
@@ -511,7 +511,7 @@ performence_counter i_cache_hits_counter
 performence_counter i_cache_misses_counter
 (
 	.clk(clk),
-	.trigger(instruction_request & !advance),
+	.trigger(instruction_request & !instruction_response & !advance),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd2),
 	.count(i_cache_misses),
@@ -533,8 +533,7 @@ performence_counter d_cache_hits_counter
 performence_counter d_cache_misses_counter
 (
 	.clk(clk),
-	.trigger(data_request & !advance),
-	.pc_in(instruction_address),
+	.trigger(data_request & !data_response& !advance),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.thresh(16'd2),
 	.count(d_cache_misses),
@@ -589,7 +588,7 @@ performence_counter mispredictions_counter
 performence_counter stalls_counter
 (
 	.clk(clk),
-	.trigger(stall),
+	.trigger(!advance),
 	.opcode(lc3b_opcode'(instr[15:12])),
 	.count(total_stalls),
 	.thresh(16'd0),

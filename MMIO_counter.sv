@@ -2,15 +2,15 @@ import lc3b_types::*;
 
 module MMIO_counters
 (
-	input lc3b_word i_cache_hits,
-	input lc3b_word i_cache_misses,
-	input lc3b_word d_cache_hits,
-	input lc3b_word d_cache_misses,
-	input lc3b_word l2_cache_hits,
-	input lc3b_word l2_cache_misses,
-	input lc3b_word total_branches,
-	input lc3b_word mispredictions,
-	input lc3b_word total_stalls,
+	input reg[31:0] i_cache_hits,
+	input reg[31:0] i_cache_misses,
+	input reg[31:0] d_cache_hits,
+	input reg[31:0] d_cache_misses,
+	input reg[31:0] l2_cache_hits,
+	input reg[31:0] l2_cache_misses,
+	input reg[31:0] total_branches,
+	input reg[31:0] mispredictions,
+	input reg[31:0] total_stalls,
 	input lc3b_opcode opcode,
 	input lc3b_word mem_address,
 	input lc3b_word mem_rdata_in,
@@ -77,31 +77,31 @@ always_comb begin
 	else if(opcode == op_ldi) begin
 		case(mem_address)
 			16'hFFFF:
-				mem_rdata_out = i_cache_hits;
+				mem_rdata_out = i_cache_hits[15:0];
 			
 			16'hFFFE:
-				mem_rdata_out = i_cache_misses;
+				mem_rdata_out = i_cache_misses[15:0];
 
 			16'hFFFD:
-				mem_rdata_out = d_cache_hits;
+				mem_rdata_out = d_cache_hits[15:0];
 
 			16'hFFFC:
-				mem_rdata_out = d_cache_misses;
+				mem_rdata_out = d_cache_misses[15:0];
 			
 			16'hFFFB:
-				mem_rdata_out = l2_cache_hits;
+				mem_rdata_out = l2_cache_hits[15:0];
 
 			16'hFFFA:
-				mem_rdata_out = l2_cache_misses;
+				mem_rdata_out = l2_cache_misses[15:0];
 
 			16'hFFF9:
-				mem_rdata_out = total_branches;
+				mem_rdata_out = total_branches[15:0];
 
 			16'hFFF8:
-				mem_rdata_out = mispredictions;
+				mem_rdata_out = mispredictions[15:0];
 
 			16'hFFF7:
-				mem_rdata_out = total_stalls;
+				mem_rdata_out = total_stalls[15:0];
 			default: begin
 			end
 		endcase

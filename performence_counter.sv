@@ -20,7 +20,7 @@ module performence_counter(
 	input cont,
 	input logic reset,
 
-	output lc3b_word count
+	output reg [31:0] count
 );
 
 logic [3:0] internal_count;
@@ -37,7 +37,7 @@ always_ff @(posedge clk) begin
 	// When stall occurs, increment counter
 	if(reset) begin
 		internal_count <= 4'b0;
-		count <= 16'b0;
+		count <= 0;
 		update <= 0;
 	end
 	
@@ -50,7 +50,7 @@ always_ff @(posedge clk) begin
 	end
 	
 	else if((internal_count == thresh) & ((!update) | (cont))) begin
-		count <= count + 16'b1;
+		count <= count + 1;
 		update <= 1;
 	end
 	
