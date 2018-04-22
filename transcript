@@ -1,23 +1,568 @@
-# do /tmp/tmp.5qLIIm4BJR/do.do 
+# do /tmp/tmp.LoXZtZfDbV/do.do 
 # if {[file exists rtl_work]} {
 # 	vdel -lib rtl_work -all
 # }
-# ** Error: (vdel-19) Failed to access library 'rtl_work' at "rtl_work".
-# No such file or directory. (errno = ENOENT)
-# ** Warning: (vdel-57) Library 'rtl_work' is missing or is not a valid ModelSim library.
-# ** Error: /software/altera/13.1/modelsim_ase/linux/vdel failed.
-# Error in macro /tmp/tmp.5qLIIm4BJR/do.do line 4
-# /software/altera/13.1/modelsim_ase/linux/vdel failed.
-#     while executing
-# "vdel -lib rtl_work -all"
-#     invoked from within
-# "if {[file exists rtl_work]} {
-# 	vdel -lib rtl_work -all
-# }"
-# Break key hit 
-# Break key hit 
-# Break key hit 
-# Break key hit 
-# Break key hit 
-# Break key hit 
-# invalid command name "esit"
+# vlib rtl_work
+# vmap work rtl_work
+# Modifying modelsim.ini
+# 
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/prediction_history_table.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module prediction_history_table
+# 
+# Top level modules:
+# 	prediction_history_table
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/tagwrite4.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module tagwrite4
+# 
+# Top level modules:
+# 	tagwrite4
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache4_control.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module cache4_control
+# 
+# Top level modules:
+# 	cache4_control
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/lc3b_types.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package lc3b_types
+# 
+# Top level modules:
+# 	--none--
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/ebcontrol.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package ebcontrol_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module ebcontrol
+# 
+# Top level modules:
+# 	ebcontrol
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/tagwrite.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package tagwrite_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module tagwrite
+# 
+# Top level modules:
+# 	tagwrite
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/lruwrite.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package lruwrite_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module lruwrite
+# 
+# Top level modules:
+# 	lruwrite
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/dirtywrite.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package dirtywrite_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module dirtywrite
+# 
+# Top level modules:
+# 	dirtywrite
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/datawrite.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package datawrite_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module datawrite
+# 
+# Top level modules:
+# 	datawrite
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache_control.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cache_control_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cache_control
+# 
+# Top level modules:
+# 	cache_control
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/wishbone.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling interface wishbone
+# 
+# Top level modules:
+# 	--none--
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/register.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module register
+# 
+# Top level modules:
+# 	register
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/plus2.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module plus2
+# 
+# Top level modules:
+# 	plus2
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mux2.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module mux2
+# 
+# Top level modules:
+# 	mux2
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/tagchecker4.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package tagchecker4_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module tagchecker4
+# 
+# Top level modules:
+# 	tagchecker4
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/swapaddress4.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package swapaddress4_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module swapaddress4
+# 
+# Top level modules:
+# 	swapaddress4
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/selectway4.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package selectway4_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module selectway4
+# 
+# Top level modules:
+# 	selectway4
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/performence_counter.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package performence_counter_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module performence_counter
+# 
+# Top level modules:
+# 	performence_counter
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/MMIO_counter.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package MMIO_counter_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module MMIO_counters
+# 
+# Top level modules:
+# 	MMIO_counters
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/ebhitchecker.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package ebhitchecker_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module ebhitchecker
+# 
+# Top level modules:
+# 	ebhitchecker
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/dataforward.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package dataforward_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module dataforward
+# 
+# Top level modules:
+# 	dataforward
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/wordswap.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package wordswap_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module wordswap
+# 
+# Top level modules:
+# 	wordswap
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/tagchecker.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package tagchecker_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module tagchecker
+# 
+# Top level modules:
+# 	tagchecker
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/swapaddress.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package swapaddress_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module swapaddress
+# 
+# Top level modules:
+# 	swapaddress
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/selectway.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package selectway_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module selectway
+# 
+# Top level modules:
+# 	selectway
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/array.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package array_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module array
+# 
+# Top level modules:
+# 	array
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/wishbone_interface.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package wishbone_interface_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module wishbone_interface
+# 
+# Top level modules:
+# 	wishbone_interface
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/regfile.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package regfile_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module regfile
+# 
+# Top level modules:
+# 	regfile
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mux4.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package mux4_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module mux4
+# 
+# Top level modules:
+# 	mux4
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/memwb.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package memwb_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module memwb
+# 
+# Top level modules:
+# 	memwb
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/ifid.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package ifid_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module ifid
+# 
+# Top level modules:
+# 	ifid
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/idex.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package idex_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module idex
+# 
+# Top level modules:
+# 	idex
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/gencc.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package gencc_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module gencc
+# 
+# Top level modules:
+# 	gencc
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/exmem.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package exmem_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module exmem
+# 
+# Top level modules:
+# 	exmem
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/control_rom.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package control_rom_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module control_rom
+# 
+# Top level modules:
+# 	control_rom
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cccomp.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cccomp_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cccomp
+# 
+# Top level modules:
+# 	cccomp
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/alu.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package alu_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module alu
+# 
+# Top level modules:
+# 	alu
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/adj.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package adj_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module adj
+# 
+# Top level modules:
+# 	adj
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/interconnect.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module interconnect
+# 
+# Top level modules:
+# 	interconnect
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mem_control.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package mem_control_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module mem_control
+# 
+# Top level modules:
+# 	mem_control
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mux8.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package mux8_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module mux8
+# 
+# Top level modules:
+# 	mux8
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/global_bht.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package global_bht_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module global_bht
+# 
+# Top level modules:
+# 	global_bht
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cachelru4.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cachelru4_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cachelru4
+# 
+# Top level modules:
+# 	cachelru4
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/btb.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package btb_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module btb
+# 
+# Top level modules:
+# 	btb
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/ebdatapath.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package ebdatapath_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module ebdatapath
+# 
+# Top level modules:
+# 	ebdatapath
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache_datapath.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cache_datapath_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cache_datapath
+# 
+# Top level modules:
+# 	cache_datapath
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache4_datapath.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cache4_datapath_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cache4_datapath
+# 
+# Top level modules:
+# 	cache4_datapath
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/evictbuffer.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module evictbuffer
+# 
+# Top level modules:
+# 	evictbuffer
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cache_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cache
+# 
+# Top level modules:
+# 	cache
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/bp.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package bp_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module bp
+# 
+# Top level modules:
+# 	bp
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cache4.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cache4_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cache4
+# 
+# Top level modules:
+# 	cache4
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cpu_datapath.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cpu_datapath_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cpu_datapath
+# 
+# Top level modules:
+# 	cpu_datapath
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/cpu.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling package cpu_sv_unit
+# -- Importing package lc3b_types
+# -- Compiling module cpu
+# 
+# Top level modules:
+# 	cpu
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mp3.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module mp3
+# 
+# Top level modules:
+# 	mp3
+# 
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/mp3_tb.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module mp3_tb
+# 
+# Top level modules:
+# 	mp3_tb
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/physical_memory.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module physical_memory
+# 
+# Top level modules:
+# 	physical_memory
+# vlog -sv -work work +incdir+/home/jhutter2/ece411/mp3 {/home/jhutter2/ece411/mp3/magic_memory_dual_port.sv}
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module magic_memory
+# 
+# Top level modules:
+# 	magic_memory
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L stratixiii_ver -L rtl_work -L work -voptargs="+acc"  mp3_tb
+# vsim -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L stratixiii_ver -L rtl_work -L work -voptargs=\"+acc\" -t 1ps mp3_tb 
+# Loading sv_std.std
+# Loading work.mp3_tb
+# Loading work.wishbone
+# Loading work.mp3
+# Loading work.lc3b_types
+# Loading work.cpu_sv_unit
+# Loading work.cpu
+# Loading work.wishbone_interface_sv_unit
+# Loading work.wishbone_interface
+# Loading work.cpu_datapath_sv_unit
+# Loading work.cpu_datapath
+# Loading work.register
+# Loading work.mux8_sv_unit
+# Loading work.mux8
+# Loading work.plus2
+# Loading work.mux2
+# Loading work.adj_sv_unit
+# Loading work.adj
+# Loading work.control_rom_sv_unit
+# Loading work.control_rom
+# Loading work.bp_sv_unit
+# Loading work.bp
+# Loading work.btb_sv_unit
+# Loading work.btb
+# Loading work.array_sv_unit
+# Loading work.array
+# Loading work.global_bht_sv_unit
+# Loading work.global_bht
+# Loading work.prediction_history_table
+# Loading work.ifid_sv_unit
+# Loading work.ifid
+# Loading work.regfile_sv_unit
+# Loading work.regfile
+# Loading work.idex_sv_unit
+# Loading work.idex
+# Loading work.mux4_sv_unit
+# Loading work.mux4
+# Loading work.alu_sv_unit
+# Loading work.alu
+# Loading work.exmem_sv_unit
+# Loading work.exmem
+# Loading work.mem_control_sv_unit
+# Loading work.mem_control
+# Loading work.memwb_sv_unit
+# Loading work.memwb
+# Loading work.MMIO_counter_sv_unit
+# Loading work.MMIO_counters
+# Loading work.gencc_sv_unit
+# Loading work.gencc
+# Loading work.cccomp_sv_unit
+# Loading work.cccomp
+# Loading work.dataforward_sv_unit
+# Loading work.dataforward
+# Loading work.performence_counter_sv_unit
+# Loading work.performence_counter
+# Loading work.cache_sv_unit
+# Loading work.cache
+# Loading work.cache_control_sv_unit
+# Loading work.cache_control
+# Loading work.cache_datapath_sv_unit
+# Loading work.cache_datapath
+# Loading work.tagwrite_sv_unit
+# Loading work.tagwrite
+# Loading work.tagchecker_sv_unit
+# Loading work.tagchecker
+# Loading work.lruwrite_sv_unit
+# Loading work.lruwrite
+# Loading work.dirtywrite_sv_unit
+# Loading work.dirtywrite
+# Loading work.wordswap_sv_unit
+# Loading work.wordswap
+# Loading work.datawrite_sv_unit
+# Loading work.datawrite
+# Loading work.selectway_sv_unit
+# Loading work.selectway
+# Loading work.swapaddress_sv_unit
+# Loading work.swapaddress
+# Loading work.cache4_sv_unit
+# Loading work.cache4
+# Loading work.cache4_control
+# Loading work.cache4_datapath_sv_unit
+# Loading work.cache4_datapath
+# Loading work.cachelru4_sv_unit
+# Loading work.cachelru4
+# Loading work.interconnect
+# Loading work.evictbuffer
+# Loading work.ebdatapath_sv_unit
+# Loading work.ebdatapath
+# Loading work.ebhitchecker_sv_unit
+# Loading work.ebhitchecker
+# Loading work.ebcontrol_sv_unit
+# Loading work.ebcontrol
+# Loading work.physical_memory
+# Loading work.tagwrite4
+# Loading work.tagchecker4_sv_unit
+# Loading work.tagchecker4
+# Loading work.selectway4_sv_unit
+# Loading work.selectway4
+# Loading work.swapaddress4_sv_unit
+# Loading work.swapaddress4
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/bp.sv(32): [PCDPC] - Port size (16 or 16) does not match connection size (32) for port 'b'. The port definition is at: /home/jhutter2/ece411/mp3/mux2.sv(4).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/branch_predictor/target_addr_mux
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(525): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/i_cache_hits_counter
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(538): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/i_cache_misses_counter
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(550): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/d_cache_hits_counter
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(562): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/d_cache_misses_counter
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(574): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/l2_cache_hits_counter
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(586): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/l2_cache_misses_counter
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(598): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/branch_prediction_counter
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(610): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/mispredictions_counter
+# ** Warning: (vsim-3015) /home/jhutter2/ece411/mp3/cpu_datapath.sv(622): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'cont'. The port definition is at: /home/jhutter2/ece411/mp3/performence_counter.sv(21).
+#         Region: /mp3_tb/dut/mp3_cpu/cd/stalls_counter
+# 
+#add wave *
+#view structure
+#view signals
+# add list -radix hexadecimal {/mp3_tb/dut/mp3_cpu/cd/r/data}
+# run 8000000ns
+# write list /tmp/tmp.LoXZtZfDbV/test_list.lst
+# exit

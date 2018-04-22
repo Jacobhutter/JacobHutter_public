@@ -24,7 +24,7 @@ lc3b_offset9 offset9;
 lc3b_offset11 offset11;
 lc3b_reg src1, src2, dest, storemux_out, wb_dest, dest_out, mem_dest, gencc_out, cc_out, destmux_out, src1_out, src2_out;
 
-lc3b_word pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifpc,
+lc3b_word pcmux_original_out, pcmux_out, pc_plus2_out, br_add_out, alu_out, mem_wdata, adj9_out, ifpc,
 idpc, expc, mempc, adj9_out2, adj11_out, adj11_out2, adj6_out, adj6_out2, offsetmux_out, imm5, imm4, imm4_out,
 sr1, sr2, sr1_out, sr2_out, offset6_out, offset9_out, offset11_out, imm5_out, trapvect8, trapvect8_out, ex_trapvect8, wb_offset9, wb_offset11, source_data_out, ex_source_data_out, pc_out,
 regfilemux_out, alumux_out, ex_alu_out, ex_offset9, ex_offset11, mdrmux_out, marmux_out, wb_alu_out, mem_wdata_out,if_offset6, if_offset9, if_offset11, wordslicemux_out, wordinmux_out,
@@ -140,12 +140,28 @@ control_rom cr(
 	.ctrl(if_ctrl_initial)
 );
 
+
+mux8 pcmux_original
+(
+	.sel(wb_ctrl.pcmux_sel),
+	.in0(pc_plus2_out),
+	.in1(br_add_out),
+	.in2(wb_alu_out),
+	.in3(mem_wdata_out),
+  .in4(predicted_pc),
+  .in5(mempc),
+  .in6(16'd0),
+  .in7(16'd0),
+	.f(pcmux_original_out)
+);
+
+
 bp branch_predictor
 (
 	.clk, /*inputs*/
    .incoming_pc(pc_out),
    .outgoing_pc(mempc),
-   .br_add_out,
+   .br_add_out(pcmux_original_out),
 	.incoming_control_word(if_ctrl_initial),
 	.outgoing_control_word(wb_ctrl),
 	.branch_enable,

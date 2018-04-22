@@ -73,6 +73,7 @@ typedef struct packed {
         logic [1:0] alubasemux_sel;
 		  logic predicted_branch;
         logic reg_mode;
+		  logic [15:0] predicted_pc;
         /* ... other signals ... */
 } lc3b_control_word;
 
