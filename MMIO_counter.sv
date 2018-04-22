@@ -102,6 +102,8 @@ always_comb begin
 
 			16'hFFF7:
 				mem_rdata_out = total_stalls;
+			default: begin
+			end
 		endcase
 	
 	end	
