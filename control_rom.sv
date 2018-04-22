@@ -30,6 +30,7 @@ begin
    ctrl.alubasemux_sel = 2'b00;
 	ctrl.predicted_branch = 1'b0; // track predicted branch value
     ctrl.reg_mode = 1'b0;
+	 ctrl.predicted_pc = 16'd0;
 
    case(opcode)
        op_add: begin

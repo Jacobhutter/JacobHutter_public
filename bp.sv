@@ -66,13 +66,14 @@ always_comb begin
 			if_control_word.predicted_branch = 1'b0;
 		end
 		else begin
-			if(!predict || incoming_control_word.opcode == op_jmp || incoming_control_word.opcode == op_jsr || incoming_control_word.opcode == op_trap) begin
+			if(!predict) begin
 				pcmux_sel = 3'b000; // predict not taken
 				if_control_word.predicted_branch = 1'b0;
 			end
 			else begin
 				pcmux_sel = 3'b100; // predict taken daddy
 				if_control_word.predicted_branch = 1'b1;
+				if_control_word.predicted_pc = predicted_pc;
 			end 
 		end
 	end
@@ -91,7 +92,13 @@ always_comb begin
 				bp_miss = 1;
 			end
 			else begin // right guess continue 
-				pcmux_sel = 3'b000;
+				if(16'(br_add_out) != outgoing_control_word.predicted_pc) begin // ret address was changed i.e. r7 
+					pcmux_sel = outgoing_pcmux_sel;
+					flush = 1;
+					bp_miss = 1;
+				end 
+				else
+					pcmux_sel = 3'b000;
 			end 
 		end 
 		else begin
@@ -100,8 +107,14 @@ always_comb begin
 				flush = 1;
 				bp_miss = 1;
 			end 
-			else begin
-				pcmux_sel = 3'b000;
+			else begin // right guess but lets double check our ret address  
+				if(16'(br_add_out)!= outgoing_control_word.predicted_pc) begin // ret address was changed i.e. r7 
+					pcmux_sel = 3'b101;
+					flush = 1;
+					bp_miss = 1;
+				end 
+				else // double check is right
+					pcmux_sel = 3'b000;
 			end 
 		end 
 	end

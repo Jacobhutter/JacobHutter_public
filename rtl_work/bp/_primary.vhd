@@ -12,7 +12,7 @@ entity bp is
         branch_enable   : in     vl_logic;
         incoming_valid_branch: in     vl_logic;
         outgoing_valid_branch: in     vl_logic;
-        outgoing_pcmux_sel: in     vl_logic_vector(1 downto 0);
+        outgoing_pcmux_sel: in     vl_logic_vector(2 downto 0);
         if_control_word : out    work.lc3b_types.lc3b_control_word;
         predicted_pc    : out    vl_logic_vector(15 downto 0);
         pcmux_sel       : out    vl_logic_vector(2 downto 0);
