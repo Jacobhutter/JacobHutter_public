@@ -73,6 +73,8 @@ set_global_assignment -name EDA_TEST_BENCH_FILE evictbuf_tb.sv -section_id evict
 set_global_assignment -name EDA_TEST_BENCH_FILE performence_tb.sv -section_id performence_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE datapath_tb.sv -section_id datapath_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE magic_memory_dual_port.sv -section_id datapath_tb
+set_global_assignment -name SYSTEMVERILOG_FILE prediction_history_table.sv
+set_global_assignment -name SYSTEMVERILOG_FILE global_bht.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tagchecker4.sv
 set_global_assignment -name SYSTEMVERILOG_FILE swapaddress4.sv
 set_global_assignment -name SYSTEMVERILOG_FILE dirtywrite4.sv
