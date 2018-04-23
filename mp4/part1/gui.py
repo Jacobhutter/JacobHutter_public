@@ -6,6 +6,7 @@ import random
 import time
 import math
 import part1
+import state as s
 
 
 # Define ball properties and functions
@@ -58,16 +59,16 @@ class Ball:
 
         # first check we didnt hit on edge
         if((pos[1] <= paddle_pos[1] and pos[3] >= paddle_pos[3]) or (pos[3] <= paddle_pos[3] and pos[1] >= paddle_pos[1])) and pos[0] >= paddle_pos[0]:
-            return False
+            return 0
 
         # then check if we hit in general
         if pos[2] >= paddle_pos[0] and pos[3] >= paddle_pos[1] and pos[1] <= paddle_pos[3]:
-            return True
+            return 1
 
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:
             if pos[3] >= paddle_pos[1] and pos[3] <= paddle_pos[3]:
-                return True
-        return False
+                return 1
+        return 0
 
     def reset(self, canvas, color, size, paddle):
         pos = self.canvas.coords(self.paddle.id)
@@ -137,7 +138,7 @@ while True:
             discrete_paddle = 11
         ball_pos = ball.canvas.coords(ball.id)
         ball_speed = (ball.xspeed, ball.yspeed)
-        move = part1.get_move(discrete_paddle, ball_pos, ball_speed)
+        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos))
         if move > 0:
             paddle.move_up()
         elif move < 0:
