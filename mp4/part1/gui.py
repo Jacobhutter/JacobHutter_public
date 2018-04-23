@@ -14,7 +14,7 @@ class Ball:
         self.canvas = canvas
         self.paddle = paddle
         self.id = canvas.create_oval(10, 10, size, size, fill=color)
-        self.canvas.move(self.id, 245, 100)
+        self.canvas.move(self.id, 250, 250)
         self.xspeed = 15 # initial is .03 * 500
         self.yspeed = 5 # initial is .01 * 500
         self.hit_right = False
@@ -71,7 +71,10 @@ class Ball:
 
     def reset(self, canvas, color, size, paddle):
         pos = self.canvas.coords(self.paddle.id)
-        self.canvas.move(self.id, 245 - pos[0], 100 - pos[1])
+
+        self.canvas.move(self.id, -pos[0], -pos[1])
+        ball.draw()
+        self.canvas.move(self.id, 250, 250)
         self.xspeed = 15 # initial is .03 * 500
         self.yspeed = 5 # initial is .01 * 500
         self.hit_right = False
@@ -143,7 +146,8 @@ while True:
 
     paddle.reset(canvas, 'black')
     paddle.draw()
-    ball.reset(canvas, 'red', 25, paddle)
+    canvas.delete(ball) #Deletes the rectangle
+    tk.update()
+    ball = Ball(canvas, 'red', 25, paddle)
     tk.update()
     time.sleep(1.0)
-    print "done resetting"
