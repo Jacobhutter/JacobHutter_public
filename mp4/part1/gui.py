@@ -122,20 +122,21 @@ tk = Tk()
 tk.title("AI Pong")
 canvas = Canvas(tk, width=500, height=500, bd=0, bg='white')
 canvas.pack()
-label = canvas.create_text(5, 5, anchor=NW, text="Score: 0")
-games = canvas.create_text(100, 100, anchor=N, text="games: 0")
+label = canvas.create_text(5, 5, anchor=NW, text="Score: 0" + "\nGames: 0" + "\nHigh Score: 0")
 tk.update()
 paddle = Paddle(canvas, 'black')
 ball = Ball(canvas, 'red', 25, paddle)
 time.sleep(1.0)
 # Animation loop
 g = 0
+hs = 0
 while True:
     while ball.hit_right == False:
         ball.draw()
         paddle.draw()
-        canvas.itemconfig(label, text="Score: "+str(ball.score))
-        canvas.itemconfig(games, text="games: "+str(g))
+        if ball.score > hs:
+            hs = ball.score
+        canvas.itemconfig(label, text="Score: "+str(ball.score) + "\nGames:  " + str(g) + "\nHigh Score: " + str(hs))
         tk.update_idletasks()
         tk.update()
         discrete_paddle = math.floor(12 * paddle.canvas.coords(paddle.id)[1] / (500 - 100))
@@ -143,12 +144,12 @@ while True:
             discrete_paddle = 11
         ball_pos = ball.canvas.coords(ball.id)
         ball_speed = (ball.xspeed, ball.yspeed)
-        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
+        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path, g)
         if move > 0:
             paddle.move_up()
         elif move < 0:
             paddle.move_down()
-        time.sleep(0.05)
+        # time.sleep(0.05)
 
     g += 1
     paddle.reset(canvas, 'black')
@@ -157,4 +158,4 @@ while True:
     tk.update()
     ball = Ball(canvas, 'red', 25, paddle)
     tk.update()
-    time.sleep(1.0)
+    time.sleep(0.0)
