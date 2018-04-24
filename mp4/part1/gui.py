@@ -7,6 +7,9 @@ import time
 import math
 import part1
 import state as s
+import numpy as np
+
+scoreboard = np.zeros((12, 12, 2, 3, 12))
 
 
 # Define ball properties and functions
@@ -138,7 +141,7 @@ while True:
             discrete_paddle = 11
         ball_pos = ball.canvas.coords(ball.id)
         ball_speed = (ball.xspeed, ball.yspeed)
-        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos))
+        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard)
         if move > 0:
             paddle.move_up()
         elif move < 0:

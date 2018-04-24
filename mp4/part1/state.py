@@ -9,6 +9,12 @@ class State:
     def get_tuple(self):
         return (self.ball_x, self.ball_y, self.velocity_x, self.velocity_y, self.paddle_y)
 
+    def change_ball_x(self, new_ball_x):
+        self.ball_x = new_ball_x
+
+    def change_ball_y(self, new_ball_y):
+        self.ball_y = new_ball_y
+
     def action(self, choice=0):
         if choice == 2: # move up
             self.paddle_y -= 0.04
