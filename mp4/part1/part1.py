@@ -3,13 +3,13 @@ import random
 import numpy as np
 import math
 
-gamma = 0.5
-alpha = 10
+gamma = 0.05
+alpha = 2
 hit_wall = 0
 
 
 
-def assign_reward(cur_state, hit_wall, hit_paddle, scoreboard):
+def assign_reward(cur_state, hit_wall, hit_paddle, scoreboard, path):
     cur_state = cur_state.get_tuple()
     cur_state = (min(int(cur_state[0]), 11), min(int(cur_state[1]), 11), int(cur_state[2]), int(cur_state[3]), int(cur_state[4]))
 
@@ -17,16 +17,34 @@ def assign_reward(cur_state, hit_wall, hit_paddle, scoreboard):
     prev_reward *= (1-alpha)
     neighbor_up = scoreboard[cur_state[0], cur_state[1], cur_state[2], cur_state[3], min(cur_state[4] + 1, 11)]
     neighbor_down = scoreboard[cur_state[0], cur_state[1], cur_state[2], cur_state[3], max(cur_state[4] - 1, 0)]
+
+
+    neighbor_right = scoreboard[min(cur_state[0] + 1, 11), cur_state[1], cur_state[2], cur_state[3], cur_state[4]]
+    neighbor_left = scoreboard[max(cur_state[0] - 1, 11), cur_state[1], cur_state[2], cur_state[3], cur_state[4]]
+
+
     cur = scoreboard[cur_state[0], cur_state[1], cur_state[2], cur_state[3], cur_state[4]]
     print neighbor_up, cur, neighbor_down
     max_neighbor = max(neighbor_up, neighbor_down)
     learned_value = (hit_wall + hit_paddle) + gamma * max_neighbor
     scoreboard[cur_state[0], cur_state[1], cur_state[2], cur_state[3], cur_state[4]] = prev_reward + alpha * learned_value
+    if hit_wall or hit_paddle:
+        for i in range(len(path)):
+            s = path[i]
+            scoreboard[s[0], s[1], s[2], s[3], s[4]] = prev_reward + alpha * learned_value
+        path = []
+    else:
+        path.append(cur_state)
+
 
 
     if(cur == neighbor_up and cur == neighbor_down):
-        print "stay"
-        return 0
+        if cur_state[1] == cur_state[4]:
+            return 0
+        elif cur_state[1] < cur_state[4]:
+            return 1
+        else:
+            return -1
 
     if(neighbor_up > cur and neighbor_up > neighbor_down):
         print "up"
@@ -37,8 +55,12 @@ def assign_reward(cur_state, hit_wall, hit_paddle, scoreboard):
         return -1
 
     if(neighbor_up == neighbor_down and neighbor_up > cur):
-        print "random"
-        return random.randrange(-1, 2)
+        if cur_state[1] == cur_state[4]:
+            return 0
+        elif cur_state[1] < cur_state[4]:
+            return 1
+        else:
+            return -1
 
 
     print "stay"
@@ -48,7 +70,7 @@ def assign_reward(cur_state, hit_wall, hit_paddle, scoreboard):
 def get_cur_state(ballx, bally, xspeed, yspeed, paddle_pos):
     return state.State(ballx, bally, xspeed, yspeed, paddle_pos)
 
-def get_move(discrete_paddle_pos, ball_pos, ball_speed, hit_paddle, scoreboard):
+def get_move(discrete_paddle_pos, ball_pos, ball_speed, hit_paddle, scoreboard, path):
     ball_x = (ball_pos[0], ball_pos[2])
     ball_y = (ball_pos[1], ball_pos[3])
     discrete_ball_x = math.floor((12* (ball_x[0] + 7.5) )/(500- 15) )
@@ -78,6 +100,6 @@ def get_move(discrete_paddle_pos, ball_pos, ball_speed, hit_paddle, scoreboard):
     if ball_y[0] >= 500:
         cur_state.change_ball_y(11)
 
-    move = assign_reward(cur_state, hit_wall, hit_paddle, scoreboard)
+    move = assign_reward(cur_state, hit_wall, hit_paddle, scoreboard, path)
 
     return move

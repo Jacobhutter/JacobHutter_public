@@ -10,7 +10,7 @@ import state as s
 import numpy as np
 
 scoreboard = np.zeros((12, 12, 2, 3, 12))
-
+path = []
 
 # Define ball properties and functions
 class Ball:
@@ -123,17 +123,19 @@ tk.title("AI Pong")
 canvas = Canvas(tk, width=500, height=500, bd=0, bg='white')
 canvas.pack()
 label = canvas.create_text(5, 5, anchor=NW, text="Score: 0")
+games = canvas.create_text(100, 100, anchor=N, text="games: 0")
 tk.update()
 paddle = Paddle(canvas, 'black')
 ball = Ball(canvas, 'red', 25, paddle)
 time.sleep(1.0)
 # Animation loop
-
+g = 0
 while True:
     while ball.hit_right == False:
         ball.draw()
         paddle.draw()
         canvas.itemconfig(label, text="Score: "+str(ball.score))
+        canvas.itemconfig(games, text="games: "+str(g))
         tk.update_idletasks()
         tk.update()
         discrete_paddle = math.floor(12 * paddle.canvas.coords(paddle.id)[1] / (500 - 100))
@@ -141,13 +143,14 @@ while True:
             discrete_paddle = 11
         ball_pos = ball.canvas.coords(ball.id)
         ball_speed = (ball.xspeed, ball.yspeed)
-        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard)
+        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
         if move > 0:
             paddle.move_up()
         elif move < 0:
             paddle.move_down()
         time.sleep(0.05)
 
+    g += 1
     paddle.reset(canvas, 'black')
     paddle.draw()
     canvas.delete(ball) #Deletes the rectangle
