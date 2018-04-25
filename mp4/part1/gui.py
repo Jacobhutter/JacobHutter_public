@@ -144,7 +144,7 @@ while True:
             discrete_paddle = 11
         ball_pos = ball.canvas.coords(ball.id)
         ball_speed = (ball.xspeed, ball.yspeed)
-        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path, g)
+        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
         if move > 0:
             paddle.move_up()
         elif move < 0:
