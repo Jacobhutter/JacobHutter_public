@@ -23,20 +23,17 @@ def relu_backward(da, cache):
 def cross_entropy(f, y):
 	n = len(y)
 	l = 0
-
 	for i in range(n):
 		l += f[i, y[i]] - np.log(np.sum(np.exp(f[i])))
-
 	l /= -n
 
 	df = np.zeros((len(f), len(f[0])))
-
 	for i in range(len(f)):
 		exp_sum = np.sum(np.exp(f[i, :]))
 		for j in range(len(f[0])):
-			df[i][j] = (0, 1)[j == y[i]]
-	    		df[i][j] -= np.exp(f[i][j]) / exp_sum
+			df[i][j] = (0, 1)[j == y[i]] - np.exp(f[i][j]) / exp_sum
 	df /= -n
+	
 	return l, df
 
 #flnn - four layer neural network
@@ -53,15 +50,7 @@ def flnn(x, weights, biases, y, test):
 	f, acache4, wcache4, bcache4 = affine_forward(a3, weights[3], biases[3])
 
 	if test:
-        	choices = []
-		for row in f:
-			choice = 0
-			if row[1] > row[0]:
-				choice = 1
-			if row[2] > row[choice]:
-				choice = 2
-			choices.append(choice)
-		return choices
+		return np.argmax(f, axis=1)
 
 	loss, df = cross_entropy(f, y)
 	da3, dw3, db3 = affine_backward(df, acache4, wcache4, bcache4)
@@ -87,7 +76,7 @@ def flnn(x, weights, biases, y, test):
 #tlnn - three layer neural network
 def tlnn(x, weights, biases, y, test):
 
-	n = 1
+	n = 0.1
 
 	z1, acache1, wcache1, bcache1 = affine_forward(x, weights[0], biases[0])
 	a1, rcache1 = relu_forward(z1)
@@ -96,15 +85,7 @@ def tlnn(x, weights, biases, y, test):
 	f, acache3, wcache3, bcache3 = affine_forward(a2, weights[2], biases[2])
 
 	if test:
-		choices = []
-		for row in f:
-			choice = 0
-			if row[1] > row[0]:
-				choice = 1
-			if row[2] > row[choice]:
-				choice = 2
-			choices.append(choice)
-		return choices
+		return np.argmax(f, axis=1)
 
 	loss, df = cross_entropy(f, y)
 	da2, dw2, db2 = affine_backward(df, acache3, wcache3, bcache3)
@@ -144,7 +125,7 @@ def minibatch_4layer(data, epoch):
 		loss = 0
 		for i in range(128, len(data), 128):
 			x = data[(i - 128):i, :5]
-			y = data[(i - 128):i, 5]
+			y = data[(i - 128):i, 5].astype(int)
 			loss += flnn(x, weights, biases, y, test)
 		print loss / 128
 
@@ -153,7 +134,7 @@ def minibatch_4layer(data, epoch):
 	
 	for i in range(128, len(data), 128):
 		x = data[(i - 128):i, :5]
-		y = data[(i - 128):i, 5]
+		y = data[(i - 128):i, 5].astype(int)
 		choices = flnn(x, weights, biases, y, test)
 		for i in range(128):
 			confusion[int(y[i])][choices[i]] += 1
@@ -163,7 +144,7 @@ def minibatch_4layer(data, epoch):
 	
 	print  confusion
 
-	print "Accuracy: ", '%f' % ((confusion[0][0] + confusion[1][1] + confusion[2][2]) / 3)
+	print "Accuracy: ", str('%f' % ((confusion[0][0] + confusion[1][1] + confusion[2][2]) / 3)) + "%"
 
 def minibatch_3layer(data, epoch):
 	w0 = np.random.rand(5, 256) - 0.5
@@ -203,4 +184,4 @@ def minibatch_3layer(data, epoch):
 	
 	print confusion
 
-	print "Accuracy: ", '%f' % ((confusion[0][0] + confusion[1][1] + confusion[2][2]) / 3)
+	print "Accuracy: ", str('%f' % ((confusion[0][0] + confusion[1][1] + confusion[2][2]) / 3)) + "%"
