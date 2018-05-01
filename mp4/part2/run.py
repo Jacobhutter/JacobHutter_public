@@ -10,4 +10,4 @@ with open("normalized.txt", "r") as train:
 		for j in range(len(line)):
 			data[i][j] = float(line[j])	
 
-part2.minibatch_4layer(data, 300)
+weights, biases = part2.minibatch_4layer(data, 30)
