@@ -24,7 +24,6 @@ def assign_reward(cur_state, hit_wall, hit_paddle, scoreboard, path):
 
 
     cur = scoreboard[cur_state[0], cur_state[1], cur_state[2], cur_state[3], cur_state[4]]
-    print neighbor_up, cur, neighbor_down
     max_neighbor = max(neighbor_up, neighbor_down)
     learned_value = (hit_wall + hit_paddle) + gamma * max_neighbor
     scoreboard[cur_state[0], cur_state[1], cur_state[2], cur_state[3], cur_state[4]] = prev_reward + alpha * learned_value
@@ -40,31 +39,27 @@ def assign_reward(cur_state, hit_wall, hit_paddle, scoreboard, path):
 
     if(cur == neighbor_up and cur == neighbor_down):
         if cur_state[1] == cur_state[4]:
-            return 0
+            return 0, prev_reward + alpha * learned_value
         elif cur_state[1] < cur_state[4]:
-            return 1
+            return 1, prev_reward + alpha * learned_value
         else:
-            return -1
+            return -1, prev_reward + alpha * learned_value
 
     if(neighbor_up > cur and neighbor_up > neighbor_down):
-        print "up"
-        return 1
+        return 1, prev_reward + alpha * learned_value
 
     if(neighbor_down > neighbor_up and neighbor_down > cur):
-        print "down"
-        return -1
+        return -1, prev_reward + alpha * learned_value
 
     if(neighbor_up == neighbor_down and neighbor_up > cur):
         if cur_state[1] == cur_state[4]:
-            return 0
+            return 0, prev_reward + alpha * learned_value
         elif cur_state[1] < cur_state[4]:
-            return 1
+            return 1, prev_reward + alpha * learned_value
         else:
-            return -1
+            return -1, prev_reward + alpha * learned_value
 
-
-    print "stay"
-    return 0
+    return 0, prev_reward + alpha * learned_value
 
 
 def get_cur_state(ballx, bally, xspeed, yspeed, paddle_pos):
@@ -100,6 +95,6 @@ def get_move(discrete_paddle_pos, ball_pos, ball_speed, hit_paddle, scoreboard, 
     if ball_y[0] >= 500:
         cur_state.change_ball_y(11)
 
-    move = assign_reward(cur_state, hit_wall, hit_paddle, scoreboard, path)
+    move, reward = assign_reward(cur_state, hit_wall, hit_paddle, scoreboard, path)
 
-    return move
+    return move, reward
