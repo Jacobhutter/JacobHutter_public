@@ -141,12 +141,11 @@ def minibatch_4layer(data, epoch):
 		accuracies.append(accuracy / 100.0)
 
 	plt.figure(1)
-	plt.subplot(10)
-	plt.plot(range(300), losses)
-	plt.subplot(11)
-	plt.plot(range(300), accuracies)
-	plt.show()
-
+	plt.subplot(221)
+	plt.plot(range(epoch), losses)
+	plt.subplot(222)
+	plt.plot(range(epoch), accuracies)
+	plt.savefig("plot.png")
         test = 1
         confusion = np.zeros((3, 3))
 
@@ -163,6 +162,7 @@ def minibatch_4layer(data, epoch):
         np.set_printoptions(suppress=True)
         print confusion
         print "Accuracy: ", str('%f' % ((confusion[0][0] + confusion[1][1] + confusion[2][2]) / .03)) + "%"
+	plt.close()
 	return weights, biases
 
 def minibatch_3layer(data, epoch):

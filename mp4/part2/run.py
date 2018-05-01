@@ -14,5 +14,4 @@ epochs = int(input("Choose number of epochs: "))
 if layers == 3:
         part2.minibatch_3layer(data, epochs)
 elif layers == 4:
-        part2.minibatch_4layer(data, epochs)
-~                                               
+        part2.minibatch_4layer(data, epochs)                                               
