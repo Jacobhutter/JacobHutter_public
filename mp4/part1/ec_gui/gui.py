@@ -3,11 +3,11 @@
 # KidsCanCode - Intro to Programming
 from Tkinter import *
 import random
+import time
 import math
 import part1
 import state as s
 import numpy as np
- #import plotter as plt
 
 scoreboard = np.zeros((12, 12, 2, 3, 12))
 path = []
@@ -17,11 +17,13 @@ class Ball:
     def __init__(self, canvas, color, size, paddle):
         self.canvas = canvas
         self.paddle = paddle
+        self.player = player
         self.id = canvas.create_oval(10, 10, size, size, fill=color)
         self.canvas.move(self.id, 250, 250)
         self.xspeed = 15 # initial is .03 * 500
         self.yspeed = 5 # initial is .01 * 500
         self.hit_right = False
+        self.hit_left = False
         self.score = 0
 
     def draw(self):
@@ -30,9 +32,12 @@ class Ball:
             self.yspeed = -self.yspeed
         if pos[3] >= 500:
             self.yspeed = -self.yspeed
-        if pos[0] <= 0:
+
+        if self.hit_player(pos) == True:
             self.xspeed = -self.xspeed
+
         if self.hit_paddle(pos) == True:
+            print "hit me"
             self.yspeed = self.yspeed + 15 * random.randrange(-1, 2)
 
             if self.yspeed < -500:
@@ -56,9 +61,13 @@ class Ball:
         if pos[2] >= 500 and self.hit_paddle(pos) == False:
             self.hit_right = True
 
+        if pos[0] < 0 and self.hit_player(pos) == False:
+            self.hit_left = True
+
         self.canvas.move(self.id, self.xspeed, self.yspeed)
     def hit_paddle(self, pos):
         paddle_pos = self.canvas.coords(self.paddle.id)
+        player_pos = self.canvas.coords(self.player.id)
 
         # first check we didnt hit on edge
         if((pos[1] <= paddle_pos[1] and pos[3] >= paddle_pos[3]) or (pos[3] <= paddle_pos[3] and pos[1] >= paddle_pos[1])) and pos[0] >= paddle_pos[0]:
@@ -70,6 +79,21 @@ class Ball:
 
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:
             if pos[3] >= paddle_pos[1] and pos[3] <= paddle_pos[3]:
+                return 1
+
+        return 0
+
+    def hit_player(self, pos):
+        player_pos = self.canvas.coords(self.player.id)
+
+        if((pos[1] <= player_pos[1] and pos[3] >= player_pos[3]) or (pos[3] <= player_pos[3] and pos[1] >= player_pos[1])) and pos[0] >= player_pos[0]:
+            return 0
+        # then check if we hit in general
+        if pos[0] < player_pos[2] and pos[3] >= player_pos[1] and pos[1] <= player_pos[3]:
+            return 1
+
+        if pos[0] < player_pos[2] and pos[2] > player_pos[0]:
+            if pos[3] >= player_pos[1] and pos[3] <= player_pos[3]:
                 return 1
         return 0
 
@@ -91,8 +115,8 @@ class Paddle:
         self.id = canvas.create_rectangle(0,0, 10, 100, fill=color)
         self.canvas.move(self.id, 490, 200)
         self.yspeed = 0
-        #self.canvas.bind_all('<KeyPress-Up>', self.move_up)
-        #self.canvas.bind_all('<KeyPress-Down>', self.move_down)
+        # self.canvas.bind_all('<KeyPress-Up>', self.move_up)
+        # self.canvas.bind_all('<KeyPress-Down>', self.move_down)
 
     def draw(self):
         self.canvas.move(self.id, 0, self.yspeed)
@@ -116,6 +140,38 @@ class Paddle:
         self.canvas.move(self.id, 0, 200-pos[1])
         self.yspeed = 0
 
+
+class Player:
+    def __init__(self, canvas, color):
+        self.canvas = canvas
+        self.id = canvas.create_rectangle(0,0, 10, 100, fill=color)
+        self.canvas.move(self.id, 0, 200)
+        self.yspeed = 0
+        self.canvas.bind_all('<KeyPress-Up>', self.move_up)
+        self.canvas.bind_all('<KeyPress-Down>', self.move_down)
+
+    def draw(self):
+        self.canvas.move(self.id, 0, self.yspeed)
+        self.yspeed = 0
+        pos = self.canvas.coords(self.id)
+        if pos[1] <= 0:
+            self.yspeed = 0
+        if pos[1] >= 400:
+            self.yspeed = 0
+
+    def move_up(self, event):
+        pos = self.canvas.coords(self.id)
+        if pos[1] > 0:
+            self.yspeed = -20
+    def move_down(self, event):
+        pos = self.canvas.coords(self.id)
+        if pos[1] < 400:
+            self.yspeed = 20
+    def reset(self, canvas, color):
+        pos = self.canvas.coords(self.id)
+        self.canvas.move(self.id, 0, 200-pos[1])
+        self.yspeed = 0
+
 # Create window and canvas to draw on
 
 tk = Tk()
@@ -125,20 +181,17 @@ canvas.pack()
 label = canvas.create_text(5, 5, anchor=NW, text="Score: 0" + "\nGames: 0" + "\nHigh Score: 0")
 tk.update()
 paddle = Paddle(canvas, 'black')
+player = Player(canvas, 'blue')
 ball = Ball(canvas, 'red', 25, paddle)
-# time.sleep(1.0)
+time.sleep(1.0)
 # Animation loop
 g = 0
 hs = 0
-reward = 0
-mean_episode_array = []
-games_array = []
-score_array = []
-trials = 0
-while g<=400:
-    while ball.hit_right == False:
+while True:
+    while ball.hit_right == False and ball.hit_left == False:
         ball.draw()
         paddle.draw()
+        player.draw()
         if ball.score > hs:
             hs = ball.score
         canvas.itemconfig(label, text="Score: "+str(ball.score) + "\nGames:  " + str(g) + "\nHigh Score: " + str(hs))
@@ -149,18 +202,12 @@ while g<=400:
             discrete_paddle = 11
         ball_pos = ball.canvas.coords(ball.id)
         ball_speed = (ball.xspeed, ball.yspeed)
-        move, reward_i = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
-        reward += reward_i
-        trials += 1
+        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos) or ball.hit_left, scoreboard, path)
         if move > 0:
             paddle.move_up()
         elif move < 0:
             paddle.move_down()
-        # time.sleep(0.05)
-    reward /= trials
-    score_array.append(ball.score)
-    games_array.append(g)
-    mean_episode_array.append(reward)
+        time.sleep(0.10)
 
     g += 1
     paddle.reset(canvas, 'black')
@@ -169,91 +216,4 @@ while g<=400:
     tk.update()
     ball = Ball(canvas, 'red', 25, paddle)
     tk.update()
-    time.sleep(0.0)
-    iteration += 1
-
-iteration = 0
-
-# Training
-while iteration < 5000:
-    while ball.hit_right == False:
-        ball.draw()
-        paddle.draw()
-        if ball.score > hs:
-            hs = ball.score
-        canvas.itemconfig(label, text="Score: "+str(ball.score) + "\nGames:  " + str(g) + "\nHigh Score: " + str(hs))
-        tk.update_idletasks()
-        tk.update()
-        discrete_paddle = math.floor(12 * paddle.canvas.coords(paddle.id)[1] / (500 - 100))
-        if paddle.canvas.coords(paddle.id)[1] == 400:
-            discrete_paddle = 11
-        ball_pos = ball.canvas.coords(ball.id)
-        ball_speed = (ball.xspeed, ball.yspeed)
-        move = part1.get_move_sarsa(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
-        if move > 0:
-            paddle.move_up()
-        elif move < 0:
-            paddle.move_down()
-    # time.sleep(0.05)
-
-    g += 1
-    paddle.reset(canvas, 'black')
-    paddle.draw()
-    canvas.delete(ball) #Deletes the rectangle
-    tk.update()
-    ball = Ball(canvas, 'red', 25, paddle)
-    tk.update()
-    time.sleep(0.0)
-    iteration += 1
-
-iteration = 0
-count = 0
-
-# Real Deal
-while iteration < 200:
-    while ball.hit_right == False:
-        ball.draw()
-        paddle.draw()
-        if ball.score > hs:
-            hs = ball.score
-        canvas.itemconfig(label, text="Score: "+str(ball.score) + "\nGames:  " + str(g) + "\nHigh Score: " + str(hs))
-        tk.update_idletasks()
-        tk.update()
-        discrete_paddle = math.floor(12 * paddle.canvas.coords(paddle.id)[1] / (500 - 100))
-        if paddle.canvas.coords(paddle.id)[1] == 400:
-            discrete_paddle = 11
-        ball_pos = ball.canvas.coords(ball.id)
-        ball_speed = (ball.xspeed, ball.yspeed)
-        move = part1.get_move_sarsa(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
-        if move > 0:
-            paddle.move_up()
-        elif move < 0:
-            paddle.move_down()
-    # time.sleep(0.05)
-
-    if ball.score > 8:
-        count += 1
-
-    g += 1
-    paddle.reset(canvas, 'black')
-    paddle.draw()
-    canvas.delete(ball) #Deletes the rectangle
-    tk.update()
-    ball = Ball(canvas, 'red', 25, paddle)
-    tk.update()
-    time.sleep(0.0)
-    iteration += 1
-
-print str(count) + " out of 200 games."
-
-    # time.sleep(0.0)
-f = open('data.txt', 'w')
-for item in games_array:
-  f.write("%s\n" % item)
-f.write("\n")
-for item in mean_episode_array:
-  f.write("%s\n" % item)
-f.write("\n")
-for item in score_array:
-  f.write("%s\n" % item)
-f.write("\n")
+    time.sleep(0.1)
