@@ -76,37 +76,6 @@ def flnn(x, weights, biases, y, test):
 
         return loss
 
-#tlnn - three layer neural network
-def tlnn(x, weights, biases, y, test):
-
-        n = 0.1
-
-        z1, acache1, wcache1, bcache1 = affine_forward(x, weights[0], biases[0])
-        a1, rcache1 = relu_forward(z1)
-        z2, acache2, wcache2, bcache2 = affine_forward(a1, weights[1], biases[1])
-        a2, rcache2 = relu_forward(z2)
-        f, acache3, wcache3, bcache3 = affine_forward(a2, weights[2], biases[2])
-
-        if test:
-                return np.argmax(f, axis=1)
-
-        loss, df = cross_entropy(f, y)
-        da2, dw2, db2 = affine_backward(df, acache3, wcache3, bcache3)
-        dz2 = relu_backward(da2, rcache2)
-        da1, dw1, db1 = affine_backward(dz2, acache2, wcache2, bcache2)
-        dz1 = relu_backward(da1, rcache1)
-        dx, dw0, db0 = affine_backward(dz1, acache1, wcache1, bcache1)
-
-        weights[0] -= n * dw0
-        weights[1] -= n * dw1
-        weights[2] -= n * dw2
-
-        biases[0] -= n * db0
-        biases[1] -= n * db1
-        biases[2] -= n * db2
-
-        return loss
-
 def minibatch_4layer(data, epoch):
         w0 = np.random.rand(5, 256) - 0.5
         w1 = np.random.rand(256, 256) - 0.5
@@ -124,6 +93,13 @@ def minibatch_4layer(data, epoch):
 	losses = []
 	accuracies = []
         for e in range(epoch):
+		test = 1
+                accuracy = 0
+                for i in range(125, len(data), 125):
+                        x = data[(i - 125):i, :5]
+                        y = data[(i - 125):i, 5].astype(int)
+                        choices = flnn(x, weights, biases, y, test)
+                        accuracy += 125 - np.count_nonzero(choices - y)
 		test = 0
                 np.random.shuffle(data)
                 loss = 0
@@ -131,13 +107,6 @@ def minibatch_4layer(data, epoch):
                         x = data[(i - 125):i, :5]
                         y = data[(i - 125):i, 5].astype(int)
                         loss += flnn(x, weights, biases, y, test)
-		test = 1
-		accuracy = 0
-		for i in range(125, len(data), 125):
-                	x = data[(i - 125):i, :5]
-                	y = data[(i - 125):i, 5].astype(int)
-                	choices = flnn(x, weights, biases, y, test)
-			accuracy += 125 - np.count_nonzero(choices - y)
 		print str(e) + "\t\t" + str(loss / 80) + "\t\t" + str(accuracy / 100.0) + "%"
 		losses.append(loss / 80)
 		accuracies.append(accuracy / 100.0)
@@ -157,53 +126,17 @@ def minibatch_4layer(data, epoch):
                 choices = flnn(x, weights, biases, y, test)
                 for i in range(125):
                         confusion[int(y[i])][choices[i]] += 1
-
+	total_accuracy = str('%f' % ((confusion[0][0] + confusion[1][1] + confusion[2][2]) / 100)) + "%"
         for row in confusion:
                 row /= np.sum(row)
 
         np.set_printoptions(suppress=True)
         print confusion
-        print "Accuracy: ", str('%f' % ((confusion[0][0] + confusion[1][1] + confusion[2][2]) / .03)) + "%"
+        print "Accuracy: ", total_accuracy
 	plt.close()
+	with open("weights", "w") as w_out:
+		np.save(w_out, weights)
+	with open("biases", "w") as b_out:
+		np.save(b_out, weights)
 	return weights, biases
-
-def minibatch_3layer(data, epoch):
-        w0 = np.random.rand(5, 256) - 0.5
-        w1 = np.random.rand(256, 256) - 0.5
-        w2 = np.random.rand(256, 3) - 0.5
-        weights = np.array([w0, w1, w2])
-
-        b0 = np.zeros(256)
-        b1 = np.zeros(256)
-        b2 = np.zeros(3)
-        biases = np.array([b0, b1, b2])
-
-        test = 0
-
-        for e in range(epoch):
-                print e
-                np.random.shuffle(data)
-                loss = 0
-                for i in range(125, len(data) + 1, 125):
-                        x = data[(i - 125):i, :5]
-                        y = data[(i - 125):i, 5].astype(int)
-                        loss += tlnn(x, weights, biases, y, test)
-                print loss / 80
-
-        test = 1
-        confusion = np.zeros((3, 3))
-
-        for i in range(125, len(data) + 1, 125):
-                x = data[(i - 125):i, :5]
-                y = data[(i - 125):i, 5].astype(int)
-                choices = tlnn(x, weights, biases, y, test)
-                for i in range(125):
-                        confusion[int(y[i])][choices[i]] += 1
-
-        for row in confusion:
-                row /= np.sum(row)
-
-        np.set_printoptions(suppress=True)
-        print confusion
-        print "Accuracy: ", str('%f' % ((confusion[0][0] + confusion[1][1] + confusion[2][2]) / .03)) + "%"
 
