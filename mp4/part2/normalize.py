@@ -11,6 +11,8 @@ with open("dataset.txt", "r") as data:
 		mean = np.mean(state[:, i])
 		state[:, i] -= mean
 		state[:, i] /= std
+		print "Mean", mean
+		print "STD", std
 	normal = open("normalized.txt", "w")
 	for i in range(10000):
 		line = str(state[i][0])
