@@ -169,6 +169,83 @@ while g<=400:
     tk.update()
     ball = Ball(canvas, 'red', 25, paddle)
     tk.update()
+    time.sleep(0.0)
+    iteration += 1
+
+iteration = 0
+
+# Training
+while iteration < 5000:
+    while ball.hit_right == False:
+        ball.draw()
+        paddle.draw()
+        if ball.score > hs:
+            hs = ball.score
+        canvas.itemconfig(label, text="Score: "+str(ball.score) + "\nGames:  " + str(g) + "\nHigh Score: " + str(hs))
+        tk.update_idletasks()
+        tk.update()
+        discrete_paddle = math.floor(12 * paddle.canvas.coords(paddle.id)[1] / (500 - 100))
+        if paddle.canvas.coords(paddle.id)[1] == 400:
+            discrete_paddle = 11
+        ball_pos = ball.canvas.coords(ball.id)
+        ball_speed = (ball.xspeed, ball.yspeed)
+        move = part1.get_move_sarsa(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
+        if move > 0:
+            paddle.move_up()
+        elif move < 0:
+            paddle.move_down()
+    # time.sleep(0.05)
+
+    g += 1
+    paddle.reset(canvas, 'black')
+    paddle.draw()
+    canvas.delete(ball) #Deletes the rectangle
+    tk.update()
+    ball = Ball(canvas, 'red', 25, paddle)
+    tk.update()
+    time.sleep(0.0)
+    iteration += 1
+
+iteration = 0
+count = 0
+
+# Real Deal
+while iteration < 200:
+    while ball.hit_right == False:
+        ball.draw()
+        paddle.draw()
+        if ball.score > hs:
+            hs = ball.score
+        canvas.itemconfig(label, text="Score: "+str(ball.score) + "\nGames:  " + str(g) + "\nHigh Score: " + str(hs))
+        tk.update_idletasks()
+        tk.update()
+        discrete_paddle = math.floor(12 * paddle.canvas.coords(paddle.id)[1] / (500 - 100))
+        if paddle.canvas.coords(paddle.id)[1] == 400:
+            discrete_paddle = 11
+        ball_pos = ball.canvas.coords(ball.id)
+        ball_speed = (ball.xspeed, ball.yspeed)
+        move = part1.get_move_sarsa(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
+        if move > 0:
+            paddle.move_up()
+        elif move < 0:
+            paddle.move_down()
+    # time.sleep(0.05)
+
+    if ball.score > 8:
+        count += 1
+
+    g += 1
+    paddle.reset(canvas, 'black')
+    paddle.draw()
+    canvas.delete(ball) #Deletes the rectangle
+    tk.update()
+    ball = Ball(canvas, 'red', 25, paddle)
+    tk.update()
+    time.sleep(0.0)
+    iteration += 1
+
+print str(count) + " out of 200 games."
+
     # time.sleep(0.0)
 f = open('data.txt', 'w')
 for item in games_array:
