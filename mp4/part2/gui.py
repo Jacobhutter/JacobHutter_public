@@ -5,7 +5,8 @@ from Tkinter import *
 import random
 import time
 import math
-import part2
+import sys
+import part2move
 import state as s
 import numpy as np
 
@@ -111,6 +112,8 @@ class Paddle:
         pos = self.canvas.coords(self.id)
         if pos[1] < 400:
             self.yspeed = 20
+    def stop(self):
+	self.yspeed = 0
     def reset(self, canvas, color):
         pos = self.canvas.coords(self.id)
         self.canvas.move(self.id, 0, 200-pos[1])
@@ -130,6 +133,8 @@ time.sleep(1.0)
 # Animation loop
 g = 0
 hs = 0
+print "Game\t\tScore"
+scores = []
 while True:
     while ball.hit_right == False:
         ball.draw()
@@ -139,19 +144,20 @@ while True:
         canvas.itemconfig(label, text="Score: "+str(ball.score) + "\nGames:  " + str(g) + "\nHigh Score: " + str(hs))
         tk.update_idletasks()
         tk.update()
-        discrete_paddle = math.floor(12 * paddle.canvas.coords(paddle.id)[1] / (500 - 100))
-        if paddle.canvas.coords(paddle.id)[1] == 400:
-            discrete_paddle = 11
+        discrete_paddle = paddle.canvas.coords(paddle.id)[3] / 500 - 0.2
         ball_pos = ball.canvas.coords(ball.id)
-        ball_speed = (ball.xspeed, ball.yspeed)
-        move = part1.get_move(discrete_paddle, ball_pos, ball_speed, ball.hit_paddle(ball_pos), scoreboard, path)
+	move = part2move.get_move(discrete_paddle, ball_pos, ball.xspeed, ball.yspeed)
         if move > 0:
             paddle.move_up()
         elif move < 0:
             paddle.move_down()
-        # time.sleep(0.05)
+	else:
+	    paddle.stop()
+        #time.sleep(0.5)
 
     g += 1
+    print str(g) + "\t\t" + str(ball.score)
+    scores.append(ball.score)
     paddle.reset(canvas, 'black')
     paddle.draw()
     canvas.delete(ball) #Deletes the rectangle
@@ -159,3 +165,14 @@ while True:
     ball = Ball(canvas, 'red', 25, paddle)
     tk.update()
     time.sleep(0.0)
+    if g == 1000:
+	print "Average Bounces:\t" + str(np.mean(np.asarray(scores)))
+	histogram = {}
+	for score in scores:
+		if histogram.get(score) == None:
+			histogram[score] = 1
+		else:
+			histogram[score] += 1
+	for key in sorted(histogram):
+		print str(key) + ":\t", histogram[key]
+	break

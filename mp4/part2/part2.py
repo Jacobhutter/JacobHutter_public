@@ -53,7 +53,10 @@ def flnn(x, weights, biases, y, test):
         f, acache4, wcache4, bcache4 = affine_forward(a3, weights[3], biases[3])
 
         if test:
-                return np.argmax(f, axis=1)
+		if np.ndim(f) == 1:
+			return np.argmax(f)
+		else:
+                	return np.argmax(f, axis=1)
 
         loss, df = cross_entropy(f, y)
         da3, dw3, db3 = affine_backward(df, acache4, wcache4, bcache4)
