@@ -137,6 +137,6 @@ def minibatch_4layer(data, epoch):
 	with open("weights", "w") as w_out:
 		np.save(w_out, weights)
 	with open("biases", "w") as b_out:
-		np.save(b_out, weights)
+		np.save(b_out, biases)
 	return weights, biases
 
