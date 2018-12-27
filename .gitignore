@@ -1,0 +1,10 @@
+student-distrib/*.o
+
+*.dep
+
+
+student-distrib/output.txt
+
+fsdir/output.txt
+
+student-distrib/bootimg
