@@ -1,0 +1,84 @@
+bug_log.txt
+Group mates: Jacob Allen, Jacob Hutter, Timothy Klem, Cameron Long
+
+MP3.1 (3/6 - 3/13) (Bootup process)
+Paging:
+
+    Issue: Trying to set up 4MB page for Kernel.
+    Solution: Had to enable 4MB pages before enabling Paging
+    Fixed By: Jacob A.
+    Approx. Fix Time: 1 hour
+
+General:
+    Issue: crash when integrating exception handlers with paging.
+    Solution: use c-linkage initially, then switch to assembly linkage after
+        noticing our asm jump table would not work as stated, essentially eip
+        would trail off into no where
+    Fixed By: Tim K.
+    Approx. Fix Time: 1.25 hours
+    
+MP3.2 (3/14 - 3/27) (Devices)
+Terminal Output:
+    Issue: Deleting terminal_write data creates green blocks on bottom right of
+        screen.
+    Solution: remove ability to destroy data written by terminal write
+    Fixed By: Jacob H.
+    Approx. Fix Time: 2 hours
+
+Terminal Output:   
+    Issue: Read would not wrap file in terminal. Instead, it would overwrite in
+        the same line until the file had a new line.
+    Solution: Use terminal_write instead of print_f
+    Fixed By: Jacob A.
+    Approx. Fix Time: 2.5 hours
+    
+MP3.3 (3/28 - 4/17) (User programs)
+System Calls:
+    Issue: EXECUTE causes page fault
+    Solution: was not making user page R/W enabled 
+    Fixed By: Tim K.
+    Approx. Fix Time: 1.25 hours
+
+System Calls:   
+    Issue: HALT causes page fault because of eax dereference.
+    Solution: restoring esp, ebp from parent pcb instead of current pcb
+    Fixed By: Jacob H.
+    Approx. Fix Time: 1.75 hours
+
+Execute:
+    Issue: Loading executable into memory would cause page fault
+    Solution: Calculated data block incorrectly
+    Fixed By: Cameron L.
+    Approx. Fix Time:
+    
+MP3.4 (4/18 - 4/24) (Finishing system calls)
+Execute:
+    Issue: grep and cat would run even if there were no arguments
+    Solution: Added NULL check in GETARGS
+    Fixed By: Jacob A.
+    Approx. Fix Time: 0.5 hours
+    
+Syserr:
+    Issue: All would pass separately, but some would fail when ran in one program run
+    Solution: Make sure HALT closes all files
+    Fixed By: Cameron L.
+    Approx. Fix Time: 0.5 hours
+    
+Filesystem read:
+    Issue: Fish picture printed in cat would print out large amounts of whitespace
+    Solution: Adjusted copy length of filesystem copy_to_user to max out at end of file
+    Fixed by: Tim K.
+    Approx. Fix time: 2.5 hours
+
+MP3.5 (4/25 - 5/1) (Scheduling)
+Kernel:
+    Issue: Stack-overflow
+    Solution: backtraced and continued from a working copy
+    Fixed By: Tim K.
+    Approx. Fix Time: 3.5 hours
+    
+Multiple Terminals:
+    Issue: Fish program would only display in terminal 1
+    Solution: Map each terminal into its own frame buffer
+    Fixed By: Jacob H.
+    Approx. Fix Time: 1.5 hours
