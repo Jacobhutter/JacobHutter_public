@@ -1,0 +1,349 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2017.1.16)  7 MAY 2017 21:55
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**jhutter2
+(./jhutter2.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
+aded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+\lst@mode=\count87
+\lst@gtempboxa=\box26
+\lst@token=\toks15
+\lst@length=\count88
+\lst@currlwidth=\dimen103
+\lst@column=\count89
+\lst@pos=\count90
+\lst@lostspace=\dimen104
+\lst@width=\dimen105
+\lst@newlines=\count91
+\lst@lineno=\count92
+\lst@maxwidth=\dimen106
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
+\c@lstnumber=\count93
+\lst@skipnumbers=\count94
+\lst@framebox=\box27
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+Package: listings 2007/02/22 1.4 (Carsten Heinz)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count95
+))
+\Gin@req@height=\dimen107
+\Gin@req@width=\dimen108
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+) (./jhutter2.aux)
+\openout1 = `jhutter2.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
+LaTeX Font Info:    ... okay on input line 41.
+\c@lstlisting=\count96
+ (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count97
+\scratchdimen=\dimen109
+\scratchbox=\box28
+\nofMPsegments=\count98
+\nofMParguments=\count99
+\everyMPshowfont=\toks16
+\MPscratchCnt=\count100
+\MPscratchDim=\dimen110
+\MPnumerator=\count101
+\makeMPintoPDFobject=\count102
+\everyMPtoPDFconversion=\toks17
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 42.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 46.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 46.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 51.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <8> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 51.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 53.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 53.
+ [1
+
+{/usr/share/texlive/texmf/fonts/map/pdftex/updmap/pdftex.map}] <1.jpg, id=14, 5
+62.1pt x 421.575pt>
+File: 1.jpg Graphic file (type jpg)
+
+<use 1.jpg>
+Package pdftex.def Info: 1.jpg used on input line 139.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+ <1_magnitude.jpg, id=15, 562.1pt x 421.575pt>
+File: 1_magnitude.jpg Graphic file (type jpg)
+
+<use 1_magnitude.jpg>
+Package pdftex.def Info: 1_magnitude.jpg used on input line 140.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--141
+[][]
+ []
+
+<1_phase.jpg, id=16, 562.1pt x 421.575pt>
+File: 1_phase.jpg Graphic file (type jpg)
+ <use 1_phase.jpg>
+Package pdftex.def Info: 1_phase.jpg used on input line 143.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2004/09/05 1.3 listings language file
+) (./report2.m)
+<2_phi.jpg, id=17, 562.1pt x 421.575pt>
+File: 2_phi.jpg Graphic file (type jpg)
+ <use 2_phi.jpg>
+Package pdftex.def Info: 2_phi.jpg used on input line 163.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+<2_psi.jpg, id=18, 562.1pt x 421.575pt>
+File: 2_psi.jpg Graphic file (type jpg)
+ <use 2_psi.jpg>
+Package pdftex.def Info: 2_psi.jpg used on input line 164.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 163--165
+[][]
+ []
+
+(./report3.m) <3_sym4.jpg, id=19, 562.1pt x 421.575pt>
+File: 3_sym4.jpg Graphic file (type jpg)
+ <use 3_sym4.jpg>
+Package pdftex.def Info: 3_sym4.jpg used on input line 172.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+<3_coif1.jpg, id=20, 562.1pt x 421.575pt>
+File: 3_coif1.jpg Graphic file (type jpg)
+ <use 3_coif1.jpg>
+Package pdftex.def Info: 3_coif1.jpg used on input line 173.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 172--174
+[]
+ []
+
+
+LaTeX Warning: Float too large for page by 97.2792pt on input line 174.
+
+(./report4.m) <4_same.jpg, id=21, 562.1pt x 421.575pt>
+File: 4_same.jpg Graphic file (type jpg)
+ <use 4_same.jpg>
+Package pdftex.def Info: 4_same.jpg used on input line 185.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+<4_idwt.jpg, id=22, 1124.2pt x 843.15pt>
+File: 4_idwt.jpg Graphic file (type jpg)
+ <use 4_idwt.jpg>
+Package pdftex.def Info: 4_idwt.jpg used on input line 187.
+(pdftex.def)             Requested size: 614.295pt x 460.72342pt.
+
+
+LaTeX Warning: Float too large for page by 148.39928pt on input line 189.
+
+
+LaTeX Warning: Float too large for page by 61.2602pt on input line 262.
+
+<a1d1.jpg, id=23, 562.1pt x 421.575pt>
+File: a1d1.jpg Graphic file (type jpg)
+ <use a1d1.jpg>
+Package pdftex.def Info: a1d1.jpg used on input line 297.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+<a2d2.jpg, id=24, 562.1pt x 421.575pt>
+File: a2d2.jpg Graphic file (type jpg)
+ <use a2d2.jpg>
+Package pdftex.def Info: a2d2.jpg used on input line 298.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 297--299
+[][]
+ []
+
+<a3d3.jpg, id=25, 562.1pt x 421.575pt>
+File: a3d3.jpg Graphic file (type jpg)
+ <use a3d3.jpg>
+Package pdftex.def Info: a3d3.jpg used on input line 302.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+<a4d4.jpg, id=26, 562.1pt x 421.575pt>
+File: a4d4.jpg Graphic file (type jpg)
+ <use a4d4.jpg>
+Package pdftex.def Info: a4d4.jpg used on input line 303.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+<a5d5.jpg, id=27, 562.1pt x 421.575pt>
+File: a5d5.jpg Graphic file (type jpg)
+ <use a5d5.jpg>
+Package pdftex.def Info: a5d5.jpg used on input line 304.
+(pdftex.def)             Requested size: 281.04932pt x 210.78697pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 302--305
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 302--305
+[]
+ []
+
+
+LaTeX Warning: Float too large for page by 84.36092pt on input line 305.
+
+[2] [3 <./1.jpg> <./1_magnitude.jpg>] [4 <./1_phase.jpg>] [5] [6 <./2_phi.jpg> 
+<./2_psi.jpg>] [7 <./3_sym4.jpg> <./3_coif1.jpg>] [8] [9 <./4_same.jpg> <./4_id
+wt.jpg>] [10] [11] [12 <./a1d1.jpg> <./a2d2.jpg>] [13 <./a3d3.jpg> <./a4d4.jpg>
+ <./a5d5.jpg>] (./jhutter2.aux) ) 
+Here is how much of TeX's memory you used:
+ 3546 strings out of 495063
+ 49085 string characters out of 3182201
+ 905332 words of memory out of 3000000
+ 6687 multiletter control sequences out of 15000+200000
+ 6983 words of font info for 25 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 38i,7n,39p,328b,2071s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
+2.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on jhutter2.pdf (13 pages, 544993 bytes).
+PDF statistics:
+ 93 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
+
