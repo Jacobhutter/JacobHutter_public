@@ -1,0 +1,14 @@
+module mux_3(input [3:0] D1, D2,
+             input select,
+             output Z);
+
+
+             always_comb
+              begin
+               if(select)
+                Do = D2;
+               else
+                D0 = D1;
+              end
+
+endmodule

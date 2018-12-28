@@ -1,0 +1,25 @@
+transcript on
+if {[file exists rtl_work]} {
+	vdel -lib rtl_work -all
+}
+vlib rtl_work
+vmap work rtl_work
+
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/tristate.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/two_mux.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/Mem2IO.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/HexDriver.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/buffermux.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/16bitreg.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/register_1.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/mux_8.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/logic2.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/logic1.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/ISDU.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/ALUK.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/4to1mux.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/mux_3.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/Reg_File.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/datapath.sv}
+vlog -sv -work work +incdir+E:/LAB_6 {E:/LAB_6/slc3.sv}
+

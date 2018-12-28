@@ -1,0 +1,3 @@
+file obj/print_binary
+memory x4000 xFFFF
+continue

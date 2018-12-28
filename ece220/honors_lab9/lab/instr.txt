@@ -1,0 +1,63 @@
+Instructions
+************
+Complete the following functions in simp_tree.c:
+get_size_st
+print_pre_st
+print_in_st
+print_post_st
+print_bfs_st
+print_dfs_st
+print_level_st
+print_zigzag_st
+All these functions return a 'Handle' type which is just an just an enum
+defined in 'error.h'. You can just return 'E_SUCCESS' for all of these.
+
+To solve some of these problems, you will need to make use of stacks and 
+queues whose implementation has been provided to you in the 'src' directory.
+
+Example:
+Input: 5 3 4 1 6
+Diagram:
+    5
+   / \
+  3   6
+ / \
+1   4
+
+Output:
+get_size_st:     5
+print_pre_st:    5 3 1 4 6
+print_in_st:     1 3 4 5 6
+print_post_st:   1 4 3 6 5
+print_bfs_st:    5 3 6 1 4
+print_dfs_st:    5 3 1 4 6
+print_level_st:  3 6
+print_zigzag_st: 5 6 3 1 4
+
+get_size_st:
+Print the size of the tree.
+
+print_pre_st:
+Prints a pre-order traversal of the tree.
+
+print_in_st:
+Prints an in-order traversal of the tree.
+
+print_post_st:
+Prints a post-order traversal of the tree.
+
+print_bfs_st:
+Prints a breadth first search traversal of the tree.
+
+print_dfs_st:
+Prints a depth first search traversal of the tree.
+
+print_level_st:
+Prints the kth level of the tree.
+
+print_zigzag_st:
+Alternates between printing the levels of the tree from the right and left 
+sides. Starts rightward initially.
+
+Assumptions:
+--The tree will have at least one element in it.

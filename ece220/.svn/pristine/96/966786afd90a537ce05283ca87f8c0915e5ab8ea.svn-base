@@ -1,0 +1,204 @@
+#include "sudoku.h"
+
+// Procedure: print_sudoku
+void print_sudoku(int sudoku[9][9])
+{
+  int i, j;
+  for(i=0; i<9; i++) {
+    for(j=0; j<9; j++) {
+      printf("%2d", sudoku[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+// Procedure: parse_sudoku
+void parse_sudoku(const char fpath[], int sudoku[9][9]) {
+  FILE *reader = fopen(fpath, "r");
+  assert(reader != NULL);
+  int i, j;
+  for(i=0; i<9; i++) {
+    for(j=0; j<9; j++) {
+      fscanf(reader, "%d", &sudoku[i][j]);
+    }
+  }
+  fclose(reader);
+}
+
+//-------------------------------------------------------------------------------------------------
+// Start coding your MP here.
+// ------------------------------------------------------------------------------------------------
+
+// Function: is_val_in_row
+// Return true if "val" already existed in ith row of array sudoku.
+int is_val_in_row(const int val, const int i, const int sudoku[9][9]) {
+
+  assert(i>=0 && i<9);
+int j;
+int sum = 0;
+  // BEG TODO
+	for(j = 1; j<10; j ++){
+		if(sudoku[i][j] == val)
+			sum += 1;    // we expect to hit the val at least once so we will look for sum = 1 
+}
+  sum -= 1;
+	if(sum)
+		sum = 1;
+  return sum;
+  // END TODO
+}
+
+// Function: is_val_in_col
+// Return true if "val" already existed in jth column of array sudoku.
+int is_val_in_col(const int val, const int j, const int sudoku[9][9]) {
+
+  assert(j>=0 && j<9);
+
+  // BEG TODO
+  int i;
+int sum = 0;
+  // BEG TODO
+	for(i = 1; i<10; i ++){
+		if(sudoku[i][j] == val)
+			sum += 1;    // we expect to hit the val at least once so we will look for sum = 1 
+
+}
+  sum -= 1;
+	if(sum)
+		sum = 1;
+  return sum;
+  // END TODO
+}
+
+// Function: is_val_in_3x3_zone
+// Return true if val already existed in the 3x3 zone corresponding to (i, j)
+int is_val_in_3x3_zone(const int val, const int i, const int j, const int sudoku[9][9]) {
+   
+  assert(i>=0 && i<9);
+  
+  // BEG TODO
+  int k,L;
+	int section = 0;
+	int sum = 0; 
+	int row_offset = 0;
+	int column_offset = 0;
+	if((i <= 2)){
+		if(j <=2)
+			section = 1;
+    if((j>2)&&(j<=5))
+			section = 2;
+		if((j>=6))
+			section = 3;
+ }
+	if((i>2)&&(i<=5)){
+	  if(j <=2)
+			section = 4;
+    if((j>2)&&(j<=5))
+			section = 5;
+		if((j>=6))
+			section = 6;
+ }
+	if((i >=6)){
+		if(j <=2)
+			section = 7;
+    if((j>2)&&(j<=5))
+			section = 8;
+		if((j>=6))
+			section = 9;
+ }
+	switch(section){
+	case 1: row_offset = 0;
+					column_offset = 0;
+					break;
+	case 2: column_offset = 3;
+					break;
+	case 3: column_offset = 6;
+					break;
+	case 4: row_offset = 3;
+					column_offset = 0;
+					break;
+	case 5: row_offset = 3;
+					column_offset = 3;
+					break;
+	case 6: row_offset = 3;
+					column_offset = 6;
+					break;
+	case 7: row_offset = 6;
+					column_offset = 0;
+					break;
+	case 8: row_offset = 6;
+					column_offset = 3;
+					break;
+  case 9: row_offset = 6;
+					column_offset = 6;
+					break;
+ }
+	for(k = 0; k<3;k++){  // row index
+	 for(L = 0; L<3;L++){ // column index
+     if(sudoku[k+row_offset][L+column_offset] == val)
+			sum += 1; // expecting val to appear at least once 
+  }
+ }
+	sum -= 1;
+	if(sum)   // if sum was greater than 1 after the for loop, it will trip this if statement and set it to one 
+		sum = 1; 
+  return sum;
+  // END TODO
+}
+
+// Function: is_val_valid
+// Return true if the val is can be filled in the given entry.
+int is_val_valid(const int val, const int i, const int j, const int sudoku[9][9]) {
+
+  // BEG TODO.
+	int sum = 1;
+	if(is_val_in_row(val,i,sudoku))
+		sum = 0;
+	if(is_val_in_col(val,j,sudoku))
+		sum = 0;
+	if(is_val_in_3x3_zone(val,i,j,sudoku))
+		sum = 0;
+
+  return sum;
+  // END TODO.
+}
+
+// Procedure: solve_sudoku
+// Solve the given sudoku instance.
+int solve_sudoku(int sudoku[9][9]) {
+  // BEG TODO.
+int i,j; //initialize row and column indecies
+int sum = 1;
+int num;
+	for(i=0;i<9;i++){      // begin checking if every sudoku slot is filled
+	 for(j=0;j<9;j++){
+		if(!sudoku[i][j])
+			sum = 0;
+  }
+ }
+	if(sum)
+  return sum;
+int row =0,column=0;      // to get to this point, we know that there must be at least one unfilled cell 
+	for(i=0;i<9;i++){      // look for unfilled slot 
+	 for(j=0;j<9;j++){
+		if(!sudoku[i][j]){
+			row = i;          // after for loops have passed, row and column will contain the last available slot unfilled coordinates i and j
+			column = j;
+   }
+  }
+ }
+	for(num = 1; num <=9;num++){
+ if(is_val_valid(num,row,column,sudoku)){    // if val can be placed in this location
+		sudoku[row][column] = num;
+    if(solve_sudoku(sudoku)){
+     return true;
+   }
+ // sudoku[row][column] = 0;
+  }
+ }
+	 return false; 
+  // END TODO.
+}
+
+
+

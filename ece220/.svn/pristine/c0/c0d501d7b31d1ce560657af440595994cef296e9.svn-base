@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include "permutation.h"
+
+/*
+ * find_permutations
+ *   DESCRIPTION: finds all permutations of perm in search
+ *   INPUTS: perm -- array containing permutation to search for
+ *           perm_len -- length of permutation string
+ *           search -- array to be searched over for permutations
+ *           search_len -- length of search string
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
+ */
+void find_permutations(const char perm[], int perm_len, const char search[], int search_len)
+{
+
+}

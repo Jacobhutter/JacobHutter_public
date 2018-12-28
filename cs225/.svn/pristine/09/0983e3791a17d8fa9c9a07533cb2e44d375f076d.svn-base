@@ -1,0 +1,243 @@
+/**
+ * @file quadtree.cpp
+ * Quadtree class implementation.
+ * @date Spring 2008
+ */
+#include "quadtree.h"
+Quadtree::Quadtree(){
+ root = new QuadtreeNode(1,0,0);
+}
+
+Quadtree::Quadtree(PNG const &source, int resolution){
+  buildTree(source,resolution);
+
+}
+
+Quadtree::Quadtree(Quadtree const &other){
+  copy(other);
+}
+
+void Quadtree::copy(Quadtree const &other){
+  if(other.root == NULL) // check for null;
+    return;
+  root = new QuadtreeNode;
+  root->element = new other.root->element; // copy over root vals
+  root->res = other.root->res;
+  root->x = other.root->x;
+  root->y = other.root->y;
+  rec_fill(other.root, root); // copy one side
+
+}
+
+void Quadtree::rec_fill(QuadtreeNode* &root,QuadtreeNode* & cpy){
+  if(root == NULL) // branch doesn't exist so can't copy
+    return;
+  if(root->nwchild){ // nw child
+    QuadtreeNode * nw = new QuadtreeNode;
+    nw->element = root->nwchild->element; // copy over element
+    nw->res = root->nwchild->res; // copy over res
+    nw->x = root->nwchild->x; // copy over x
+    nw->y = root->nwchild->y; // copy over y
+    cpy->nwchild = nw;
+    rec_fill(root->nwchild,cpy->nwchild);
+  }
+
+  if(root->nechild){ // ne child
+    QuadtreeNode * ne = new QuadtreeNode;
+    ne->element = root->nechild->element; // copy over element
+    ne->res = root->nechild->res; // copy over res
+    ne->x = root->nechild->x; // copy over x
+    ne->y = root->nechild->y; // copy over y
+    cpy->nechild = ne;
+    rec_fill(root->nechild,cpy->nechild);
+  }
+
+  if(root->swchild){ // sw child
+    QuadtreeNode * sw = new QuadtreeNode;
+    sw->element = root->swchild->element; // copy over element
+    sw->res = root->swchild->res; // copy over res
+    sw->x = root->swchild->x; // copy over x
+    sw->y = root->swchild->y; // copy over y
+    cpy->swchild = sw;
+    rec_fill(root->swchild,cpy->swchild);
+  }
+
+  if(root->sechild){ // se child
+    QuadtreeNode * se = new QuadtreeNode;
+    se->element = root->sechild->element; // copy over element
+    se->res = root->sechild->res; // copy over res
+    se->x = root->sechild->x; // copy over x
+    se->y = root->sechild->y; // copy over res
+    cpy->sechild = se;
+    rec_fill(root->sechild,cpy->sechild);
+  }
+  return;
+
+
+}
+
+
+Quadtree::~Quadtree(){
+  clear();
+}
+
+void Quadtree::clear(){
+  rec_clr(root);
+  //delete this; // delete the quad tree
+}
+
+void Quadtree::rec_clr(QuadtreeNode* &root){  // post order traversal
+
+  if(root == NULL)
+    return;
+
+  if(root->nwchild){// nw child
+    rec_clr(root->nwchild);
+  }
+
+  if(root->nechild){// ne child
+    rec_clr(root->nechild);
+  }
+
+  if(root->swchild){ // sw child
+    rec_clr(root->swchild);
+  }
+
+  if(root->nwchild){// se child
+    rec_clr(root->sechild);
+  }
+ // to get to this point, must have either cleared previous nodes or be a leaf node
+  root->nwchild = NULL; // cutoff from children
+  root->nechild = NULL;
+  root->swchild = NULL;
+  root->sechild = NULL;
+
+  delete root; // free up memory
+
+
+}
+
+ const & Quadtree::operator=(Quadtree const &other){
+   if(this != &other){ // check for self assignment
+     clear();
+     copy(other);
+   }
+     return *this;
+
+}
+
+void Quadtree::buildTree(PNG const &source, int resolution){
+    rec_clear(root) // delete the current quadtree object;
+
+    root = new QuadtreeNode;
+    root->res = resolution;
+    root->x = 0;
+    root->y = 0;
+    buildTree_rec(source,resolution,root);
+
+}
+
+void Quadtree::buildTree_rec(PNG const &source, int resolution, QuadtreeNode * root){
+    if(root == NULL)
+      return;
+    if(resolution == 1){
+      root->element = *source(root->x,root->y);
+      return; // set element color, rest have average
+    }
+
+    QuadtreeNode * nw = new QuadtreeNode(resolution/2,x,y);
+    QuadtreeNode * ne = new QuadtreeNode(resolution/2,x+resolution/2,y);
+    QuadtreeNode * sw = new QuadtreeNode(resolution/2,x,y+resolution/2);
+    QuadtreeNode * se = new QuadtreeNode(resolution/2,x+resolution/2,y+resolution/2);
+    root->nwChild = nw;
+    root->neChild = ne;
+    root->swChild = sw;
+    root->seChild = se;
+
+
+    buildTree_rec(source, resolution/2, nw); // call on nw
+    buildTree_rec(source, resolution/2, ne); // call on ne
+    buildTree_rec(source, resolution/2, sw); // call on sw
+    buildTree_rec(source, resolution/2, se); // call on se
+
+    root->element.blue = (root->nwChild->element.blue + root->neChild->element.blue root->swChild->element.blue + root->seChild->element.blue)/4;
+    root->element.green = (root->nwChild->element.green + root->neChild->element.green root->swChild->element.green + root->seChild->element.green)/4;
+    root->element.red = (root->nwChild->element.red + root->neChild->element.red root->swChild->element.red + root->seChild->element.red)/4;
+
+}
+
+RGBAPixel Quadtree::getPixel(int x,int y) const{
+  if(x < 0 || y < 0)
+    return *(new RGBAPixel());
+  return getPixel_rec(x, y, root);
+}
+
+RGBAPixel Quadtree::getPixel_rec(int x, int y, QuadtreeNode * root){
+  if((x == root->x && y == root->y && root->res == 1))
+    return root->element;
+  if(root->nwChild == NULL && root->swChild == NULL && root->neChild == NULL && root->seChild == NULL) // leaf node
+    return root->element;
+  // check boundaries
+  if(withinBounds(root->nwChild, x, y )){
+  RGBAPixel retval =  getPixel_rec(x,y,root->nwChild);
+    return retval;
+
+  }
+  if(withinBounds(root->neChild, x, y )){
+      RGBAPixel retval = getPixel_rec(x,y,root->neChild);
+    return retval;
+  }
+  if(withinBounds(root->swChild, x, y )){
+      RGBAPixel retval = getPixel_rec(x,y,root->swChild);
+    return retval;
+  }
+  if(withinBounds(root->seChild, x, y )){
+      RGBAPixel retval = getPixel_rec(x,y,root->seChild);
+    return retval;
+  }
+
+}
+
+bool Quadtree::withinBounds(QuadtreeNode * root, int x, int  y){
+  if(root == NULL)
+    return false;
+  int maxx = root->x + root->res;
+  int minx = root->x;
+
+  int maxy = root->y + root->res;
+  int miny = root->y;
+  if((x >= minx && x< maxx) && (y >= miny && y< maxy))
+    return true;
+  else
+    return false;
+}
+
+PNG Quadtree::decompress() const{
+  if(root == NULL){
+    PNG *a = new PNG();
+    return *a;
+  }
+  PNG *image= new PNG(root->res, root->res); // create new image
+  int xi,yi;
+  xi = 0;
+  yi = 0;
+  for(xi = 0; xi < image->width(); xi++){
+    for(yi = 0; yi < image->height(); yi++){
+      *(*image(xi,yi)) = getPixel(xi,yi);
+    }
+  }
+  return *image;
+}
+
+void Quadtree::clockwiseRotate(){
+
+}
+void Quadtree::prune(int tolerance){
+
+}
+int Quadtree::pruneSize(int tolerance) const{
+  return 0;
+}
+int Quadtree::idealPrune(int numLeaves) const{
+  return 0;
+}

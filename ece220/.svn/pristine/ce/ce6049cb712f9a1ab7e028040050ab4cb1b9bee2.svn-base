@@ -1,0 +1,28 @@
+Instructions
+************
+Complete the 'find_permutation' function in permutation.c. Given two strings p 
+and w, this function finds all permutations of p in w.
+
+Example:
+Input: p - dog, w - ddogg
+Output: dog
+
+Input: p - dog, w - gdogdo
+Output: gdo dog ogd gdo
+
+You will need to print out all the permutatios of p in w as shown in the 
+examples above. As shown in the second example, permutations may overlap with 
+each other.
+
+Before writing the code for this lab, you should think about various strategies
+that could be used to solve this problem. The optimized solution for this lab
+should take no more than 20 actual lines of code (Ignoring {}, newlines, and
+comments). Mine only took 10. :P
+
+HINT:
+Homomorphism
+
+Assumptions:
+--w will be at least as long p.
+
+--Both the search and perm strings will only contain [a-z]+.

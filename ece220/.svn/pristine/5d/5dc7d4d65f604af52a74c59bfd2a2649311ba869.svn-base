@@ -1,0 +1,23 @@
+#!/bin/bash
+
+co_dir=$1
+dst_dir=$2
+netid=potok2
+svn_url=https://subversion.ews.illinois.edu/svn/sp16-ece220
+
+# Handle honors lab
+hl_regex="^honors_lab([1-9]|[1][0-1])$"
+if [[ $co_dir =~ $hl_regex ]]; then
+  svn cp $svn_url/_shared/$co_dir $svn_url/$netid/$co_dir -m "Copying"
+fi
+
+# Check if co_dir exists
+svn ls $svn_url/$netid/$co_dir &> /dev/null
+error=$?
+
+# Checkout co_dir
+if [[ $error -eq 0 ]]; then
+  svn co $svn_url/$netid/$co_dir $dst_dir
+else
+  echo "Invalid checkout directory"
+fi

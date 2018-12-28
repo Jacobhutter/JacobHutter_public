@@ -1,0 +1,6 @@
+file foo
+memory X_VAL x1
+memory Y_VAL x3
+continue
+dump x5FFE
+quit

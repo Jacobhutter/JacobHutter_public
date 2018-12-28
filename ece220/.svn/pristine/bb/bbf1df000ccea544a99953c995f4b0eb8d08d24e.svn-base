@@ -1,0 +1,275 @@
+#include "sparsemat.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int row_major(int original_row, int original_col, int new_row, int new_col){ // one means switch zero means dont 
+ if(original_row > new_row)
+ 	return 1;
+ if(original_row == new_row){
+ 	if(original_col > new_col)
+ 		return 1;
+ 	else
+ 		return 0;
+}
+ else 
+ 	return 0;
+
+}
+
+
+
+sp_tuples * load_tuples(char* input_file)
+{	
+    sp_tuples * new_tuple = (sp_tuples *)malloc(sizeof(sp_tuples));
+	new_tuple->tuples_head=NULL;
+	double temp = 0;
+	int i,j;
+	int count=0;
+	int * new_address;
+	new_address = NULL;
+  FILE * fp = fopen(input_file,"r");
+		if(fp == NULL){
+		printf("FILE COULD NOT BE READ\n");
+		return NULL;
+}
+		fscanf(fp,"%i %i ",&(new_tuple->m),&(new_tuple->n));  // get rows and col
+		while(fscanf(fp,"%i %i %lf ",&i,&j,&temp) != EOF){
+			//printf("flag\n");
+			set_tuples(new_tuple,i,j,temp); 
+			//printf("flag2\n");
+			if(temp != 0)
+			 ++count; 
+		}
+		new_tuple->nz = count;
+		
+    return new_tuple; 
+}
+
+
+
+double gv_tuples(sp_tuples * mat_t,int row,int col)
+{		double val=0;
+ 		sp_tuples_node * cur; // give the value of this node the address of the next 
+		cur = mat_t->tuples_head;
+		while(cur->row != row && cur->col != col){
+			if(cur->next == NULL)
+				break;
+			cur = cur->next; // move to next node in the list 
+}
+	 if((row == cur->row) && (col == cur->col));
+		 val = cur->value;
+			
+    return val;
+
+}
+
+
+
+void set_tuples(sp_tuples * mat_t, int row, int col, double value)
+{
+	if(value == 0){
+	return;
+}
+	else{
+		sp_tuples_node * current; //= (sp_tuples_node *)malloc(sizeof(sp_tuples_node));
+		if(mat_t->tuples_head==NULL){  //empty list
+			current =  (sp_tuples_node *)malloc(sizeof(sp_tuples_node));
+			current->row = row;
+			current->col = col;
+			current->value = value;  // if current node is first then declare it as the head node for now 
+			current->next = NULL;
+			mat_t->tuples_head = current;
+			//printf("initialize\n");
+			return;
+ 		}
+ 
+ 		//
+ 		current = mat_t->tuples_head;
+ 		sp_tuples_node * follower = (sp_tuples_node *)malloc(sizeof(sp_tuples_node)); // have follower
+ 		sp_tuples_node * add    = (sp_tuples_node *)malloc(sizeof(sp_tuples_node));
+ 		add->row = row;
+ 		add->col = col; // node to be added
+ 		add->value = value;
+ 		if(row_major(mat_t->tuples_head->row,mat_t->tuples_head->col,row,col)){ //if current head is bigger than the possible node
+ 			add->next = mat_t->tuples_head;
+ 			mat_t->tuples_head = add;
+ 			//printf("replace head\n");
+ 			return;
+ 	}
+ 		while(current!=NULL){
+ 		 follower = current;
+ 		 current = current->next;
+ 		if(current != NULL){
+ 		 if(row_major(current->row,current->col,row,col)){  // if we find one that is bigger 
+ 		 	follower->next = add; // have the following node be the node that points to added
+ 		 	add->next = current; // have add point to current which is bigger
+ 		 	//printf("add in middle\n");
+ 		 	return;
+ 		 }
+ 		 }
+ 	    }
+ 	    follower->next = add; // have the following node be the node that points to added
+ 		 	add->next = current; // have add point to current which is bigger
+ 		 	//if current ends up being null it means our potential add is the biggest on the current list
+   
+}
+	//printf("add to tail\n");
+    return;
+}
+
+
+void save_tuples(char * file_name, sp_tuples * mat_t)
+{	sp_tuples_node * cur;
+	int max_cols;
+	int max_rows;
+	max_cols = mat_t->n; // get matrix columns
+	max_rows = mat_t->m; // get matrix rows
+	cur = mat_t->tuples_head;
+	
+		FILE * fp = fopen(file_name,"w");
+			if(fp == NULL)
+				printf("COULD NOT OPEN FILE\n");
+		fprintf(fp,"%i %i\n",max_rows,max_cols);
+		while(cur != NULL){	
+			if(cur->value != 0){
+			fprintf(fp,"%d %d %lf\n",cur->row,cur->col,cur->value);
+			}
+			cur = cur->next; // because current starts off pointing to head	
+}
+		fclose(fp);
+	return;
+	
+}
+
+
+
+sp_tuples * add_tuples(sp_tuples * matA, sp_tuples * matB){
+	sp_tuples_node * A;
+	sp_tuples_node * follower;
+	sp_tuples_node * new_tuple;
+  A = matA->tuples_head->next; // A has second node address
+	sp_tuples * matC = (sp_tuples *)malloc(sizeof(sp_tuples));// make new matrix
+	matC->m = matA->m;
+	matC->n = matA->n;
+	matC->nz = 0;
+	matC->tuples_head = (sp_tuples_node *)malloc(sizeof(sp_tuples_node));
+	matC->tuples_head->row = matA->tuples_head->row;
+	matC->tuples_head->col = matA->tuples_head->col;
+	matC->tuples_head->value = matA->tuples_head->value;
+	sp_tuples_node * C = (sp_tuples_node *)malloc(sizeof(sp_tuples_node));
+	matC->tuples_head->next = C; // make C the next val in the chain
+	while(A->next != NULL && A != NULL){
+		C->row = A->row;
+		C->col = A->col;
+		C->value = A->value;
+		C->next = (sp_tuples_node *)malloc(sizeof(sp_tuples_node));  // C = A;
+		C = C->next;
+		A = A->next;
+}
+   A = matB->tuples_head; // A=Bhas second node address
+	 C = matC->tuples_head;
+	
+	while(row_major(C->row,C->col,A->row,A->col)){ // if B head is before make C head that the new head
+   matC->tuples_head = (sp_tuples_node *)malloc(sizeof(sp_tuples_node));
+	 matC->tuples_head->next = C; // prepend the head
+	 matC->tuples_head->row = A->row;
+	 matC->tuples_head->col = A->col;
+	 matC->tuples_head->value = A->value; // copy over B to new head
+	 A=A->next;
+	 C = matC->tuples_head; // reset C as the head address;
+}
+	 // A may point somewhere in the list C still points to the head 
+while(A != NULL){ // for every element after reseting the head procedure, traverse the list of C looking for matches or adding heads
+	while(C != NULL){
+		if(C->next != NULL){
+			if(row_major(C->next->row,C->next->col,A->row,A->col)){ // if smaller than next, will not return 1 if equal
+				follower = C;
+				C=C->next;
+				new_tuple = (sp_tuples_node *)malloc(sizeof(sp_tuples_node)); // make new node in between larger and smaller 
+				new_tuple->row = A->row;
+				new_tuple->col = A->col;
+				new_tuple->value = A->value;
+				new_tuple->next = C;
+				follower->next = new_tuple;
+				break;
+ 											 }
+									 }
+   if(C->row == A->row && C->col == A->col){ // duplicate coordinate, add vals
+		  C->value += A->value;
+			C = C->next;
+			break;
+}
+	if(C->next == NULL){        // if weve gotten to the end of the list without breaking, then must append val to list
+		C->next = (sp_tuples_node *)malloc(sizeof(sp_tuples_node));
+		C->next->row = A->row;
+		C->next->col = A->col;
+		C->next->value = A->value;
+		C->next->next = NULL;
+		C=C->next;
+		break;
+		
+	 									}
+	C=C->next; // if nothing else then just advance in the list
+ }
+	A=A->next;   // move to next val in the B list
+}
+	C = matC->tuples_head
+	while(C!=NULL){
+	if(C->value != 0)
+		++matC->nz;
+	C=C->next;
+}
+	return matC;
+	
+}
+
+
+
+sp_tuples * mult_tuples(sp_tuples * matA, sp_tuples * matB){ /*
+	int Arow,Acol;
+	sp_tuples * matC = (sp_tuples *)malloc(sizeof(sp_tuples));
+	sp_tuples_node * curA = matA->tuples_head;
+	sp_tuples_node * curB = matB->tuples_head;
+	while(curA != NULL && curA->value != 0){  // find non-zero entries in the list of A 
+		Arow = curA->row;
+		Acol = curA->col;
+		curB = matB->tuples_head;
+		while(curB != NULL && curB->row == Acol){
+		set_tuples(matC,Arow,curB->col,curA->value*curB->value);
+ }
+		
+	 
+	
+}
+    return matC;
+    */
+ return 0;
+}
+
+void recursive_free(sp_tuples_node * head){
+ 	if(head == NULL)
+		return;
+	if(head->next == NULL){
+		free(head);
+		return;
+}
+	else
+		recursive_free(head->next);
+ return;
+}
+	
+void destroy_tuples(sp_tuples * mat_t){
+	if(mat_t != NULL){
+	recursive_free(mat_t->tuples_head);
+}
+	free(mat_t);
+    return;
+}  
+
+
+
+
+
+

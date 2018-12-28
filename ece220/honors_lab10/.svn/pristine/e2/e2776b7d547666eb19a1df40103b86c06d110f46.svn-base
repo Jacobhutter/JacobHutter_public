@@ -1,0 +1,42 @@
+
+
+
+
+std::ostream &operator <<(std::ostream &stream, const Stack &stack)               
+{                                                                                 
+  size_t idx = 0;                                                                 
+  size_t sz = stack.get_size();                                                   
+                                                                                  
+  // Iterate through the list                                                     
+  while (idx < sz)                                                                
+  {                                                                               
+    stream << stack.at(idx++) << " ";                                             
+  }                                                                               
+                                                                                  
+  return stream;                                                                  
+} 
+
+bool Stack::is_empty(){
+		bool i;
+	while 
+		return i;
+
+
+}	
+std::size_t get_size() const{
+
+}
+
+int Stack::peek() const{
+
+}
+
+int Stack::pop(){
+
+
+}
+
+void Stack::push(int data){
+
+
+}

@@ -1,0 +1,27 @@
+;print_binary.asm
+;Prints out the binary equivalent of word to the console. Inputs are
+;provided by the inputX.asm files and the output should be printed to the
+;console
+
+;Inputs:
+;  x4000 - input to be printed
+
+;Outputs;
+;  Printed to console
+
+.ORIG x3000
+
+MAIN
+
+;Insert code here
+
+;End
+DONE
+  HALT
+
+;MAIN data
+IN1  .FILL x4000
+ZERO .FILL x0030
+ONE  .FILL x0031
+
+.END

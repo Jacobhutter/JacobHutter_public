@@ -1,0 +1,188 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "dlist.h"
+
+/*
+ * init_dlist
+ *   DESCRIPTION: initializes the doubly linked list
+ *   INPUTS: none
+ *   OUTPUTS: dlist -- memory for pointer to doubly linked list
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle init_dlist(DList **dlist)
+{
+  // Malloc doubly linked list
+  *dlist = (DList *)malloc(sizeof(DList));
+  if (*dlist == NULL)
+  {
+    return E_FAILURE;
+  }
+
+  // Malloc sentinel
+  Node *sentinel = (Node*)malloc(sizeof(Node));
+  if (sentinel == NULL)
+  {
+    return E_FAILURE;
+  }
+
+  // Set up sentinel node
+  sentinel->val = -1;
+  sentinel->prev = sentinel;
+  sentinel->next = sentinel;
+  (*dlist)->sentinel = sentinel;
+
+  // Set length
+  (*dlist)->length = 0;
+
+  return E_SUCCESS;
+}
+
+/*
+ * insert_dlist
+ *   DESCRIPTION: inserts data into the correct position into the doubly
+ *                linked list
+ *   INPUTS: dlist -- doubly linked list to be operated on
+ *           data -- data to be inserted
+ *           index -- location where to insert the data
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle insert_dlist(DList *dlist, int data, int index)
+{
+	int i;
+	if(index < 0)
+		return E_FAILURE;
+	
+	if(index == 0){ 
+		if(dlist->sentinel == NULL){
+     dlist->sentinel = (Node *)malloc(sizeof(Node));                  // first case: if index is zero, initialize sentinel node
+		 dlist->length += 1;  // increment length
+		 dlist->sentinel->prev = NULL; // 
+		 dlist->sentinel->next = NULL;
+  }
+		dlist->sentinel->val = data; // put the data there correctly
+		return E_SUCCESS;
+ }
+	
+ Node * node = dlist->sentinel; // get head address assuming sentinel exists
+	for(i=1;i<index;i++){
+		printf("flag\n");
+		if(node->next == NULL){
+			printf("newnode\n");
+			Node * new_node = (Node *)malloc(sizeof(Node));
+			new_node->prev = node;
+			new_node->next = NULL;
+			new_node->val = 0;
+			node->next = new_node;
+			dlist->length += 1;
+			node = node->next;
+ }
+		else
+			node = node->next; // advance to the next value;
+}
+	node->val = data; // once we get to the node with that index assign the val;
+  return E_SUCCESS;
+}
+
+/*
+ * reverse_dlist
+ *   DESCRIPTION: reverses the nodes in the list bounded by the start and
+ *                end indices
+ *   INPUTS: dlist -- doubly linked list to be operated on
+ *           start_index -- lower index of reversal
+ *           end_index -- upper index of reversal
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: changes order of nodes in list
+ */
+Handle reverse_dlist(DList *dlist, int start_index, int end_index)
+{	
+	int copy = 0;
+	Node * node_start = dlist->sentinel;
+	Node * node_end = dlist->sentinel;
+	int i;
+	for(i=0;i<start_index;i++){
+		if(node_start->next != NULL)
+				node_start=node_start->next;  // advance until we get to the start node
+}
+	for(i=0;i<end_index;i++){
+		if(node_end->next != NULL)
+				node_end=node_end->next;  // advance until we get to the end node
+}
+	while(node_start->next != node_end && node_start->next != node_end->prev && node_start != node_end->prev && node_end != node_start){
+		copy = node_start->val;
+		node_start->val = node_end->val;   // swap
+		node_end->val = copy;
+		node_start = node_start->next;
+		node_end = node_end->next;
+}
+  return E_SUCCESS;
+}
+
+/*
+ * print_dlist
+ *   DESCRIPTION: prints out all the nodes in the list
+ *   INPUTS: dlist -- doubly linked list to be printed
+ *   OUTPUTS: none
+ *   RETURN VALUE: handle error
+ *   SIDE EFFECTS: none
+ */
+Handle print_dlist(DList *dlist)
+{
+  // Check params
+  if (dlist == NULL)
+  {
+    return E_FAILURE;
+  }
+
+  // Loop variables
+  Node *ptr = dlist->sentinel->next;
+
+  // Iterate and print values
+  while (ptr != dlist->sentinel)
+  {
+    printf("%d ", ptr->val);
+    ptr = ptr->next;
+  }
+  printf("\n");
+
+  return E_SUCCESS;
+}
+
+/*
+ * free_dlist
+ *   DESCRIPTION: frees all memory assocatiated with the doubly linked list
+ *   INPUTS: dlist -- doubly linked list to be freed
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: frees list
+ */
+Handle free_dlist(DList *dlist)
+{
+  // Check params
+  if (dlist == NULL)
+  {
+    return E_SUCCESS;
+  }
+
+  // Free nodes
+  Node  *prev;
+  Node *cur = dlist->sentinel->next;
+  while (cur != dlist->sentinel)
+  {
+    prev = cur;
+    cur = cur->next;
+
+    // Free node
+    free(prev);
+  }
+
+  // Free sentinel and list
+  free(dlist->sentinel);
+  free(dlist);  
+
+  return E_SUCCESS;
+}

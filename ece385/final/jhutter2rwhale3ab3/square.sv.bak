@@ -1,0 +1,109 @@
+
+module  square ( input Reset, frame_clk,
+					input [15:0] keycode,
+               output [9:0]  SQUAREX, SQUAREY, SQUARES );
+
+    logic [9:0] SQUARE_X_Pos, SQUARE_X_Motion, SQUARE_Y_Pos, SQUARE_Y_Motion, SQUARE_Size;
+
+    parameter [9:0] SQUARE_X_Center=300;  // Center position on the X axis
+    parameter [9:0] SQUARE_Y_Center=50;  // Center position on the Y axis
+    parameter [9:0] SQUARE_X_Min=200;       // Leftmost point on the X axis
+    parameter [9:0] SQUARE_X_Max=400;     // Rightmost point on the X axis
+    parameter [9:0] SQUARE_Y_Min=0;       // Topmost point on the Y axis
+    parameter [9:0] SQUARE_Y_Max=400;     // Bottommost point on the Y axis
+    parameter [9:0] SQUARE_X_Step=2;      // Step size on the X axis
+    parameter [9:0] SQUARE_Y_Step=1;      // Step size on the Y axis
+	 
+    assign SQUARE_Size = 20;  // assigns the value 4 as a 10-digit binary number, ie "0000000100"
+
+    always_ff @ (posedge Reset or posedge frame_clk )
+    begin: Move_SQUARE
+        if (Reset)  // Asynchronous Reset
+        begin
+                  SQUARE_Y_Motion <= 10'd0; //SQUARE_Y_Step;
+						SQUARE_X_Motion <= 10'd0; //SQUARE_X_Step;
+						SQUARE_Y_Pos <= SQUARE_Y_Center;
+						SQUARE_X_Pos <= SQUARE_X_Center;
+						
+			
+        end
+
+        	else
+        		begin
+							case(keycode)
+										16'd7 : // d(right)
+												begin
+													//if(!flag) begin
+													//flag <= 1'b0;
+													SQUARE_Y_Motion <= 10'd0;
+													if(SQUARE_X_Motion < 0)
+															SQUARE_X_Motion <= (~ (SQUARE_X_Step) + 1'b1); // flip direction
+													else
+															SQUARE_X_Motion <= SQUARE_X_Step;
+
+												end //end
+												
+
+				16'd22 : // s(down)
+				begin
+							SQUARE_X_Motion <= 10'd0; // no x motion
+							//flag <= 1'b1;
+							/*if(SQUARE_Y_Motion < 0) // if SQUARE is moving upward
+								SQUARE_Y_Motion <= (~(SQUARE_Y_Step) + 1'b1); // 2's complement
+							else
+								SQUARE_Y_Motion <= SQUARE_Y_Step; // go in this direction*/
+							SQUARE_Y_Pos <= 400;
+				end
+
+				16'd4  :  // a(left)
+				begin
+					//if(!flag) begin
+						//flag <= 1'b0;
+						SQUARE_Y_Motion <= 10'd0; // no y motion
+						if(SQUARE_X_Motion > 0) // if SQUARE is moving right
+						 	SQUARE_X_Motion <= (~(SQUARE_X_Step) + 1'b1); // 2's complement
+						else
+							SQUARE_X_Motion <= SQUARE_X_Step;
+						//end
+				end
+
+
+			endcase
+
+
+
+
+
+				 if ( (SQUARE_Y_Pos + SQUARE_Size) >= SQUARE_Y_Max )  // SQUARE is at the bottom edge, BOUNCE!
+				 begin
+				 		SQUARE_X_Motion <= 10'd0;
+					  SQUARE_Y_Motion <= 0;  // 2's complement.
+					  //flag <= 1;
+
+				 end
+					if( (SQUARE_X_Pos + SQUARE_Size) >= SQUARE_X_Max) // SQUARE is at right edge
+					begin
+						SQUARE_Y_Motion <= 10'd0;
+						SQUARE_X_Motion <= (~(SQUARE_X_Step)+1'b1); //2's complement
+					end
+					else if ((SQUARE_X_Pos - SQUARE_Size) <= SQUARE_X_Min) // SQUARE is at left edge
+					begin
+						SQUARE_Y_Motion <= 10'd0;
+						SQUARE_X_Motion <= SQUARE_X_Step;
+					end
+
+				 SQUARE_Y_Pos <= (SQUARE_Y_Pos + SQUARE_Y_Motion);  // Update SQUARE position
+				 SQUARE_X_Pos <= (SQUARE_X_Pos + SQUARE_X_Motion);
+
+
+		end
+    end
+
+    assign SQUAREX = SQUARE_X_Pos;
+
+    assign SQUAREY = SQUARE_Y_Pos;
+
+    assign SQUARES = SQUARE_Size;
+
+
+endmodule

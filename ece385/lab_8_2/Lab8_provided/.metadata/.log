@@ -1,0 +1,64 @@
+!SESSION 2016-11-17 14:26:33.966 -----------------------------------------------
+eclipse.buildId=4.3.2.M20140221-1700
+java.version=1.8.0_05
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product -pluginCustomization C:/altera/16.0/nios2eds/bin/eclipse_nios2/plugin_customization.ini
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product -pluginCustomization C:/altera/16.0/nios2eds/bin/eclipse_nios2/plugin_customization.ini
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-11-17 14:26:50.112
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jhutter2'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.cdt.core 1 0 2016-11-17 14:27:46.776
+!MESSAGE Indexed 'usb_kb' (3 sources, 5 headers) in 1.06 sec: 68 declarations; 1,149 references; 18 unresolved inclusions; 0 syntax errors; 51 unresolved names (4.02%)
+!SESSION 2016-11-17 14:29:06.752 -----------------------------------------------
+eclipse.buildId=4.3.2.M20140221-1700
+java.version=1.8.0_05
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product -pluginCustomization C:/altera/16.0/nios2eds/bin/eclipse_nios2/plugin_customization.ini
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product -pluginCustomization C:/altera/16.0/nios2eds/bin/eclipse_nios2/plugin_customization.ini
+
+!ENTRY org.eclipse.core.resources 2 10035 2016-11-17 14:29:08.883
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-11-17 14:29:14.099
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jhutter2'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.cdt.core 1 0 2016-11-17 14:30:28.144
+!MESSAGE Indexed 'usb_kb' (3 sources, 5 headers) in 2.35 sec: 68 declarations; 1,149 references; 18 unresolved inclusions; 0 syntax errors; 51 unresolved names (4.02%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2016-11-17 14:31:51.553
+!MESSAGE Indexed 'usb_kb_bsp' (81 sources, 66 headers) in 22.16 sec: 1,208 declarations; 2,472 references; 110 unresolved inclusions; 6 syntax errors; 191 unresolved names (4.93%)
+
+!ENTRY com.altera.sbtgui.launch 1 0 2016-11-17 14:35:23.649
+!MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0xa0 --id=0x0 --timestamp=1476641584]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2016-11-17 14:35:26.012
+!MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0xa0 --id=0x0 --timestamp=1476641584 /cygdrive/i/final/jhutter2rwhale3ab3/software/usb_kb/usb_kb.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2016-11-17 15:46:17.221
+!MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0xa0 --id=0x0 --timestamp=1476641584]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2016-11-17 15:46:19.270
+!MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0xa0 --id=0x0 --timestamp=1476641584 /cygdrive/i/final/jhutter2rwhale3ab3/software/usb_kb/usb_kb.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2016-11-17 16:24:38.681
+!MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0xa0 --id=0x0 --timestamp=1476641584]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2016-11-17 16:24:40.694
+!MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0xa0 --id=0x0 --timestamp=1476641584 /cygdrive/i/final/jhutter2rwhale3ab3/software/usb_kb/usb_kb.elf]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2016-11-17 16:25:10.468
+!MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --stop --sidp=0xa0 --id=0x0 --timestamp=1476641584]
+
+!ENTRY com.altera.sbtgui.launch 1 0 2016-11-17 16:25:12.480
+!MESSAGE Executing: [C:/altera/16.0/quartus\bin64\cygwin\bin\bash.exe, -c, nios2-download '--cable=USB-Blaster on localhost [USB-0]' --device=1 --instance=0 --go --sidp=0xa0 --id=0x0 --timestamp=1476641584 /cygdrive/i/final/jhutter2rwhale3ab3/software/usb_kb/usb_kb.elf]

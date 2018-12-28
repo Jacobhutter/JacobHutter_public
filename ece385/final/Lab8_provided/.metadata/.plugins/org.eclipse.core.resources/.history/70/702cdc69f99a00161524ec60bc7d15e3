@@ -1,0 +1,260 @@
+/*
+ * helloworld.c
+ *
+ *  Created on: Oct 25, 2016
+ *      Author: jhutter2
+ */
+/*---------------------------------------------------------------------------
+  --      hello_world.c                                                    --
+  --      Christine Chen                                                   --
+  --      Fall 2013														   --
+  --																	   --
+  --      Updated Spring 2015 											   --
+  --	  Yi Liang														   --
+  --																	   --
+  --      For use with ECE 385 Experiment 9                                --
+  --      UIUC ECE Department                                              --
+  ---------------------------------------------------------------------------*/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#define to_hw_port (volatile char*) 0x00000000 // actual address here
+#define to_hw_sig (volatile char*) 0x00000000 // actual address here
+#define to_sw_port (char*) 0x00000000 // actual address here
+#define to_sw_sig (char*) 0x00000000 // actual address here
+#define int Nk = 4
+#define int Nb = 4
+#define int Nr = 10
+
+uint Rcon[]={0x01000000,0x02000000,0x04000000,0x08000000,0x10000000,0x20000000,
+             0x40000000,0x80000000,0x1b000000,0x36000000,0x6c000000,0xd8000000,
+             0xab000000,0x4d000000,0x9a000000};
+
+uint32_t word(uint8_t byte0, uint8_t byte1, uint8_t byte2, uint8_t byte3){
+	uint32_t word0 = byte0 << 24; // 0000..... 11111111 == 1111111.... 0000
+	uint32_t word1 = byte1 << 16; // 0000....... 11111111 = 00000000111111110000....
+	uint32_t word2 = byte2 << 8; // 0000... 111111111 = 000000000000000001111111110000000;
+	uint32_t word3 = byte3;
+	uint32_t retval = word0 | word1 | word2 | word3;
+	return retval;
+}
+uint32_t rotword(uint32_t t_word){
+	uint32_t a = word & 0xFF000000;
+	uint32_t b = word & 0x00FF0000;
+	uint32_t c = word & 0x0000FF00;
+	uint32_t d = word & 0x000000FF;
+	return b | c | d | a;
+}
+uint32_t SubWord(uint32_t word){
+
+	uint4_t a_c = word;
+	uint4_t a_r = word >> 4;
+	uint4_t b_c = word >> 8;
+	uint4_t b_r = word >> 12;
+	uint4_t c_c = word >> 16;
+	uint4_t c_r = word >> 20;
+	uint4_t d_c = word >> 24;
+	uint4_t d_r = word >> 28;
+	uint8_t a = aes_sbox[a_r][a_c];
+	uint8_t b = aes_sbox[b_r][b_c];
+	uint8_t c = aes_sbox[c_r][c_c];
+	uint8_t d = aes_sbox[d_r][d_c];
+	return (word(d,c,b,a));
+
+}
+
+void KeyExpansion(uint8_t * key, uint32_t * w ) {
+	uint32_t temp;
+	int i = 0;
+	while ( i < Nk){
+		w[i] = word(key[4 * i], key[4*i + 1], key[4*i +2], key[4*i+3]);
+		i++;
+	}
+	i = Nk;
+	while(i < Nb * (Nr+1)]){
+		temp = w[i-1];
+		if(i  % Nk == 0)
+			temp = SubWord(RotWord(temp)) ^ Rcon[i/Nk-1];
+
+		w[i] = w[i-Nk] ^ temp;
+		i++;
+		}
+}
+
+void AddRoundKey(uint8_t * state, uint32_t  * word, int progress){
+	uint8_t roundkey[16];
+	for(int i = 0; i < 4; i++){
+		roundkey[4 * i] = word[i + 4 * progress] >> 24;
+		roundkey[4 * i + 1] = word[i + 4 * progress] >> 16;
+		roundkey[4 * i + 2] = word[i + 4 * progress] >> 8;
+		roundkey[4 * i + 3] = word[i + 4 * progress];
+	}
+	for(int i = 0; i < 16; i++){
+		state[i] = roundkey[i] ^ state[i];
+	}
+	return state;
+
+}
+
+void SubBytes(uint8_t * state){
+	for(int i = 0; i < 16; i++){
+		uint4_t a_col = state[i];
+		uint4_t a_row = state[i] >> 4;
+		state[i] = aes_sbox[a_row][a_col];
+	}
+
+
+}
+
+void ShiftRows(uint8_t * state){
+		uint8_t temp = state[1];
+		state[1] = state[5];
+		state[5] = state[9];
+		state[9] = state[13];
+		state[13] = temp;
+
+		temp = state[2];
+		state[2]= state[10]
+		state[10] = temp;
+
+		temp = state[6];
+		state[6] = state[14];
+		state[14] = temp;
+
+		temp = state[3];
+		state[3] = state[15];
+		state[15] = state[11];
+		state[11] = state[7];
+		state[7] = temp;
+
+}
+
+uint32_t MixColumns(){
+
+}
+
+char charToHex(char c)
+{
+	char hex = c;
+
+	if (hex >= '0' && hex <= '9')
+		hex -= '0';
+	else if (hex >= 'A' && hex <='F')
+	{
+		hex -= 'A';
+		hex += 10;
+	}
+	else if (hex >= 'a' && hex <='f')
+	{
+		hex -= 'a';
+		hex += 10;
+	}
+	return hex;
+}
+
+char charsToHex(char c1, char c2)
+{
+	char hex1 = charToHex(c1);
+	char hex2 = charToHex(c2);
+	return (hex1 << 4) + hex2;
+}
+
+// TODO: AES Encryption related function calls
+
+int main()
+{
+	int i;
+	unsigned char plaintext[33]; //should be 1 more character to account for string terminator
+	unsigned char key[33];
+    uint32_t keyschedule[44];
+
+	// Start with pressing reset
+	*to_hw_sig = 0;
+	*to_hw_port = 0;
+	printf("Press reset!\n");
+	while (*to_sw_sig != 3);
+
+	while (1)
+	{
+		*to_hw_sig = 0;
+		printf("\n");
+
+		printf("\nEnter plain text:\n");
+		scanf ("%s", plaintext);
+		printf ("\n");
+		printf("\nEnter key:\n");
+		scanf ("%s", key);
+		printf ("\n");
+
+	//	uint32_t
+		// TODO: Key Expansion and AES encryption using week 1's AES algorithm.
+    int loop = 0;
+    keyExpansion(key, keyschedule);
+    AddRoundKey(plaintext, keyschedule, loop);
+
+    while(loop > 9){
+      SubBytes();
+      shiftRows();
+      MixColumns();
+      AddRoundKey();
+      loop++;
+      // change roundkey
+    }
+    SubBytes();
+    ShiftRows();
+    AddRoundKey();
+    for(int k = 0; k < 33; k++){
+      printf("%c" plaintext[k]);
+    }
+		// TODO: display the encrypted message.
+		printf("\nEncrypted message is\n");
+
+
+		// Transmit encrypted message to hardware side for decryption.
+		printf("\nTransmitting message...\n");
+
+		for (i = 0; i < 16; i++)
+		{
+			*to_hw_sig = 1;
+			*to_hw_port = encryptedMsg[i]; // encryptedMsg is your encrypted message
+			// Consider to use charToHex() if your encrypted message is a string.
+			while (*to_sw_sig != 1);
+			*to_hw_sig = 2;
+			while (*to_sw_sig != 0);
+		}
+		*to_hw_sig = 0;
+
+		// Transmit encrypted message to hardware side for decryption.
+		printf("\nTransmitting key...\n");
+
+		//TODO: Transmit key
+
+		printf("\n\n");
+
+		while (*to_sw_sig != 2);
+		printf("\nRetrieving message...\n");
+		for (i = 0; i < 16; ++i)
+		{
+			*to_hw_sig = 1;
+			while (*to_sw_sig != 1);
+			str[i] = *to_sw_port;
+			*to_hw_sig = 2;
+			while (*to_sw_sig != 0);
+		}
+
+		printf("\n\n");
+
+		printf("Decoded message:\n");
+
+		// TODO: print decoded message
+	}
+
+	return 0;
+}
+
+
+
+

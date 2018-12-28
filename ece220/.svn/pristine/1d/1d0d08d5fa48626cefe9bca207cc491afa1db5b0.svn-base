@@ -1,0 +1,120 @@
+;gcd_recursion.asm
+;Finds the greatest common demoninator between two numbers. Inputs are provided
+;by the inputX.asm files and the output should be stored in a memory location.
+
+;Inputs:
+;  x5000 - u
+;  x5001 - v
+
+;Outputs:
+;  x5002 - gcd
+
+.ORIG x3000
+
+MAIN
+
+;Insert code here
+
+DONE
+  ;End
+  HALT
+
+;MAIN data
+IN_U    .FILL x5000
+IN_V    .FILL x5001
+OUT_GCD .FILL x5002
+
+;GCD
+;  DESCRIPTION: computes the greatest common denominator of two numbers u, v
+;  INPUTS: R0 - u
+;          R1 - v
+;  OUTPUTS: R2 - gcd
+GCD
+
+;Insert code here
+
+GCD_RET
+  RET
+
+;GCD data
+
+;MOD
+;  DESCRIPTION: computes the the modulus a%b
+;  INPUTS: R0 - a
+;          R1 - b
+;  OUTPUTS: R2 - mod
+MOD
+
+;Insert code here
+
+MOD_RET
+  RET
+
+;MOD data
+
+;PUSH
+;  DESCRIPTION: pushes data unto stack
+;  INPUTS: R0 - value to push
+;  OUTPUTS: R5 - success (0) or failure (1)
+PUSH	
+	ST R3, PUSH_SaveR3	;save R3
+	ST R4, PUSH_SaveR4	;save R4
+	AND R5, R5, #0
+	LD R3, STACK_END
+	LD R4, STACk_TOP
+	ADD R3, R3, #-1
+	NOT R3, R3
+	ADD R3, R3, #1
+	ADD R3, R3, R4
+	BRz OVERFLOW		;stack is full
+	STR R0, R4, #0		;no overflow, store value in the stack
+	ADD R4, R4, #-1		;move top of the stack
+	ST R4, STACK_TOP	;store top of stack pointer
+	BRnzp DONE_PUSH
+OVERFLOW
+	ADD R5, R5, #1
+DONE_PUSH
+	LD R3, PUSH_SaveR3
+	LD R4, PUSH_SaveR4
+	RET
+
+;PUSH register data
+PUSH_SaveR3	.BLKW #1	;
+PUSH_SaveR4	.BLKW #1	;
+
+;POP
+;  DESCRIPTION: pops data off stack
+;  INPUTS: none
+;  OUTPUTS: R5 - success (0) or failure (1)
+;           R6 - popped data
+POP	
+	ST R3, POP_SaveR3	;save R3
+	ST R4, POP_SaveR4	;save R3
+	AND R5, R5, #0		;clear R5
+	LD R3, STACK_START	
+	LD R4, STACK_TOP	
+	NOT R3, R3		
+	ADD R3, R3, #1		
+	ADD R3, R3, R4	
+	BRz UNDERFLOW	
+	ADD R4, R4, #1
+	LDR R6, R4, #0
+	ST R4, STACK_TOP
+	BRnzp DONE_POP
+UNDERFLOW
+	ADD R5, R5, #1
+DONE_POP
+	LD R3, POP_SaveR3
+	LD R4, POP_SaveR4
+	RET
+
+;POP register data
+POP_SaveR3	.BLKW #1
+POP_SaveR4	.BLKW #1
+
+;Stack data
+STACK_END	.FILL x3FF0
+STACK_START	.FILL x4000
+STACK_TOP	.FILL x4000
+
+.END

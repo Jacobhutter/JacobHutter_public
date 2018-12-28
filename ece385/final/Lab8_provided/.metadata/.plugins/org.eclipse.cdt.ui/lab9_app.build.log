@@ -1,0 +1,9 @@
+16:50:39 **** Build of configuration Nios II for project lab9_app ****
+make all 
+Info: Building ../lab9_app_bsp/
+C:/altera/16.0/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C ../lab9_app_bsp/
+[BSP build complete]
+[lab9_app build complete]
+
+16:50:49 Build Finished (took 9s.756ms)
+

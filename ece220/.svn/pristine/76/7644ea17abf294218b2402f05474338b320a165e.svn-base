@@ -1,0 +1,146 @@
+#include "RationalNumber.h"
+
+//to_String converts numerator and denominator to string of type num/denom
+string RationalNumber::to_String(void){
+	stringstream my_output;
+	my_output << numerator << "/" << denominator;
+	return my_output.str();
+}
+
+//Empty Constructor
+		RationalNumber::RationalNumber(){
+		numerator = 0;
+		denominator = 1;
+	}
+		//Complete Constructor
+		RationalNumber::RationalNumber(int numer, int denom){
+		numerator = numer;
+		denominator = denom;
+  }
+		
+		//Setter and getter functions
+		void RationalNumber::set_numerator(int numer){
+		numerator = numer;
+	}
+		void RationalNumber::set_denominator(int denom){
+			if(denom != 0)
+				denominator = denom;
+			else
+				cout << "denominator cannont be zero" << endl;
+  }
+		int RationalNumber::get_numerator(void) const{
+				return numerator;
+	}
+		int RationalNumber::get_denominator(void) const{
+				return denominator;
+	}
+
+		//Class member functions
+		void RationalNumber::set_value (int numer, int denom){
+			numerator = numer;
+		if(denom != 0)
+			denominator = denom;
+		else
+			cout << "denominator cannont be zero" << endl;
+	}
+		int RationalNumber::gcd(int a, int b){
+			if(b==0)
+				return a;
+			else 
+				return gcd(b,a%b);
+				
+	}
+		double RationalNumber::magnitude(){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return num;
+	}
+		double RationalNumber::decimal_value() const{
+		double num = numerator;
+		double den = denominator;
+		return (num / den);
+	}
+
+		//Operation overload for RationalNumber (op) RationalNumber
+		RationalNumber RationalNumber::operator + (const RationalNumber& arg){
+		int num = (numerator*arg.get_denominator() + denominator*arg.get_numerator());
+		int den = (denominator*arg.get_denominator());
+		num = num/gcd(num,den);
+		den = den/gcd(num,den);
+		return RationalNumber(num,den);
+	}
+		RationalNumber RationalNumber::operator - (const RationalNumber& arg){
+		int num = (numerator*arg.get_denominator() - denominator*arg.get_numerator());
+		int den = (denominator*arg.get_denominator());
+		num = num/gcd(num,den);
+		den = den/gcd(num,den);
+		return RationalNumber(num,den);
+	}
+		RationalNumber RationalNumber::operator * (const RationalNumber& arg){
+		int num = numerator * arg.get_numerator();
+		int den = denominator * arg.get_denominator();
+		num = num/gcd(num,den);
+		den = den/gcd(num,den);
+		return RationalNumber(num,den);
+	}
+		RationalNumber RationalNumber::operator / (const RationalNumber& arg){	
+		int num = numerator * arg.get_denominator();
+		int den = denominator * arg.get_numerator();
+		num = num/gcd(num,den);
+		den = den/gcd(num,den);
+		return RationalNumber(num,den);
+	}
+
+		//Operation overload for RationalNumber (op) ComplexNumber
+		ComplexNumber RationalNumber::operator + (const ComplexNumber& arg){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return ComplexNumber::ComplexNumber(arg.get_realComponent() + num,arg.get_imagComponent());
+	}
+		ComplexNumber RationalNumber::operator - (const ComplexNumber& arg){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return ComplexNumber::ComplexNumber(num - arg.get_realComponent(),arg.get_imagComponent());
+	}
+		ComplexNumber RationalNumber::operator * (const ComplexNumber& arg){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return ComplexNumber::ComplexNumber(arg.get_realComponent() * num,arg.get_imagComponent());
+	}
+		ComplexNumber RationalNumber::operator / (const ComplexNumber& arg){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return ComplexNumber::ComplexNumber(num / arg.get_realComponent(),arg.get_imagComponent());
+	}
+
+		//Operation overload for RationalNumber (op) RealNumber
+		RealNumber RationalNumber::operator + (const RealNumber& arg){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return RealNumber::RealNumber(num + arg.get_value());
+	}
+		RealNumber RationalNumber::operator - (const RealNumber& arg){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return RealNumber::RealNumber(num - arg.get_value());
+	}
+		RealNumber RationalNumber::operator * (const RealNumber& arg){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return RealNumber::RealNumber(num * arg.get_value());
+	}
+		RealNumber RationalNumber::operator / (const RealNumber& arg){
+		double num = numerator;
+		double den = denominator;
+		num = num/den;
+		return RealNumber::RealNumber(num / arg.get_value());
+	}
+

@@ -1,0 +1,14 @@
+Instructions
+************
+This lab will a bit different from previous labs in that you will need to 
+implement the Stack class by writing the stack.cpp file.
+
+Functions to implement (all declared in stack.h):
+bool is_empty()
+std::size_t get_size() const
+int peek() const
+int push(int data)
+
+The Stack class inherits from the List class whose functions I recommend you use
+to implement the above functions. The code should be rather short and is meant
+to serve as a demonstration of the various features of C++ not available in C.

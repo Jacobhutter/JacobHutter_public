@@ -1,0 +1,83 @@
+#include "maze.h"
+#include <ctime>
+#include <cstdlib>
+using namespace std;
+
+SquareMaze::SquareMaze(){
+  mazewidth = 0;
+  mazeheight = 0;
+  cells = std::vector<cell>();
+  maze = DisjointSets();
+}
+
+void SquareMaze::makeMaze(int width, int height){
+
+  int area = width * height;
+  mazewidth = width;
+  mazeheight = height;
+
+  // initialize the maze to have area cells
+
+  maze.addelements(area); // add initial area to maze
+
+  srand(time(NULL)); // set random seed
+
+  for(int i = 0; i < width; i++){
+    for(int j = 0; j < height; j++){
+      cell square;
+      square.coordinates = std::pair <int,int>(i,j);
+      square.bottom = true;
+      square.right = true;
+      cells.push_back(square); // add fully walled and coordinated cell onto list of cells
+    }
+  }
+
+for(int i = 0; i < area; i++){
+  int r_width = rand() % width; // choose random width
+  int r_height = rand() % height; // choose random height
+
+  /* right now we have a coordinate for a random cell */
+  int r_wall = rand() % 2; // choose random wall within the random cell
+
+  if(r_wall && (r_width + 1) % width != 0 ){ // remove right and check for right edge
+
+    if(maze.find((r_height*width) + r_width) != maze.find((r_height*width) + r_width + 1)){ // cycle detection!
+
+        maze.setunion((r_height*width) + r_width,(r_height*width) + r_width + 1); // union the two sets
+
+        cells[(r_height*width) + r_width)].right = false; // reference current cell, remove the desired random wall
+  }
+
+
+  }
+  else { // remove bottom
+
+      if ( (r_height + 1) % height != 0 ){ // check for bottom edge
+
+        if(maze.find((r_height * width) + r_width) != maze.find(( (r_height + 1) * width) + r_width )){
+
+          maze.setunion(((r_height * width) + r_width),(( (r_height + 1) * width) + r_width )); // join top and bottom cells
+
+          cells[(r_height*width) + r_width)].bottom = false; // remove bottom wall of desired random type
+        }
+      }
+
+  }
+
+ }
+}
+bool SquareMaze::canTravel(int x, int y, int dir) const{
+  return true;
+}
+void SquareMaze::setWall(int x, int y, int dir, bool exists){}
+vector<int> SquareMaze::solveMaze(){
+  return vector<int>();
+}
+PNG * SquareMaze::drawMaze() const{
+  PNG * a = new PNG();
+  return a;
+}
+PNG * SquareMaze::drawMazeWithSolution(){
+  PNG * a = new PNG();
+  return a;
+}

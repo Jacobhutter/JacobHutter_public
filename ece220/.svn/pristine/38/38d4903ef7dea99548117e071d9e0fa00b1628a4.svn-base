@@ -1,0 +1,173 @@
+;bubble_sort.asm
+;Sorts the provided array in place from least to greatest.
+
+;Inputs:
+;  x5000 - length of array
+;  x5001 - starting location of the array
+
+;Outputs:
+;  x5001 - starting location of the sorted array
+
+.ORIG x3000
+
+MAIN
+  ;Init data
+  LD R0, ARR_LEN
+  LDR R0, R0, #0
+  LD R1, ARR_PTR
+
+  ;Print unsorted array
+  JSR PRINT_ARRAY
+
+  ;Reload data
+  LD R0, ARR_LEN
+  LDR R0, R0, #0
+  LD R1, ARR_PTR
+
+  ;Sort the array
+  JSR BUBBLE_SORT
+
+  ;Reload data
+  LD R0, ARR_LEN
+  LDR R0, R0, #0
+  LD R1, ARR_PTR
+
+  ;Print sorted array
+  JSR PRINT_ARRAY
+
+DONE
+  ;End
+  HALT
+
+;MAIN data
+ARR_LEN .FILL x5000
+ARR_PTR .FILL x5001
+
+;BUBBLE_SORT
+;  DESCRIPTION: sorts the provided array from least to greatest
+;  INPUTS: R0 - length of array
+;          R1 - address of start of array
+;  OUTPUTS: R1 - address of the start of the array
+BUBBLE_SORT
+
+;Insert code here
+
+BUBBLE_SORT_RET
+  RET
+
+;BUBBLE_SORT data
+
+;SWAP
+;  DESCRIPTION: Swaps the data in the two addresses a, b
+;  INPUTS: R0 - address a with data a
+;          R1 - address b with data b
+;  OUTPUTS: R0 - address a with data b
+;           R1 - address b with data a
+SWAP
+
+;Insert code here
+
+SWAP_RET
+  RET
+
+;SWAP data
+
+;PRINT_ARRAY
+;  DESCRIPTION: Prints the array
+;  INPUTS: R0 - length of array
+;          R1 - address of start of array
+;  OUTPUTS: none
+PRINT_ARRAY
+
+;Insert code here
+
+PRINT_ARRAY_RET
+  RET
+
+;PRINT_ARRAY data
+ASCII_SPACE .FILL x0020
+ASCII_NEWLN .FILL x000A
+
+;PRINT_DATA
+;  DESCRIPTION: Prints the data
+;  INPUTS: R0 - data 
+;  OUTPUTS: none
+;  REGISTERS: R1 - digit loop
+;             R2 - bit loop
+;             R3 - digit storage
+;             R6 - temp
+PRINT_DATA
+  ;Callee-saved
+  ST R1, PD_R1
+  ST R2, PD_R2
+  ST R3, PD_R3
+  ST R6, PD_R6
+  ST R7, PD_R7
+
+  ;Loops over all digits
+  AND R1, R1, #0
+DIGIT_LOOP
+
+  ;Loop to obtain a digit
+  AND R2, R2, #0
+  AND R3, R3, #0
+BIT_LOOP
+  ;Check input MSB
+  ADD R3, R3, R3
+  ADD R0, R0, #0
+  BRzp MSB_ZERO
+  ADD R3, R3, #1
+  
+  ;Update and check if obtained digit
+MSB_ZERO
+  ADD R0, R0, R0
+  ADD R2, R2, #1
+  ADD R6, R2, #-4
+  BRn BIT_LOOP
+
+  ;Check if greater than xA
+  ADD R6, R3, #-10		
+	BRzp HIGH_DIGIT
+
+  ;Handle number digit
+  ADD R6, R3, #0
+  LD R6, ASCII_NUM
+	BRnzp PRINT_DIGIT
+
+  ;Handle letter digit
+HIGH_DIGIT
+	LD R6, ASCII_LET
+  ADD R3, R3, #-10
+
+  ;Print the digit to console
+PRINT_DIGIT
+  ST R0, PD_IN
+	ADD R0, R3, R6
+	OUT
+  LD R0, PD_IN
+
+  ;Check if all digits printed
+	ADD R1,R1,#1
+	ADD R6,R1,#-4
+	BRn DIGIT_LOOP
+
+PRINT_DATA_RET
+  ;Callee-saved registers
+  LD R1, PD_R1
+  LD R2, PD_R2
+  LD R3, PD_R3
+  LD R6, PD_R6
+  LD R7, PD_R7
+  RET
+
+;PRINT_DATA data
+PD_R1 .BLKW #1
+PD_R2 .BLKW #1
+PD_R3 .BLKW #1
+PD_R6 .BLKW #1
+PD_R7 .BLKW #1
+PD_IN .BLKW #1
+ASCII_NUM .FILL x0030
+ASCII_LET .FILL x0041
+
+.END

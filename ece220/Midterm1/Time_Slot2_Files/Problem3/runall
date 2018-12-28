@@ -1,0 +1,13 @@
+#/bin/sh
+
+if [ ! -r $1 ] ; then
+    echo "Need a roster"
+    exit
+else
+    echo "Found list of students."
+fi
+
+for netid in `cat $1` ; do
+    echo "$netid"
+    ./script $netid $2
+done

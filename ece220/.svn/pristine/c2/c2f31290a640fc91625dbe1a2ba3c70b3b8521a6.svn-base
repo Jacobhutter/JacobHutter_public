@@ -1,0 +1,279 @@
+//#include <ncursesw/curses.h>
+#include <curses.h>
+#include <stdlib.h>
+#include <wchar.h>
+#include "game_of_life.h"
+
+enum status
+{
+  RESPAWN = -1,
+  DEAD,
+  ALIVE, 
+  KILL
+};
+
+/*
+ * mod
+ *   DESCRIPTION: computes a mod b
+ *   INPUTS: a -- value to be modded
+ *           b -- modding value
+ *   OUTPUTS: none
+ *   RETURN VALUE: a mod b
+ *   SIDE EFFECTS: none
+ */
+int mod(int a, int b)
+{
+  int ret = a % b;
+  return (ret < 0) ? ret + b : ret;
+}
+
+/*
+ * free_array2d
+ *   DESCRIPTION: frees the memory occupied by a 2d array
+ *   INPUTS: arr -- pointer to array to be freed
+ *           rows -- number of rows in the array
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
+ */
+void free_array2d(int **arr, int rows)
+{
+  // Check if arr valid
+  if (arr == NULL)
+  {
+    return;
+  }
+
+  // Free inner arrays
+  for (int i = 0; i < rows; i++)
+  {
+    free(arr[i]);
+  }
+
+  // Free outer arrays
+  free(arr);
+
+  return;
+}
+
+/*
+ * fprint_array2d
+ *   DESCRIPTION: prints the array to the provided file pointer
+ *   INPUTS: stream -- file pointer where data will be printed to
+ *           arr -- array whose contents will be printed
+ *           rows -- number of rows in arr
+ *           cols -- number of cols in arr
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
+ */
+void fprint_array2d(FILE *stream, int **arr, int rows, int cols)
+{
+  // Check if arr valid
+  if (arr == NULL)
+  {
+    return;
+  }
+
+  for (int row = 0; row < rows; row++)
+  {
+    for (int col = 0; col < cols; col++)
+    {
+      fprintf(stream, "%d ", arr[row][col]);
+    }
+    fprintf(stream, "\n");
+  }
+}
+
+/*
+ * malloc_array2d
+ *   DESCRIPTION: allocates a 2d array of size rows x cols
+ *   INPUTS: rows -- number of rows in the 2d array
+ *           cols -- number of columns in the 2d array
+ *   OUTPUTS: none
+ *   RETURN VALUE: pointer to the 2d array
+ *   SIDE EFFECTS: none
+ */
+int **malloc_array2d(int rows, int cols)
+{
+  // Check if dimensions valid
+  if (rows <= 0 || cols <= 0)
+  {
+    return NULL;
+  }
+  
+  // Malloc outer array
+  int **arr = (int **)malloc(rows * sizeof(int *));
+
+  // Malloc inner arrays
+  for (int i = 0; i < rows; i++)
+  {
+    arr[i] = (int *)malloc(cols * sizeof(int));
+  }
+
+  // Initialize all cells to 0 
+  for (int row = 0; row < rows; row++)
+  {
+    for (int col = 0; col < cols; col++)
+    {
+      arr[row][col] = -1;
+    }
+  }
+
+  // Return array
+  return arr;
+}
+
+/*
+ * update_array2d
+ *   DESCRIPTION: updates the 2d array according to the rules specified in 
+ *                Conway's Game of Life
+ *   INPUTS: arr -- array to be updated
+ *           rows -- number of rows in arr
+ *           cols -- number of cols in arr
+ *   OUTPUTS: none
+ *   RETURN VALUES: none
+ *   SIDE EFFECTS: none
+ */
+void update_array2d(int **arr, int rows, int cols)
+{	int i,j;
+	int arrcpy[rows][cols];
+	for(i=0;i<rows;i++){
+   for(j=0;j<cols;j++){
+		arrcpy[i][j] = arr[i][j];     // make a copy 2d array 
+  }
+ }	
+  for(i=0;i<rows;i++){
+   for(j=0;j<cols;j++){
+		  if(is_alive(arr,i,j,rows,cols))
+				arrcpy[i][j] = 1;
+			else
+				arrcpy[i][j] = 0;
+  }
+ }
+for(i=0;i<rows;i++){
+   for(j=0;j<cols;j++){
+		arr[i][j] = arrcpy[i][j];     //update the array 
+  }
+ }	
+}
+int is_alive(int **arr, int i, int j,int rows, int cols)     /////// checks to see if cell is alive or dead returns one if alive 
+{  int k,l;
+   int counter=0;      // keeps track of alive neighbors
+   int bigarr[rows+2][cols+2];
+	 for(k=0;k<rows;k++){
+		for(l=0;l<cols;l++){       // clear big array
+			bigarr[k][l] = 0;       
+  }                                       
+ }                           
+	 for(k=0;k<rows;k++){
+		for(l=0;l<cols;l++){
+			bigarr[k+1][l+1] = arr[k][l];       // attempt for graph like this if all ones
+  }                                        // 0000
+ }                                         // 0110
+	                                         // 0110
+      if(bigarr[i+2][j+2])                 // 0000
+				counter += 1;
+			if(bigarr[i+2][j+1])
+				counter += 1;
+			if(bigarr[i+2][j])
+				counter +=1;
+			if(bigarr[i+1][j+2])
+				counter +=1;
+			if(bigarr[i+1][j])
+				counter += 1;             // checks surrounding cells 
+			if(bigarr[i][j+2])
+				counter +=1;
+			if(bigarr[i][j+1])
+				counter +=1;
+			if(bigarr[i][j])
+				counter += 1;
+			if(counter>3)
+				return 0;
+			if(counter<2)
+				return 0;
+			if((arr[i][j]==1)&&(counter == 2))
+				return 1;
+			if(counter == 3)
+				return 1;
+
+return 0;
+}
+
+/*
+ * read_data
+ *   DESCRIPTION: reads the data from the file into the array
+ *   INPUTS: file -- pointer to file where data is located
+ *   OUTPUTS: arr -- pointer to 2d array where data will be read into
+ *            rows -- pointer to rows data
+ *            cols -- pointer to cols data
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
+ */
+void read_data(FILE *file, int ***arr, int *rows, int *cols)
+{// printf("start1\n");
+	int i = 0,j=0;
+	int temp;
+  // Malloc array
+	fscanf(file,"%i %i",rows,cols); // because rows and cols are already addresses
+	//printf("%i %i\n",*rows,*cols);
+  *arr = malloc_array2d(*rows, *cols);
+	//printf("start2\n");
+	
+	temp = fgetc(file); //get the new line 
+	temp = fgetc(file); 
+	for(i=(*rows)-1;i>=0;i--){
+	 for(j=0;j<(*cols);j++){
+		printf("%i %i\n",i,j);
+    temp = fgetc(file);
+		//printf("%c\n",temp);
+    if(temp != '\n')
+    		(*arr)[i][j] = temp;
+    else
+    j--;
+		//	printf("start3\n");
+  }
+ }
+ fprint_array2d(file,arr,rows,cols);
+}
+	
+	
+	
+/*
+ * print_board
+ *   DESCRIPTION: prints the array to stdscr
+ *   INPUTS: arr -- pointer to array whose data will be printed
+ *           rows -- number of rows in arr
+ *           cols -- number of cols in arr
+ *   OUTPUTS: none
+ *   RETURN VALUE: none
+ *   SIDE EFFECTS: none
+ */
+void print_board(int **arr, int rows, int cols)
+{
+  // Initialize colors
+  init_pair(1, COLOR_GREEN, COLOR_BLACK);
+
+  // Print board to stdscr
+  for (int row = 0; row < rows; row++)
+  {
+    for (int col = 0; col < cols; col++)
+    {
+      if (arr[row][col])
+      {
+        mvaddwstr(row, col, L"\u2588");
+        mvchgat(row, col, 1, A_NORMAL, 1, NULL);
+      }
+      else
+      {
+        mvaddch(row, col, ' ');
+      }
+    }
+  }
+
+  // Print exit message
+  mvaddstr(rows, 0, "To exit, press 'q'.");
+  
+  // Print stdscr to terminal
+  refresh();
+}

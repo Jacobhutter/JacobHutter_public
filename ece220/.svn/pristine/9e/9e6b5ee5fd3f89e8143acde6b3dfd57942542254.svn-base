@@ -1,0 +1,128 @@
+#include "ComplexNumber.h"
+
+//to_String converts real and imaginary components to string of type a+bi
+string ComplexNumber::to_String(void){
+	stringstream my_output;
+	my_output << realComponent;
+	if(imagComponent >= 0){
+		my_output << " + " << imagComponent << "i";
+	}
+	else if(imagComponent < 0){
+		my_output << "-" << imagComponent*(-1) << "i";
+	}
+	return my_output.str();
+}
+
+ComplexNumber::ComplexNumber(){
+	  realComponent = 0;
+		imagComponent = 0;
+		return;
+}
+ComplexNumber::ComplexNumber(double real, double imag){
+	 realComponent = real;
+	 imagComponent = imag;
+	return;
+}
+void ComplexNumber::set_realComponent(double rval){
+	realComponent = rval;
+	return;
+}
+void ComplexNumber::set_imagComponent(double ival){
+	imagComponent = ival;
+	return;
+}
+		double ComplexNumber::get_realComponent(void) const{
+		return realComponent;
+}
+		double ComplexNumber::get_imagComponent(void) const{
+		return imagComponent;
+}
+		void   ComplexNumber::set_value (double rval, double ival){
+						realComponent = rval;
+						imagComponent = ival;
+						return;
+}
+
+		//Class member functions
+		double ComplexNumber::magnitude(){
+		return abs(imagComponent + realComponent);
+}
+
+		//Operation overload for ComplexNumber (op) ComplexNumber
+		ComplexNumber ComplexNumber::operator + (const ComplexNumber& arg){
+		double real = realComponent + arg.realComponent;
+		double imag = imagComponent + arg.imagComponent;
+		return ComplexNumber(real,imag);
+		
+}
+		ComplexNumber ComplexNumber::operator - (const ComplexNumber& arg){
+		double real = realComponent - arg.realComponent;
+		double imag = imagComponent - arg.imagComponent;
+		return ComplexNumber(real,imag);
+}
+		ComplexNumber ComplexNumber::operator * (const ComplexNumber& arg){
+		double real = realComponent * arg.realComponent;
+		double imag = imagComponent * arg.imagComponent;
+		return ComplexNumber(real,imag);
+}
+		ComplexNumber ComplexNumber::operator / (const ComplexNumber& arg){
+		double real = realComponent / arg.realComponent;
+		double imag = imagComponent / arg.imagComponent;
+		return ComplexNumber(real,imag);
+}
+
+		//Operation overload for ComplexNumber (op) RealNumber		
+		ComplexNumber ComplexNumber::operator + (const RealNumber& arg){
+		double real = realComponent + arg.get_value();
+		double imag = imagComponent;
+		return ComplexNumber(real,imag);
+}
+		ComplexNumber ComplexNumber::operator - (const RealNumber& arg){
+		double real = realComponent - arg.get_value();
+		double imag = imagComponent;
+		return ComplexNumber(real,imag);
+}
+		ComplexNumber ComplexNumber::operator * (const RealNumber& arg){
+		double real = realComponent * arg.get_value();
+		double imag = imagComponent;
+		return ComplexNumber(real,imag);
+}
+		ComplexNumber ComplexNumber::operator / (const RealNumber& arg){
+		double real = realComponent / arg.get_value();
+		double imag = imagComponent;
+		return ComplexNumber(real,imag);
+}
+
+		//Operation overload for ComplexNumber (op) RationalNumber	
+		ComplexNumber ComplexNumber::operator + (const RationalNumber& arg){
+		double numer = arg.get_numerator(); // to improve accuracy
+		double deno = arg.get_denominator();
+		numer = numer/deno;
+		double real = realComponent + numer;
+		double imag = imagComponent;
+		return ComplexNumber(real,imag);
+}
+		ComplexNumber ComplexNumber::operator - (const RationalNumber& arg){
+		double numer = arg.get_numerator(); // to improve accuracy
+		double deno = arg.get_denominator();
+		numer = numer/deno;
+		double real = realComponent - numer;
+		double imag = imagComponent;
+		return ComplexNumber(real,imag);
+}
+		ComplexNumber ComplexNumber::operator * (const RationalNumber& arg){
+		double numer = arg.get_numerator(); // to improve accuracy
+		double deno = arg.get_denominator();
+		numer = numer/deno;
+		double real = realComponent * numer;
+		double imag = imagComponent;
+		return ComplexNumber(real,imag);
+}
+		ComplexNumber ComplexNumber::operator / (const RationalNumber& arg){
+		double numer = arg.get_numerator(); // to improve accuracy
+		double deno = arg.get_denominator();
+		numer = numer/deno;
+		double real = realComponent * numer;
+		double imag = imagComponent;
+		return ComplexNumber(real,imag);
+}

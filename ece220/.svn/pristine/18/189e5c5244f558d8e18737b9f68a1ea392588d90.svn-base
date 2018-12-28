@@ -1,0 +1,186 @@
+#include "sparsemat.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
+
+
+
+void reverse(sp_tuples_node ** tuples_head){
+	sp_tuples_node * cur = *tuples_head;
+	sp_tuples_node * prev = NULL;
+	sp_tuples_node * next;
+	while(cur != NULL){
+	
+	next = cur->next;
+	cur->next = prev;
+	prev = cur;
+	cur = next; 
+	
+	}
+  *head = prev;
+}
+
+
+int appendnode(int rows, int cols, int val, sp_tuples_node * tuples_head, int * address){
+
+		sp_tuples_node * new_tuple = (sp_tuples_node *)malloc(sizeof(sp_tuples_node));  // allocate memory for new node 	
+		tuples_head->next = new_tuple; // head node now points to next node we are making 
+		new_tuple->row = rows;	
+		new_tuple->col = cols;
+		new_tuple->next = address;
+	return new_tuple;   // return the starting address of the node we just made 
+}
+
+sp_tuples * load_tuples(char* input_file)
+{	int temp = 0,i,j;
+	int count=0;
+	int * new_address;
+	new_address = NULL;
+  FILE * fp = fopen(input_file,'r');
+		if(fp == NULL){
+		printf("FILE COULD NOT BE READ\n");
+		return NULL;
+}
+		fscanf(fp,"%i %i ",&m,&n);  // get rows and cols 
+		for(i=0;i<m;i--){
+		 for(j=0;j<n;j++){
+      temp = fgetc(fp);  // gets ascii val of next char in stream
+			if(temp != '\n' && temp != 32){ // checks for space and newline 
+			 temp -= '0';   //subtract off ascii val of 0 
+			if(temp != '0'){
+					new_address = appendnode(i,j,temp,tuples_head,new_address);   // add val onto linked list after head node 
+			    ++count;           // get # of non-zero entries 
+    }
+   }
+			else 
+				j--;
+  }
+ }
+		nz = count;  // give struct number of non-zero entries
+		
+		reverse(&tuples_head);  // makes list in correct order
+		
+    return load_tuples; //?????????????????????????????????????
+}
+
+
+
+double gv_tuples(sp_tuples * mat_t,int row,int col)
+
+{		double val=0;
+ 		sp_tuples_node * cur; // give the value of this node the address of the next 
+		cur = mat_t->tuples_head;
+		while(cur->row != row && cur->col != col && cur != NULL)
+			cur = cur->next; // move to next node in the list 
+		val = cur->value;
+			
+    return val;
+}
+
+
+
+void set_tuples(sp_tuples * mat_t, int row, int col, double value)
+{		int * address1;
+		int * address2;
+		sp_tuples_node * cur; // give the value of this node the address of the next 
+		cur = mat_t->tuples_head;
+		while(cur->row != row && cur->col != col && cur != NULL)
+			cur = cur->next; // move to next node in the list 
+		if(cur->value != 0)
+			cur->value = value;
+		if(cur == NULL){ // meaning no entry was found
+			cur = mat_t->tuples_head; // add onto linked list
+			while(cur->next != NULL)  // find last element 
+				cur = cur->next; 
+			sp_tuples_node * new_tuple = (sp_tuples_node *)malloc(sizeof(sp_tuples_node));  // allocate memory for new node
+			  cur->next = new_tuple;
+				new_tuple->next = NULL;
+				new_tuple->row = row;
+				new_tuple->col = col;
+				new_tuple->value = value;
+				// need to sort list???//
+}
+		if(cur->value == 0){  // current node was zero entry
+			address1 = cur->next;
+			address2 = cur;
+			cur = mat_t->tuples_head;
+			while(cur->next != address2)
+			 cur = cur->next; // move to next node in the list 
+			cur->next = address1; // make previous node point to the val originally pointed to by the zero node
+			cur = cur->next;     // move to original node with zero
+		  free(cur);           // free its memory
+			// what if node was out of bounds? need to make new row? or col?// 
+}
+
+    return;
+}
+
+
+
+void save_tuples(char * file_name, sp_tuples * mat_t)
+{	sp_tuples_node * cur;
+	int cur_row = 0;
+	int i,j;
+	int cur_col = 0;
+	int max_cols;
+	int max_rows;
+	max_cols = mat_t->col; // get matrix columns
+	max_rows = mat_t->row; // get matrix rows
+	cur = mat_t->tuples_head;
+	double arr[mat_t->row*mat_t->col];
+		while( i<(max_cols*max_rows)){
+			arr[i] = 0; // initialize array to zero
+			++i;
+}
+		while(cur != NULL){
+			if(cur->value != 0){
+				cur_row = cur->row;
+				cur_col = cur->col;
+				arr[row*max_cols + cur_col] = cur->value;  // row major order assign the array 
+ }
+}
+// now array has all values of array including zero		
+		FILE * fp = fopen(file_name,'w');
+			if(fp == NULL)
+				printf("COULD NOT OPEN FILE\n");
+		fprintf(fp,"%i %i\n",max_rows,max_cols);
+		for(i=0;i<max_rows;i++){
+		 for(j=0;j<max_cols;j++){
+				fprintf(fp,"%lf ",arr[i*max_cols + j]); // prints the digit and a space in the file 
+ }
+				fprintf(fp,"\b\n"); //this will delete the previous space and then print a newline
+				
+}
+		fclose(fp);
+	return;
+}
+
+
+
+sp_tuples * add_tuples(sp_tuples * matA, sp_tuples * matB){
+
+	return retmat;
+}
+
+
+
+sp_tuples * mult_tuples(sp_tuples * matA, sp_tuples * matB){ 
+    return retmat;
+
+}
+
+
+	
+void destroy_tuples(sp_tuples * mat_t){
+	
+    return;
+}  
+
+
+
+
+
+

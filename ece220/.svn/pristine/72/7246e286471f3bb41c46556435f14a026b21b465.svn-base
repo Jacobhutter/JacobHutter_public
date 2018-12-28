@@ -1,0 +1,23 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	INPUT             3005
+//	L3                3007
+//	CHECK             301C
+//	AGAIN             3022
+//	DONE              3026
+//	BAD               3027
+//	AGAIN1            3029
+//	WRONG             302E
+//	NEW               3034
+//	NINE              3035
+//	GOOD              3036
+//	zero              3037
+//	KBSR              3038
+//	KBDR              3039
+//	DSR               303A
+//	DDR               303B
+//	INV_MSG           303C
+//	VAL_MSG           3052
+

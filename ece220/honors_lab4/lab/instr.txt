@@ -1,0 +1,28 @@
+Instructions
+************
+Complete the 'find_duplicate' and 'find_unique' functions. For both of these
+functions, you can assume that the input will only consist of characters from
+'a-z'.
+
+find_duplicate:
+Given a string s, find the duplicate character in s. If there are no duplicates,
+simply return 0. You can also assume that there will only be one duplicated 
+character so s = "abcba" is an invalid input.
+
+Example:
+Input: s - abca
+Output: a
+
+find_unique:
+Given a string s, find the unique character (the character that only occurs once
+in the string). If there are no unique characters. simply return 0. You can 
+assume that there will at most only be two of each characters so s = "ababa" is 
+an invalid input.
+
+Example:
+Input: s - abcba
+Output: c
+
+To run a single test from the inside the 'lab' directory, do
+'./bin/dup_unique x tests/<test>' where x is either a 0 (find_duplicate) or a 1
+(find_unique) to test the appropriate function.
